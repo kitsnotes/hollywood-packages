@@ -1,0 +1,73 @@
+# Contributor: Rasmus Thomsen <oss@cogitri.dev>
+# Contributor: Valery Kartel <valery.kartel@gmail.com>
+# Maintainer: Carlo Landmeter <clandmeter@alpinelinux.org>
+pkgname=gettext
+pkgver=0.21
+pkgrel=7
+pkgdesc="GNU locale utilities"
+url="https://www.gnu.org/software/gettext/gettext.html"
+arch="all"
+license="GPL-3.0-or-later AND LGPL-2.1-or-later AND MIT"
+# do _not_ add the optional dependencies on libcroco or glib
+# they depend on gettext and would introduce cyclic dependencies
+makedepends="perl ncurses-dev libxml2-dev libunistring-dev"
+checkdepends="coreutils"
+subpackages="$pkgname-dbg $pkgname-doc $pkgname-static $pkgname-dev
+	$pkgname-lang $pkgname-asprintf $pkgname-libs"
+source="https://ftp.gnu.org/gnu/gettext/gettext-$pkgver.tar.xz
+	"
+options="!check"
+provider_priority=100 # highest (other provider of cmd:envsubst is testing/envsubst)
+
+# secfixes:
+#   0.20.1-r0:
+#     - CVE-2018-18751
+
+build() {
+	# force using system posix complaint printf
+	# the test is broken and fails with ash
+	gt_cv_func_printf_posix=yes \
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--enable-threads=posix \
+		--disable-java \
+		--enable-static \
+		--without-included-gettext
+	make
+}
+
+#check() {
+	# test-verify fails if run in parallel
+	#make -j1 check
+#}
+
+package() {
+	make -j1 DESTDIR="$pkgdir" install
+}
+
+static() {
+	pkgdesc="libintl static libraries"
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/*.a "$subpkgdir"/usr/lib/
+}
+
+libintl() {
+	pkgdesc="GNU gettext runtime library"
+	license="LGPL-2.1-or-later"
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/libintl.so.* "$subpkgdir"/usr/lib
+	chmod +x "$subpkgdir"/usr/lib/libintl.so.*
+}
+
+asprintf() {
+	pkgdesc="GNU gettext asprintf library"
+	license="LGPL-2.1-or-later"
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/libasprintf.so.* "$subpkgdir"/usr/lib
+}
+
+sha512sums="
+f7e2968651879f8444d43a176a149db9f9411f4a03132a7f3b37c2ed97e3978ae6888169c995c1953cb78943b6e3573811abcbb8661b6631edbbe067b2699ddf  gettext-0.21.tar.xz
+"

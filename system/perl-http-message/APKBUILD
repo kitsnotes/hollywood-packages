@@ -1,0 +1,38 @@
+# Contributor: Sheila Aman <sheila@vulpine.house>
+# Maintainer: Sheila Aman <sheila@vulpine.house>
+pkgname=perl-http-message
+_pkgreal=HTTP-Message
+pkgver=6.35
+pkgrel=0
+pkgdesc="HTTP style message"
+url="https://metacpan.org/release/HTTP-Message"
+arch="noarch"
+license="GPL-1.0-or-later OR Artistic-1.0-Perl"
+depends="perl perl-http-date perl-uri perl-io-html perl-encode-locale perl-lwp-mediatypes"
+checkdepends="perl-try-tiny"
+subpackages="$pkgname-doc"
+source="https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTTP-Message-$pkgver.tar.gz"
+builddir="$srcdir/$_pkgreal-$pkgver"
+
+prepare() {
+	default_prepare
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+}
+
+build() {
+	make
+}
+
+check() {
+	make test
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
+}
+
+
+sha512sums="
+9b4571062c8d268581219115cd73e2fa9a6b2bcfeb474f8419d80326846c5aaedc0f6a9982a20dfb604a30e295a20bbc0192992cbfedc3f8aa0e59dfbfe653c2  HTTP-Message-6.35.tar.gz
+"

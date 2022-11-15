@@ -1,0 +1,63 @@
+# Contributor: V.Krishn <vkrishn4@gmail.com>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=libwebsockets
+pkgver=4.3.0
+pkgrel=0
+pkgdesc="C library for lightweight websocket clients and servers"
+url="https://libwebsockets.org"
+arch="all"
+license="MIT"
+options="!check"
+makedepends="cmake linux-headers openssl1.1-compat-dev zlib-dev libuv-dev"
+subpackages="$pkgname-doc $pkgname-dev $pkgname-test:_test $pkgname-evlib_uv:_evlib"
+source="
+	libwebsockets-$pkgver.tar.gz::https://github.com/warmcat/libwebsockets/archive/v$pkgver.tar.gz
+	fix-version-string.patch
+"
+
+build() {
+	mkdir -p "$builddir"/build
+	cd "$builddir"/build
+
+	cmake .. \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_VERBOSE_MAKEFILE=TRUE \
+		-DLWS_IPV6=ON \
+		-DLWS_WITH_LIBUV=ON \
+		-DLWS_WITH_STATIC=OFF \
+		-DLWS_LINK_TESTAPPS_DYNAMIC=ON \
+		-DLWS_WITH_SDEVENT=OFF
+	make
+}
+
+# TODO: Use test subpkg to validate
+check() {
+	make check
+}
+
+package() {
+	install -Dm644 LICENSE \
+		"$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+	make -C build DESTDIR="$pkgdir" install
+}
+
+_test() {
+	pkgdesc="$pkgdesc (test server)"
+
+	mkdir -p "$subpkgdir"/usr
+	mv "$pkgdir"/usr/share "$pkgdir"/usr/bin "$subpkgdir"/usr/
+}
+
+_evlib() {
+	local _plugin=${subpkgname#$pkgname-}
+	pkgdesc="libwebsocket $_plugin plugin"
+	amove usr/lib/libwebsockets-$_plugin.so
+}
+
+sha512sums="
+52d9b4511fc484781108a3036f870905d4427fcbab02f3e84ee38f534ae7d1979c2cc3eec0719f4609226d4aae788a79fe7d99a8506537bbcf8fc3d9b8a7b478  libwebsockets-4.2.2.tar.gz
+9325b7cadeb2ca8fb20b4759feb49fb255b1b14c432b7c8c3a1b793a49266bb4f69b78a9c72656039e94ba4fc59ca2c5e821ba33e4f133e72cab26786feb9d60  fix-version-string.patch
+"
+sha512sums="7f183cb0417a902cb18e76431a8580d87db09c973483f3a129e138e4644b9d0e78e0539e985dc6286d9fe429edea7f63147864dc0413cf8e40fca3d67f9c3c42  libwebsockets-4.3.0.tar.gz
+9325b7cadeb2ca8fb20b4759feb49fb255b1b14c432b7c8c3a1b793a49266bb4f69b78a9c72656039e94ba4fc59ca2c5e821ba33e4f133e72cab26786feb9d60  fix-version-string.patch"

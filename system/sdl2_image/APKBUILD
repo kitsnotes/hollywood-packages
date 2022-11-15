@@ -1,0 +1,52 @@
+# Contributor: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+pkgname=sdl2_image
+pkgver=2.6.0
+pkgrel=0
+pkgdesc="A simple library to load images of various formats as SDL surfaces"
+url="http://www.libsdl.org/projects/SDL_image/"
+arch="all"
+license="Zlib"
+makedepends="sdl2-dev libpng-dev libjpeg-turbo-dev
+	libwebp-dev tiff-dev zlib-dev"
+subpackages="$pkgname-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/libsdl-org/SDL_image/archive/refs/tags/release-$pkgver.tar.gz"
+builddir="$srcdir/SDL_image-release-$pkgver"
+
+# secfixes:
+#   2.0.5-r1:
+#     - CVE-2019-13616
+#   2.0.3-r0:
+#     - CVE-2017-12122 TALOS-2017-0488
+#     - CVE-2017-14440 TALOS-2017-0489
+#     - CVE-2017-14441 TALOS-2017-0490
+#     - CVE-2017-14442 TALOS-2017-0491
+#     - CVE-2017-14448 TALOS-2017-0497
+#     - CVE-2017-14449 TALOS-2017-0498
+#     - CVE-2017-14450 TALOS-2017-0499
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--disable-static \
+		--enable-png \
+		--enable-png-shared \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+79f2dfee35c7cbe5e31612e5404b6868518a4afb6927738745a117801e2c88c2c721b810319fe6db192c2f8166e554c6163e820af37ed0781cd3ea9aa913cc92  sdl2_image-2.6.0.tar.gz
+"

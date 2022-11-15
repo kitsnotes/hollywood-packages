@@ -1,0 +1,39 @@
+# Maintainer: The Cat <the.cat@arionos.org>
+pkgname=dash
+pkgver=0.5.11.5
+pkgrel=7
+pkgdesc="Small and fast POSIX-compliant shell"
+url="http://gondor.apana.org.au/~herbert/dash/"
+arch="all"
+provides="/bin/sh"
+license="GPL-2.0-or-later"
+# needs 'nl' utility from coreutils
+makedepends="coreutils"
+subpackages="$pkgname-doc"
+source="http://gondor.apana.org.au/~herbert/dash/files/dash-$pkgver.tar.gz"
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--localstatedir=/var
+	make
+}
+
+check() {
+	./src/dash -c 'echo ok'
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	ln -s ./usr/bin "$pkgdir"/bin
+	ln -s /usr/bin/dash "$pkgdir"/usr/bin/sh
+	ln -s /usr/bin/dash "$pkgdir"/usr/bin/ash
+}
+
+sha512sums="
+5387e213820eeb44d812bb4697543023fd4662b51a9ffd52a702810fed8b28d23fbe35a7f371e6686107de9f81902eff109458964b4622f4c5412d60190a66bf  dash-0.5.11.5.tar.gz
+"

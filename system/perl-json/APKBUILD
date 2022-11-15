@@ -1,0 +1,32 @@
+# Maintainer: Síle Ekaterin Liszka <sheila@vulpine.house>
+pkgname=perl-json
+_pkgreal=JSON
+pkgver=4.04
+pkgrel=0
+pkgdesc="Perl module implementing a JSON encoder/decoder"
+url="https://metacpan.org/release/JSON"
+arch="noarch"
+license="GPL-1.0-or-later OR Artistic-1.0-Perl"
+depends="perl"
+subpackages="$pkgname-doc"
+source="https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-$pkgver.tar.gz"
+builddir="$srcdir/$_pkgreal-$pkgver"
+
+build() {
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make
+}
+
+check() {
+	make test
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	find "$pkgdir" -name perllocal.pod -delete
+	find "$pkgdir" -name .packlist -delete
+}
+
+sha512sums="
+2dc58adecf947398492264320e793dbbdadab0c7207a63b0e266c149f9da22756040276249c84c82d7d7eb87d8b9bcd74c7ad255b81304adcc55fec253d1862b  JSON-4.04.tar.gz
+"

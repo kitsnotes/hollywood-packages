@@ -1,0 +1,66 @@
+# Contributor: Leo <thinkabit.ukim@gmail.com>
+# Maintainer:
+pkgname=glslang
+pkgver=11.6.0
+pkgrel=0
+pkgdesc="Khronos reference front-end for GLSL, ESSL, and sample SPIR-V generator"
+url="https://github.com/KhronosGroup/glslang"
+arch="all"
+license="BSD-3-Clause"
+depends_dev="$pkgname"
+makedepends="cmake samurai python3 bison spirv-tools-dev"
+checkdepends="bash"
+subpackages="$pkgname-static $pkgname-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/KhronosGroup/glslang/archive/$pkgver.tar.gz
+	"
+
+build() {
+	if [ "$CBUILD" != "$CHOST" ]; then
+		CMAKE_CROSSOPTS="-DCMAKE_SYSTEM_NAME=Linux -DCMAKE_HOST_SYSTEM_NAME=Linux"
+	fi
+	mkdir -p build-shared build-static
+	(cd build-shared
+		cmake \
+			-GNinja \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DCMAKE_INSTALL_LIBDIR=lib \
+			-DCMAKE_BUILD_TYPE=None \
+			-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+			-DBUILD_SHARED_LIBS=ON \
+			$CMAKE_CROSSOPTS ..
+		ninja
+	)
+	sed -i '/add_library(glslang-default-resource-limits/ s/$/ STATIC/' StandAlone/CMakeLists.txt
+	(cd build-static
+		cmake \
+			-GNinja \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DCMAKE_INSTALL_LIBDIR=lib \
+			-DCMAKE_BUILD_TYPE=None \
+			-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+			-DCMAKE_C_FLAGS="$CFLAGS" \
+			-DBUILD_SHARED_LIBS=OFF \
+			$CMAKE_CROSSOPTS ..
+		ninja
+	)
+}
+
+check() {
+	case "$CARCH" in
+		s390x|mips64) return 0;; # testsuite seems to fail on big endian
+	esac
+	cd Test
+	msg "Testing shared version of glslang"
+	./runtests localResults ../build-shared/StandAlone/glslangValidator ../build-shared/StandAlone/spirv-remap
+	msg "Testing static version of glslang"
+	./runtests localResults ../build-static/StandAlone/glslangValidator ../build-static/StandAlone/spirv-remap
+}
+
+package() {
+	DESTDIR="$pkgdir" ninja -C build-shared install
+	DESTDIR="$pkgdir" ninja -C build-static install
+}
+
+sha512sums="
+f7c1affdb4923758f9ff5cae894c40ca86e723850a6265d9c13f996311451bd84c70a178d8d6c0961dcee39c19d724f02d19a21ee6f67f1bb4cdbc618fdc12cf  glslang-11.6.0.tar.gz
+"

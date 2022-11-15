@@ -1,0 +1,114 @@
+# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Maintainer: Carlo Landmeter <clandmeter@alpinelinux.org>
+pkgname=libxml2
+pkgver=2.9.12
+pkgrel=5
+pkgdesc="XML parsing library, version 2"
+url="http://www.xmlsoft.org/"
+arch="all"
+license="MIT"
+depends_dev="zlib-dev xz-dev"
+checkdepends="perl tar"
+makedepends_host="$depends_dev"
+subpackages="$pkgname-dbg $pkgname-doc $pkgname-dev $pkgname-utils"
+if [ -z "$BOOTSTRAP" ]; then
+	makedepends_build="python3-dev"
+	subpackages="$subpackages py3-$pkgname:_py3"
+	py_configure="--with-python=/usr/bin/python3"
+fi
+#todo remove !check
+options="!strip !check"
+source="http://xmlsoft.org/sources/libxml2-$pkgver.tar.gz
+	revert-Make-xmlFreeNodeList-non-recursive.patch
+	libxml2-2.9.8-python3-unicode-errors.patch
+	work-around-lxml-api-abuse.patch
+	whitespace-when-serializing-empty-html-documents.patch
+	"
+
+# secfixes:
+#   2.9.11-r0:
+#     - CVE-2021-3517
+#     - CVE-2021-3518
+#     - CVE-2021-3537
+#     - CVE-2021-3541
+#   2.9.10-r5:
+#     - CVE-2020-24977
+#   2.9.10-r4:
+#     - CVE-2019-20388
+#   2.9.8-r3:
+#     - CVE-2020-7595
+#   2.9.8-r1:
+#     - CVE-2018-9251
+#     - CVE-2018-14404
+#     - CVE-2018-14567
+#   2.9.4-r4:
+#     - CVE-2017-5969
+#   2.9.4-r2:
+#     - CVE-2016-9318
+#   2.9.4-r1:
+#     - CVE-2016-5131
+
+prepare() {
+	default_prepare
+
+	# setup.py is generated
+	rm python/setup.py
+
+	# We don't build libxml2 with icu.
+	rm test/icu_parse_test.xml
+}
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--with-lzma \
+		--with-zlib \
+		$py_configure
+	make
+}
+
+check() {
+	rm -f test/ebcdic_566012.xml
+	make runtests
+}
+
+package() {
+	make -j1 DESTDIR="$pkgdir" install
+
+	# We don't need static lib for python bindings.
+	if [ -z "$BOOTSTRAP" ]; then
+		rm "$pkgdir"/usr/lib/python*/site-packages/*.a
+	fi
+}
+
+dev() {
+	default_dev
+	mv "$pkgdir"/usr/lib/*.sh "$subpkgdir"/usr/lib/
+}
+
+_py3() {
+	depends="python3"
+	pkgdesc="$pkgname python3 bindings"
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/python3* "$subpkgdir"/usr/lib/
+}
+
+utils() {
+	pkgdesc="XML utilities"
+	replaces="libxml2"
+	mkdir -p "$subpkgdir"/usr
+	mv "$pkgdir"/usr/bin "$subpkgdir"/usr/
+}
+
+sha512sums="
+df1c6486e80f0fcf3c506f3599bcfb94b620c00d0b5d26831bc983daa78d58ec58b5057b1ec7c1a26c694f40199c6234ee2a6dcabf65abfa10c447cb5705abbd  libxml2-2.9.12.tar.gz
+347178e432379d543683cba21b902e7305202c03e8dbd724ae395963d677096a5cfc4e345e208d498163ca5174683c167610fc2b297090476038bc2bb7c84b4f  revert-Make-xmlFreeNodeList-non-recursive.patch
+a205c97fa1488fb8907cfa08b5f82e2055c80b86213dc3cc5c4b526fe6aa786bcc4e4eeb226c44635a1d021307b39e3940f706c42fb60e9e3e9b490a84164df7  libxml2-2.9.8-python3-unicode-errors.patch
+5e2a80038cb7085fce27dfff2d92f651259124b1a899ce3b5dbb0f6f8e815e30d5256e447cd1dff227f535be0c13ce8cff0234cf0bee7ff75cd2245a8b65130a  work-around-lxml-api-abuse.patch
+c8dab6cf3556f7ee73da7dd57d07b567c248371bee25679c8f98c2f599c45e0a6fc476d5f3fe4bb40a3b735d9b35fbc4b1da0506d0f16a17c71644ead2204beb  whitespace-when-serializing-empty-html-documents.patch
+"

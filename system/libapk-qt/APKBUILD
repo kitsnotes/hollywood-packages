@@ -1,0 +1,39 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=libapk-qt
+pkgver=0.4.2
+pkgrel=0
+pkgdesc="Alpine Package Keeper (apk) Qt bindings"
+url="https://gitlab.com/postmarketOS/libapk-qt"
+arch="all"
+license="GPL-2.0-only"
+makedepends="apk-tools-dev cmake qt6-qtbase-dev"
+source="https://gitlab.com/postmarketOS/libapk-qt/-/archive/v$pkgver/libapk-qt-v$pkgver.tar.gz
+	libapk-qt6.patch"
+subpackages="$pkgname-dev $pkgname-dbg"
+options="!check" # testsuite fails on async on qt6
+builddir="$srcdir/libapk-qt-v$pkgver"
+
+build() {
+	cmake \
+		-S . \
+		-B build/ \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_TESTING=ON
+	make -C build
+}
+
+check() {
+	echo "test"
+	#make -C build test
+}
+
+package() {
+	make -C build DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+a9cc416cfd6e5ff12b47d9830aff1e54f8c931085727f378886d850eb196679f15459a19db8faf7387afbee43d0279a2ebc5a961d8e63bba04e971c29bdd4177  libapk-qt-v0.4.2.tar.gz
+ad4ae9a09c1b643af600a441efa519a2e6c7c9f8bafafb4e56c546226acf9d765b367c5bd30add2cba7768162719a31048b392d18e1daba290ba196ea236c2e1  libapk-qt6.patch
+"

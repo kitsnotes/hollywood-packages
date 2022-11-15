@@ -1,0 +1,188 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Contributor: Leonardo Arena <rnalrd@alpinelinux.org>
+# Contributor: Valery Kartel <valery.kartel@gmail.com>
+pkgname=perl
+pkgver=5.36.0
+pkgrel=0
+pkgdesc="Larry Wall's Practical Extraction and Report Language"
+url="https://www.perl.org/"
+arch="all"
+license="Artistic-Perl OR GPL-1.0-or-later"
+options="!fhs"
+depends_dev="perl-utils"
+makedepends="bzip2-dev zlib-dev libxcrypt-dev"
+subpackages="$pkgname-doc $pkgname-dev $pkgname-utils::noarch miniperl"
+source="https://www.cpan.org/src/5.0/perl-$pkgver.tar.gz
+	"
+# Tests too slow, and some failures on mips64.
+[ "$CARCH" = "mips64" ] && options="$options !check"
+
+# secfixes:
+#   5.34.0-r1:
+#     - CVE-2021-36770
+#   5.30.3-r0:
+#     - CVE-2020-10543
+#     - CVE-2020-10878
+#     - CVE-2020-12723
+#   5.26.3-r0:
+#     - CVE-2018-18311
+#     - CVE-2018-18312
+#     - CVE-2018-18313
+#     - CVE-2018-18314
+#   5.26.2-r1:
+#     - CVE-2018-12015
+#   5.26.2-r0:
+#     - CVE-2018-6797
+#     - CVE-2018-6798
+#     - CVE-2018-6913
+#   5.26.1-r0:
+#     - CVE-2017-12837
+#     - CVE-2017-12883
+
+
+_privlib=/usr/share/perl5/core_perl
+_archlib=/usr/lib/perl5/core_perl
+
+prepare() {
+	chmod +w "$builddir"/*.c
+	default_prepare
+	#sed	-e 's/less -R/less/g' \
+	#	-e 's/libswanted="\(.*\) nsl\(.*\)"/libswanted="\1\2"/g' \
+	#	-i ./Configure
+
+	# Ensure that we never accidentally bundle zlib or bzip2
+	rm -rf cpan/Compress-Raw-Zlib/zlib-src
+	rm -rf cpan/Compress-Raw-Bzip2/bzip2-src
+	sed -i '/\(bzip2\|zlib\)-src/d' MANIFEST
+}
+
+build() {
+	BUILD_ZLIB=0
+	BUILD_BZIP2=0
+	BZIP2_LIB=/usr/lib
+	BZIP2_INCLUDE=/usr/include
+
+	export BUILD_ZLIB BUILD_BZIP2 BZIP2_LIB BZIP2_INCLUDE
+#	./Configure -des \
+#		-Dcccdlflags='-fPIC' \
+#		-Dcccdlflags='-fPIC' \
+#		-Dccdlflags='-rdynamic' \
+#		-Dprefix=/usr \
+#		-Dprivlib=$_privlib \
+##		-Darchlib=$_archlib \
+#		-Dvendorprefix=/usr \
+#		-Dvendorlib=/usr/share/perl5/vendor_perl \
+#		-Dvendorarch=/usr/lib/perl5/vendor_perl \
+#		-Dsiteprefix=/usr/local \
+#		-Dsitelib=/usr/local/share/perl5/site_perl \
+#		-Dsitearch=/usr/local/lib/perl5/site_perl \
+#		-Dlocincpth=' ' \
+#		-Doptimize="$CFLAGS" \
+#		-Duselargefiles \
+#		-Dusethreads \
+#		-Duseshrplib \
+#		-Dd_semctl_semun \
+#		-Dman1dir=/usr/share/man/man1 \
+#		-Dman3dir=/usr/share/man/man3 \
+#		-Dinstallman1dir=/usr/share/man/man1 \
+#		-Dinstallman3dir=/usr/share/man/man3 \
+#		-Dman1ext='1' \
+#   -Dlddlflags="-shared ${LDFLAGS}" -Dldflags="${LDFLAGS}" \
+#		-Dman3ext='3pm' \
+#		-Dcf_by='Originull' \
+#		-Ud_csh \
+#		-Dusenm
+#	make libperl.so && make
+
+sh Configure -des -Dprefix=/usr                 \
+                  -Dvendorprefix=/usr           \
+                  -Dman1dir=/usr/share/man/man1 \
+                  -Dman3dir=/usr/share/man/man3 \
+                  -Dpager="/usr/bin/less -isR"  \
+                  -Duseshrplib                  \
+                  -Dusethreads
+
+make
+}
+
+check() {
+	export CI=true
+	export LC_ALL=C
+
+	# Perl tests HARNESS_OPTIONS against the regex
+	# /^j(\d*)$/, if $JOBS is unset, it defaults to 9
+	export HARNESS_OPTIONS=j"$JOBS"
+	export PERL_TEST_HARNESS_ASAP=1
+
+	make test_harness_notty
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	if [ -n "$(find $pkgdir/usr/local -type f)" ]; then
+		error "files found under /usr/local"
+		return 1
+	fi
+	find "$pkgdir" -name '.*' -delete
+}
+
+miniperl() {
+	install -Dm755 "$builddir"/$subpkgname \
+		"$subpkgdir"/usr/bin/$subpkgname
+}
+
+doc() {
+	default_doc
+	local file; for file in $(find "$pkgdir" -name "*.pod"); do
+		file=${file#$pkgdir/}
+		mkdir -p "$subpkgdir"/${file%/*}
+		mv "$pkgdir"/$file "$subpkgdir"/$file
+	done
+}
+
+dev() {
+	mkdir -p "$subpkgdir"/usr/bin "$subpkgdir"/$_archlib "$subpkgdir"/$_privlib
+	#mv "$pkgdir"/$_archlib/Devel "$subpkgdir"/$_archlib/
+	#mv "$pkgdir"/$_privlib/Encode "$subpkgdir"/$_privlib/
+
+	mv "$pkgdir"/usr/bin/h2xs \
+		"$pkgdir"/usr/bin/perlivp \
+		"$pkgdir"/usr/bin/enc2xs \
+		"$pkgdir"/usr/bin/xsubpp \
+		"$subpkgdir"/usr/bin/
+
+	default_dev
+}
+
+utils() {
+	pkgdesc="$pkgdesc (misc utilities)"
+	depends="$pkgname"
+	mkdir -p "$subpkgdir"/usr/bin
+	local file
+	for file in \
+		corelist \
+		cpan \
+		encguess \
+		libnetcfg \
+		h2ph \
+		instmodsh \
+		json_pp \
+		perlbug \
+		perlthanks \
+		piconv \
+		pl2pm \
+		prove \
+		ptar \
+		ptardiff \
+		ptargrep \
+		shasum \
+		splain \
+		zipdetails
+	do
+		mv "$pkgdir"/usr/bin/$file "$subpkgdir"/usr/bin/
+	done
+}
+
+sha512sums="
+76f2dbc764443c66bc3bfcc214a7c851f155de75b0f94a2923e10caa6ec9b8fd5aaafcfa65964cd3584eb7a6e4fea766abb5e0e840c5ae4237587ee047cd82dd  perl-5.36.0.tar.gz
+"

@@ -1,0 +1,103 @@
+# Contributor: Sergei Lukin <sergej.lukin@gmail.com>
+# Contributor: Łukasz Jendrysik <scadu@yandex.com>
+# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=vim
+pkgver=8.2.3779
+pkgrel=2
+pkgdesc="Improved vi-style text editor"
+url="https://www.vim.org/"
+arch="all"
+license="Vim"
+options="!check"  # some tests are failing
+depends="xxd"
+makedepends="ncurses-dev python3-dev"
+subpackages="$pkgname-doc ${pkgname}diff::noarch $pkgname-tutor xxd"
+source="$pkgname-$pkgver.tar.gz::https://github.com/vim/vim/archive/v$pkgver.tar.gz
+	vimrc
+	"
+replaces="gvim" # this can be removed after alpine 3.16
+
+# secfixes:
+#   8.2.3437-r0:
+#     - CVE-2021-3770
+#     - CVE-2021-3778
+#     - CVE-2021-3796
+#   8.1.1365-r0:
+#     - CVE-2019-12735
+#   8.0.1521-r0:
+#     - CVE-2017-6350
+#     - CVE-2017-6349
+#   8.0.0329-r0:
+#     - CVE-2017-5953
+#   8.0.0056-r0:
+#     - CVE-2016-1248
+
+prepare() {
+	# Read vimrc from /etc/vim
+	echo '#define SYS_VIMRC_FILE "/etc/vim/vimrc"' >> src/feature.h
+	cp -r "$builddir" "$builddir"-gvim
+	default_prepare
+}
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--disable-luainterp \
+		--enable-python3interp=dynamic \
+		--without-x \
+		--disable-nls \
+		--enable-multibyte \
+		--enable-gui=no \
+		--with-compiledby="Arion"
+	make
+}
+
+check() {
+	make test
+}
+
+package() {
+	make -j1 DESTDIR="$pkgdir/" install
+
+	install -Dm644 runtime/doc/uganda.txt \
+		"$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+	install -Dm644 "$srcdir"/vimrc "$pkgdir"/etc/vim/vimrc
+}
+
+
+vimdiff() {
+	pkgdesc="view file diffs in vim"
+	depends="diffutils vim"
+	options="!tracedeps"
+
+	install -d "$subpkgdir"/usr/bin
+	mv "$pkgdir"/usr/bin/vimdiff "$subpkgdir"/usr/bin
+}
+
+tutor() {
+	pkgdesc="vim tutor and tutor files"
+	depends="vim"
+	options="!tracedeps"
+
+	install -d "$subpkgdir"/usr/bin
+	install -d "$subpkgdir"/usr/share/vim/vim82/tutor
+	mv "$pkgdir"/usr/bin/vimtutor "$subpkgdir"/usr/bin
+	mv "$pkgdir"/usr/share/vim/vim82/tutor "$subpkgdir"/usr/share/vim/vim82/
+}
+
+xxd() {
+	pkgdesc="tool to make (or reverse) a hex dump"
+	depends=""
+	echo "$pkgdir" "$subpkgdir"
+	mkdir -p "$subpkgdir/usr/bin"
+	mv "$pkgdir/usr/bin/xxd" \
+	   "$subpkgdir/usr/bin/"
+}
+
+sha512sums="
+000e9c69ae5241451aca2b0af64cb10a063adddd53ea32f4cb0df7b79ce4bebb96d67c4c25d82fc301dc2ae47a5f16944cee61c1202c318c31256387b2193ef2  vim-8.2.3779.tar.gz
+d9586b777881973cb5e48e18750336a522ed72c3127b2d6b6991e2b943468ca5b694476e7fa39ab469178c1375fc8f52627484e0fe377aea5811a513e35a7b02  vimrc
+"

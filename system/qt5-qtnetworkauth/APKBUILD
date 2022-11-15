@@ -1,0 +1,47 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtnetworkauth
+pkgver=5.15.5_git20220516
+pkgrel=0
+_commit="9e698881cb07ebf04319f5cfa7b065c8bc2c1afb"
+arch="all !armhf" # armhf blocked by qt5-qtdeclarative
+url="https://www.qt.io/developers/"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+pkgdesc="Network authentication module"
+makedepends="qt5-qtbase-dev"
+subpackages="$pkgname-dev $pkgname-doc"
+builddir="$srcdir/qtnetworkauth-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qtnetworkauth/-/archive/$_commit/qtnetworkauth-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+sha512sums="
+83970099acedabad1adb2c55e1555aa675878c7a762a0d614ede1b276ebae123dc92a98ccc38145957f357a61077ccde6d7ca318f29f1ae2496116a125c3c0c7  qtnetworkauth-9e698881cb07ebf04319f5cfa7b065c8bc2c1afb.tar.gz
+"

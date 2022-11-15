@@ -1,0 +1,140 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=mesa
+pkgver=22.1.7
+pkgrel=6
+pkgdesc="Mesa DRI OpenGL library"
+url="https://www.mesa3d.org"
+arch="all"
+license="MIT SGI-B-2.0 BSL-1.0"
+subpackages="
+	$pkgname-dbg
+	$pkgname-dev
+	"
+_llvmver=14
+depends_dev="
+	libdrm-dev
+	libxext-dev
+	libxdamage-dev
+	libxcb-dev
+	libxshmfence-dev
+	"
+makedepends="
+	$depends_dev
+	bison
+	eudev-dev
+	expat-dev
+	findutils
+	flex
+	gettext
+	elfutils-dev
+	glslang-dev
+	libtool
+	libxfixes-dev
+	libva-dev
+	libvdpau-dev
+	libx11-dev
+	libxml2-dev
+	libxrandr-dev
+	libxvmc-dev
+	libxxf86vm-dev
+	llvm$_llvmver-dev
+	libglvnd-dev
+	meson
+	libunwind-dev
+	py3-mako
+	python3
+	vulkan-headers
+	vulkan-loader-dev
+	wayland-dev
+	libomxil-bellagio-dev
+	wayland-protocols
+	xorgproto
+	zlib-dev
+	zstd-dev
+	"
+source="
+	https://mesa.freedesktop.org/archive/mesa-$pkgver.tar.xz
+	disable-rgb10-by-default.patch
+	0001-radeonsi-On-Aarch64-force-persistent-buffers-to-GTT.patch
+	"
+replaces="mesa-dricore"
+options="!check" # we skip tests intentionally
+provides="opengl"
+if [ "$CARCH" = x86 ]; then
+	# Bug upstream that needs to be fixed
+	options="$options textrels"
+fi
+_dri_driverdir=/usr/lib/dri
+_gallium_drivers="r300,r600,radeonsi,nouveau,swrast,virgl,zink"
+_vulkan_drivers="amd"
+_vulkan_layers="device-select,overlay"
+case "$CARCH" in
+x86*)
+	_gallium_drivers="${_gallium_drivers},svga,iris,crocus"
+	_vulkan_drivers="${_vulkan_drivers},intel"
+	_vulkan_layers="$_vulkan_layers,intel-nullhw"
+	_arch_opts="-Ddri3=enabled"
+	case "$CARCH" in
+	x86)
+		_arch_opts="$_arch_opts -Dglx-read-only-text=true";;
+	esac
+	;;
+armhf|armv7|aarch64)
+	_gallium_drivers="${_gallium_drivers},vc4,v3d,freedreno,kmsro,lima,panfrost,etnaviv,tegra"
+	case "$CARCH" in
+	aarch64)
+		_vulkan_drivers="${_vulkan_drivers},broadcom,freedreno,panfrost"
+		;;
+	esac
+	;;
+esac
+
+builddir="$srcdir/$pkgname-$pkgver"
+build() {
+
+	abuild-meson \
+		-Dgallium-drivers=$_gallium_drivers \
+		-Dvulkan-drivers=$_vulkan_drivers \
+		-Dvulkan-layers=$_vulkan_layers \
+		-Dplatforms=x11,wayland \
+		-Ddri-drivers-path=$_dri_driverdir \
+		    -D egl=enabled \
+		    -D gallium-extra-hud=true \
+    -D gallium-nine=true \
+    -D gallium-omx=bellagio \
+    -D gallium-va=enabled \
+    -D gallium-vdpau=enabled \
+    -D gallium-xa=enabled \
+    -D gallium-xvmc=disabled \
+    -D gbm=enabled \
+    -D gles1=disabled \
+    -D gles2=enabled \
+    -D glvnd=true \
+    -D glx=dri \
+    -D libunwind=enabled \
+    -D llvm=enabled \
+    -D lmsensors=disabled \
+    -D osmesa=true \
+    -D shared-glapi=enabled \
+    -D microsoft-clc=disabled \
+		$_arch_opts \
+	 output
+
+	# Print config
+	meson configure output
+
+	# parallel build workaround
+	ninja -C output src/compiler/nir/nir_intrinsics.h
+
+	meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="
+447e87359445edce231761d94b316b2aa20e9ab58e4b59d75cbb1696dd0900e7164c32bebc3b75700b4070570b456f7a8cf0914181371754a52427d34e4b9120  mesa-22.1.7.tar.xz
+ae5ffb9259efc339a868c778186889fa1a6eacb4dc4b2452f31f9c65e1a6273e856665300d2982fb2680b4d182aae574ceda258e15c00d7ae16960ba09240ef1  disable-rgb10-by-default.patch
+fdbc13888f09d157feae6ce3b8a63cc606d7ed19e364cdb89ccce25a367255b498bbe82862a487c29d8f98d5e31980ef1f0879b06823cedb54801fd54cd461ad  0001-radeonsi-On-Aarch64-force-persistent-buffers-to-GTT.patch
+"

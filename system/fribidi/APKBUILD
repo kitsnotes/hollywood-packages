@@ -1,0 +1,35 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=fribidi
+pkgver=1.0.11
+pkgrel=0
+pkgdesc="Free Implementation of the Unicode Bidirectional Algorithm"
+url="https://github.com/fribidi/fribidi"
+arch="all"
+license="LGPL-2.0-or-later"
+subpackages="$pkgname-doc $pkgname-static $pkgname-dev"
+source="https://github.com/fribidi/fribidi/releases/download/v$pkgver/fribidi-$pkgver.tar.xz"
+
+# secfixes:
+#   1.0.7-r1:
+#     - CVE-2019-18397
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--enable-static
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+6afde86784de06759f18235ccb44f23261a975f7cce0021b16755065a6a8ed84d7d5fb7fdcaadd691b48011efb4bfc2ee67555e5133a294a418cca1a0c85476c  fribidi-1.0.11.tar.xz
+"

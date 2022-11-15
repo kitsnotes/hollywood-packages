@@ -1,0 +1,223 @@
+# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Contributor: Jakub Jirutka <jakub@jirutka.cz>
+# Contributor: Nulo <git@nulo.in>
+# Maintainer: Jakub Jirutka <jakub@jirutka.cz>
+#
+# secfixes:
+#   3.0.3-r0:
+#     - CVE-2021-41817
+#     - CVE-2021-41816
+#     - CVE-2021-41819
+#   2.7.4-r0:
+#     - CVE-2021-31799
+#     - CVE-2021-31810
+#     - CVE-2021-32066
+#   2.7.3-r0:
+#     - CVE-2021-28965
+#     - CVE-2021-28966
+#   2.7.2-r0:
+#     - CVE-2020-25613
+#   2.6.6-r0:
+#     - CVE-2020-10663
+#     - CVE-2020-10933
+#   2.6.5-r0:
+#     - CVE-2019-16255
+#     - CVE-2019-16254
+#     - CVE-2019-15845
+#     - CVE-2019-16201
+#   2.5.2-r0:
+#     - CVE-2018-16395
+#     - CVE-2018-16396
+#   2.5.1-r0:
+#     - CVE-2017-17742
+#     - CVE-2018-6914
+#     - CVE-2018-8777
+#     - CVE-2018-8778
+#     - CVE-2018-8779
+#     - CVE-2018-8780
+#   2.4.2-r0:
+#     - CVE-2017-0898
+#     - CVE-2017-10784
+#     - CVE-2017-14033
+#     - CVE-2017-14064
+#     - CVE-2017-0899
+#     - CVE-2017-0900
+#     - CVE-2017-0901
+#     - CVE-2017-0902
+#   2.4.3-r0:
+#     - CVE-2017-17405
+#
+pkgname=ruby
+# When upgrading, upgrade also each ruby-<name> aport listed in file
+# gems/bundled_gems. If some aport is missing or not in the main repo,
+# create/move it.
+pkgver=3.0.3
+_abiver="${pkgver%.*}.0"
+pkgrel=0
+pkgdesc="An object-oriented language for quick and easy programming"
+url="https://www.ruby-lang.org/"
+arch="all"
+license="Ruby AND BSD-2-Clause AND MIT"
+depends="ca-certificates"
+depends_dev="
+	$pkgname=$pkgver-r$pkgrel
+	$pkgname-rdoc=$pkgver-r$pkgrel
+	gmp-dev
+	libucontext-dev
+	"
+makedepends="$depends_dev zlib-dev openssl1.1-compat-dev gdbm-dev readline-dev
+	libffi-dev coreutils yaml-dev linux-headers autoconf"
+install="$pkgname.post-upgrade"
+subpackages="$pkgname-dbg $pkgname-doc $pkgname-dev
+	$pkgname-rdoc::noarch
+	$pkgname-libs
+	$pkgname-full::noarch
+	"
+source="https://cache.ruby-lang.org/pub/ruby/${pkgver%.*}/ruby-$pkgver.tar.gz
+	get-ruby_nonempty_memcpy-to-have-c-linkage.patch
+	test_insns-lower-recursion-depth.patch
+	fix-get_main_stack.patch
+	dont-install-bundled-gems.patch
+	"
+replaces="ruby-gems"
+
+# For backward compatibility (pre 3.x).
+for _i in bigdecimal etc fiddle gdbm io-console irb json; do
+	provides="$provides ruby-$_i=$pkgver-r$pkgrel"
+done
+
+_gemdir="/usr/lib/ruby/gems/$_abiver"
+_rubydir="/usr/lib/ruby/$_abiver"
+_chost="${CHOST/-alpine-/-}"
+_depends_full=''  # see prepare()
+
+case "$CARCH" in
+	x86) _arch="i386";;
+	*) _arch="$CARCH";;
+esac
+
+prepare() {
+	default_prepare
+	autoconf
+
+	# v2.7.1 - Of all the bootstraptest only test_fiber fails on s390x:
+	# test_fiber.rb bootstraptest.tmp.rb:8: [BUG] vm_call_cfunc: cfp consistency error (0x000003ffb63fefb0, 0x000003ffb42f5f58)
+	case "$CARCH" in
+		s390x) rm bootstraptest/test_fiber.rb;;
+	esac
+
+	local name ver; while read -r name ver _; do
+		case "$name=$ver" in
+			[a-z]*=[0-9]*.[0-9]*)
+				if ! apk add -qs "ruby-$name>=$ver" >/dev/null 2>&1; then
+					warning "bump package ruby-$name to version $ver"
+				fi
+				_depends_full="$_depends_full ruby-$name>=$ver"
+		esac
+	done < "$builddir"/gems/bundled_gems
+}
+
+build() {
+	# -fomit-frame-pointer makes ruby segfault, see gentoo bug #150413
+	# In many places aliasing rules are broken; play it safe
+	# as it's risky with newer compilers to leave it as it is.
+	export CFLAGS="$CFLAGS -fno-omit-frame-pointer -fno-strict-aliasing"
+	export CPPFLAGS="$CPPFLAGS -fno-omit-frame-pointer -fno-strict-aliasing"
+
+	# Needed for coroutine stuff
+	export LIBS="-lucontext"
+
+	# ruby saves path to install. we want use $PATH
+	export INSTALL=install
+
+	# the configure script does not detect isnan/isinf as macros
+	export ac_cv_func_isnan=yes
+	export ac_cv_func_isinf=yes
+
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--with-sitedir=/usr/local/lib/site_ruby \
+		--with-search-path="/usr/lib/site_ruby/\$(ruby_ver)/$_arch-linux" \
+		--enable-pthread \
+		--disable-rpath \
+		--enable-shared \
+		--with-mantype=man
+	make
+}
+
+check() {
+	make test
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	install -m 644 -D COPYING "$pkgdir"/usr/share/licenses/$pkgname/COPYING
+
+	cd "$pkgdir"
+
+	# Remove bundled gem bundler; it's provided by a separate aport/package
+	# ruby-bundler.
+	rm -rf ./$_rubydir/bundler
+	rm ./$_rubydir/bundler.rb
+	rm -rf ./$_gemdir/gems/bundler-*
+	rm ./$_gemdir/specifications/default/bundler-*.gemspec
+	rm usr/bin/bundle usr/bin/bundler
+
+	# Remove bundled CA certificates; they are provided by ca-certificates.
+	rm ./$_rubydir/rubygems/ssl_certs/*/*.pem
+	rmdir ./$_rubydir/rubygems/ssl_certs/* || true
+
+	rm -Rf ./$_gemdir/cache/*
+
+	if [ -d usr/local ]; then
+		local f=$(find usr/local -type f)
+		if [ -n "$f" ]; then
+			error "Found files in /usr/local:"
+			echo "$f"
+			return 1
+		fi
+		rm -r usr/local
+	fi
+}
+
+rdoc() {
+	pkgdesc="Ruby documentation tool"
+	license="Ruby"
+	depends="$pkgname"
+
+	amove $_rubydir/rdoc
+	amove $_gemdir/gems/rdoc-*
+	amove $_gemdir/specifications/default/rdoc-*
+	amove usr/bin/ri
+	amove usr/bin/rdoc
+}
+
+libs() {
+	pkgdesc="Libraries necessary to run Ruby"
+	depends=""
+
+	amove usr/lib
+}
+
+full() {
+	pkgdesc="Ruby with all bundled gems"
+	# bundler is bundled since Ruby 2.6, so include it in ruby-full despite
+	# that it's provided by a seprate aport/package.
+	depends="ruby ruby-rdoc ruby-bundler $_depends_full"
+
+	mkdir -p "$subpkgdir"
+}
+
+sha512sums="
+39dab51a0d784a38302372b99f96205817d466245202586d22123745761e9cb39db128ec2b984ebc3919b9faf2adf828d19c97d3fb1e56d44be0a81dc5d11b87  ruby-3.0.3.tar.gz
+59f85e23f9487b6a3ff1a5de9f73c243f23d2f9538d2628b4ba1fe62b47d5cac254e812ae2a0212d5866fb9df89125b32829b77f8d9397a2fcc4d39d837916e9  get-ruby_nonempty_memcpy-to-have-c-linkage.patch
+2ee66e841f841ad6e7c8877ec20b548d23b50d6a888a0d2d16f9062892c5d1c64efb59385f6723bae6cd1591824278787eefc0180768619c653243756d1300ab  test_insns-lower-recursion-depth.patch
+8e0a75899a3855f85441dabb6571569f13cf3472c2ccb2ec5c8e0e5cc9026af3c9951ebed4a754d9723dfd1c8ece32862802f20e18b7e5de4875125d92ef146b  fix-get_main_stack.patch
+10bda0462feaec73a7522ef622ffc18815b1d4302e771013ab78ef88d1d9f76277b1d24401eff054e031ca0fbc1ac80486d58282378cbdaf695786b212e6524d  dont-install-bundled-gems.patch
+"

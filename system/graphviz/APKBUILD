@@ -1,0 +1,103 @@
+# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
+# Contributor: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=graphviz
+pkgver=4.0.0
+pkgrel=0
+pkgdesc="Graph Visualization Tools"
+url="https://www.graphviz.org/"
+arch="all"
+license="EPL-1.0"
+depends_dev="zlib-dev libpng-dev libjpeg-turbo-dev expat-dev libwebp-dev
+	fontconfig-dev libsm-dev libxext-dev cairo-dev pango-dev
+	gmp-dev freetype-dev python3-dev"
+makedepends="$depends_dev flex swig m4 libtool libxaw-dev bison 
+	libltdl tcl autoconf automake bash"
+install="$pkgname.pre-deinstall"
+triggers="$pkgname.trigger=/usr/lib/graphviz"
+subpackages="$pkgname-dev $pkgname-doc py3-gv:_py3 
+	$pkgname-graphs::noarch"
+source="https://gitlab.com/graphviz/graphviz/-/archive/$pkgver/graphviz-$pkgver.tar.gz
+	0001-clone-nameclash.patch
+	"
+
+# secfixes:
+#   2.46.0-r0:
+#     - CVE-2020-18032
+
+prepare() {
+	default_prepare
+	./autogen.sh NOCONFIG
+}
+
+build() {
+	CONFIG_SHELL=/bin/bash \
+	LIBPOSTFIX=/ \
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--disable-silent-rules \
+		--disable-static \
+		--disable-dependency-tracking \
+		--disable-ltdl-install \
+		--enable-ltdl \
+		--enable-sharp=no \
+		--enable-go=no \
+		--enable-guile=no \
+		--enable-java=no \
+		--enable-lua=no \
+		--enable-ocaml=no \
+		--enable-perl=no \
+		--enable-php=no \
+		--enable-python=yes \
+		--enable-r=no \
+		--enable-ruby=no \
+		--enable-tcl=no \
+		--without-included-ltdl \
+		--with-x \
+		--with-rsvg=yes \
+		--with-pangocairo=yes \
+		--with-gdk-pixbuf=yes \
+		--with-libgd=no \
+		--with-ipsepcola=yes
+
+	if [ "$CARCH" = "x86_64" ]; then
+		# the configure script thinks we have sincos. we dont.
+		sed -i -e '/HAVE_SINCOS/d' config.h
+	fi
+
+	make
+}
+
+package() {
+	# Install has race conditions...
+	make -j1 DESTDIR="$pkgdir" \
+		pkgconfigdir=/usr/lib/pkgconfig \
+		install
+}
+
+_py3() {
+	pkgdesc="Python3 extension for graphviz"
+	depends="python3"
+
+	mkdir -p "$subpkgdir"/usr/lib/graphviz \
+		"$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/graphviz/python3* \
+		"$subpkgdir"/usr/lib/graphviz
+	mv "$pkgdir"/usr/lib/python3* "$subpkgdir"/usr/lib/
+}
+
+graphs() {
+	pkgdesc="Demo graphs for graphviz"
+
+	mkdir -p "$subpkgdir"/usr/share/graphviz
+	mv "$pkgdir"/usr/share/graphviz/graphs \
+		"$subpkgdir"/usr/share/graphviz/
+}
+
+sha512sums="
+5a0211229f3b79b96a69de8651ace06e22ef62752e7e94c1d9dfc93eaa0759a956f72b5b1f4655d9265da799867438512ba6108a12ea3cea40dc5b686e41006b  graphviz-4.0.0.tar.gz
+5a6feef04c79be1d019d3abc297d0084de2e3aed88d03ca3adc547b712e3f70ea4d6d945431bdbed1e1c72663b052e75f2b4e76453f9d9d24dfcfa26d06e2794  0001-clone-nameclash.patch
+"

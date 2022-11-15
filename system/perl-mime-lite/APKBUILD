@@ -1,0 +1,34 @@
+# Contributor: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+pkgname=perl-mime-lite
+_pkgreal=MIME-Lite
+pkgver=3.033
+pkgrel=0
+pkgdesc="low-calorie MIME generator"
+url="https://metacpan.org/release/MIME-Lite"
+arch="noarch"
+license="GPL-1.0-or-later OR Artistic-1.0-Perl"
+depends="perl perl-mime-types perl-email-date-format perl-mailtools perl-test-pod-coverage"
+subpackages="$pkgname-doc"
+source="https://cpan.metacpan.org/authors/id/R/RJ/RJBS/MIME-Lite-$pkgver.tar.gz"
+
+builddir="$srcdir/$_pkgreal-$pkgver"
+
+build() {
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make
+}
+
+check() {
+	make test
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	# creates file collision among perl modules
+	find "$pkgdir" -name perllocal.pod -delete
+}
+
+sha512sums="
+315fbe01a432e67953305fb1db70aa337d3c7e1710087196535e108fbb516cf868a277acc693afbbc34ffa135386c6a784ddf4c1de0359fbe6c6339b26aac878  MIME-Lite-3.033.tar.gz
+"

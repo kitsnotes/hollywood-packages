@@ -1,0 +1,20 @@
+diff --git a/sim/common/gentmap.c b/sim/common/gentmap.c
+index 9f30e66e378..f690193f471 100644
+--- a/sim/common/gentmap.c
++++ b/sim/common/gentmap.c
+@@ -83,6 +83,14 @@ gen_targ_map_c (void)
+   printf ("#include \"targ-vals.h\"\n");
+   printf ("\n");
+
++  /* Make SIGSTKSZ a constant again.  */
++  printf ("#ifdef __USE_SC_SIGSTKSZ\n");
++  printf ("# undef SIGSTKSZ\n");
++  printf ("# define SIGSTKSZ 8192\n");
++  printf ("#endif\n");
++
++  printf ("\n");
++
+   printf ("/* syscall mapping table */\n");
+   printf ("CB_TARGET_DEFS_MAP cb_init_syscall_map[] = {\n");
+   for (t = &sys_tdefs[0]; t->symbol; ++t)
+

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+addgroup --system mysql 2>/dev/null
+adduser --system  -D --home /var/lib/mysql --shell /sbin/nologin --gecos mysql --ingroup mysql mysql 2>/dev/null
+
+exit 0

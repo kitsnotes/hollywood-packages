@@ -1,0 +1,33 @@
+# Contributor: Michael Mason <ms13sp@gmail.com>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=bc
+pkgver=6.0.1
+pkgrel=0
+pkgdesc="An arbitrary precision numeric processing language (calculator)"
+url="https://www.gnu.org/software/bc/bc.html"
+arch="all"
+license="GPL-2.0-or-later"
+makedepends="ed flex bison readline-dev texinfo"
+subpackages="$pkgname-doc"
+source="https://github.com/gavinhoward/$pkgname/releases/download/$pkgver/$pkgname-$pkgver.tar.xz"
+builddir="$srcdir/$pkgname-$pkgver"
+
+build() {
+	cd "$builddir"
+	CC=gcc ./configure --prefix=/usr -G -O3 -r
+	make -j1
+}
+
+check() {
+	cd "$builddir"
+	make test
+}
+
+package() {
+	cd "$builddir"
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+f4009578ad931e6949c009fecca6b17c69edbe9b221f6e84057d8b12470d9a45ff1b50735ae88640e082ded77eeca53e9400fd27e5ce2817213245e95f323506  bc-6.0.1.tar.xz
+"

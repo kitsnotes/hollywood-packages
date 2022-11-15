@@ -1,0 +1,146 @@
+diff -Naur libapk-qt-v0.4.2/CMakeLists.txt libapk-qt-v0.4.2-qt6/CMakeLists.txt
+--- libapk-qt-v0.4.2/CMakeLists.txt	2021-02-24 02:03:31.000000000 -0800
++++ libapk-qt-v0.4.2-qt6/CMakeLists.txt	2022-07-24 14:07:30.512394140 -0700
+@@ -34,7 +34,7 @@
+ set(CMAKE_AUTOMOC ON)
+ 
+ # Required by ApkQt
+-find_package(Qt5 CONFIG REQUIRED COMPONENTS Core)
++find_package(Qt6 CONFIG REQUIRED COMPONENTS Core)
+ find_package(LibApk REQUIRED)
+ 
+ # Install cmake package configuration files
+diff -Naur libapk-qt-v0.4.2/apk-qt.pc.in libapk-qt-v0.4.2-qt6/apk-qt.pc.in
+--- libapk-qt-v0.4.2/apk-qt.pc.in	2021-02-24 02:03:31.000000000 -0800
++++ libapk-qt-v0.4.2-qt6/apk-qt.pc.in	2022-07-24 14:07:30.512394140 -0700
+@@ -7,5 +7,5 @@
+ Version: @QTAPK_VERSION_STRING@
+ Libs: -lapk-qt
+ Cflags: -I${includedir}/ApkQt
+-Requires: Qt5Core
++Requires: Qt6Core
+ Requires.private: apk
+diff -Naur libapk-qt-v0.4.2/examples/CMakeLists.txt libapk-qt-v0.4.2-qt6/examples/CMakeLists.txt
+--- libapk-qt-v0.4.2/examples/CMakeLists.txt	2021-02-24 02:03:31.000000000 -0800
++++ libapk-qt-v0.4.2-qt6/examples/CMakeLists.txt	2022-07-24 14:07:30.512394140 -0700
+@@ -13,7 +13,7 @@
+ 
+ include(FeatureSummary)
+ 
+-find_package(Qt5 CONFIG REQUIRED COMPONENTS Core)
++find_package(Qt6 CONFIG REQUIRED COMPONENTS Core)
+ find_package(ApkQt CONFIG REQUIRED)
+ 
+ add_executable(test_ApkQt
+@@ -21,7 +21,7 @@
+ )
+ 
+ target_link_libraries(test_ApkQt PRIVATE
+-    Qt5::Core
++    Qt6::Core
+     apk-qt
+ )
+ 
+diff -Naur libapk-qt-v0.4.2/src/CMakeLists.txt libapk-qt-v0.4.2-qt6/src/CMakeLists.txt
+--- libapk-qt-v0.4.2/src/CMakeLists.txt	2021-02-24 02:03:31.000000000 -0800
++++ libapk-qt-v0.4.2-qt6/src/CMakeLists.txt	2022-07-24 14:07:30.512394140 -0700
+@@ -49,7 +49,7 @@
+ )
+ 
+ 
+-target_link_libraries(apk-qt PUBLIC Qt5::Core)
++target_link_libraries(apk-qt PUBLIC Qt6::Core)
+ 
+ if (USE_STATIC_LIBAPK)
+     target_link_libraries(apk-qt PRIVATE LibApk::LibApkStatic)
+diff -Naur libapk-qt-v0.4.2/src/QtApk_metatypes.cpp libapk-qt-v0.4.2-qt6/src/QtApk_metatypes.cpp
+--- libapk-qt-v0.4.2/src/QtApk_metatypes.cpp	2021-02-24 02:03:31.000000000 -0800
++++ libapk-qt-v0.4.2-qt6/src/QtApk_metatypes.cpp	2022-07-24 14:08:12.569021784 -0700
+@@ -12,21 +12,21 @@
+     // register types withing Qt's type system
+     // it will allow us to use our types with QVariant
+     // and in signal-slot connections
+-    qRegisterMetaType<QtApk::Package>("QtApk::Package");
+-    qRegisterMetaTypeStreamOperators<QtApk::Package>("QtApk::Package");
+-    qRegisterMetaTypeStreamOperators<QVector<QtApk::Package>>("QVector<QtApk::Package>");
+-    qRegisterMetaType<QtApk::Repository>("QtApk::Repository");
+-    qRegisterMetaTypeStreamOperators<QtApk::Repository>("QtApk::Repository");
+-    qRegisterMetaTypeStreamOperators<QVector<QtApk::Repository>>("QVector<QtApk::Repository>");
++    //qRegisterMetaType<QtApk::Package>("QtApk::Package");
++//    qRegisterMetaTypeStreamOperators<QtApk::Package>("QtApk::Package");
++ //   qRegisterMetaTypeStreamOperators<QVector<QtApk::Package>>("QVector<QtApk::Package>");
++    //qRegisterMetaType<QtApk::Repository>("QtApk::Repository");
++  //  qRegisterMetaTypeStreamOperators<QtApk::Repository>("QtApk::Repository");
++  //  qRegisterMetaTypeStreamOperators<QVector<QtApk::Repository>>("QVector<QtApk::Repository>");
+     // also register flags
+-    qRegisterMetaType<QtApk::DbOpenFlags>("QtApk::DbOpenFlags");
+-    qRegisterMetaType<QtApk::DbOpenFlags>("DbOpenFlags"); // without namespace
+-    qRegisterMetaType<QtApk::DbUpdateFlags>("QtApk::DbUpdateFlags");
+-    qRegisterMetaType<QtApk::DbUpdateFlags>("DbUpdateFlags"); // without namespace
+-    qRegisterMetaType<QtApk::DbUpgradeFlags>("QtApk::DbUpgradeFlags");
+-    qRegisterMetaType<QtApk::DbUpgradeFlags>("DbUpgradeFlags"); // without namespace
+-    qRegisterMetaType<QtApk::DbDelFlags>("QtApk::DbDelFlags");
+-    qRegisterMetaType<QtApk::DbDelFlags>("DbDelFlags"); // without namespace
++    //qRegisterMetaType<QtApk::DbOpenFlags>("QtApk::DbOpenFlags");
++    //qRegisterMetaType<QtApk::DbOpenFlags>("DbOpenFlags"); // without namespace
++    //qRegisterMetaType<QtApk::DbUpdateFlags>("QtApk::DbUpdateFlags");
++    //qRegisterMetaType<QtApk::DbUpdateFlags>("DbUpdateFlags"); // without namespace
++   // qRegisterMetaType<QtApk::DbUpgradeFlags>("QtApk::DbUpgradeFlags");
++    //qRegisterMetaType<QtApk::DbUpgradeFlags>("DbUpgradeFlags"); // without namespace
++    //qRegisterMetaType<QtApk::DbDelFlags>("QtApk::DbDelFlags");
++    //qRegisterMetaType<QtApk::DbDelFlags>("DbDelFlags"); // without namespace
+ }
+ 
+ Q_CONSTRUCTOR_FUNCTION(registerMetaTypes);
+diff -Naur libapk-qt-v0.4.2/tests/CMakeLists.txt libapk-qt-v0.4.2-qt6/tests/CMakeLists.txt
+--- libapk-qt-v0.4.2/tests/CMakeLists.txt	2021-02-24 02:03:31.000000000 -0800
++++ libapk-qt-v0.4.2-qt6/tests/CMakeLists.txt	2022-07-24 14:07:30.512394140 -0700
+@@ -7,37 +7,37 @@
+ )
+ 
+ add_executable(test_openclose test_openclose.cpp)
+-target_link_libraries(test_openclose apk-qt Qt5::Core)
++target_link_libraries(test_openclose apk-qt Qt6::Core)
+ 
+ add_executable(test_db_update test_db_update.cpp)
+-target_link_libraries(test_db_update apk-qt Qt5::Core)
++target_link_libraries(test_db_update apk-qt Qt6::Core)
+ 
+ add_executable(test_fakeroot test_fakeroot.cpp)
+-target_link_libraries(test_fakeroot apk-qt Qt5::Core)
++target_link_libraries(test_fakeroot apk-qt Qt6::Core)
+ 
+ add_executable(test_add test_add.cpp)
+-target_link_libraries(test_add apk-qt Qt5::Core)
++target_link_libraries(test_add apk-qt Qt6::Core)
+ 
+ add_executable(test_del test_del.cpp)
+-target_link_libraries(test_del apk-qt Qt5::Core)
++target_link_libraries(test_del apk-qt Qt6::Core)
+ 
+ add_executable(test_print_packages test_print_packages.cpp)
+-target_link_libraries(test_print_packages apk-qt Qt5::Core)
++target_link_libraries(test_print_packages apk-qt Qt6::Core)
+ 
+ add_executable(test_changeset test_changeset.cpp)
+-target_link_libraries(test_changeset apk-qt Qt5::Core)
++target_link_libraries(test_changeset apk-qt Qt6::Core)
+ 
+ add_executable(test_progressfd test_progressfd.cpp)
+-target_link_libraries(test_progressfd apk-qt Qt5::Core)
++target_link_libraries(test_progressfd apk-qt Qt6::Core)
+ 
+ add_executable(test_async_api test_async_api.cpp)
+-target_link_libraries(test_async_api apk-qt Qt5::Core)
++target_link_libraries(test_async_api apk-qt Qt6::Core)
+ 
+ add_executable(test_async_api_upgrade test_async_api_upgrade.cpp)
+-target_link_libraries(test_async_api_upgrade apk-qt Qt5::Core)
++target_link_libraries(test_async_api_upgrade apk-qt Qt6::Core)
+ 
+ add_executable(test_reposconfig test_reposconfig.cpp)
+-target_link_libraries(test_reposconfig apk-qt Qt5::Core)
++target_link_libraries(test_reposconfig apk-qt Qt6::Core)
+ 
+ ###################################
+ # Tests are executed in order, so:

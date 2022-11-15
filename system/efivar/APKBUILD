@@ -1,0 +1,39 @@
+# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Maintainer: Lucas Ramage <ramage.lucas@protonmail.com>
+pkgname=efivar
+pkgver=38
+pkgrel=1
+pkgdesc="Tools and library to manipulate EFI variables"
+url="https://github.com/rhboot/efivar"
+arch="all !s390x"
+license="LGPL-2.1"
+makedepends="popt-dev mandoc linux-headers"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-libs"
+source="https://github.com/rhboot/efivar/releases/download/$pkgver/efivar-$pkgver.tar.bz2
+	ld_t.patch
+	"
+builddir="$srcdir/efivar-$pkgver"
+
+prepare() {
+	default_prepare
+	#sed -i 's/#include <sys\/cdefs.h>//g' "$builddir/src/compiler.h"
+}
+
+build() {
+	cd "$builddir"
+	libdir="/usr/lib" make ERRORS=' '
+}
+
+package() {
+	cd "$builddir"
+	libdir="/usr/lib" make DESTDIR="$pkgdir" install
+}
+
+check() {
+	LD_LIBRARY_PATH="$builddir"/src \
+		"$builddir"/src/efivar --help > /dev/null
+}
+sha512sums="
+c2f17297c863ece134a9dd758d237fd2df8c8d072f87af1d0bf2bcf9acfc7a53c25597f03fd4fb8cc664b205743d4ffa0ef1b068d0f73c58fa573d40993f3155  efivar-38.tar.bz2
+568bc88b182875c37479c49b3dbf5b8ee6edf8090f940176e67c9aa28dd2ff6f417c70b2bef6b5df99ada2afa33db3efd295ba9de5d68b3ecc5ce1dc3361d042  ld_t.patch
+"

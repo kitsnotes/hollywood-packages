@@ -1,0 +1,40 @@
+--- a/CMakeLists.txt	2022-07-03 02:10:00.607016285 -0700
++++ b/CMakeLists.txt	2022-07-03 02:12:05.553695507 -0700
+@@ -59,7 +59,7 @@
+ endif()
+ 
+ include(LXQtPreventInSourceBuilds)
+-include(LXQtTranslateTs)
++#include(LXQtTranslateTs)
+ include(LXQtCompilerSettings NO_POLICY_SCOPE)
+ include(LXQtCreatePkgConfigFile)
+ 
+@@ -163,17 +163,17 @@
+     set(PKG_CONFIG_REQ "Qt5Widgets")
+ endif()
+ 
+-lxqt_translate_ts(QTERMWIDGET_QM
+-    TRANSLATION_DIR "lib/translations"
+-    UPDATE_TRANSLATIONS
+-        ${UPDATE_TRANSLATIONS}
+-    SOURCES
+-        ${SRCS} ${HDRS} ${UI}
+-    INSTALL_DIR
+-        ${TRANSLATIONS_DIR}
+-    COMPONENT
+-        Runtime
+-)
++#lxqt_translate_ts(QTERMWIDGET_QM
++#    TRANSLATION_DIR "lib/translations"
++#    UPDATE_TRANSLATIONS
++#        ${UPDATE_TRANSLATIONS}
++#    SOURCES
++#        ${SRCS} ${HDRS} ${UI}
++#    INSTALL_DIR
++#        ${TRANSLATIONS_DIR}
++#    COMPONENT
++#        Runtime
++#)
+ 
+ add_library(${QTERMWIDGET_LIBRARY_NAME} SHARED ${SRCS} ${MOCS} ${UI_SRCS} ${QTERMWIDGET_QM})
+ if (NOT USE_QT5)

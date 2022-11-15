@@ -1,0 +1,37 @@
+# Contributor:
+# Maintainer:
+pkgname=freeglut
+pkgver=3.2.2
+pkgrel=0
+pkgdesc="free reimplementation of OpenGL Utility Toolkit (GLUT) library"
+url="http://freeglut.sourceforge.net/"
+arch="all"
+options="!check"  # No test suite.
+license="MIT"
+depends_dev="mesa-dev libx11-dev libice-dev libxxf86vm-dev libxi-dev glu-dev libglvnd-dev"
+makedepends="$depends_dev cmake samurai"
+subpackages="$pkgname-dev"
+source="https://downloads.sourceforge.net/freeglut/freeglut-$pkgver.tar.gz
+	gcc-10.patch
+	"
+
+build() {
+	cmake -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=MinSizeRel \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DFREEGLUT_BUILD_STATIC_LIBS=0
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+
+	# Symlink glut.pc to freeglut.pc for backwards compatibility
+	ln -s glut.pc "$pkgdir"/usr/lib/pkgconfig/freeglut.pc
+}
+
+sha512sums="
+190231951d314f854c244bd27f7c20488403bd0eecffc342097a2e3d1621cec87f6c209a77b4c153aabcf44697b4070227930e295ab74fb88953cbbf94fc81d9  freeglut-3.2.2.tar.gz
+ad3b5f66e316f56e5d52f373f92ca0699cedf1ec02517355b4a2b16c7a3506feef4e95f1e7705d151ec3a21162a6cd280de0429fd690f2ba710b07ce6da37306  gcc-10.patch
+"

@@ -1,0 +1,12 @@
+the assert expects a working /var/log/wtmp at build time
+--- a/meson.build
++++ a/meson.build
+@@ -101,7 +101,6 @@
+ 
+   config_h.set('PATH_WTMP', '_PATH_WTMPX')
+ else
+-  path_wtmp = '/var/log/utx.log'
+-  assert(run_command('test', '-e', path_wtmp).returncode() == 0, 'Do not know which filename to watch for wtmp changes')
++  path_wtmp = '/var/log/wtmp'
+   config_h.set_quoted('PATH_WTMP', path_wtmp)
+ endif

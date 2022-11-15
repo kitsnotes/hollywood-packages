@@ -1,0 +1,361 @@
+# Contributor: omni <omni+alpine@hack.org>
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtwebengine
+pkgver=5.15.11
+pkgrel=0
+# latest commit of 5.15 branch at pkgver date
+_commit="c107eb20a25157836fcf3be91566d8ea38490f40"
+# latest commit of 87-based branch of qtwebengine-chromium
+_chromium_commit="9d42f3a5802d427c0e9358b2a0469f18285558c0"
+# commit of catapult version with python3 support
+_catapult_commit="5eedfe23148a234211ba477f76fc2ea2e8529189"
+pkgdesc="Qt5 - QtWebEngine components"
+url="https://doc.qt.io/QT-5/qtwebengine-index.html"
+# ppc64le, riscv64 and s390x are not supported
+arch="all !ppc64le !riscv64 !s390x"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+depends_dev="
+	ffmpeg-dev
+	glib-dev
+	gst-plugins-base-dev
+	gstreamer-dev
+	icu-dev
+	libxcomposite-dev
+	libxext-dev
+	libxkbcommon-dev
+	libxkbfile-dev
+	libxrender-dev
+	libxslt-dev
+	mesa-dev
+	ninja
+	"
+makedepends="$depends_dev
+	alsa-lib-dev
+	bison
+	bsd-compat-headers
+	flex
+	fontconfig-dev
+	gperf
+	gzip
+	harfbuzz-dev
+	jsoncpp-dev
+	libevent-dev
+	libjpeg-turbo-dev
+	libpng-dev
+	libsrtp-dev
+	libvpx-dev
+	libwebp-dev
+	libxcursor-dev
+	libxi-dev
+	libxml2
+	libxrandr-dev
+	libxslt
+	libxtst-dev
+	linux-headers
+	nodejs
+	nss-dev
+	opus-dev
+	pcre-dev
+	protobuf-dev
+	pulseaudio-dev
+	sndio-dev
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	qt5-qtwebchannel-dev
+	re2-dev
+	ruby
+	snappy-dev
+	sqlite-dev
+	yasm-dev
+	zlib-dev
+	python3
+	"
+subpackages="$pkgname-dbg $pkgname-dev"
+
+source="$pkgname-$pkgver.tar.gz::https://invent.kde.org/qt/qt/qtwebengine/-/archive/$_commit.tar.gz
+	qtwebengine-chromium-$_chromium_commit.tar.gz::https://invent.kde.org/qt/qt/qtwebengine-chromium/-/archive/$_chromium_commit.tar.gz
+	qtwebengine-catapult-$_catapult_commit.tar.gz::https://dev.alpinelinux.org/archive/qt5-qtwebengine/catapult-$_catapult_commit.tar.gz
+	0001-pretend-to-stay-at-5.15.3.patch
+	nasm.patch
+	support-python3.patch
+	qt-chromium-python3.patch
+	default-pthread-stacksize.patch
+	sndio.patch
+	ffmpeg5.patch
+	qt5-webengine-gcc12.patch
+	"
+builddir="$srcdir/qtwebengine-$_commit"
+
+# secfixes:
+#   5.15.11-r0:
+#     - CVE-2022-2610
+#   5.15.3_git20220601-r2:
+#     - CVE-2022-2477
+#     - CVE-2022-27404
+#     - CVE-2022-27405
+#     - CVE-2022-27406
+#   5.15.3_git20220601-r1:
+#     - CVE-2022-1854
+#     - CVE-2022-1855
+#     - CVE-2022-1857
+#     - CVE-2022-2008
+#     - CVE-2022-2010
+#     - CVE-2022-2158
+#     - CVE-2022-2160
+#     - CVE-2022-2162
+#     - CVE-2022-2294
+#     - CVE-2022-2295
+#   5.15.3_git20220601-r0:
+#     - CVE-2022-0796
+#   5.15.3_git20220505-r0:
+#     - CVE-2022-1493
+#     - CVE-2022-1314
+#     - CVE-2022-1310
+#     - CVE-2022-1305
+#     - CVE-2022-1138
+#     - CVE-2022-1125
+#     - CVE-2022-0978
+#     - CVE-2022-0797
+#   5.15.3_git20220407-r0:
+#     - CVE-2022-1096
+#     - CVE-2022-0971
+#   5.15.3_git20220121-r4:
+#     - CVE-2022-23852
+#     - CVE-2022-0610
+#     - CVE-2022-0609
+#     - CVE-2022-0608
+#     - CVE-2022-0607
+#     - CVE-2022-0606
+#     - CVE-2022-0461
+#     - CVE-2022-0460
+#     - CVE-2022-0459
+#     - CVE-2022-0456
+#     - CVE-2022-0310
+#     - CVE-2022-0306
+#     - CVE-2022-0305
+#     - CVE-2022-0298
+#     - CVE-2022-0293
+#     - CVE-2022-0291
+#     - CVE-2022-0289
+#     - CVE-2022-0117
+#     - CVE-2022-0116
+#     - CVE-2022-0113
+#     - CVE-2022-0111
+#     - CVE-2022-0109
+#     - CVE-2022-0108
+#     - CVE-2022-0104
+#     - CVE-2022-0103
+#     - CVE-2022-0102
+#     - CVE-2022-0100
+#   5.15.3_git20211127-r3:
+#     - CVE-2021-4101
+#     - CVE-2021-4099
+#     - CVE-2021-4098
+#   5.15.3_git20211127-r1:
+#     - CVE-2021-4079
+#     - CVE-2021-4078
+#     - CVE-2021-4062
+#     - CVE-2021-4059
+#     - CVE-2021-4058
+#     - CVE-2021-4057
+#     - CVE-2021-38022
+#     - CVE-2021-38021
+#     - CVE-2021-38019
+#     - CVE-2021-38018
+#     - CVE-2021-38017
+#     - CVE-2021-38015
+#     - CVE-2021-38012
+#     - CVE-2021-38010
+#     - CVE-2021-38009
+#     - CVE-2021-38007
+#     - CVE-2021-38005
+#     - CVE-2021-38001
+#     - CVE-2021-37996
+#     - CVE-2021-37989
+#   5.15.3_git20211127-r0:
+#     - CVE-2021-38003
+#     - CVE-2021-37993
+#     - CVE-2021-37992
+#     - CVE-2021-37987
+#     - CVE-2021-37984
+#   5.15.3_git20211112-r0:
+#     - CVE-2021-3541
+#     - CVE-2021-3517
+#   5.15.3_git20211006-r3:
+#     - CVE-2021-37980
+#     - CVE-2021-37979
+#     - CVE-2021-37978
+#     - CVE-2021-37975
+#     - CVE-2021-37973
+#     - CVE-2021-37972
+#     - CVE-2021-37971
+#     - CVE-2021-37968
+#     - CVE-2021-37967
+#     - CVE-2021-37962
+#     - CVE-2021-30616
+#   5.15.3_git20211006-r0:
+#     - CVE-2021-30633
+#     - CVE-2021-30629
+#     - CVE-2021-30628
+#     - CVE-2021-30627
+#     - CVE-2021-30626
+#     - CVE-2021-30625
+#     - CVE-2021-30618
+#     - CVE-2021-30613
+#   5.15.3_git20210510-r6:
+#     - CVE-2021-30604
+#     - CVE-2021-30603
+#     - CVE-2021-30602
+#     - CVE-2021-30599
+#     - CVE-2021-30598
+#     - CVE-2021-30585
+#     - CVE-2021-30566
+#     - CVE-2021-30560
+#   5.15.3_git20210510-r5:
+#     - CVE-2021-30588
+#     - CVE-2021-30587
+#     - CVE-2021-30573
+#     - CVE-2021-30569
+#     - CVE-2021-30568
+#   5.15.3_git20210510-r4:
+#     - CVE-2021-30563
+#     - CVE-2021-30559
+#     - CVE-2021-30556
+#     - CVE-2021-30553
+#     - CVE-2021-30548
+#     - CVE-2021-30547
+#     - CVE-2021-30541
+#     - CVE-2021-30536
+#     - CVE-2021-30533
+#   5.15.3_git20210510-r3:
+#     - CVE-2021-30522
+#   5.15.3_git20210510-r2:
+#     - CVE-2021-30554
+#     - CVE-2021-30551
+#     - CVE-2021-30544
+#     - CVE-2021-30535
+#     - CVE-2021-30534
+#     - CVE-2021-30530
+#     - CVE-2021-30523
+#   5.15.3_git20210510-r1:
+#     - CVE-2021-30518
+#     - CVE-2021-30516
+#     - CVE-2021-30515
+#     - CVE-2021-30513
+#     - CVE-2021-30512
+#     - CVE-2021-30510
+#     - CVE-2021-30508
+#   5.15.3_git20210510-r0:
+#     - CVE-2021-21201
+#     - CVE-2021-21202
+#     - CVE-2021-21203
+#     - CVE-2021-21204
+#     - CVE-2021-21206
+#     - CVE-2021-21207
+#     - CVE-2021-21209
+#     - CVE-2021-21213
+#     - CVE-2021-21214
+#     - CVE-2021-21217
+#     - CVE-2021-21219
+#     - CVE-2021-21220
+#     - CVE-2021-21221
+#     - CVE-2021-21222
+#     - CVE-2021-21223
+#     - CVE-2021-21224
+#     - CVE-2021-21225
+#     - CVE-2021-21227
+#     - CVE-2021-21230
+#     - CVE-2021-21231
+#     - CVE-2021-21233
+#   5.15.3_git20200401-r0:
+#     - CVE-2020-16044
+#     - CVE-2020-27844
+#     - CVE-2021-21118
+#     - CVE-2021-21119
+#     - CVE-2021-21120
+#     - CVE-2021-21121
+#     - CVE-2021-21122
+#     - CVE-2021-21123
+#     - CVE-2021-21126
+#     - CVE-2021-21127
+#     - CVE-2021-21128
+#     - CVE-2021-21132
+#     - CVE-2021-21135
+#     - CVE-2021-21137
+#     - CVE-2021-21138
+#     - CVE-2021-21140
+#     - CVE-2021-21145
+#     - CVE-2021-21146
+#     - CVE-2021-21147
+#     - CVE-2021-21148
+#     - CVE-2021-21149
+#     - CVE-2021-21150
+#     - CVE-2021-21152
+#     - CVE-2021-21153
+#     - CVE-2021-21156
+#     - CVE-2021-21157
+#     - CVE-2021-21160
+#     - CVE-2021-21162
+#     - CVE-2021-21165
+#     - CVE-2021-21166
+#     - CVE-2021-21168
+#     - CVE-2021-21169
+#     - CVE-2021-21171
+#     - CVE-2021-21172
+#     - CVE-2021-21173
+#     - CVE-2021-21174
+#     - CVE-2021-21175
+#     - CVE-2021-21178
+#     - CVE-2021-21179
+#     - CVE-2021-21183
+#     - CVE-2021-21187
+#     - CVE-2021-21188
+#     - CVE-2021-21190
+#     - CVE-2021-21191
+#     - CVE-2021-21193
+#     - CVE-2021-21195
+#     - CVE-2021-21198
+
+prepare() {
+	rmdir "$builddir/src/3rdparty"
+	mv "$srcdir/qtwebengine-chromium-$_chromium_commit" "$builddir/src/3rdparty"
+	mkdir "$builddir"/.git "$builddir/src/3rdparty/chromium/.git"
+
+	# update vendored catapult version to python3 compatible version.
+	rm -r "$builddir/src/3rdparty/chromium/third_party/catapult"
+	mv "$srcdir"/catapult "$builddir/src/3rdparty/chromium/third_party/catapult"
+
+	default_prepare
+}
+
+build() {
+	qmake-qt5 QMAKE_EXTRA_ARGS+="-webengine-sndio -system-ffmpeg -system-opus -system-webp -proprietary-codecs" CONFIG+=force_debug_info
+	make
+}
+
+package() {
+	make install INSTALL_ROOT="$pkgdir"
+	sed -i -e 's:-L/home[^ ]\+::g' "$pkgdir"/usr/lib/pkgconfig/*.pc
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+
+sha512sums="
+67baeca89db95f852cf64cb747ba778672d812c1159531b6b0ab9f361ba08d40cd5b44bc938917289b0e60eb988bc952760b72f620e8e8fbb2317e2c58e190a6  qt5-qtwebengine-5.15.11.tar.gz
+673e94fdaa736386094ca90e97fb89a618144caddf90a662a59979d5e86d6cad73dc2cc112380ec0f64955f8defddba3939612ab46df9b9eab3b1d37cca39e07  qtwebengine-chromium-9d42f3a5802d427c0e9358b2a0469f18285558c0.tar.gz
+dae82398defd89bb664d73849cb2e3bfa17f309dabb8187efeb324c83fe657eb51dee034b7733cdc80cbd28e9fe600e3befa4c6b18572175dcc17621a56c119f  qtwebengine-catapult-5eedfe23148a234211ba477f76fc2ea2e8529189.tar.gz
+e2597ea2c249a3bed2b40b1ee7b9913dab12827a4bbc143c335b1d4099859605cc039cf755c8f64826ab3d9ffa3107b2ab3f5edb09c037bc7f4c358c6971b027  0001-pretend-to-stay-at-5.15.3.patch
+7d94e588e72926fc79ead8d34fb65016144df66808f8629ae91fddb1fda2208b7c2bb8c0fdf5a0e35234dbb9c5b4868f9f7a494fc4f6f2b4363dbb1bd7e07e43  nasm.patch
+e26f909a2eda5422990770caa2d83d861dc161852415a605c421ff31e5651f04e550ab71a95d8f434cb9fb2fb274063e81462a0bae5088f275d6f82618330d76  support-python3.patch
+050ec8ccfbc133da7e241e1bc9980484a3b2f2fbb1b7c5b9fbe5fb2307c7ff53424ad04b78d1dde7a60405156ef07b660e285cbe9d968cf39d869e21aa37a89b  qt-chromium-python3.patch
+f4cb20796922b6e26433a18ab2ba5dd8750e8bbfb479e9416a362073c9e6a3ac12ee9e9868f6c9335b374b9d8ca8bed2e322e5ac3fe694a6ec6ddce8bd9b801b  default-pthread-stacksize.patch
+9b14eee2854dc5040895ee2d53660a399f5f3f1defcd6d8586f889764356513a4d5596e36349b1a89674ecbd39f2f98e3985e322d1cf9b59a8fdc9a16da78893  sndio.patch
+01d31c13f15af6b40e0595c7ebe6c13905dd7ae3fd3b564a2e13b538451f14d44081332c9279ece7c9b01a40802e1381e197442f94946cf713ea8cb3326e502f  ffmpeg5.patch
+ee8949ab92da29293c72396e061b4c12da380711d262fd87fc1bd9e35c2bcc1a64f14234111c6dbcf38dc94702e2693328f41511254714fb49393ec3ae84d51d  qt5-webengine-gcc12.patch
+"

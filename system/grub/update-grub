@@ -1,0 +1,17 @@
+#!/bin/sh -e
+. /etc/default/grub
+if [ "$HOLLYWOOD_MANUAL_CONFIG" = 1 ]; then
+	cat >&2 <<-EOF
+	*
+	* You have specified that you are using a manual GRUB configuration.
+	* You must update it yourself.
+	*
+	EOF
+	exit 0
+fi
+
+mkdir -p /boot/grub
+if [ -e /boot/grub/grub.cfg ]; then
+	cp -p /boot/grub/grub.cfg /boot/grub/grub.cfg.update-grub-old
+fi
+exec grub-mkconfig -o /boot/grub/grub.cfg

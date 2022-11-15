@@ -1,0 +1,46 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qttranslations
+pkgver=5.15.5_git20220617
+pkgrel=0
+_commit="0e92fc4f19928387c341533ef3d259efaa752c0f"
+pkgdesc="Qt5 - QtTranslations module"
+url="https://www.qt.io/developers/"
+arch="noarch"
+license="GPL-3.0-only AND Qt-GPL-exception-1.0"
+makedepends="qt5-qttools-dev"
+builddir="$srcdir/qttranslations-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qttranslations/-/archive/$_commit/qttranslations-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+
+sha512sums="
+3870f09b7fefb99d7b31aa579832e54d26ab0af0772644b8d595b1228c529dfea41033f962ea693bdd2b2239df4e37b1c7150ba36a34410dec741d7b713d4df7  qttranslations-0e92fc4f19928387c341533ef3d259efaa752c0f.tar.gz
+"

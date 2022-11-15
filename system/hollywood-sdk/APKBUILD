@@ -1,0 +1,18 @@
+# Maintainer: The Cat <the.cat@arionos.org>
+pkgname=hollywood-sdk
+pkgver=1.0
+pkgrel=1
+url="https://git.originull.org/"
+pkgdesc="Hollywood Software Development Kit meta package"
+depends="abuild build-base git cmake"
+arch="noarch"
+license="GPL-2.0"
+
+build() {
+	# meta package
+	return 0
+}
+
+package() {
+	mkdir -p "$pkgdir"
+}

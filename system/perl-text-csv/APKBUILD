@@ -1,0 +1,33 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=perl-text-csv
+_pkgname=Text-CSV
+pkgver=2.01
+pkgrel=0
+pkgdesc="Manipulate comma-separated value strings"
+url="https://metacpan.org/release/Text-CSV"
+arch="noarch"
+license="GPL-1.0-or-later OR Artistic-1.0-Perl"
+depends="perl"
+subpackages="$pkgname-doc"
+source="https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/Text-CSV-$pkgver.tar.gz"
+
+builddir="$srcdir/$_pkgname-$pkgver"
+
+build() {
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make
+}
+
+check() {
+	make test
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	find "$pkgdir" -name '.packlist' -delete
+	find "$pkgdir" -name '*.pod' -delete
+}
+
+sha512sums="
+45c215686437e111fcd8d6c0adc9c6e0bac9df37fcd47e7bd9fcf4872859e59a296caae3573b77955cdaf42284b4c88fcc6774bd6ac11d701ae54f6a3741991a  Text-CSV-2.01.tar.gz
+"

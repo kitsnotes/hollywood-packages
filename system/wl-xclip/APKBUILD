@@ -1,0 +1,25 @@
+pkgname=wl-xclip
+pkgver=2.1.0
+pkgrel=0
+pkgdesc="Command-line copy/paste utilities for Wayland (xclip wrapper)"
+url="https://github.com/bugaevc/wl-clipboard-x11"
+arch="all"
+license="GPL-3.0-or-later"
+options="!check" # No test suite
+depends="wl-clipboard"
+source="https://github.com/brunelli/wl-clipboard-x11/archive/v5/v5.tar.gz"
+builddir="$srcdir/wl-clipboard-x11-5"
+subpackages="$pkgname-doc"
+build() {
+	echo "make"
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	#ln -s /usr/bin/wl-clipboard-x11 "$pkgdir"/usr/bin/xclip
+	#ln -s /usr/bin/wl-clipboard-x11 "$pkgdir"/usr/bin/xsel
+}
+
+sha512sums="
+3c40c2f9b44ca5f10d16ae5a696fba04c8fea9a94be910055f3d627d975eea337507dedf9c9f9ffaee90fb8b5a7d77786b34b95a6ad08a31b45fefb0514ef468  v5.tar.gz
+"

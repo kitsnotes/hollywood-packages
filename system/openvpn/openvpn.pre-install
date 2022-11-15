@@ -1,0 +1,7 @@
+#!/bin/sh
+
+addgroup --system openvpn 2>/dev/null
+adduser --system --disabled-password --no-create-home --home /dev/null --shell \
+	 /sbin/nologin --ingroup openvpn openvpn 2>/dev/null
+
+exit 0

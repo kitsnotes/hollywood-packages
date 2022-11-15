@@ -1,0 +1,12 @@
+diff -Naur mkinitfs-4.0.0/nlplug-findfs/nlplug-findfs.c mkinitfs-4.0.0-mod/nlplug-findfs/nlplug-findfs.c
+--- mkinitfs-4.0.0/nlplug-findfs/nlplug-findfs.c	2022-07-26 21:19:05.000000000 +0000
++++ mkinitfs-4.0.0-mod/nlplug-findfs/nlplug-findfs.c	2022-08-13 16:02:57.449005042 +0000
+@@ -848,7 +848,7 @@
+ {
+ 	int fd;
+ 	if (outfile == 0) return;
+-	fd = open(outfile, O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC);
++	fd = open(outfile, O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
+ 	if (fd == -1)
+ 		err(1, "%s", outfile);
+ 	write(fd, data, strlen(data));

@@ -1,0 +1,40 @@
+# Contributor: Leon Marz <main@lmarz.org>
+# Maintainer: Leon Marz <main@lmarz.org>
+pkgname=opencl
+pkgver=2022.05.18
+pkgrel=1
+_dirver=${pkgver//.0/.} # Why can't they be consistent? Just why?
+pkgdesc="OpenCL ICD Loader"
+url="https://khronos.org/opencl"
+arch="all"
+license="Apache-2.0"
+makedepends="cmake samurai"
+depends_dev="$pkgname-headers"
+subpackages="$pkgname-headers:headers:noarch $pkgname-dev"
+provides="opencl-icd-loader=$pkgver-r$pkgrel"
+source="https://github.com/KhronosGroup/OpenCL-SDK/releases/download/v$pkgver/OpenCL-SDK-v$pkgver-Source.tar.gz"
+options="!check" # tests are not functioning correctly
+builddir="$srcdir/OpenCL-SDK-$_dirver-Source"
+
+build() {
+	cmake -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_DATADIR=lib \
+		-DCMAKE_BUILD_TYPE=None \
+		-DOPENCL_SDK_BUILD_SAMPLES=OFF
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+headers() {
+	pkgdesc="OpenCL development headers"
+	amove usr/include
+}
+
+sha512sums="
+6bc022db953ac7e094b4a9930cff7428bc47854bff3a21343d1ff88ec0f967f28232bb6e71d1d564b524789d99292f190cb433d6ba7a9955f176ac6693a13b8d  OpenCL-SDK-v2022.05.18-Source.tar.gz
+"

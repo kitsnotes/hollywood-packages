@@ -1,0 +1,37 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=mtools
+pkgver=4.0.36
+pkgrel=0
+pkgdesc="collection of utilities to access MS-DOS disks from Unix without mounting them"
+url="https://www.gnu.org/software/mtools/"
+arch="all"
+license="GPL-3.0-or-later"
+makedepends="texinfo linux-headers"
+source="https://ftp.gnu.org/gnu/mtools/mtools-$pkgver.tar.bz2
+	fix-uninitialized.patch"
+subpackages="$pkgname-dbg $pkgname-doc"
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--sysconfdir=/etc/mtools \
+		--without-x
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make -j1 install DESTDIR="$pkgdir"
+}
+
+sha512sums="
+2425ee0e39c06ea201a5303ab09a0aa9f0c59341522e2c15abc4f079320fd3d67d28afeb2870ee508d472bba6904c542e11c02b92652c8eda1bf338bab372d07  mtools-4.0.36.tar.bz2
+3c41e2f84d7c2b15b119708453b30b6a056a443dbbf24198f2bdc82c99e6463974f7bb0bb13569fd1f929212506d43deed1ed77502c434a89b2da885baeab597  fix-uninitialized.patch
+"

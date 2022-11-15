@@ -1,0 +1,52 @@
+# Contributor: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtconnectivity
+pkgver=5.15.5_git20220617
+pkgrel=0
+_commit="42c25efeaa409f711af1bd9a8144b445741ee114"
+pkgdesc="QT5 Connectivity Compontents"
+url="https://www.qt.io/developers/"
+arch="all"
+license="(LGPL-2.0-or-later OR GPL-3.0-only OR GPL-2.0-or-later) AND Qt-GPL-exception-1.0"
+makedepends="
+	bluez-dev
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	"
+subpackages="$pkgname-dev"
+options="!check" # No tests
+builddir="$srcdir/qtconnectivity-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qtconnectivity/-/archive/$_commit/qtconnectivity-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+sha512sums="
+b4044774ee7adbcbce6e4b1a21bf554ef487b1f0e1fb2e2c07acda502129fa8f35e26a333796f30bdbb9a7beb768a1d8eb5e748345d3ca4925c1dc6fafe684b2  qtconnectivity-42c25efeaa409f711af1bd9a8144b445741ee114.tar.gz
+"

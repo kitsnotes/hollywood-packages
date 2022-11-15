@@ -1,0 +1,29 @@
+# Contributor: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
+pkgname=atk
+pkgver=2.36.0
+pkgrel=0
+pkgdesc="A library providing a set of interfaces for accessibility"
+url="https://www.gtk.org/"
+arch="all"
+license="LGPL-2.0-or-later"
+makedepends="glib-dev gobject-introspection-dev meson gtk-doc"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
+source="https://download.gnome.org/sources/atk/${pkgver%.*}/atk-$pkgver.tar.xz"
+
+build() {
+	abuild-meson \
+		-Ddocs=true \
+		output .
+	meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+check() {
+	meson test --no-rebuild -v -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="d0f18204eaf96511e8448e3dfbc4b6953a7cf8b816151fb7caf5592cf578572b1cdb16836fe2157b11e3ad018ef171f1ca1bfdf255bb31bb455716d7519fd634  atk-2.36.0.tar.xz"

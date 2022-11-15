@@ -1,0 +1,54 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtpurchasing
+pkgver=5.15.5_git20220516
+pkgrel=0
+_commit="87021fd1e50f0aa3589a2412cfa665a6d27cc740"
+arch="all !armhf" # armhf blocked by qt5-qtdeclarative
+url="https://www.qt.io/developers/"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+pkgdesc="Qt In-app purchasing API"
+makedepends="
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	"
+subpackages="$pkgname-dev $pkgname-doc"
+builddir="$srcdir/qtpurchasing-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qtpurchasing/-/archive/$_commit/qtpurchasing-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+sha512sums="
+891f7863023afc1ef77f58e9d3c030f8a3ede52c0c98528252eb2461de249f5ec787ceab1afc0b275ff91e80bd097cf257902e8f1c23bdcb248518b6e57521ed  qtpurchasing-87021fd1e50f0aa3589a2412cfa665a6d27cc740.tar.gz
+"

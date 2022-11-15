@@ -1,0 +1,47 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=breeze-icons
+pkgver=5.95.0
+pkgrel=0
+pkgdesc="Breeze icon themes"
+arch="noarch !armhf" # armhf blocked by extra-cmake-modules
+url="https://community.kde.org/Frameworks"
+license="LGPL-3.0-or-later"
+makedepends="
+	extra-cmake-modules
+	py3-lxml
+	python3
+	qt5-qtbase-dev
+	samurai
+	"
+checkdepends="bash"
+source="https://download.kde.org/stable/frameworks/${pkgver%.*}/breeze-icons-$pkgver.tar.xz"
+
+# Several KDE applications use icons not yet present in most themes
+# We want to keep the possibility for users to not use the KDE provided
+# breeze-icons theme however, as hopefully in the future this situation changes
+# Thus let any theme that provides these icons provide "kde-icons" so the user
+# retains their ability to choose their preferred theme
+provides="kde-icons"
+provider_priority=100
+
+build() {
+	cmake -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=MinSizeRel \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBINARY_ICONS_RESOURCE=ON
+	cmake --build build
+}
+
+check() {
+	cd build
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest -E '(dupe|symlink)'
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --build build --target install
+}
+
+sha512sums="
+a1a9d01d0fe78b769340b99ba83205e952a01e73a5b2b5edeefbbbc39c8819038c8b7f6d70248aafdf182eb4ccc9f00954f19482e034b0045e5f0278f56db1e2  breeze-icons-5.95.0.tar.xz
+"

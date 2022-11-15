@@ -1,0 +1,42 @@
+# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Maintainer: Carlo Landmeter <clandmeter@alpinelinux.org>
+pkgname=unixodbc
+pkgver=2.3.9
+pkgrel=1
+pkgdesc="ODBC is an open specification to access Data Sources"
+url="http://www.unixodbc.org/"
+arch="all"
+license="LGPL-2.0-or-later"
+options="!check"  # No test suite.
+makedepends="readline-dev"
+subpackages="$pkgname-static $pkgname-dev $pkgname-doc"
+source="http://www.unixodbc.org/unixODBC-$pkgver.tar.gz"
+
+builddir="$srcdir/unixODBC-$pkgver"
+
+prepare() {
+	default_prepare
+	update_config_sub
+}
+
+build() {
+	cd "$builddir"
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--disable-nls \
+		--enable-gui=no \
+		--enable-static
+	make
+}
+
+package() {
+	cd "$builddir"
+	make -j1 DESTDIR="$pkgdir" install
+}
+
+sha512sums="6637eab751401522e0af775cb104cd07693b82927453a98e5af28e079f4b9f40e1cfab8cb36f509c46dced89b45244bc5ed1a3dda17ba5a52a844e8e82f187bb  unixODBC-2.3.9.tar.gz"

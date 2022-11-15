@@ -1,0 +1,57 @@
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtmultimedia
+pkgver=5.15.5_git20220617
+pkgrel=0
+_commit="16d9ea642bf7b9592a6c53321cc7ee9d9a3ed03f"
+pkgdesc="Qt5 - Multimedia support"
+url="https://www.qt.io/developers/"
+arch="all"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+makedepends="
+	alsa-lib-dev
+	gst-plugins-base-dev
+	gstreamer-dev
+	libxv-dev
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	"
+subpackages="$pkgname-dev"
+builddir="$srcdir/qtmultimedia-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qtmultimedia/-/archive/$_commit/qtmultimedia-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+
+sha512sums="
+97f37533c964b13a009166580a21825d84f85ab79640f0420d04e9f282c778e192e3746acc995e6a1d54c412411359fdae0dc97d4d0dc7b78b74058c1c1e904b  qtmultimedia-16d9ea642bf7b9592a6c53321cc7ee9d9a3ed03f.tar.gz
+"

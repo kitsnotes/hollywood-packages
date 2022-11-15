@@ -1,0 +1,82 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=apk-tools
+pkgver=2.12.7
+pkgrel=6
+pkgdesc="Alpine Package Keeper - package manager for alpine"
+arch="all"
+url="https://gitlab.alpinelinux.org/alpine/apk-tools"
+license="GPL-2.0-only"
+subpackages="$pkgname-dbg $pkgname-dev $pkgname-static $pkgname-doc $pkgname-zsh-completion"
+makedepends_build="openssl scdoc"
+makedepends_host="zlib-dev openssl-dev zlib-static openssl-libs-static linux-headers"
+makedepends="$makedepends_build $makedepends_host"
+_lua="no"
+source="https://gitlab.alpinelinux.org/alpine/$pkgname/-/archive/v$pkgver/$pkgname-v$pkgver.tar.gz
+	_apk
+	"
+builddir="$srcdir/$pkgname-v$pkgver"
+
+# secfixes:
+#   2.12.6-r0:
+#     - CVE-2021-36159
+#   2.12.5-r0:
+#     - CVE-2021-30139
+
+prepare() {
+	default_prepare
+	sed -i -e 's:-Werror::' Make.rules
+	echo "FULL_VERSION=$pkgver-r$pkgrel" > config.mk
+}
+
+build() {
+	make LUA="$_lua"
+	make static LUA="$_lua"
+}
+
+check() {
+	make check LUA="$_lua"
+}
+
+package() {
+	make DESTDIR="$pkgdir" LUA="$_lua" install
+	mkdir -p "$pkgdir"/usr/lib
+	mv "$pkgdir"/lib/* "$pkgdir"/usr/lib/
+	install -d "$pkgdir"/var/lib/apk \
+		"$pkgdir"/var/cache/misc \
+		"$pkgdir"/etc/apk/keys \
+		"$pkgdir"/etc/apk/protected_paths.d
+
+	install -Dm644 "$srcdir"/_apk "$pkgdir"/usr/share/zsh/site-functions/_apk
+	rm -r "$pkgdir"/usr/share/doc
+}
+
+static() {
+	pkgdesc="Alpine Package Keeper - static binary"
+	install -Dm755 "$builddir"/src/apk.static \
+		"$subpkgdir"/usr/sbin/apk.static
+
+	# lets sign the static binary so it can be vefified from distros
+	# that does not have apk-tools
+	local abuild_conf=${ABUILD_CONF:-"/etc/abuild.conf"}
+	local abuild_home=${ABUILD_USERDIR:-"$HOME/.abuild"}
+	local abuild_userconf=${ABUILD_USERCONF:-"$abuild_home/abuild.conf"}
+	[ -f "$abuild_userconf" ] && . "$abuild_userconf"
+	local privkey="$PACKAGER_PRIVKEY"
+	local pubkey=${PACKAGER_PUBKEY:-"$privkey.pub"}
+	local keyname=${pubkey##*/}
+	${CROSS_COMPILE}strip "$subpkgdir"/usr/sbin/apk.static
+	openssl dgst -sha1 -sign "$privkey" \
+		-out "$subpkgdir"/usr/sbin/apk.static.SIGN.RSA.$keyname \
+		"$subpkgdir"/usr/sbin/apk.static
+}
+
+luaapk() {
+	pkgdesc="Lua module for apk-tools"
+	mkdir -p "$subpkgdir"/usr/
+	mv "$pkgdir"/usr/lib "$subpkgdir"/usr/lib/
+}
+
+sha512sums="
+1297bb969a4d27164b38e64f4d2c00b00758d8d83c7ba658eeddccdd549dc6ba8f26a60a9e71c88f4bca87b2746a8fb4b7bb41e0096cf459e1b841203f903681  apk-tools-v2.12.7.tar.gz
+102e6d01a984fb7a84c9432f797e4d8d2c90e9570dd26208b8485569ab471ea88a2cc81eabd3b3f7e4c9685a37afc458dec172a65b03c19c78a7efb598c54f45  _apk
+"

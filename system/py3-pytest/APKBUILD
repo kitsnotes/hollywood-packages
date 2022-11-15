@@ -1,0 +1,48 @@
+# Contributor: Fabian Affolter <fabian@affolter-engineering.ch>
+# Maintainer: Fabian Affolter <fabian@affolter-engineering.ch>
+pkgname=py3-pytest
+pkgver=6.2.5
+pkgrel=1
+pkgdesc="Python3 testing library"
+url="https://docs.pytest.org/en/latest/"
+arch="noarch"
+license="MIT"
+depends="py3-atomicwrites py3-attrs py3-more-itertools py3-iniconfig py3-pluggy py3-py py3-six py3-wcwidth
+	py3-packaging py3-toml"
+makedepends="py3-setuptools"
+source="https://files.pythonhosted.org/packages/source/p/pytest/pytest-$pkgver.tar.gz
+	0001-remove-setuptools_scm.patch
+	"
+builddir="$srcdir/pytest-$pkgver"
+
+replaces="pytest" # Backwards compatibility
+provides="pytest=$pkgver-r$pkgrel" # Backwards compatibility
+
+prepare() {
+	default_prepare
+
+	sed -e "/^\[metadata\]/a version = $pkgver" -i setup.cfg
+}
+
+build() {
+	python3 setup.py build
+}
+
+check() {
+	python3 setup.py check
+}
+
+package() {
+	mkdir -p "$pkgdir"/usr/bin
+
+	local name; for name in py.test pytest; do
+		ln -s $name-3 "$pkgdir"/usr/bin/$name
+	done
+
+	python3 setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="
+7624563a9d967da4cbf82cfff90bae8c0cca07b32e291dc7c5efa787725ed1a255edd066bf0d5fbd89b8cbed8cf5b619fe7c7017f44a7f8a014e3310c06bdbf9  pytest-6.2.5.tar.gz
+c1a08e07a98366dbbc8ef01cbfcb6a087ad6e9813a82e0893492d9312f5dde2dcfeaf5a9554b17dc10139b5af5949eacbdfc50d29319cbb284e28bd8e5770b56  0001-remove-setuptools_scm.patch
+"

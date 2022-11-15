@@ -1,0 +1,39 @@
+# Contributor: Leo <thinkabit.ukim@gmail.com>
+# Maintainer: Laurent Bercot <ska-devel@skarnet.org>
+pkgname=bcnm
+pkgver=0.0.1.4
+pkgrel=0
+pkgdesc="Better Client Network Manager"
+url="https://skarnet.org/software/bcnm/"
+arch="all"
+license="ISC"
+options="!check"
+makedepends="skalibs-dev>=2.11 linux-headers"
+subpackages="$pkgname-dev $pkgname-doc"
+source="https://skarnet.org/software/bcnm/bcnm-$pkgver.tar.gz"
+
+build() {
+	./configure \
+		--enable-shared \
+		--enable-static \
+		--disable-allstatic \
+		--prefix=/usr \
+		--libdir=/usr/lib \
+		--libexecdir="/usr/lib/$pkgname" \
+		--with-dynlib=/lib
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+doc() {
+	default_doc
+	mkdir -p "$subpkgdir/usr/share/doc"
+	cp -a "$builddir/doc" "$subpkgdir/usr/share/doc/$pkgname"
+}
+
+sha512sums="
+40d6e7fac1a633ff2a2acfe6ec5d9b926d31784f02156e837afa92086267bb88dfabc70216d3f255e59c9dacee393d680ff7ea7ce714da3c8a05b2f0c972d65e  bcnm-0.0.1.4.tar.gz
+"

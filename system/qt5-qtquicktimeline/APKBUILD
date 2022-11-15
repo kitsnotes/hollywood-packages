@@ -1,0 +1,55 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtquicktimeline
+pkgver=5.15.5_git20220602
+pkgrel=0
+_commit="2da3c0efd5016bdba26b80789773238c2886fdf6"
+pkgdesc="Qt module that enables keyframe-based animations and parameterization"
+# armhf blocked by qt5-qtdeclarative
+arch="all !armhf"
+url="https://www.qt.io/developers/"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+makedepends="
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	"
+subpackages="$pkgname-doc"
+builddir="$srcdir/qtquicktimeline-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qtquicktimeline/-/archive/$_commit/qtquicktimeline-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+sha512sums="
+278bb9e84979e3a22d98640d2747744cd9c89eebdc060f63455e2ba89f273e17b8474ce35571b50efe3b6bf4a0eff23e367bbd775bc1752f5b19e32dda45fe60  qtquicktimeline-2da3c0efd5016bdba26b80789773238c2886fdf6.tar.gz
+"

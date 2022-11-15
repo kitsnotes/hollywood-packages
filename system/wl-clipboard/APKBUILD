@@ -1,0 +1,43 @@
+# Contributor: Robert Sacks <robert@sacks.email>
+# Maintainer: Robert Sacks <robert@sacks.email>
+pkgname=wl-clipboard
+pkgver=2.1.0
+pkgrel=0
+pkgdesc="Command-line copy/paste utilities for Wayland"
+url="https://github.com/bugaevc/wl-clipboard"
+arch="all"
+license="GPL-3.0-or-later"
+options="!check" # No test suite
+makedepends="
+	meson
+	ninja
+	wayland-dev
+	wayland-protocols
+	"
+subpackages="
+	$pkgname-doc
+	$pkgname-bash-completion
+	$pkgname-zsh-completion
+	$pkgname-fish-completion
+	"
+source="https://github.com/bugaevc/wl-clipboard/archive/v$pkgver/wl-clipboard-$pkgver.tar.gz"
+
+build() {
+	abuild-meson . build
+	meson compile ${JOBS:+-j ${JOBS}} -C build
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C build
+
+	# Install fish completion files into the correct directory
+	rm -r "$pkgdir"/usr/share/fish/vendor_completions.d
+	install -Dm644 completions/fish/wl-copy.fish \
+		"$pkgdir"/usr/share/fish/completions/wl-copy.fish
+	install -Dm644 completions/fish/wl-paste.fish \
+		"$pkgdir"/usr/share/fish/completions/wl-paste.fish
+}
+
+sha512sums="
+3edcbec2df3a3d7f88ea9271f3befee61b888b4be4f1be6ca238958d78436a445ffd5a84d20ff4eaf4835016696c8e3f14df7b48c391b0647416e9eb9cbf5d2e  wl-clipboard-2.1.0.tar.gz
+"

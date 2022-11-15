@@ -1,0 +1,86 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=sddm
+pkgver=0.19.98
+pkgrel=6
+pkgdesc="Simple Desktop Display Manager"
+url="https://github.com/sddm/sddm/"
+# armhf blocked by qt5-qtdeclarative
+# s390x and riscv64 blocked by polkit -> upower
+# riscv64 disabled due to missing rust in recursive dependency
+arch="all !armhf !s390x !riscv64"
+license="GPL-2.0-only"
+depends="
+	dbus
+	elogind
+	linux-pam>=1.4
+	upower
+	"
+makedepends="
+	elogind-dev
+	extra-cmake-modules
+	libxcb-dev
+	linux-pam-dev
+	py3-docutils
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	qt5-qttools-dev
+	upower-dev
+	utmps-dev
+	"
+subpackages="$pkgname-doc $pkgname-lang $pkgname-openrc"
+install="sddm.pre-install"
+langdir="/usr/share/sddm/translations"
+pkgusers="sddm"
+pkggroups="sddm"
+builddir="$srcdir/$pkgname"
+source="
+	https://depot.originull.org/upstream/sddm-git.tar.gz
+	sddm-compositor
+	10-hollywood.conf
+	0001-pam-path-fix.patch
+	sddm.initd
+	sddm.confd
+	"
+
+# secfixes:
+#   0.19.0-r0:
+#     - CVE-2020-28049
+
+build() {
+	cmake -B build \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_MAN_PAGES=ON \
+		-DENABLE_JOURNALD=OFF \
+		-DNO_SYSTEMD=ON \
+		-DUSE_ELOGIND=ON \
+		-DUID_MIN=500 \
+		-DUID_MAX=65000 \
+		-DDBUS_CONFIG_DIR=/usr/share/dbus-1/system.d
+	cmake --build build
+}
+
+check() {
+	cd build
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+
+	install -Dm755 "$srcdir"/sddm.initd "$pkgdir"/etc/init.d/sddm
+	install -Dm644 "$srcdir"/sddm.confd "$pkgdir"/etc/conf.d/sddm
+	install -Dm755 "$srcdir"/sddm-compositor "$pkgdir"/usr/libexec/hollywood/sddm-compositor
+	install -Dm644 "$srcdir"/10-hollywood.conf "$pkgdir"/etc/sddm.conf.d/10-hollywood.conf
+}
+
+sha512sums="
+63731e27227aeebd2c3c8233ffd8128283a5141a0b6dfbf42efb71e285357653ef6ef536d3c3c8a0199d6faff4fc43d7930393dccbf09469059cf70cc102019b  sddm-git.tar.gz
+b5dd66bc4ef72ef63bab110f97e14dd08e4bfa2ca7a0115839b3b6d7fb0439d88658f702c50455b5609d192bc087b435001bd802204624d52ccec7b1392ef253  sddm-compositor
+196930a89e3d9c43da149f201a31015fc7155449358195db40f0c5a2572e2cf2967c74b5fd5d7a4fac19b80851463b76585ea2d77b367c87d961308a4f6a19f6  10-hollywood.conf
+f0b4eb7ef0581701157f9decc637629156f36f6711b9a4bae517f94d7a1df614c81bbd891c918f07ac50e2a3d1519c43ccb9eefd80282c95dd79eca0e8d90904  0001-pam-path-fix.patch
+0bfd0e850505ece7bb4e51e0b60a09892828258400ae9d7d728e9d7d266c4c19c838273bbbb8225d942ea328fe0ac5234b7364f585c9c75108aa60efadf552b7  sddm.initd
+b841282b96110ec59a7aa539db0737327b09549d55c78dc4b2c3b28b4a6ad1facf015b3175cb6d3a38f13e47aa6314ef3dc1514a4e60dd653a97409ec54ba706  sddm.confd
+"

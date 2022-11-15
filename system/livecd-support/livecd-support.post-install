@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sed -i 's/pam_unix.so$/pam_unix.so nullok_secure/' /etc/pam.d/base-auth

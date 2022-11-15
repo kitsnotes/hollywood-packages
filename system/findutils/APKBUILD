@@ -1,0 +1,46 @@
+# Contributor: Valery Kartel <valery.kartel@gmail.com>
+# Contributor: Michael Mason <ms13sp@gmail.com>
+# Maintainer: Michael Mason <ms13sp@gmail.com>
+pkgname=findutils
+pkgver=4.8.0
+pkgrel=1
+pkgdesc="GNU utilities for finding files"
+url="https://www.gnu.org/software/findutils/"
+arch="all"
+license="GPL-3.0-or-later"
+checkdepends="coreutils diffutils dejagnu"
+subpackages="$pkgname-doc $pkgname-locate:_locate"
+source="https://ftp.gnu.org/pub/gnu/findutils/findutils-$pkgver.tar.xz
+	test-parse-datetime.patch"
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info
+	make
+}
+
+check() {
+	#make check
+	return
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	rm -rf "$pkgdir"/usr/lib
+}
+
+_locate() {
+	pkgdesc="locate and updatedb from findutils"
+	amove usr/libexec/frcode \
+		usr/bin/locate \
+		usr/bin/updatedb
+}
+
+sha512sums="eaa2da304dbeb2cd659b9210ac37da1bde4cd665c12a818eca98541c5ed5cba1050641fc0c39c0a446a5a7a87a8d654df0e0e6b0cee21752ea485188c9f1071e  findutils-4.8.0.tar.xz
+79571dc889afa5e6f01c9e1d4134df5e4112a410f24eb3e315645f6886a901780745abe49597d07c6409a3e3ecd3380b1721d86a684b7705c35767111c93bbf5  test-parse-datetime.patch"

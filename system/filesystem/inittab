@@ -1,0 +1,15 @@
+# /etc/inittab
+
+::sysinit:/usr/sbin/openrc sysinit
+::sysinit:/usr/sbin/openrc boot
+::wait:/usr/sbin/openrc default
+
+# Set up a couple of getty's
+tty1::respawn:/usr/sbin/agetty 38400 tty1
+
+# Stuff to do for the 3-finger salute
+::ctrlaltdel:/usr/sbin/reboot
+
+# Stuff to do before rebooting
+::shutdown:/usr/sbin/openrc shutdown
+

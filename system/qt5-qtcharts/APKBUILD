@@ -1,0 +1,58 @@
+# Contributor: Simon Frankenberger <simon-alpine@fraho.eu>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtcharts
+pkgver=5.15.5_git20220617
+pkgrel=0
+_commit="9a569795f0c3f41ec093e4aa5842a463e2755edb"
+pkgdesc="Qt5 - Support for rendering and displaying SVG"
+url="https://www.qt.io/developers/"
+arch="all"
+license="(LGPL-2.0-or-later OR GPL-3.0-only OR GPL-2.0-or-later) AND Qt-GPL-exception-1.0"
+depends_dev="
+	qt5-qtdeclarative-dev
+	zlib-dev
+	"
+makedepends="$depends_dev
+	qt5-qtbase-dev
+	"
+subpackages="$pkgname-dev"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qtcharts/-/archive/$_commit/qtcharts-$_commit.tar.gz"
+builddir="$srcdir/qtcharts-$_commit"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+
+sha512sums="
+0546d5a70c4dff0e515050954a1e36c4190837f0f6e0273a45ac1e02180d86fe4cb4f00cccac1710459f8c02c0d7accf8d0506bb6940759e0c2cd10ceec47ad4  qtcharts-9a569795f0c3f41ec093e4aa5842a463e2755edb.tar.gz
+"

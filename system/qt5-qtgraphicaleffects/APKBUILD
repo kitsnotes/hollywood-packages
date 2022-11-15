@@ -1,0 +1,53 @@
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtgraphicaleffects
+pkgver=5.15.5_git20220516
+pkgrel=0
+_commit="c25898224cd957491d10dbe48f2f0be66f2955de"
+pkgdesc="Qt5 - QtGraphicalEffects component"
+url="https://www.qt.io/developers/"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+arch="all"
+makedepends="
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	"
+builddir="$srcdir/qtgraphicaleffects-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qtgraphicaleffects/-/archive/$_commit/qtgraphicaleffects-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make install INSTALL_ROOT="$pkgdir"
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+
+sha512sums="
+8bdb926f950d7de4c4db91fd6a4909adaf1e59088811d4d841f18594b848487ee94a524e0dd48b88268e77db1d06241b5066cbf2fcf58323200e08e3c8a60393  qtgraphicaleffects-c25898224cd957491d10dbe48f2f0be66f2955de.tar.gz
+"

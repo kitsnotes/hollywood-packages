@@ -1,0 +1,47 @@
+# Contributor: NVIDIA Corporation <drivers@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=nvidia-driver-mainline
+pkgver=515.65.01
+pkgrel=5
+_pkg="NVIDIA-Linux-x86_64-${pkgver}"
+pkgdesc="nVidia Binary GeForce Driver for linux-mainline"
+url="https://www.nvidia.com"
+arch="x86_64"
+license="custom"
+depends="nvidia-driver"
+makedepends="linux-headers build-base linux-mainline-dev"
+install="$pkgname.post-install $pkgname.post-upgrade $pkgname.post-deinstall"
+options="!check suid !strip !spdx !pie" # no test suite
+source="https://us.download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/${_pkg}.run
+	nvidia-drm-helper.patch"
+builddir="$srcdir/${_pkg}"
+
+prepare() {
+    cd "$srcdir"
+    sh "$srcdir"/"${_pkg}.run" --extract-only
+    cd "$srcdir"/"${_pkg}"
+    cd kernel
+
+    default_prepare
+}
+
+build() {
+	cd "$srcdir"/"${_pkg}/kernel"
+	make SYSSRC=/usr/src/linux-headers-6.0-0-mainline
+}
+
+package() {
+    cd "$srcdir"/"${_pkg}/kernel"
+
+    mkdir -p "$pkgdir/usr/lib/modules/`uname -r`/kernel/drivers/video"
+    install -m644 nvidia-drm.ko "$pkgdir/usr/lib/modules/`uname -r`/kernel/drivers/video/"
+    install -m644 nvidia-uvm.ko "$pkgdir/usr/lib/modules/`uname -r`/kernel/drivers/video/"
+    install -m644 nvidia-modeset.ko "$pkgdir/usr/lib/modules/`uname -r`/kernel/drivers/video/"
+    install -m644 nvidia-peermem.ko "$pkgdir/usr/lib/modules/`uname -r`/kernel/drivers/video/"
+    install -m644 nvidia.ko "$pkgdir/usr/lib/modules/`uname -r`/kernel/drivers/video/"
+}
+
+sha512sums="
+5221a4ac071eb39a37a841f19cfe4983286dc35e918956b40604404ef36c122612475df7b9a391a9a70bd60f44e598c8a0e5ec54ccc3e90d51f01e1b2fbe5e33  NVIDIA-Linux-x86_64-515.65.01.run
+23e7dfceda68a54a5e8343d94361965e0e38654991c17c90db8b54db707f1e4e333427070c5dedd94953ecc3a445aaee19e4df5d09b06e882a5b8b183088a462  nvidia-drm-helper.patch
+"

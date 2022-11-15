@@ -1,0 +1,29 @@
+# Contributor: The Cat <cat@originull.org>
+# Maintainer: The Cat <cat@originull.org>
+pkgname=startext
+pkgver=1.0
+pkgrel=6
+pkgdesc="A text editor made for you!"
+url="https://originull.org"
+arch="all"
+options="!check" # no test suite
+license="GPL3"
+depends="qt6-qtbase qt6-qtsvg hunspell hunspell-lang qt6-qt5compat"
+makedepends="qt6-qtbase-dev qt6-qtsvg-dev hunspell-dev qt6-qt5compat-dev"
+source="https://depot.originull.org/upstream/hollywood-desktop-$pkgver.tar.gz"
+builddir="$srcdir/hollywood-desktop-$pkgver"
+
+build() {
+	cd $builddir/editor
+	/usr/lib/qt6/bin/qmake
+	make
+}
+
+package() { 
+	cd $builddir/editor
+	make INSTALL_ROOT="$pkgdir" install
+}
+
+sha512sums="
+0cec393bea3215b551c0d1057b2107d8131791e1b1fa7decdeec03ecc30f96781198ee6822274749a19ddac134be58bab469babae372979a531f3a27d50a8fe6  hollywood-desktop-1.0.tar.gz
+"

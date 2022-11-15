@@ -1,0 +1,77 @@
+# Contributor: A. Wilcox <awilfox@adelielinux.org>
+# Maintainer: A. Wilcox <awilfox@adelielinux.org>
+pkgname=dracut
+pkgver=050
+pkgrel=8
+pkgdesc="Event-driven initramfs infrastructure"
+url="https://dracut.wiki.kernel.org/"
+arch="all"
+options="!check"  # Test suite is for kernel developers only, requires ext3 rootfs
+license="GPL-2.0+"
+depends="bash gzip libarchive-tools xz"
+makedepends="kmod-dev"
+triggers="$pkgname.trigger=/usr/share/kernel/*"
+subpackages="$pkgname-doc $pkgname-bash-completion:bashcomp:noarch
+	$pkgname-crypt::noarch $pkgname-lvm::noarch"
+provides="initramfs-generator"
+source="https://www.kernel.org/pub/linux/utils/boot/$pkgname/$pkgname-$pkgver.tar.xz
+	dracut.conf
+	"
+
+prepare() {
+	default_prepare
+	# Breaks separate /usr with OpenRC
+	rm -r "$builddir"/modules.d/98usrmount
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--localstatedir=/var
+	make
+	make doc
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	mkdir -p "$pkgdir"/etc/dracut.conf.d/
+	cp "$srcdir"/dracut.conf "$pkgdir"/etc/dracut.conf.d/hollywood.conf
+	for sysdmod in 00systemd 98dracut-systemd \
+	    01systemd-initrd 02systemd-networkd; do
+		rm -r "$pkgdir"/usr/lib/dracut/modules.d/$sysdmod
+	done
+
+}
+
+bashcomp() {
+	depends="dracut"
+	pkgdesc="Bash completions for $pkgname"
+	install_if="$pkgname=$pkgver-r$pkgrel bash-completion"
+
+	mkdir -p "$subpkgdir"/usr/share/
+	mv "$pkgdir"/usr/share/bash-completion \
+		"$subpkgdir"/usr/share
+}
+
+crypt() {
+	depends="cryptsetup dracut lvm2"
+	pkgdesc="$pkgname - LUKS / disk encryption support (crypt) module"
+	mkdir -p "$subpkgdir"
+}
+
+lvm() {
+	depends="dracut lvm2"
+	pkgdesc="$pkgname - LVM2 module"
+	mkdir -p "$subpkgdir"
+}
+
+sha512sums="
+eba046cf1c8013369a398e585e0bff233daa8595d469ce9acc8bbc6a32d55c6a5429d4219db19abbf6001104be05b357f0961f9e66b7f926039a5d3ee7c2b850  dracut-050.tar.xz
+f8d641ac4fb7bc670e41bba2746acd74417bac37695ac8f7fb0fca8ae859028b79d4cbb0a1f86d5dfbaa49882652a778f36ff4e40ae2518c488f99cf2c74829b  dracut.conf
+"

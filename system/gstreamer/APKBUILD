@@ -1,0 +1,51 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=gstreamer
+pkgver=1.18.5
+pkgrel=0
+pkgdesc="GStreamer streaming media framework"
+url="https://gstreamer.freedesktop.org"
+arch="all"
+license="LGPL-2.0-or-later"
+replaces="gstreamer1"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-tools $pkgname-lang"
+depends_dev="libxml2-dev"
+makedepends="$depends_dev bison flex glib-dev gobject-introspection-dev
+	libcap-dev meson perl"
+source="https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-$pkgver.tar.xz"
+
+# secfixes:
+#   1.18.4-r0:
+#     - CVE-2021-3497
+#     - CVE-2021-3498
+
+build() {
+	abuild-meson \
+		-Dintrospection=enabled \
+		-Dbash-completion=disabled \
+		-Dptp-helper-permissions=capabilities \
+		-Dpackage-name="GStreamer (Alpine Linux)" \
+		-Dpackage-origin="https://alpinelinux.org" \
+		. output
+	meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+tools() {
+	pkgdesc="Tools for GStreamer streaming media framework"
+	# gst-feedback needs this
+	depends="pkgconfig"
+	mkdir -p "$subpkgdir"/usr/
+	mv "$pkgdir"/usr/bin "$subpkgdir"/usr/
+}
+
+doc() {
+	default_doc
+	replaces="${pkgname}1-doc"
+}
+
+sha512sums="
+b0bec94e8fe419610fda750618684c25ad8cbbc50e05b6767eb6a5ca81f0f1dc43a1e8a35d255334c9fe63308a67e94763686cf585b9cf09ebbf754ead074293  gstreamer-1.18.5.tar.xz
+"

@@ -1,0 +1,39 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=m4
+pkgver=1.4.19
+pkgrel=1
+pkgdesc="GNU macro processor"
+url="https://www.gnu.org/software/m4"
+depends=
+makedepends=texinfo
+checkdepends=diffutils
+arch="all"
+license="GPL-3.0+"
+subpackages="m4-doc"
+source="https://ftp.gnu.org/gnu/m4/$pkgname-$pkgver.tar.gz
+	"
+
+build() {
+	cd "$builddir"
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr
+	make
+}
+
+check() {
+	cd "$builddir"
+	make check
+}
+
+package() {
+	cd "$builddir"
+	make install DESTDIR="$pkgdir"
+	rm -rf "$pkgdir"/usr/lib/charset.alias
+	rmdir -p "$pkgdir"/usr/lib 2>/dev/null || true
+}
+
+sha512sums="
+f5dd0f02fcae65a176a16af9a8e1747c26e9440c6c224003ba458d3298b777a75ffb189aee9051fb0c4840b2a48278be4a51d959381af0b1d627570f478c58f2  m4-1.4.19.tar.gz
+"

@@ -1,0 +1,33 @@
+# enable emacs input mode by default
+bindkey -e
+
+# set standard PS1
+do_colour() {
+    local colourise=false
+
+    LS_COLORS=
+    eval "$(dircolors -b)"
+    if [[ -n ${LS_COLORS:+set} ]]; then
+        colourise=true
+    else
+        unset LS_COLORS
+    fi
+
+    if ${colourise} ; then
+        if [[ ${EUID} == 0 ]] ; then
+            PS1='%B%F{white}%m%f%b %B%F{cyan}%~%f%b %B%F{red}%#%f%b '
+        else
+            PS1='%n on %B%F{white}%m%f%b %~ %B%F{green}%#%f%b '
+        fi
+    else
+        if [[ ${EUID} == 0 ]] ; then
+            # show root@ when we don't have colors
+            PS1='! %n on %m %~ %# '
+        else
+            PS1='%n on %m %~ %# '
+        fi
+    fi
+}
+
+do_colour
+unset -f do_colour

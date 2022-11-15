@@ -1,0 +1,71 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=procps
+pkgver=3.3.17
+pkgrel=2
+pkgdesc="Utilities for monitoring your system and processes on your system"
+url="https://gitlab.com/procps-ng/procps"
+arch="all"
+license="GPL-2.0-or-later AND LGPL-2.1-or-later"
+makedepends="ncurses-dev gettext-dev autoconf automake libtool"
+checkdepends="dejagnu"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-lang libproc"
+source="https://gitlab.com/procps-ng/procps/-/archive/v$pkgver/procps-v$pkgver.tar.gz
+	"
+builddir="$srcdir/$pkgname-v$pkgver"
+options="!check"
+prepare() {
+	# NOTE: Name of the tarball's top-level directory contains SHA1.
+	ln -fs $srcdir/$pkgname-v$pkgver-* "$builddir"
+
+	default_prepare
+
+	# force misc/git-version-gen use the correct version (instead of UNKNOWN);
+	# however only do it if the upstream tarball really misses it.
+	if test ! -f .tarball_version ; then
+		rm -f .version
+		echo "$pkgver" > .tarball-version
+	fi
+	./autogen.sh
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--bindir=/usr/bin \
+		--sbindir=/usr/sbin \
+		--libdir=/usr/lib \
+		--mandir=/usr/share/man \
+		--sysconfdir=/etc \
+		--docdir=/usr/share/doc \
+		--datarootdir=/usr/share \
+		--disable-static \
+		--disable-w-from \
+		--disable-kill \
+		--disable-rpath \
+		--with-ncurses
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" ldconfig=true install="install -D" \
+		install
+
+	# These binaries are identical.
+	ln -sf pgrep "$pkgdir"/usr/bin/pkill
+
+}
+
+libproc() {
+	pkgdesc="Library for monitoring system and processes"
+
+	install -d "$subpkgdir"/
+	mv "$pkgdir"/usr/lib "$subpkgdir"/
+}
+
+sha512sums="
+070076cf6bbbd8b6b342af361035f11d9c7381c5d1e2e430a5f2584ff55656254e8f863a40ca75a38870a5007d1b22a0d452bef13fa0ab89e4bf9676826fd788  procps-v3.3.17.tar.gz
+"

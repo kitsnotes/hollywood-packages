@@ -1,0 +1,57 @@
+# Maintainer: Timo Teräs <timo.teras@iki.fi>
+pkgname=plymouth
+pkgver=22.02.122
+pkgrel=2
+pkgdesc="graphical bootsplash on linux"
+url="http://www.freedesktop.org/wiki/Software/Plymouth"
+arch="all"
+license="GPL-2.0-or-later"
+depends_dev="
+	eudev-dev
+	libdrm-dev
+	libpng-dev
+	pango-dev
+	"
+makedepends="$depends_dev
+	autoconf
+	automake
+	docbook-xsl
+	libtool
+	"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-themes::noarch"
+source="https://www.freedesktop.org/software/plymouth/releases/plymouth-$pkgver.tar.xz
+	plymouthd.defaults
+	"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--localstatedir=/var \
+		--disable-gtk \
+		--enable-drm \
+		--with-system-root-install \
+		--disable-systemd-integration
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	rm -f "$pkgdir"/usr/lib/plymouth/*.la
+	rm "$pkgdir"/usr/share/plymouth/plymouthd.defaults
+	install -Dm644 "$srcdir"/plymouthd.defaults "$pkgdir"/usr/share/plymouth/plymouthd.defaults
+}
+
+themes() {
+	mkdir -p "$subpkgdir"/usr/share/plymouth/
+	
+	mv "$pkgdir"/usr/share/plymouth/themes/ "$subpkgdir"/usr/share/plymouth/
+}
+
+sha512sums="
+9f2f5a7121b431f16561d6b5f31177ff06cf1e6bdffaa68c1fe08aa3c765a96dee745824aae8eaac9a0b4a08f0a17a9ae79a82bd0826fcc3fe14d8553635f817  plymouth-22.02.122.tar.xz
+ae500060533fef14a7a0d4295867435cbb528887682c7261c3c86736cfb944c084b9456e7ce750599080fdc9e0b8da51aeb4616e02e966020270a78334afab4e  plymouthd.defaults
+"

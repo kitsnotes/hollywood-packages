@@ -1,0 +1,53 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qt3d
+pkgver=5.15.5_git20220617
+pkgrel=0
+_commit="3cc801c4ae41ff3f155258c4bf7e21bb5b3f6a3d"
+pkgdesc="C++ and QML APIs for easy inclusion of 3D graphics"
+url="https://www.qt.io/developers/"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+# armhf blocked by qt5-qtdeclarative
+arch="all !armhf" 
+makedepends="
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	vulkan-headers
+	"
+subpackages="$pkgname-dev"
+builddir="$srcdir/qt3d-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qt3d/-/archive/$_commit/qt3d-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+}
+sha512sums="
+5253a33266059a7ecd823d9b153aba79e207b393631d4d2dc486659c40f8bef8b897ee336446ed7ed866429481362d88ed007e14d535a89e0000e8e0f6c9e7ec  qt3d-3cc801c4ae41ff3f155258c4bf7e21bb5b3f6a3d.tar.gz
+"

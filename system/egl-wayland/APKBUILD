@@ -1,0 +1,37 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=egl-wayland
+pkgver=1.1.11
+pkgrel=0
+pkgdesc="NVIDIA EGLStream-based Wayland external platform"
+url="https://github.com/NVIDIA/egl-wayland"
+arch="all"
+license="MIT"
+depends="wayland eglexternalplatform libglvnd wayland-protocols"
+makedepends="wayland-dev meson ninja libglvnd-dev"
+checkdepends=""
+install=""
+source="$pkgname-$pkgver.tar.gz::https://github.com/NVIDIA/egl-wayland/archive/refs/tags/$pkgver.tar.gz
+	10_nvidia_wayland.json"
+
+build() {
+        abuild-meson output
+
+        meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+check() {
+        meson test --no-rebuild -v -C output
+}
+
+package() {
+        DESTDIR="$pkgdir" meson install --no-rebuild -C output
+	install -Dt "$pkgdir/usr/share/egl/egl_external_platform.d" -m644 "$srcdir"/10_nvidia_wayland.json
+	#install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 $pkgname/COPYING
+}
+
+
+sha512sums="
+f9c618a505e6307d139d1e6bfd0ad206c041ee4dc7e74ce60d2b102114c5d7b21a74c5aaff3aa97de2fa3297600a4e5edbff07906cd6acef7dd468086598690f  egl-wayland-1.1.11.tar.gz
+1a611ac0fc2762d94661efc28fa58d57a821185afa7589158d1b8d503bd7361ba1b5029302550134ed1787c2bf90e2ea8afbf3bdefbfe268d8cf13d2f340fb47  10_nvidia_wayland.json
+"

@@ -1,0 +1,161 @@
+# Contributor: Jacek Migacz <jacekmigacz@gmail.com>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=lvm2
+pkgver=2.03.16
+pkgrel=0
+pkgdesc="Logical Volume Manager 2 utilities"
+url="https://sourceware.org/lvm2/"
+arch="all"
+options="!check"  # Test tries to use real /dev/mapper/control.
+license="GPL-2.0-only LGPL-2.1-only"
+# lvm2 will dlopen libs so we need to add explicit depend
+depends="lvm2-libs=$pkgver-r$pkgrel"
+depends_dev="linux-headers"
+makedepends_build="coreutils"
+makedepends_host="$depends_dev libaio-dev util-linux-dev"
+makedepends="$makedepends_build $makedepends_host"
+source="https://mirrors.kernel.org/sourceware/lvm2/LVM2.$pkgver.tgz
+	lvm.initd
+	lvm.confd
+	dmeventd.initd
+	"
+subpackages="
+	$pkgname-static:lvm2_static
+	device-mapper-static:dm_static
+	device-mapper-libs:dm_libs
+	device-mapper-event-static:dm_event_static
+	device-mapper-event-libs:dm_event_libs
+	$pkgname-dev
+	$pkgname-doc
+	$pkgname-dmeventd
+	$pkgname-openrc
+	device-mapper:dm
+	device-mapper-udev:udev:noarch
+	$pkgname-libs
+	$pkgname-extra::noarch
+	"
+
+builddir="$srcdir/LVM2.$pkgver"
+
+prepare() {
+	default_prepare
+	update_config_sub
+}
+
+build() {
+	# during cross-compilation malloc test goes wrong
+	export ac_cv_func_malloc_0_nonnull=yes
+	export ac_cv_func_realloc_0_nonnull=yes
+
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libdir=/usr/lib \
+		--sbindir=/usr/sbin \
+		--localstatedir=/var \
+		--enable-static_link \
+		--disable-nls \
+		--disable-readline \
+		--enable-pkgconfig \
+		--enable-applib \
+		--with-thin=internal \
+		--enable-dmeventd \
+		--enable-cmdlib \
+		--with-thin-check=/usr/sbin/thin_check \
+		--with-thin-dump=/usr/sbin/thin_dump \
+		--with-thin-repair=/usr/sbin/thin_repair \
+		--with-dmeventd-path=/usr/sbin/dmeventd \
+		--enable-udev_rules 
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	install -d "$pkgdir"/etc/lvm/archive "$pkgdir"/etc/lvm/backup
+	install -Dm755 "$srcdir"/lvm.initd "$pkgdir"/etc/init.d/lvm
+	install -Dm644 "$srcdir"/lvm.confd "$pkgdir"/etc/conf.d/lvm
+}
+
+dmeventd() {
+	pkgdesc="Device-mapper event daemon"
+	mkdir -p "$subpkgdir"/usr/sbin
+	mv "$pkgdir"/usr/sbin/dmeventd "$subpkgdir"/usr/sbin/
+	install -Dm755 "$srcdir"/dmeventd.initd "$subpkgdir"/etc/init.d/dmeventd
+}
+
+dm_static() {
+	pkgdesc="Device-mapper static library"
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/libdevmapper.a "$subpkgdir"/usr/lib/
+}
+
+dm() {
+	pkgdesc="Device mapper userspace library and tools from LVM2"
+	mkdir -p "$subpkgdir"/usr/sbin
+	mv "$pkgdir"/usr/sbin/dm* "$subpkgdir"/usr/sbin/
+
+	# remove duplicate dmstats
+	rm -f "$subpkgdir"/usr/sbin/dmstats
+}
+
+udev() {
+	pkgdesc="Device mapper udev rules"
+	install="$subpkgname.post-install $subpkgname.post-upgrade"
+	install_if="device-mapper eudev"
+	mkdir -p "$subpkgdir"/usr/lib/udev
+	mv "$pkgdir"/usr/lib/udev/rules.d "$subpkgdir"/usr/lib/udev/
+}
+
+libs() {
+	pkgdesc="LVM2 shared libraries"
+	depends=
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/liblvm2*.so.* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libdevmapper-event-lvm2*.so.* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/device-mapper "$subpkgdir"/usr/lib/
+}
+
+dm_libs() {
+	pkgdesc="Device-mapper shared library"
+	depends=
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/libdevmapper.so.* "$subpkgdir"/usr/lib/
+}
+
+dm_event_libs() {
+	pkgdesc="Device-mapper event daemon shared library"
+	depends=
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/libdevmapper-event.so.* "$subpkgdir"/usr/lib/
+}
+
+dm_event_static() {
+	pkgdesc="Device-mapper event daemon static library"
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/libdevmapper-event.a "$subpkgdir"/usr/lib/
+}
+
+lvm2_static() {
+	pkgdesc="$pkgdesc static library"
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/liblvm2*.a "$subpkgdir"/usr/lib/
+}
+
+extra() {
+	pkgdesc="LVM2 extra utilities"
+	depends="bash coreutils"
+	local util
+	for util in usr/sbin/lvmdump usr/sbin/fsadm usr/sbin/blkdeactivate; do
+		mkdir -p "$subpkgdir/${util%/*}"
+		mv $pkgdir/$util $subpkgdir/$util
+	done
+}
+
+sha512sums="
+084ba4080537359458db936637fc7f83bb9bfcf2de9f3660882551b5c31c7e9900c7d381b238ce1bb7629942c740c121f0dea5e404c302d31ed028b5c65efaa5  LVM2.2.03.16.tgz
+a853078660fd2fd943538924f56e81dc5793294e26b8f61d93e6188893f15f4a438d33792b341c1865d61e03f4a371b7c7ee0db5f4130ef7cb7aeaeb9290086a  lvm.initd
+07caf8fa942290f3c953cc2463aaf55bac01d0bcb9351daf3880fa4d0eefb67fe00761c46a7a4da91cd2f8e492a12fed35853a15dc939cd80d19d3303bc3951d  lvm.confd
+ca06220065525e93347efb7a5746a367cf55cb03574e50eed29bd7c4eae036bdd199b52c42d81811b6e742649e73ab8e66525f663bed66f9d1d82d0efde50332  dmeventd.initd
+"

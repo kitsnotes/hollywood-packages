@@ -1,0 +1,33 @@
+# Contributor: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+pkgname=py3-pbr
+_pkgname=pbr
+pkgver=5.8.0
+pkgrel=1
+pkgdesc="Python3 Build Reasonableness"
+url="https://pypi.python.org/pypi/pbr"
+arch="noarch"
+license="Apache-2.0"
+depends="python3"
+makedepends="py3-setuptools"
+source="https://files.pythonhosted.org/packages/source/${_pkgname:0:1}/$_pkgname/$_pkgname-$pkgver.tar.gz"
+builddir="$srcdir/$_pkgname-$pkgver"
+
+replaces="py-pbr" # Backwards compatibility
+provides="py-pbr=$pkgver-r$pkgrel" # Backwards compatibility
+
+check() {
+	python3 setup.py check
+}
+
+build() {
+	python3 setup.py build
+}
+
+package() {
+	python3 setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="
+61a8eb63bb76ce8515c4203d60df7c973e02ea61b603d155b611724efb2b15c42416bf8a0285451d3378056d390bbf63d991cec32cc4114ae5cc30ebae0a5a69  pbr-5.8.0.tar.gz
+"

@@ -1,0 +1,40 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-polkit-qt-1
+pkgver=0.114.0
+pkgrel=1
+pkgdesc="Qt wrapper around polkit-1 client libraries"
+# s390x and riscv64 blocked by polkit-elogind
+arch="all !s390x !riscv64"
+url="https://www.kde.org"
+license="LGPL-2.1-only"
+depends_dev="polkit-dev"
+makedepends="$depends_dev
+	cmake
+	qt5-qtbase-dev
+	samurai
+	"
+source="https://download.kde.org/stable/polkit-qt-1/polkit-qt-1-$pkgver.tar.xz"
+subpackages="$pkgname-dev"
+builddir="$srcdir/polkit-qt-1-$pkgver"
+
+build() {
+	cmake -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	cmake --build build
+}
+
+check() {
+	cd build
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+4a16d9428d5ccc0107dcbd67c29ecba196424e555dc43d55cf2b6e0e7b72c99f894e9c994eaed85a9536010d67a19f20fe74f792c0d6b9ca0e05ce85f655f9a8  polkit-qt-1-0.114.0.tar.xz
+"

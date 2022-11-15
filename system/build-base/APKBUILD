@@ -1,0 +1,24 @@
+# Maintainer: The Cat <the.cat@originull.org>
+pkgname=build-base
+pkgver=0.3
+pkgrel=0
+url=http://dev.originull.org/cgit
+pkgdesc="Meta package for build base"
+depends="binutils file gcc g++ make fortify-headers patch"
+if [ "$CHOST" != "$CTARGET" ]; then
+	pkgname="$pkgname-$CTARGET_ARCH"
+	pkgdesc="$pkgdesc ($CTARGET_ARCH)"
+	depends="binutils-$CTARGET_ARCH gcc-$CTARGET_ARCH g++-$CTARGET_ARCH $depends"
+fi
+arch="noarch"
+license=none
+options="!check"
+
+build() {
+	:
+}
+
+package() {
+	mkdir -p "$pkgdir"
+}
+

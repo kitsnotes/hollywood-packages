@@ -1,0 +1,60 @@
+# Contributor: Peter Bui <pnutzh4x0r@gmail.com>
+# Maintainer: Matt Smith <mcs@darkregion.net>
+pkgname=py3-pygments
+_pkgname=Pygments
+pkgver=2.10.0
+pkgrel=1
+pkgdesc="Syntax highlighting package written in Python"
+url="https://pygments.org/"
+arch="noarch"
+license="BSD-2-Clause"
+depends="python3"
+makedepends="py3-setuptools"
+checkdepends="py3-pytest"
+subpackages="$pkgname-doc"
+source="https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-$pkgver.tar.gz"
+builddir="$srcdir/$_pkgname-$pkgver"
+
+replaces="py-pygments" # Backwards compatibility
+provides="py-pygments=$pkgver-r$pkgrel" # Backwards compatibility
+
+# secfixes:
+#   2.7.4-r0:
+#     - CVE-2021-20270
+
+build() {
+	python3 setup.py build
+}
+
+check() {
+	python3 -m pytest
+}
+
+package() {
+	python3 setup.py install --prefix=/usr --root="$pkgdir"
+
+	mkdir -p "$pkgdir"/usr/bin
+	ln -s pygmentize "$pkgdir"/usr/bin/pygmentize-3
+}
+
+doc() {
+	local destdir="$subpkgdir/usr/share/doc/$pkgname"
+
+	cd "$builddir"
+
+	install -m 644 -D doc/pygmentize.1 \
+		"$subpkgdir"/usr/share/man/man1/pygmentize.1
+
+	mkdir -p "$destdir"
+	cp AUTHORS CHANGES LICENSE "$destdir"/
+
+	# Note: The documentation in the doc directory needs to be generated
+	# by py-sphinx
+	cp -R ./doc/docs/* "$destdir"/
+
+	default_doc
+}
+
+sha512sums="
+28fdf35e333717795f199e0ef936d6df16ac0752324839ac36cabd2f9f6759a57663527d37f1c2f470258d63c3cf190f6dd4b631b21c849fc76575036fbdae12  Pygments-2.10.0.tar.gz
+"

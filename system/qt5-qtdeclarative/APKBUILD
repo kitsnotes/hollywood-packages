@@ -1,0 +1,76 @@
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtdeclarative
+pkgver=5.15.5_git20220617
+pkgrel=1
+_commit="c47f3d7b227c9bc86ca1702ae3291a62c2116cfa"
+pkgdesc="Qt5 - QtDeclarative component"
+# Broken on armhf, upstream bug report https://bugreports.qt.io/browse/QTBUG-65246
+arch="all"
+url="https://www.qt.io/developers/"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+makedepends="
+	python3
+	qt5-qtbase-dev
+	vulkan-headers
+	"
+subpackages="$pkgname-dbg $pkgname-dev"
+source="https://invent.kde.org/qt/qt/qtdeclarative/-/archive/$_commit/qtdeclarative-$_commit.tar.gz
+	link-libatomic-on-rv64.patch
+	"
+builddir="$srcdir/qtdeclarative-$_commit"
+
+_qt5_prefix=/usr/lib/qt5
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+# Compiling with -Os generates segfaults
+export CFLAGS="${CFLAGS/-Os/-O2}"
+export CPPFLAGS=${CPPFLAGS/-Os/-O2}
+export CXXFLAGS="${CXXFLAGS/-Os/-O2}"
+
+build() {
+	# HACK so calls to "python" get what we want
+	ln -s /usr/bin/python3 python
+	export PATH="$(pwd):$PATH"
+
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make install INSTALL_ROOT="$pkgdir"
+
+	mkdir -p "$pkgdir"/usr/bin/
+	for i in "$pkgdir"/"$_qt5_prefix"/bin/*; do
+		ln -s ../lib/qt5/bin/${i##*/} "$pkgdir"/usr/bin/${i##*/}-qt5
+	done
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+}
+
+dev() {
+	default_dev
+
+	find "$pkgdir"/"$_qt5_prefix"/bin/ -type f -not -name "qmlscene" | while read -r f; do
+		file=$(basename $f)
+		amove "${_qt5_prefix#/}"/bin/$file
+		amove usr/bin/$file-qt5
+	done
+}
+
+sha512sums="
+2953539b14a7ccb069797e87d1b2de28a1a1c88db59250bc0ebe2ed3615690ee8b6d11999d6854f6995f6b0d42157510dfa0140ef2a5a2537c8366d3458ff90a  qtdeclarative-c47f3d7b227c9bc86ca1702ae3291a62c2116cfa.tar.gz
+d048e8d04837ebab8439cc3d499a9a74114ae65357bad54123006d8b772b96ed907b20d781b95a6d71dd2efdb6e4e5a044a1205491df6e28d991989476bf0e55  link-libatomic-on-rv64.patch
+"

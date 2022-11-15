@@ -1,0 +1,62 @@
+# Contributor: Valery Kartel <valery.kartel@gmail.com>
+# Contributor: Michael Mason <ms13sp@gmail.com>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=coreutils
+pkgver=9.0
+pkgrel=4
+pkgdesc="The basic file, shell and text manipulation utilities"
+url="https://www.gnu.org/software/coreutils/"
+arch="all"
+license="GPL-3.0-or-later"
+makedepends="bash acl-dev attr-dev utmps-dev perl automake autoconf"
+subpackages="$pkgname-doc"
+install="$pkgname.post-deinstall"
+source="https://ftp.gnu.org/gnu/coreutils/coreutils-$pkgver.tar.xz
+	fix-chmod-exit-code.patch
+	"
+options="!check"
+
+# secfixes:
+#   8.30-r0:
+#     - CVE-2017-18018
+
+build() {
+	autoreconf
+	#CFLAGS="$CFLAGS -I/usr/include/utmps" LIBS="-lutmps -lskarnet -lrt" 
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--disable-nls \
+		--enable-no-install-program=hostname,kill,uptime \
+		--enable-single-binary=symlinks
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	rm -rf "$pkgdir"/usr/lib/charset.alias
+	rmdir -p "$pkgdir"/usr/lib 2>/dev/null || true
+
+	install -d "$pkgdir"/usr/sbin
+	cd "$pkgdir"/usr/bin/
+
+	# chroot lives in /usr/sbin with busybox
+	rm "$pkgdir"/usr/bin/chroot
+	ln -s ../bin/coreutils "$pkgdir"/usr/sbin/chroot
+
+	# resolve conflict between shadow and coreutils for cmd:groups
+	rm "$pkgdir"/usr/bin/groups
+}
+
+# XXX - some gnulib tests broken, find a way to patch out gnulib tests
+check() {
+	make check
+}
+
+sha512sums="
+9be08212891dbf48e5b22e7689dc27dac50df4631ebf29313470b72b7921f0b2aa5242917d05587785358495ca56e3b21f5b3ca81043d53cab92354da6c53a03  coreutils-9.0.tar.xz
+9f86dacb9c429bb0873e68f3e7b185ac8fa54f801dd00e532b01719a919e5c22ec706c58a4da4196f68f46fcd5589afc09028680ad34f89d1c16eae6e679aeca  fix-chmod-exit-code.patch
+"

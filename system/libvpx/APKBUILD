@@ -1,0 +1,70 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=libvpx
+pkgver=1.12.0
+pkgrel=1
+pkgdesc="Library for the vp8/vp9 codecs"
+url="https://www.webmproject.org/"
+arch="all"
+license="BSD-3-Clause"
+makedepends="coreutils yasm bash perl diffutils linux-headers" # linux-headers is needed on ppc64le
+subpackages="$pkgname-dev $pkgname-utils"
+source="https://github.com/webmproject/libvpx/archive/v$pkgver/libvpx-v$pkgver.tar.gz
+	fix-arm-float-abi.patch
+	"
+# net required for tests
+# tests disabled due to failing to find symbols
+options="!check"
+
+# secfixes:
+#   1.8.2-r0:
+#     - CVE-2020-0034
+#   1.8.1-r0:
+#     - CVE-2019-9371
+#     - CVE-2019-9433
+#     - CVE-2019-9325
+#     - CVE-2019-9232
+
+build() {
+	# build fix for arm
+	export CROSS=" "
+	export CFLAGS="$CFLAGS -O2 -flto=auto -ffat-lto-objects"
+	export CXXFLAGS="$CXXFLAGS -O2 -flto=auto -ffat-lto-objects"
+	./configure \
+		--prefix=/usr \
+		--enable-unit-tests \
+		--enable-pic \
+		--enable-libs \
+		--enable-runtime-cpu-detect \
+		--enable-vp8 \
+		--enable-vp9 \
+		--enable-vp9-highbitdepth \
+		--enable-vp9-temporal-denoising \
+		--enable-shared \
+		--disable-install-srcs \
+		--enable-postproc \
+		--disable-static
+	make
+}
+
+check() {
+	make test
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	chmod 644 "$pkgdir"/usr/include/vpx/*.h \
+		"$pkgdir"/usr/lib/pkgconfig/*
+	chown root:root -R "$pkgdir"
+	chmod 755 "$pkgdir"/usr/lib/*
+}
+
+utils() {
+	pkgdesc="$pkgdesc (tools)"
+
+	amove usr/bin
+}
+
+sha512sums="
+dc059bc3102b75524ae29989372334b3e0f2acf1520e5a4daa4073831bb55949d82897c498fb9d2d38b59f1a66bb0ad24407d0d086b1e3a8394a4933f04f2ed0  libvpx-v1.12.0.tar.gz
+4eadbc2f4eb68eaff35cf85515aef271d6fd47293a53cba7b7a6e9e0fb71106dfb5ded45b9e9ba83264a91846e4a5fa4db42e39fc3eaff6ac37769e622f90f6c  fix-arm-float-abi.patch
+"

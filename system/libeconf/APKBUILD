@@ -1,0 +1,33 @@
+# Contributor: Leo <thinkabit.ukim@gmail.com>
+# Maintainer:
+pkgname=libeconf
+pkgver=0.4.2
+pkgrel=0
+pkgdesc="Enhanced Config File Parser"
+url="https://github.com/openSUSE/libeconf"
+arch="all"
+license="MIT"
+makedepends="meson"
+checkdepends="bash"
+subpackages="$pkgname-dev $pkgname-doc"
+source="$pkgname-$pkgver.tar.gz::https://github.com/openSUSE/libeconf/archive/refs/tags/$pkgver.tar.gz
+	musl-tests.patch
+	"
+
+build() {
+	abuild-meson . output
+	meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+check() {
+	meson test --no-rebuild -v -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="
+d772bd90f1b3ee14c9b0ef14d80e33bcaf5527ae294a7a5612a7d8bd13441eeadbe617ed09292ec37be49c2e21f5fd805ef65c1afb55250422af2b9d6123b368  libeconf-0.4.2.tar.gz
+28431c1f80ee7815991584ef6307dabe593b4da58b9406e6f1a9cb30bfba3e925a48c83b0d3824427631bede5b1249b0c87e0d9fb55971d4ecf90805076b25dd  musl-tests.patch
+"

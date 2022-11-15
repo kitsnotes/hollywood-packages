@@ -1,0 +1,38 @@
+# Contributor:
+# Maintainer:
+pkgname=libclc
+pkgver=14.0.6
+pkgrel=0
+pkgdesc="Library requirements of the OpenCL C programming language"
+url="https://libclc.llvm.org/"
+arch="all"
+license="MIT"
+makedepends="python3 clang llvm cmake ninja spirv-llvm-translator llvm-dev"
+subpackages="$pkgname-dev $pkgname-doc"
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/libclc-$pkgver.src.tar.xz"
+builddir="$srcdir/$pkgname-$pkgver.src"
+options="!check" #no test suite
+
+prepare() {
+	default_prepare
+	mkdir $builddir/build
+}
+
+build() {
+	cd build
+	CC=/usr/bin/clang \
+	CXX=/usr/bin/clang++ \
+	cmake ../ -G Ninja \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr
+	ninja
+}
+
+package() {
+	cd build
+	DESTDIR="$pkgdir" ninja install
+}
+
+sha512sums="
+1298bb9c809160ed1e7c804682850e3ef43beb6dd161265b4403fa2d7d41c16437d8a379410a2a773b6cfafe908bb20e98b032368d493854e8a1a74d14655f5b  libclc-14.0.6.src.tar.xz
+"

@@ -1,0 +1,31 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=eglexternalplatform
+pkgver=1.1
+pkgrel=0
+pkgdesc="NVIDIA EGL External Platform interface"
+url="https://github.com/NVIDIA/eglexternalplatform"
+arch="all"
+license="MIT"
+depends=""
+makedepends=""
+checkdepends=""
+install=""
+subpackages=""
+source="$pkgname-v$pkgver.tar.gz::https://github.com/NVIDIA/eglexternalplatform/archive/refs/tags/1.1.tar.gz"
+builddir="$srcdir/$pkgname-$pkgver"
+options="!check" # no test suite
+build() {
+	return 0
+}
+
+package() {
+  cd $builddir
+  install -Dt "$pkgdir/usr/include/EGL" -m644 interface/*
+  install -Dt "$pkgdir/usr/share/pkgconfig" -m644 *.pc
+  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 COPYING
+}
+
+sha512sums="
+ee72c928abac060e28515807975a371d3792acd119fa9f9da926ae32105e1e528df8d9a3db57ffac0587b115293ede44997606d9da8e20e7f7061a01dd502748  eglexternalplatform-v1.1.tar.gz
+"

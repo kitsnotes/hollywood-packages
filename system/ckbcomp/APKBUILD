@@ -1,0 +1,22 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=ckbcomp
+pkgver=1.205
+pkgrel=0
+pkgdesc="Compile a XKB keyboard description to a keymap"
+url="https://packages.debian.org/sid/console-setup"
+arch="noarch"
+license="GPL-2.0-or-later"
+depends="perl"
+options="!check"
+subpackages="$pkgname-doc"
+source="https://deb.debian.org/debian/pool/main/c/console-setup/console-setup_$pkgver.tar.xz"
+builddir="$srcdir"/console-setup-$pkgver
+
+package() {
+	install -D -m755 Keyboard/$pkgname $pkgdir/usr/bin/$pkgname
+	install -D -m644 man/$pkgname.1 $pkgdir/usr/share/man/man1/$pkgname.1
+}
+
+sha512sums="
+757643f040542fda2903ffaa35a311c6c572b4c1e9c6c169a032e85a360bfe7d64e66ad66fba988515a4c1004ae4ecb45a40fba5c0a9eec6bd58abc1e0624b15  console-setup_1.205.tar.xz
+"

@@ -1,0 +1,50 @@
+# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=gdbm
+pkgver=1.22
+pkgrel=0
+pkgdesc="GNU dbm is a set of database routines that use extensible hashing"
+url="https://www.gnu.org/software/gdbm/"
+arch="all"
+license="GPL-3.0-or-later"
+depends_dev="$pkgname-tools=$pkgver-r$pkgrel"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-tools"
+source="https://ftp.gnu.org/gnu/gdbm/gdbm-$pkgver.tar.gz"
+
+prepare() {
+	default_prepare
+	update_config_sub
+}
+
+build() {
+	# we disable large-file due to it makes the db file non-compat
+	# with gdbm-1.8.3
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--enable-libgdbm-compat \
+		--disable-largefile \
+		--disable-dependency-tracking \
+		--enable-fast-install
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+tools() {
+	pkgdesc="$pkgdesc (CLI tools)"
+	depends="$pkgname=$pkgver-r$pkgrel"
+
+	amove usr/bin/*
+}
+
+sha512sums="
+67461fc4f41e825d0134175ff99c913ccb4aa7ea3d0f64f32bdedbc7677b3ecabd2c525ac6b2ee47a9561e002e4224e492b72088d57bb4862a1f8c089521ec51  gdbm-1.22.tar.gz
+"

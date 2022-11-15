@@ -1,0 +1,53 @@
+# Maintainer: Eric Molitor <eric@molitor.org>
+pkgname=refind
+pkgver=0.13.3.1
+pkgrel=4
+pkgdesc="rEFInd EFI Boot Manager"
+url="https://www.rodsbooks.com/refind"
+arch="x86_64 aarch64"
+options="!check"  # No test suite.
+license="GPL-3.0-only"
+depends="efibootmgr lsblk"
+makedepends="gnu-efi-dev bash"
+subpackages="$pkgname-doc"
+source="https://sourceforge.net/projects/refind/files/$pkgver/refind-src-$pkgver.tar.gz
+	01-bgrt.patch
+	"
+
+prepare() {
+	default_prepare
+
+	# Taken from Arch Linux
+	# hardcode RefindDir, so that refind-install can find refind_x64.efi
+	sed -e 's|RefindDir=\"\$ThisDir/refind\"|RefindDir="/usr/share/refind/"|g' \
+			-i refind-install
+}
+
+build() {
+	make -j 1 all_gnuefi
+}
+
+package() {
+	local _target
+
+        case "$CARCH" in
+                aarch64*)       _target="aarch64" ;;
+                x86_64)         _target="x86_64" ;;
+                *)              msg "Unable to determine architecture from (CARCH=$CARCH)" ; return 1 ;;
+        esac
+
+	install -Dm0755 refind/*.efi -t "$pkgdir"/usr/share/refind
+	install -Dm0755 drivers_*/*.efi -t "$pkgdir"/usr/share/refind/drivers_"$_target"
+	install -Dm0755 gptsync/*.efi -t "$pkgdir"/usr/share/refind/tools_"$_target"
+	install -Dm0755 refind.conf-sample -t "$pkgdir"/usr/share/refind
+
+	install -Dm0644 docs/man/*.8 -t "$pkgdir"/usr/share/man/man8
+
+	install -Dm0755 mkrlconf mvrefind refind-mkdefault refind-install -t "$pkgdir"/usr/sbin
+
+	cp -r icons $pkgdir/usr/share/refind
+}
+sha512sums="
+7966df5dd8dc66cc49a329ed722a567672da8e2fa3f2334d53db65357cea17cba5a4dc5459e358de1079a938da3c63dc626d096ce28b6bf1fa2964be7359dbd1  refind-src-0.13.3.1.tar.gz
+eb576136ba3a7c5eb67227916ccef3769b7cee30f1306f3c64334ffeebc37418b532e37c330238697ff039cdea2689c784ade3631553d29837519a2fb22aabfa  01-bgrt.patch
+"

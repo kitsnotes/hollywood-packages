@@ -1,0 +1,22 @@
+# Contributor: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+pkgname=ttf-opensans
+pkgver=1.10
+pkgrel=1
+pkgdesc="Open Sans is a humanist sans serif typeface designed by Steve Matteson"
+url="https://opensans.com/"
+options="!check" # no test suite
+arch="noarch"
+license="Apache-2.0"
+depends="fontconfig mkfontdir mkfontscale"
+makedepends="font-util-dev"
+install="$pkgname.post-install"
+source="https://www.opensans.com/download/open-sans.zip"
+
+package() {
+	install -Dm644 -t "$pkgdir"/usr/share/fonts/TTF "$srcdir"/*.ttf
+}
+
+sha512sums="
+1e8dedba741a4d2a124e1bbfd837d70b18f1f0d14198b13a5c5e08c2b890f81b7f3debd4256243442589536750a25a442633fe220c828347678da1f7807506a5  open-sans.zip
+"

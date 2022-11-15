@@ -1,0 +1,54 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtlottie
+pkgver=5.15.5_git20220516
+pkgrel=0
+_commit="4b3d1e824fdde2c835041464a9f85feaed0b313d"
+pkgdesc="A family of player software for a certain json-based file format for describing 2d vector graphics animations"
+url="https://www.qt.io/developers/"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+arch="all !armhf" # armhf blocked by qt5-qtdeclarative
+makedepends="
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	"
+subpackages="$pkgname-dev $pkgname-doc"
+builddir="$srcdir/qtlottie-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qtlottie/-/archive/$_commit/qtlottie-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+sha512sums="
+d4c75727ac0a5d30a0a8a31e1f76371bc31a5c7425a8e080aafb9f1708471416bd413fe661b16c56d8e2ba537aa5512c7d02b58d4abb90d041c89dfe9dd52bb5  qtlottie-4b3d1e824fdde2c835041464a9f85feaed0b313d.tar.gz
+"

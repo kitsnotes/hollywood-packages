@@ -1,0 +1,31 @@
+# Contributor: The Cat <the.cat@kitsnotes.com>
+# Maintainer: The Cat <the.cat@kitsnotes.com>
+pkgname=hostname
+pkgver=3.18
+pkgrel=0
+pkgdesc="A utility to change system hostname."
+url="https://bugs.debian.org/hostname"
+arch="all"
+license="GPL2+"
+depends="coreutils"
+makedepends=""
+checkdepends=""
+install=""
+options="!check"
+subpackages="$pkgname-doc"
+source="http://deb.debian.org/debian/pool/main/h/hostname/hostname_$pkgver.tar.gz"
+builddir="$srcdir/$pkgname"
+build() {
+	cd "$builddir"
+        make 
+}
+
+
+package() {
+	# Replace with proper package command(s)
+	make BASEDIR="$pkgdir" install
+}
+
+sha512sums="
+1e42adb404479aa3c694658d7ce2e7db125f1b4b74001faef3ac5f2f57b77e8684a03827ed275bfc4145f187924b4c025d78ae29e5f8469b682e6d76345dfde6  hostname_3.18.tar.gz
+"

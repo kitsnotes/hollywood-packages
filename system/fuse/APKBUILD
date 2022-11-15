@@ -1,0 +1,53 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=fuse
+pkgver=2.9.9
+pkgrel=1
+pkgdesc="A library that makes it possible to implement a filesystem in a userspace program."
+url="https://github.com/libfuse/libfuse/"
+arch="all"
+license="GPL-2.0-only LGPL-2.1-only"
+options="suid !check" # No test suite
+depends="fuse-common"
+makedepends="gettext-dev"
+subpackages="$pkgname-static $pkgname-dev $pkgname-doc"
+source="https://github.com/libfuse/libfuse/releases/download/fuse-$pkgver/fuse-$pkgver.tar.gz
+	avoid-calling-umount.patch
+	closefrom-glibc-2.34.patch
+	aarch64-uint-linux-types.patch
+	fix-realpath.patch"
+
+# secfixes:
+#   2.9.8-r0:
+#     - CVE-2018-10906
+
+prepare() {
+	default_prepare
+
+	cd $builddir
+	autoreconf
+}
+
+build() {
+	UDEV_RULES_PATH='/usr/lib/udev/rules.d' ./configure \
+		--prefix=/usr \
+		--enable-static \
+		--enable-shared \
+		--disable-example \
+		--enable-lib \
+		--enable-util \
+		--bindir=/usr/bin
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	rm -r "$pkgdir"/dev "$pkgdir"/etc/init.d
+}
+
+sha512sums="
+3d82fafd04f2924299bb09d2bb144935fa004a43fb9a6568e2e1cc5a60fded2efa1711029a0d7f12b3e6e4501f7217f2ee3545646d89da8dece083cb390f23e2  fuse-2.9.9.tar.gz
+e29d3a78aad00e678a2e1a77f5855e3f55542ee05e4ea73b4a47d6541d1aee8f2325b6f80d0af80fbfe03423ef91d4acb1a35c242c0365db639d94faf03394d0  avoid-calling-umount.patch
+71d6fed073d538f014cdcd372f5d99817dfc29f0619ddde5783da206f9ba1a351e774937dc300d8375c794c76042302459b0db5c95dc1ec274762b241003f0cb  closefrom-glibc-2.34.patch
+4ec0a659c3d84a60353a238c5fefbc03ef462defc0ac5ae1e9600c665c439ae92e4f44f755a3b64bfee0d59e5a60347538ffa4386b60c8610cbc1a0212560daf  aarch64-uint-linux-types.patch
+6f2234d3a049f9df6d2dfa00c962239f4684ba0c3a4931d697bde5a250795e0a4b057c9342f4668cd81a855222814fbe49a99b5a1274199d37599d59543eff5c  fix-realpath.patch
+"

@@ -1,0 +1,167 @@
+# Contributor Eric Molitor <eric@molitor.org>
+# Contributor Patrick Gansterer <paroga@paroga.com>
+# Contributor Travis Tilley <ttilley@gmail.com>
+# Contributor omni <omni+alpine@hack.org>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=clang
+# Note: Update together with llvm.
+pkgver=14.0.6
+pkgrel=1
+_llvmver=${pkgver%%.*}
+pkgdesc="A C language family front-end for LLVM"
+arch="all"
+url="https://llvm.org/"
+license="Apache-2.0"
+options="!check" # fail to build
+makedepends="
+	cmake
+	libxml2-dev
+	libxml2-utils
+	llvm$_llvmver-dev
+	llvm$_llvmver-static
+	llvm$_llvmver-test-utils
+	samurai
+	py3-sphinx
+	python3
+	pythonispython3
+	"
+checkdepends="diffutils bash gtest-dev"
+depends_dev="$pkgname=$pkgver-r$pkgrel $pkgname-extra-tools=$pkgver-r$pkgrel"
+subpackages="$pkgname-static $pkgname-doc $pkgname-libs
+	$pkgname-analyzer::noarch
+	$pkgname-dev
+	$pkgname-extra-tools:extra
+	py3-$pkgname:python:noarch
+	"
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/clang-$pkgver.src.tar.xz
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/clang-tools-extra-$pkgver.src.tar.xz
+	llvm-hello.patch
+	"
+builddir="$srcdir/clang-$pkgver.src"
+
+prepare() {
+	mv "$srcdir/clang-tools-extra-$pkgver.src" "$builddir/tools/extra"
+	default_prepare
+}
+
+build() {
+	python_version=$(python3 -V | sed 's/.*\([0-9]\{1,\}\.[0-9]\{1,\}\)\..*/\1/')
+
+	# NOTE: DO NOT change CMAKE_BUILD_TYPE! Buildmodes like None will enable
+	# debug assertions for LLVM!
+	cmake -B build -G Ninja -Wno-dev \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS -Wl,-z,stack-size=2097152" \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCLANG_VENDOR=Originull \
+		-DCLANG_BUILD_EXAMPLES=OFF \
+		-DCLANG_INCLUDE_DOCS=ON \
+		-DCLANG_PYTHON_BINDINGS_VERSIONS="$python_version" \
+		-DLLVM_BUILD_DOCS=ON \
+		-DLLVM_ENABLE_SPHINX=OFF \
+		-DSPHINX_WARNINGS_AS_ERRORS=OFF \
+		-DCLANG_INCLUDE_TESTS="$(want_check && echo ON || echo OFF)" \
+		-DCLANG_PLUGIN_SUPPORT=ON \
+		-DLIBCLANG_BUILD_STATIC=ON \
+		-DLLVM_ENABLE_EH=ON \
+		-DLLVM_ENABLE_RTTI=ON \
+		-DCLANG_BUILT_STANDALONE=ON
+
+	ninja -C build clang-tblgen
+	ninja -C build
+}
+
+check() {
+	ninja -C build check-all
+}
+
+package() {
+	DESTDIR="$pkgdir" ninja -C build install
+	install -Dm644 build/lib/libclang.a -t "$pkgdir"/usr/lib/
+}
+
+dev() {
+	default_dev
+
+	# move back usr/lib/clang/x.y.z/include with files such as altivec.h, msa.h etc
+	# these are needed to build programs *with* clang, not *against* it.
+	mv "$subpkgdir"/usr/lib/clang "$pkgdir"/usr/lib/
+}
+
+analyzer() {
+	pkgdesc="Clang source code analysis framework"
+	depends="$pkgname=$pkgver-r$pkgrel perl python3"
+
+	amove \
+		usr/bin/scan* \
+		usr/bin/analyze-build \
+		usr/bin/intercept-build \
+		usr/libexec/*-analyzer \
+		usr/libexec/analyze-* \
+		usr/libexec/intercept-* \
+		usr/share/scan-* \
+		usr/lib/libear
+}
+
+extra() {
+	pkgdesc="Extra tools built using Clang’s tooling APIs"
+
+	cd "$pkgdir"
+
+	install -dm0755 \
+		"$subpkgdir"/usr/share/emacs/site-lisp
+
+	# FIXME: Make sure this is the right list of binaries for -extra-tools
+	amove \
+		usr/bin/clang-apply-replacements \
+		usr/bin/clang-change-namespace \
+		usr/bin/clang-check \
+		usr/bin/clang-doc \
+		usr/bin/clang-extdef-mapping \
+		usr/bin/clang-format \
+		usr/bin/clang-include-fixer \
+		usr/bin/clang-move \
+		usr/bin/clang-offload-bundler \
+		usr/bin/clang-offload-wrapper \
+		usr/bin/clang-query \
+		usr/bin/clang-refactor \
+		usr/bin/clang-rename \
+		usr/bin/clang-reorder-fields \
+		usr/bin/clang-repl \
+		usr/bin/clang-scan-deps \
+		usr/bin/clang-tidy \
+		usr/bin/clangd* \
+		usr/bin/c-index-test \
+		usr/bin/diagtool \
+		usr/bin/find-all-symbols \
+		usr/bin/git-clang-format \
+		usr/bin/hmaptool \
+		usr/bin/modularize \
+		usr/bin/pp-trace \
+		usr/bin/run-clang-tidy \
+		usr/share/clang/clang-include-fixer* \
+		usr/share/clang/clang-format*.py \
+		usr/share/clang/*clang-tidy* \
+		usr/share/clang/run-find-all-symbols.py
+
+	mv usr/share/clang/clang-*.el \
+		"$subpkgdir"/usr/share/emacs/site-lisp
+}
+
+python() {
+	pkgdesc="Clang Python Bindings"
+	depends="$pkgname-libs=$pkgver-r$pkgrel python3"
+
+	local sitedir=$(python3 -c "import site; print(site.getsitepackages()[0])")
+
+	amove usr/lib/python*
+
+	# actually a python module..
+	mv "$pkgdir"/usr/lib/libscanbuild "$subpkgdir"/"$sitedir"
+}
+
+sha512sums="
+5f5497b57dd116225e90f321902f1015beb50c0b1bb90d0fc6c026f13aa748feabe44f98eb75e86f98f3b1785ad5e850210732f3eae75b942ecd520527dcd30b  clang-14.0.6.src.tar.xz
+b55fd9872e52a27599e27fa665cf39af3d172814c0e7246ea0e57286e9eea42bf816f8b6d350334f3fe5e2fae35a8e59d59e71a3a5de330ecb0622ef7655e63f  clang-tools-extra-14.0.6.src.tar.xz
+e49ac24ebbd2922374c8f0562ef5ba40f481bfc9531303ff391c43d1e0306df360f1bc0e94093521d278ed33662defacf6e7ce644482fb0150259b20f44bba77  llvm-hello.patch
+"

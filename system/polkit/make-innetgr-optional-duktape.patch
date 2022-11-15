@@ -1,0 +1,19 @@
+diff -Naur polkit-0.120-orig/src/polkitbackend/polkitbackendduktapeauthority.c polkit-0.120/src/polkitbackend/polkitbackendduktapeauthority.c
+--- polkit-0.120-orig/src/polkitbackend/polkitbackendduktapeauthority.c	2022-07-04 05:30:05.804420674 -0700
++++ polkit-0.120/src/polkitbackend/polkitbackendduktapeauthority.c	2022-07-04 05:30:33.407756781 -0700
+@@ -1036,6 +1036,7 @@
+   user = duk_require_string (cx, 0);
+   netgroup = duk_require_string (cx, 1);
+ 
++#ifdef HAVE_SETNETGRENT
+   if (innetgr (netgroup,
+                NULL,  /* host */
+                user,
+@@ -1044,6 +1045,7 @@
+       is_in_netgroup = TRUE;
+     }
+ 
++#endif
+   duk_push_boolean (cx, is_in_netgroup);
+   return 1;
+ }

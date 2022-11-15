@@ -1,0 +1,40 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=mkinitfs
+pkgver=4.0.1
+# shellcheck disable=SC2034 # used for git versions, keep around for next time
+_ver=${pkgver%_git*}
+pkgrel=5
+pkgdesc="Tool to generate initramfs images for Hollywood"
+url="https://gitlab.orignull.org/mkinitfs"
+arch="all"
+license="GPL-2.0-only"
+# currently we do not ship any testsuite
+options="!check"
+makedepends_host="kmod-dev util-linux-dev cryptsetup-dev linux-headers libbsd-dev"
+makedepends="$makedepends_host"
+depends="apk-tools>=2.9.1 lddtree>=1.25 kmod cpio gzip coreutils dash busybox plymouth grep"
+subpackages="$pkgname-doc"
+install="$pkgname.pre-upgrade $pkgname.post-install $pkgname.post-upgrade"
+triggers="$pkgname.trigger=/usr/share/kernel/*"
+source="http://depot.originull.org/upstream/mkinitfs-$pkgver.tar.gz
+	nlplug-findfs.patch
+	libbsd-make.patch
+	"
+
+provides="initramfs-generator"
+provider_priority=900 # highest
+
+build() {
+	export LIBS="$LIBS -lbsd" 
+        make VERSION=$pkgver-r$pkgrel
+}
+
+package() {
+	make install DESTDIR="$pkgdir"
+}
+
+sha512sums="
+6d7250bae71be2c36615241f50c8f33a7316db1d377663f0946c9518a40542a06c661f9c66b02479ebb391d94ae9c88c37c8926b4b84de7d8091045dbc6cf010  mkinitfs-4.0.1.tar.gz
+ee996904043af55554b9188cd4655abdc1627f2789a64e2bfecf24d669bdfae33f808f9a8d787ec8684971c152a1c0edb602cfa6f08836c0ecd399221d4c5fa1  nlplug-findfs.patch
+4855527666ef56f082a1b0d158d45d865b9e4a6e7293725be845287068536f648c8892cf7fb88a44a18e1c3fb23ef8f3a630e32026dfb1a198938df05627ec88  libbsd-make.patch
+"

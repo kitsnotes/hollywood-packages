@@ -1,0 +1,37 @@
+# Contributor: Roberto Oliveira <robertoguimaraes8@gmail.com>
+# Maintainer: Roberto Oliveira <robertoguimaraes8@gmail.com>
+pkgname=perl-test-cpan-meta
+_pkgreal=Test-CPAN-Meta
+pkgver=0.25
+pkgrel=2
+pkgdesc="Validate your CPAN META.json files"
+url="https://metacpan.org/release/Test-CPAN-Meta/"
+arch="noarch"
+license="Artistic-2"
+depends="perl"
+subpackages="$pkgname-doc"
+source="https://cpan.metacpan.org/authors/id/B/BA/BARBIE/$_pkgreal-$pkgver.tar.gz"
+builddir="$srcdir/$_pkgreal-$pkgver"
+
+prepare() {
+	default_prepare
+	export CFLAGS=$(perl -MConfig -E 'say $Config{ccflags}')
+	PERL_MM_USE_DEFAULT=1 perl -I. Makefile.PL INSTALLDIRS=vendor
+}
+
+build() {
+	export CFLAGS=$(perl -MConfig -E 'say $Config{ccflags}')
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
+}
+
+check() {
+	export CFLAGS=$(perl -MConfig -E 'say $Config{ccflags}')
+	make test
+}
+
+sha512sums="60a3414e1e0f9aaa1a9459aedd76a6d937742a4197d0d5ce9330348138997d372ca3f454c262fb6dd757699168aa7d1c2653c4066060c9c5685a6fe407260580  Test-CPAN-Meta-0.25.tar.gz"

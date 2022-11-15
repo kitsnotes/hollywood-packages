@@ -1,0 +1,32 @@
+# Contributor: The Cat <cat@originull.org>
+# Maintainer: The Cat <cat@originull.org>
+pkgname=qt5-qtermwidget
+pkgver=1.0.9
+pkgrel=1
+pkgdesc="Terminal Widget for Qt5"
+url="https://github.com/kitsnotes/qtermwidget-qt6"
+arch="all"
+license="lgpl2"
+depends="qt5-qtbase"
+makedepends="lxqt-build-tools qt5-qtbase-dev qt5-qttranslations qt5-qttools-dev"
+options="!check" # no test suite
+install=""
+subpackages="$pkgname-dev"
+source="https://depot.originull.org/upstream/qtermwidget-qt6.tar.gz"
+builddir="$srcdir/qtermwidget-qt6"
+
+build() {
+	mkdir $builddir/build
+	cd $builddir/build
+	cmake -DUSE_QT5=ON -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib ../
+	make
+}
+
+package() {
+	cd $builddir/build
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+65d4a7381dfa0942a60e6a4816ab4cd7a3966cb7bdb375b987e231a837f99abe3c5db269df72b3424590cd3abdb4598672fc2cd094edfb9919b3de7f6ac09367  qtermwidget-qt6.tar.gz
+"

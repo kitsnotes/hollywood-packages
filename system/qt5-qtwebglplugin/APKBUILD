@@ -1,0 +1,57 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtwebglplugin
+pkgver=5.15.5_git20220602
+pkgrel=0
+_commit="8feafc4b8e9af78175e2814523ef4f11e445fc93"
+arch="all !armhf" # armhf blocked by qt5-qtdeclarative
+url="https://www.qt.io/developers/"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+pkgdesc="QPA plugin for running an application via a browser using streamed WebGL commands"
+depends_dev="
+	$pkgname
+	qt5-qtwebsockets-dev
+	"
+makedepends="$depends_dev
+	qt5-qtbase-dev
+	"
+subpackages="$pkgname-dev $pkgname-doc"
+builddir="$srcdir/qtwebglplugin-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qtwebglplugin/-/archive/$_commit/qtwebglplugin-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+sha512sums="
+33185daacb3537cdeabc5c099e7a26a4b561c22ae1a645034515daff9790ad3cc5ee0b0d65340592e9b3653c0648d66d0903ba9043414139526da753a1cec482  qtwebglplugin-8feafc4b8e9af78175e2814523ef4f11e445fc93.tar.gz
+"

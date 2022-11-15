@@ -1,0 +1,31 @@
+#
+# /etc/zprofile and ~/.zprofile are run for login shells
+#
+
+_src_etc_profile()
+{
+    #  Make /etc/profile happier, and have possible ~/.zshenv options like
+    # NOMATCH ignored.
+    #
+    emulate -L ksh
+
+    # source profile
+    if [ -f /etc/profile ]; then
+	    source /etc/profile
+    fi
+}
+_src_etc_profile
+
+export EDITOR=${EDITOR:-/usr/bin/vim}
+export PAGER=${PAGER:-/usr/bin/less}
+
+if [ -d /etc/zprofile.d ]; then
+  for i in /etc/zprofile.d/*.zsh; do
+    [ -r $i ] && . $i
+  done
+  unset i
+fi
+
+unset -f _src_etc_profile
+
+

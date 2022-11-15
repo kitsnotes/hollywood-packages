@@ -1,0 +1,58 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtwayland
+pkgver=5.15.5_git20220620
+pkgrel=0
+_commit="64fa557eb30fc1219bec50a45107ea1a983411ed"
+arch="all !armhf" # armhf blocked by qt5-qtdeclarative
+url="https://www.qt.io/developers/"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+pkgdesc="Provides APIs for Wayland"
+depends_dev="
+	libxcomposite-dev
+	libxkbcommon-dev
+	qt5-qtquickcontrols2-dev
+	wayland-dev
+	"
+makedepends="$depends_dev
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	vulkan-headers
+	"
+subpackages="$pkgname-dev"
+
+# Make sure this package is installed when a Qt application is installed and a
+# Wayland session is available on the system
+install_if="wayland-libs-server qt5-qtbase"
+
+builddir="$srcdir/qtwayland-$_commit"
+
+source="https://invent.kde.org/qt/qt/qtwayland/-/archive/$_commit/qtwayland-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+}
+sha512sums="
+276ebab17f231ab79236795696338490a446c4bff049062a1943b7b81f99a546abfb8fcc1d0e191bb522c331d416df3dea6e085f6f1f5d048966fad53f1c91c3  qtwayland-64fa557eb30fc1219bec50a45107ea1a983411ed.tar.gz
+"

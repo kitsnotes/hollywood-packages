@@ -1,0 +1,6 @@
+#!/bin/sh
+
+addgroup --system polkitd 2>/dev/null
+adduser --system --disabled-login --no-create-home --home /var/empty --shell /sbin/nologin --ingroup polkitd polkitd 2>/dev/null
+
+exit 0

@@ -1,0 +1,31 @@
+# Contributor: TBK <alpine@jjtc.eu>
+# Maintainer: TBK <alpine@jjtc.eu>
+pkgname=qt5-qtusb
+pkgver=0.6.6
+pkgrel=2
+pkgdesc="Qt5 - a cross-platform USB Module for Qt."
+url="https://github.com/fpoussin/QtUsb/"
+arch="all"
+license="LGPL-3.0-only"
+options="!check" # at the moment "make install" is needed for it to work
+makedepends="hidapi-dev libusb-dev qt5-qtbase-dev"
+subpackages="$pkgname-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/fpoussin/QtUsb/archive/$pkgver.tar.gz"
+builddir="$srcdir/QtUsb-$pkgver"
+
+build() {
+	qmake-qt5
+	make
+}
+
+check() {
+	cd tests
+	qmake-qt5
+	make -i check TESTARGS="-o result.xml,xunitxml"
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+}
+
+sha512sums="e9b724f6b9dee539b36c5ceb28c017e5235ff52762ac93825a74b1e811871e4d7f7a763c282373f4718ab4647eba9b76e769dd7c2200abc18f49cde4e5f625d2  qt5-qtusb-0.6.6.tar.gz"

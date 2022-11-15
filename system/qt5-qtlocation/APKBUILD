@@ -1,0 +1,59 @@
+# Contributor: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtlocation
+pkgver=5.15.5_git20220618
+pkgrel=0
+_commit="73db91329ae48f685fa3fdae1c3c63b0976dc751"
+_commit_mapbox="d3101bbc22edd41c9036ea487d4a71eabd97823d"
+pkgdesc="Qt5 - Location component"
+url="https://www.qt.io/developers/"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+arch="all !armhf" # armhf blocked by qt5-qtdeclarative
+makedepends="
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	icu-dev
+	"
+subpackages="$pkgname-dev"
+options="!check" # No tests
+builddir="$srcdir/qtlocation-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qtlocation/-/archive/$_commit/qtlocation-$_commit.tar.gz
+	https://invent.kde.org/qt/qt/qtlocation-mapboxgl/-/archive/$_commit_mapbox/qtlocation-mapbox-$_commit_mapbox.tar.gz
+	"
+
+prepare() {
+	default_prepare
+
+	rmdir src/3rdparty/mapbox-gl-native
+	mv "$srcdir/qtlocation-mapboxgl-$_commit_mapbox" src/3rdparty/mapbox-gl-native
+
+    # We need to make the build system think we're running in a git repository
+    # so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5 "CONFIG+=posix"
+	make
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+sha512sums="
+42e7973465ce2a3a622dbb65f9bdbd5a85e9bd66e8d99f89b4b0755e219cb6c92ee970ef98b35aa06cc956fee81dc16c31d7fd8233e20d2b4cbf5f899bf122c0  qtlocation-73db91329ae48f685fa3fdae1c3c63b0976dc751.tar.gz
+6e38e5ca0b9e17de690af79f4702278bdc933a74561aa135b3e82245df7d795602403048bcc5bce00237f774ce3957540a8bded1a71f8730a08da05dec1f039f  qtlocation-mapbox-d3101bbc22edd41c9036ea487d4a71eabd97823d.tar.gz
+"

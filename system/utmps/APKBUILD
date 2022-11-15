@@ -1,0 +1,61 @@
+# Contributor: Laurent Bercot <ska-devel@skarnet.org>
+# Maintainer: Laurent Bercot <ska-devel@skarnet.org>
+pkgname=utmps
+# NOTE: If you're upgrading to a new version that fixes some security
+# vulnerability, rebuild the following aports:
+# - busybox
+# - mingetty
+# - openssh
+# - util-linux
+pkgver=0.1.0.3
+pkgrel=8
+pkgdesc="A secure utmp/wtmp implementation"
+url="https://skarnet.org/software/$pkgname/"
+arch="all"
+options="!check"  # No test suite
+license="ISC"
+depends="s6-ipcserver"
+depends_static="skalibs-static"
+makedepends="skalibs-dev>=2.11"
+subpackages="$pkgname-static $pkgname-libs $pkgname-dev $pkgname-doc $pkgname-openrc"
+source="https://skarnet.org/software/$pkgname/$pkgname-$pkgver.tar.gz
+	utmpd.initd
+	wtmpd.initd
+	utmps.pc
+	0001-add-stub-utmp.h.patch"
+install="utmps.pre-install"
+
+prepare() {
+	default_prepare
+	sed -i -e "s/@@VERSION@@/$pkgver/g" -- "$srcdir"/*.pc
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--enable-shared \
+		--enable-static \
+		--disable-allstatic \
+		--libdir=/usr/lib \
+		--libexecdir="/usr/lib/$pkgname" \
+		--with-lib=/usr/lib \
+		--with-dynlib=/usr/lib
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	install -D "$srcdir/utmpd.initd" "$pkgdir/etc/init.d/utmpd"
+	install -D "$srcdir/wtmpd.initd" "$pkgdir/etc/init.d/wtmpd"
+	install -D -m 0644 "$srcdir/utmps.pc" "$pkgdir/usr/lib/pkgconfig/utmps.pc"
+	mkdir -p "$pkgdir/usr/share/doc"
+	cp -a "$builddir/doc" "$pkgdir/usr/share/doc/$pkgname"
+}
+
+sha512sums="
+37daf1c94640f2576795ff5e274b09b95d05d5a42711914e65688493c31efa8cbdaf8698f43af1d90dc28a0ea42695cc1a69e326621f50e6470708853596ae88  utmps-0.1.0.3.tar.gz
+6818d0cbb765de1bdc6d26adbaa60c38b410c3f7573f7f72d53018b290f88f2d0aefae1f40a9f9deb20430342beac593834584e346d5aa599fad88aa243d1622  utmpd.initd
+d57caaaa0f9365825a8b8c20b79c387063fba4416bb83698a4547da6f7f48fbd5f92c3cf52f6f8011dbcadb5704af9ecae2aa43556be2948d49808548d273b61  wtmpd.initd
+15347bd95f7e69409fb5849eeca0632d3e7cdd0ad6113ab89d9f6554ebce01996522783f3f4a29877fd0f74607a5367af8483396f70d075315c4f17acc182f5e  utmps.pc
+0512f0daa216919a886e6a8e5a73db1d29acd66d929f38d5df40bd55f0d446402610c59da12688b75c3c1230af9b1929793ed8bfc9b4593851bf496fc0a8d835  0001-add-stub-utmp.h.patch
+"

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+addgroup --system sddm 2>/dev/null
+adduser --ingroup sddm --home /var/lib/sddm --system --shell /sbin/nologin sddm 2>/dev/null
+adduser sddm video 2>/dev/null
+
+exit 0

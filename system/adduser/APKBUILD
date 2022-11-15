@@ -1,0 +1,38 @@
+# Contributor:
+# Maintainer:
+pkgname=adduser
+pkgver=3.129
+pkgrel=0
+pkgdesc="add and remove users and groups"
+url="https://packages.debian.org/sid/adduser"
+arch="all"
+license="GPL2+"
+depends="shadow perl"
+makedepends="coreutils dash"
+checkdepends=""
+install="$pkgname.post-upgrade"
+source="http://deb.debian.org/debian/pool/main/a/$pkgname/${pkgname}_${pkgver}.tar.xz"
+builddir="$srcdir/adduser-$pkgver"
+options="!check"
+
+build() {
+	return 0
+}
+
+package() {
+	mkdir -p "$pkgdir"/usr/lib/perl5/vendor_perl/5.36.0/Debian
+	mkdir -p "$pkgdir"/usr/share/adduser/
+	mkdir -p "$pkgdir"/etc
+	mkdir -p "$pkgdir"/usr/sbin
+	cp "$builddir"/AdduserCommon.pm "$pkgdir"/usr/lib/perl5/vendor_perl/5.36.0/Debian
+	cp "$builddir"/adduser.conf "$pkgdir"/usr/share/adduser/
+	cp "$builddir"/deluser.conf "$pkgdir"/etc/
+	cp "$builddir"/adduser "$pkgdir"/usr/sbin
+	cp "$builddir"/deluser "$pkgdir"/usr/sbin
+	ln -s ./adduser "$pkgdir"/usr/sbin/addgroup
+	ln -s ./deluser "$pkgdir"/usr/sbin/delgroup
+}
+
+sha512sums="
+521937308498949ecb751c5e68b4288ab3b4c2c3d8467a7838deaf815560831aa8ffb5ee2131d11df562e6041c950c5476e1f30e32623c04d813067cac0ee6bc  adduser_3.129.tar.xz
+"

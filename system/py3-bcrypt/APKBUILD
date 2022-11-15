@@ -1,0 +1,31 @@
+# Contributor: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+pkgname=py3-bcrypt
+_pkgname=bcrypt
+pkgver=3.2.0
+pkgrel=5
+pkgdesc="Modern password hashing for your software and your servers"
+url="https://github.com/pyca/bcrypt"
+arch="all"
+license="Apache-2.0"
+depends="py3-six py3-cffi"
+makedepends="python3-dev py3-setuptools py3-cparser libffi-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/pyca/$_pkgname/archive/$pkgver.tar.gz"
+builddir="$srcdir/$_pkgname-$pkgver"
+
+replaces="py-bcrypt" # Backwards compatibility
+provides="py-bcrypt=$pkgver-r$pkgrel" # Backwards compatibility
+
+check() {
+	python3 setup.py check
+}
+
+build() {
+	python3 setup.py build
+}
+
+package() {
+	python3 setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="7dcca87acfc5562cf735a440dc236a4af79a2a033e63b5ca9203129cbcb90d6f3f2c127c2a73f2b254f2316f9f6e91a23cddd3227411c02d63f5f44e806556aa  py3-bcrypt-3.2.0.tar.gz"

@@ -1,0 +1,66 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=libxcrypt
+pkgver=4.4.28
+pkgrel=1
+pkgdesc="Extended crypt library for descrypt, md5crypt, bcrypt and others."
+url="https://github.com/besser82/libxcrypt"
+arch="all"
+license="LGPL-2.1"
+depends=""
+makedepends=""
+checkdepends=""
+install=""
+subpackages="$pkgname-dev $pkgname-doc $pkgname-compat"
+source="https://github.com/besser82/$pkgname/releases/download/v$pkgver/$pkgname-$pkgver.tar.xz"
+builddir="$srcdir/"
+
+build() {
+	# Replace with proper build command(s)
+	mkdir build-libxcrypt build-compat
+	cd "${srcdir}/build-libxcrypt/"
+  "${srcdir}/${pkgname}-${pkgver}"/configure \
+    --prefix=/usr \
+    --disable-static \
+    --enable-hashes=strong,glibc \
+    --enable-obsolete-api=no \
+    --disable-failure-tokens
+  make
+
+  cd "${srcdir}/build-compat/"
+  "${srcdir}/${pkgname}-${pkgver}"/configure \
+    --prefix=/usr \
+    --disable-static \
+    --enable-hashes=strong,glibc \
+    --enable-obsolete-api=glibc \
+    --disable-failure-tokens
+  make
+}
+
+check() {
+	cd "$srcdir/build-libxcrypt/"
+	make check
+
+	cd "$srcdir/build-compat/"
+        make check
+}
+
+package() {
+	cd "$srcdir/build-libxcrypt/"
+	make DESTDIR="$pkgdir" install
+}
+
+compat() {
+	pkgdesc="Modern library for one-way hashing of passwords - legacy API functions"
+	depends="libxcrypt"
+	
+	mkdir "$subpkgdir"
+
+	cd "$srcdir/build-compat/"
+
+	make DESTDIR="$subpkgdir" install
+	rm -rf "$subpkgdir"/usr/share/man/
+}
+
+sha512sums="
+4371dd9a078c808a40288961634523dfa1f69abd1f4b9654f0562557c86726d3a7828c03a871bb03f01b3d0cf87389b55c9067a03871f5bd4d2d0649532045c2  libxcrypt-4.4.28.tar.xz
+"

@@ -1,0 +1,52 @@
+# Contributor: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=qt5-qtquickcontrols2
+pkgver=5.15.5_git20220617
+pkgrel=0
+_commit="59cc1cc5b3719713598a1f426d82a9d895b5dccb"
+pkgdesc="Qt5 - module with set of QtQuick controls for embedded"
+url="https://www.qt.io/developers/"
+arch="all"
+license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
+depends="qt5-qtgraphicaleffects"
+makedepends="
+	qt5-qtbase-dev
+	qt5-qtdeclarative-dev
+	"
+subpackages="$pkgname-dev"
+options="!check" # No tests
+builddir="$srcdir/qtquickcontrols2-$_commit"
+
+case $pkgver in
+	*_beta*|*_rc*) _rel=development_releases;;
+	*) _rel=official_releases;;
+esac
+
+source="https://invent.kde.org/qt/qt/qtquickcontrols2/-/archive/$_commit/qtquickcontrols2-$_commit.tar.gz"
+
+prepare() {
+	default_prepare
+
+	# We need to make the build system think we're running in a git repository
+	# so it correctly symlinks during the build
+	mkdir .git
+}
+
+build() {
+	qmake-qt5
+	make
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	install -d "$pkgdir"/usr/share/licenses
+	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
+}
+sha512sums="
+5582497a5b121a9fbf26f75b0fac19bf20a4e9c20129fd03e3fe56aea95943684f5e7719e8995ad0a8e819d700eba8e9991d646f355deb37f280f495ee6d0101  qtquickcontrols2-59cc1cc5b3719713598a1f426d82a9d895b5dccb.tar.gz
+"

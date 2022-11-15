@@ -1,0 +1,165 @@
+# Maintainer: Originull Software <packages@originull.org>
+#
+# secfixes:
+#   5.8-r0:
+#     - CVE-2019-20044
+#   5.4.2-r1:
+#     - CVE-2018-1083
+#     - CVE-2018-1071
+#
+pkgname=zsh
+pkgver=5.8.1
+pkgrel=1
+pkgdesc="Very advanced and programmable command interpreter (shell)"
+url="https://www.zsh.org/"
+arch="all"
+license="custom"
+makedepends="ncurses-dev diffutils"
+source="https://download.sourceforge.net/project/zsh/zsh/$pkgver/zsh-$pkgver.tar.xz
+	skel
+	zprofile
+	zshrc"
+
+subpackages="$pkgname-doc $pkgname-calendar::noarch $pkgname-vcs::noarch $pkgname-zftp"
+builddir="$srcdir/$pkgname-$pkgver"
+
+_libdir="usr/lib/zsh/$pkgver"
+_sharedir="usr/share/zsh/$pkgver"
+
+# Move some bigger completion files to subpackages.
+# <pkgname-prefix>:[<revdep>]:<file1>[:<file2>...]
+_comps="android-tools::Unix/_adb
+	bzr::Unix/_bzr
+	composer::Unix/_composer
+	cvs::Unix/_cvs
+	gcc::Unix/_gcc
+	git::Unix/_git
+	graphicsmagick::Unix/_graphicsmagick
+	imagemagick::Unix/_imagemagick
+	lynx::Unix/_lynx
+	postgresql:postgresql-client:Unix/_postgresql
+	rsync::Unix/_rsync
+	subversion::Unix/_subversion
+	tmux::Unix/_tmux
+	zfs::Unix/_zfs*:Unix/_zpool"
+for _i in $_comps; do
+	subpackages="$subpackages ${_i%%:*}-zsh-completion:_completion:noarch"
+done
+
+prepare() {
+	default_prepare
+
+	# Remove completions for other systems.
+	cd "$builddir/Completion"
+	rm -Rf AIX BSD Cygwin Darwin Debian Mandriva Redhat Solaris openSUSE
+
+	# remove the failing test suites
+	cd "$builddir/Test"
+	# SPLATTER: applet not found
+	rm -f A01grammar.ztst
+	# [[ $(strftime '%@' 0 2> /dev/null) == (%|)@ || $? != 0 ]]
+	rm -f V09datetime.ztst
+
+}
+
+build() {
+	cd "$builddir"
+	LIBS="-lutmps -lskarnet" ./configure \
+		--prefix=/usr \
+		--bindir=/bin \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--sysconfdir=/etc \
+		--enable-etcdir=/etc/zsh \
+		--enable-pcre \
+		--enable-unicode9 \
+		--enable-multibyte \
+		--enable-function-subdirs \
+		--enable-zprofile=/etc/zsh/zprofile \
+		--enable-zsh-secure-free \
+		--with-tcsetpgrp
+	make
+}
+
+check() {
+	cd "$builddir"
+
+	# See: https://www.zsh.org/mla/workers/2021/msg00805.html
+	unset LC_ALL
+	unset LC_COLLATE
+	unset LC_NUMERIC
+	unset LC_MESSAGES
+	unset LANG
+
+	make test
+}
+
+package() {
+	cd "$builddir"
+
+	make DESTDIR="$pkgdir" install
+	install -Dm644 "$srcdir"/zprofile "$pkgdir"/etc/zsh/zprofile
+	install -Dm644 "$srcdir"/zshrc "$pkgdir"/etc/zsh/zshrc
+	install -Dm755 "$srcdir"/skel "$pkgdir"/etc/skel/.zshrc
+
+	install -Dm644 LICENCE "$pkgdir"/usr/share/licenses/$pkgname/LICENCE
+}
+
+doc() {
+	default_doc
+	_submv $_sharedir/help
+}
+
+calendar() {
+	pkgdesc="Calendar Function System for ZSH"
+	depends="$pkgname"
+
+	_submv $_sharedir/functions/Calendar
+}
+
+vcs() {
+	pkgdesc="Version Control Information module for ZSH (vcs_info)"
+	depends="$pkgname"
+
+	_submv $_sharedir/functions/VCS_Info
+}
+
+zftp() {
+	pkgdesc="Zftp Function System for ZSH"
+	depends="$pkgname"
+
+	_submv $_libdir/zsh/zftp.so
+	_submv $_sharedir/functions/Zftp
+}
+
+_completion() {
+	local name="${subpkgname%-zsh-completion}"
+	pkgdesc="Zsh completions for $name"
+	depends="$pkgname"
+
+	local revdep="$(printf '%s\n' $_comps \
+		| sed -En "s|^$name:([^:]*):.*|\1|p")"
+
+	install_if="$pkgname=$pkgver-r$pkgrel ${revdep:-$name}"
+
+	local files="$(printf '%s\n' $_comps \
+		| sed -En "s|^$name:[^:]*:(.*)|\1|p" | tr : ' ')"
+	test -n "$files" || { echo "$name not found in \$_comps" >&2; return 1; }
+
+	local f; for f in $files; do
+		_submv $_sharedir/functions/Completion/$f
+	done
+}
+
+_submv() {
+	local path="$1"
+	mkdir -p "$subpkgdir"/${path%/*}
+	mv "$pkgdir"/$path "$subpkgdir"/${path%/*}/
+}
+
+sha512sums="
+f54a5a47ed15d134902613f6169c985680afc45a67538505e11b66b348fcb367145e9b8ae2d9eac185e07ef5f97254b85df01ba97294002a8c036fd02ed5e76d  zsh-5.8.1.tar.xz
+d820fcf65bb3c52f23e968110b5df1188fc0b64079312f64d22ffe35de3b4f3055d4d629b3b0f97a1bfaddf62dbc80676af31c3a1a79645632082abfc854cf97  skel
+57e57126e9e4d45c1ea1c62c60c0454098afe1f76823ed7f276b078b0d08f731b49e9fac50c9a9048b9655385a8110072d10de5bb11ccf66ec32f56a03143a7f  zprofile
+1675e016f97333cad89b587f4292d81b6bc10e27b75482e3e0c3808539c95bd49b907b6579fb98d817f77f2f2384c0df5afa3e2b6f43b6ae9b466925cd9ccffc  zshrc
+"

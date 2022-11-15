@@ -1,0 +1,87 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=glibc
+pkgver=2.35
+pkgrel=1
+pkgdesc="The GNU C Library (libc implementation)"
+url="https://www.gnu.org/software/libc"
+arch="all"
+license="LGPL2"
+options="lib64"
+subpackages="
+	$pkgname-dbg
+	$pkgname-dev
+	"
+source="http://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz
+	glibc-2.35-fhs-1.patch
+	locale-gen
+	locale.gen.txt"
+depends="tzdata"
+builddir="$srcdir/glibc-$pkgver"
+
+build() {
+	cd "$builddir"
+	mkdir -p glibc-build lib32-glibc-build
+
+	cd "$builddir/glibc-build"
+
+	echo "slibdir=/usr/lib" >> configparms
+	echo "rtlddir=/usr/lib" >> configparms
+	echo "sbindir=/usr/bin" >> configparms
+	echo "rootsbindir=/usr/bin" >> configparms
+
+	../configure \
+	--prefix=/usr \
+	--build=$CBUILD \
+	--host=$CHOST \
+	--target=$CTARGET \
+      --with-headers=/usr/include \
+      --with-bugurl=https://originull.org/hollywood/bugs \
+      --enable-kernel=3.2 \
+      --enable-stack-protector=strong \
+      --disable-systemtap \
+      --disable-profile \
+      --disable-crypt \
+      --disable-werror \
+	libc_cv_slibdir=/usr/lib
+	make
+
+	#pre-generate C.UTF-8
+	elf/ld.so --library-path "$PWD" locale/localedef -c -f "$builddir/localedata/charmaps/UTF-8" \
+		 -i "$builddir/localedata/locales/C" ../C.UTF-8/
+}
+
+package() {
+	mkdir -p "$pkgdir"
+	cd "$pkgdir"
+        ln -s ./usr/lib ./lib
+
+	cd "$builddir/glibc-build"
+	make DESTDIR="$pkgdir" install
+
+	rm -f "$pkgdir"/etc/ld.so.cache
+
+	# Shipped in tzdata
+ 	rm -f "$pkgdir"/usr/bin/{tzselect,zdump,zic}
+
+	install -m755 "$srcdir/locale-gen" "$pkgdir/usr/bin"
+	# Create /etc/locale.gen
+	install -m644 "$srcdir/locale.gen.txt" "$pkgdir/etc/locale.gen"
+	sed -e '1,3d' -e 's|/| |g' -e 's|\\| |g' -e 's|^|#|g' \
+	"$builddir/localedata/SUPPORTED" >> "$pkgdir/etc/locale.gen"
+
+	# install C.UTF-8 so that it is always available
+	install -dm755 "$pkgdir/usr/lib/locale"
+	cp -r "$builddir/C.UTF-8" -t "$pkgdir/usr/lib/locale"
+	sed -i '/#C\.UTF-8 /d' "$pkgdir/etc/locale.gen"
+
+	rm -rf "$pkgdir"/usr/bin/tzselect
+	rm -rf "$pkgdir"/usr/bin/zdump
+	rm -rf "$pkgdir"/usr/bin/zic
+}
+
+sha512sums="
+45bf782aeda508e17fd51b45cf5ad96bd1067cf96b758b5c2d5def681af713df15e75c253d9c85de047f0a1dd22cf4f2239d70ae392cdb9291092e6570734d43  glibc-2.35.tar.gz
+5b24f292cc87a133f45d743a95a8e706884e05ccf68024a0a88c0605c437928e111498feebca0259581da12d1ddb8e24726a67428e590240a1cbae48f7c2cc35  glibc-2.35-fhs-1.patch
+f355659d989729911629ff12c10bafd005e21548be38ce741398244e4b7618bbef12704efc3a3972f2bcf35f5b793de4585dca15d07b59b348bb6b2fda533429  locale-gen
+143a90bd350f9bd42e023050b1b10f98cdeac94ccee8adc070a4a812d39e347415c989beaeccfa8f3fb186a417567ccbed40a5e841f0601f820a8419b435794a  locale.gen.txt
+"

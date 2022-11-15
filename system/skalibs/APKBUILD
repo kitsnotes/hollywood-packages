@@ -1,0 +1,51 @@
+# Maintainer: Laurent Bercot <ska-devel@skarnet.org>
+# Contributor: John Regan <john@jrjrtech.com>
+pkgname=skalibs
+# NOTE: If you're upgrading to a new version that fixes some security
+# vulnerability, rebuild the following aports:
+# - busybox
+# - mingetty
+# - openssh
+# - util-linux
+pkgver=2.12.0.0
+pkgrel=4
+pkgdesc="Set of general-purpose C programming libraries for skarnet.org software."
+url="https://skarnet.org/software/skalibs/"
+arch="all"
+license="ISC"
+options="!check"
+subpackages="$pkgname-static $pkgname-dev $pkgname-doc"
+source="https://skarnet.org/software/skalibs/skalibs-$pkgver.tar.gz skalibs.pc"
+
+prepare() {
+	default_prepare
+	sed -i "s|@@VERSION@@|$pkgver|" -i "$srcdir"/*.pc
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--enable-shared \
+		--enable-static \
+		--libdir=/usr/lib
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	install -D -m 0644 "$srcdir/skalibs.pc" "$pkgdir/usr/lib/pkgconfig/skalibs.pc"
+	mkdir -p "$pkgdir/usr/share/doc"
+	cp -a "$builddir/doc" "$pkgdir/usr/share/doc/$pkgname"
+}
+
+dev() {
+	default_dev
+	mkdir -p "$subpkgdir"/usr/lib/"$pkgname"/sysdeps
+	mv "$pkgdir/usr/lib/$pkgname"/sysdeps/* \
+		"$subpkgdir/usr/lib/$pkgname"/sysdeps
+}
+
+sha512sums="
+7a431b47bb5be1d6f647da65026c7d3fa9c836b6a5e9984ae8b46dda9263a738ad1f26d76b6fe12b750f8338e9506fc8472f467c6d7d5b8369cadd602d9131bf  skalibs-2.12.0.0.tar.gz
+5771f0e72e7e7e9a45cafdf2e4508938a29ff9474845c897e383004b031ad142dee1b65d83a9a0168696782163cb4a32f82db4d7360413b433e68282cd4cc487  skalibs.pc
+"

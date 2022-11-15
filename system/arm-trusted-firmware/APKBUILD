@@ -1,0 +1,35 @@
+# Contributor: Milan P. Stanić <mps@arvanta.net>
+# Contributor: Maxim Karasev <begs@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=arm-trusted-firmware
+pkgver=2.5
+pkgrel=3
+pkgdesc="ARM Trusted Firmware-A (TF-A)"
+url="https://github.com/ARM-software/arm-trusted-firmware"
+arch="aarch64"
+license="BSD-3-Clause"
+makedepends="dtc openssl1.1-compat-dev"
+source="https://github.com/ARM-software/arm-trusted-firmware/archive/v$pkgver/arm-trusted-firmware-v$pkgver.tar.gz
+	rk3399-baudrate.patch"
+options="!check" # No tests
+
+_plats="sun50i_a64 sun50i_h6"
+
+build() {
+	unset LDFLAGS
+	for plat in $_plats; do
+		make PLAT=$plat bl31
+	done
+}
+
+package() {
+	for plat in $_plats; do
+		install -D "$builddir"/build/$plat/release/bl31.bin \
+			"$pkgdir"/usr/share/$pkgname/$plat/bl31.bin
+	done
+}
+
+sha512sums="
+3c99f1d849c3c536e8e2e4838ee48a1a431f0bef35eaf27eb14f9caebde71a577589b10efbbd7db49bed3b9763bed46583d0b26e72f61fcd0d34cc46ff684846  arm-trusted-firmware-v2.5.tar.gz
+86d8c60157145ab05e9b870aad11d2acaf2137ba00bf71419f8a54a4fd2b1906c19bc8bfeccc735344d1dcf11ba81bd9396bfd8854cdb972a72503b632d1e900  rk3399-baudrate.patch
+"

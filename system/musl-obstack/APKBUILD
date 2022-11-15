@@ -1,0 +1,28 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=musl-obstack
+pkgver=1.2.2
+pkgrel=0
+pkgdesc="Standalone library to implement GNU libc's obstack"
+url="https://github.com/void-linux/musl-obstack"
+arch="all"
+license="LGPL-2.1-or-later"
+options="!check" # no test suite
+makedepends="automake autoconf libtool"
+subpackages="$pkgname-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/void-linux/musl-obstack/archive/v$pkgver.tar.gz"
+
+prepare() {
+	default_prepare
+	./bootstrap.sh
+}
+
+build() {
+	./configure --prefix=/usr
+	make
+}
+
+package() {
+	make install DESTDIR="$pkgdir"
+}
+
+sha512sums="61ac90d8878ea620a5bab3ea8be1f8e42d26040475609f5a389a68b2dc0cfb4a10084deb994568392e5671b8ba405e9e78eb7e6313d03afbbcdde82d2e7995b0  musl-obstack-1.2.2.tar.gz"

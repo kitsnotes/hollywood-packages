@@ -1,0 +1,5 @@
+#!/bin/sh
+export XDG_RUNTIME_DIR=/run/sddm-console/
+export QT_QPA_PLATFORM=eglfs
+export QT_QPA_PLATFORMTHEME=hollywood
+/usr/libexec/hollywood/compositor

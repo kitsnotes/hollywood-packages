@@ -1,0 +1,43 @@
+# Contributor: David Demelier <markand@malikania.fr>
+# Maintainer: David Demelier <markand@malikania.fr>
+pkgname=cog
+pkgver=0.16.1
+pkgrel=0
+pkgdesc="simple browser for WebKit WPE"
+url="https://github.com/Igalia/cog"
+# riscv64: wpewebkit not available.
+arch="all !riscv64"
+license="MIT"
+makedepends="cairo-dev
+	cmake
+	eudev-dev
+	libinput-dev
+	libsoup3-dev
+	libwpebackend-fdo-dev
+	meson
+	mesa-dev
+	samurai
+	wayland-dev
+	wayland-protocols
+	webkit-dev
+	"
+source="https://github.com/Igalia/cog/releases/download/$pkgver/cog-$pkgver.tar.xz"
+subpackages="$pkgname-dev $pkgname-doc"
+
+build() {
+	abuild-meson \
+                . output
+        meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+check() {
+        meson test -v -C output
+}
+
+package() {
+        DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="
+c52e339629d32ae76feccdbff6f1507b992da8bd2cd8708e586c1aee6b434f1012844c61f4962e96049b3b8e55d201fbbb8747ad8712220b95d92860d4b021a0  cog-0.16.1.tar.xz
+"
