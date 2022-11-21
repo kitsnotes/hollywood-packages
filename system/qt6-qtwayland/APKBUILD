@@ -1,7 +1,7 @@
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=qt6-qtwayland
 pkgver=6.3.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Provides APIs for Wayland"
 url="https://qt.io/"
 arch="all"

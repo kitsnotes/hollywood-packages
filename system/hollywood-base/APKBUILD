@@ -8,7 +8,7 @@ url="https://originull.org"
 arch="noarch"
 license="MIT"
 depends="filesystem  apk-tools elogind logrotate eudev coreutils vim nano 
-	dash doas efibootmgr grep gawk diffutils sed findutils binutils cpio lsblk gzip tar
+	dash doas efibootmgr grep gawk diffutils sed findutils binutils cpio lsblk gzip tar acpid
 	plymouth plymouth-themes dracut ca-certificates lvm2 device-mapper tzdata kbd kbd-bkeymaps 
 	iptables nftables iproute2 less tmux hostname curl wget e2fsprogs which shadow
 	openrc plymouth-openrc-plugin util-linux hollywood-keys zsh btrfs-progs

@@ -1,6 +1,1 @@
-#!/bin/sh
-
-udevadm control --reload-rules
-udevadm trigger
-
-exit 0
+device-mapper-udev.post-install

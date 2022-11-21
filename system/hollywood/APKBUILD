@@ -2,13 +2,13 @@
 # Maintainer: The Cat <cat@originull.org>
 pkgname=hollywood
 pkgver=1.0
-pkgrel=16
+pkgrel=24
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
 options="!check" # no test suite
 license="GPL2"
-depends="hollywood-base qt6-qtbase qt6-qtwayland elogind eudev libinput libapk-qt efivar efibootmgr hunspell hunspell-lang libdrm ttf-hack ttf-opensans breeze-icons djvulibre libspectre poppler sddm"
+depends="hollywood-base qt6-qtbase qt6-qtwayland elogind eudev libinput libapk-qt efivar efibootmgr hunspell hunspell-lang libdrm ttf-hack ttf-opensans breeze-icons djvulibre libspectre poppler sddm font-noto-emoji font-adobe-source-serif wireplumber pipewire pipewire-pulse wireplumber-logind rtkit pulseaudio-client"
 makedepends="qt6-qtwayland-dev 
 	     mdnsresponder-dev
 	     libinput-dev
@@ -27,7 +27,8 @@ makedepends="qt6-qtwayland-dev
 	     qt6-qt5compat-dev
 	     qt6-qtcharts-dev"
 source="https://depot.originull.org/upstream/hollywood-desktop-$pkgver.tar.gz
-	hollywood.conf"
+	hollywood.conf
+	fontconfig.conf"
 builddir="$srcdir/hollywood-desktop-$pkgver/"
 subpackages="$pkgname-dev $pkgname-doc"
 replaces="hollywood-shell hollywood-qt6-libs hollywood-sysmon hollywood-settings hollywood-cursors hollywood-assets 
@@ -41,7 +42,14 @@ build() {
 package() {
 	cd $builddir
 	make INSTALL_ROOT="$pkgdir" install
-	
+
+	mkdir -p "$pkgdir"/usr/share/fontconfig/conf.avail/
+	install -D -m644 "$srcdir"/fontconfig.conf  \
+		"$pkgdir"/usr/share/fontconfig/conf.avail/50-hollywood.conf
+
+	mkdir -p "$pkgdir"/etc/fonts/conf.d/
+	ln -s /usr/share/fontconfig/conf.avail/50-hollywood.conf "$pkgdir"/etc/fonts/conf.d/50-hollywood.conf
+
 	mkdir -p "$pkgdir"/usr/share/icons/neutral/
 	cp -ra "$builddir"/assets/neutral/* "$pkgdir"/usr/share/icons/neutral/
 	find "$pkgdir"/usr/share/icons/ -type d -exec chmod 755 {} \;
@@ -64,6 +72,7 @@ package() {
 }
 
 sha512sums="
-afb69241dd7ce33a58771ec5621e8334589bf3910ea741c70f80836402442e69b406c9a5d5a8b508c5af49c006b72be028ec21998c92e594ca9f3381960b9e1e  hollywood-desktop-1.0.tar.gz
+e33e10c23991328370cf1d4891b3f42f2bf67ab4543e587cdecbe4d8cddcde9451ac8fc73785efba3e7fdda9196913ce85f68e841a1a530ce5e19443c8f2d5be  hollywood-desktop-1.0.tar.gz
 472516ee32d38e9307f916f7eea03a225ccd7fd2658a04b55fc9495374021898314cf95a912966fe84d13e887ef6dd300177e859099b98e18d30863ad6a19855  hollywood.conf
+1db0ca5dbaffb35f230811741f18e11fd03c3b516728ee99ca82b6ef846b7929b16301c804cb1f184ba5aa1c629df3e855ae5ec6cb5abdc55e5d3b38d9736be8  fontconfig.conf
 "

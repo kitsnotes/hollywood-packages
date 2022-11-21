@@ -1,0 +1,12 @@
+diff -Naur sddm-orig/src/helper/UserSession.cpp sddm/src/helper/UserSession.cpp
+--- sddm-orig/src/helper/UserSession.cpp	2022-11-20 17:25:14.653568835 -0800
++++ sddm/src/helper/UserSession.cpp	2022-11-20 17:25:58.223568856 -0800
+@@ -174,7 +174,7 @@
+                 if (ioctl(STDIN_FILENO, TIOCSCTTY) < 0) {
+                     const auto error = strerror(errno);
+                     qCritical().nospace() << "Failed to take control of " << ttyString << " (" << QFileInfo(ttyString).owner() << "): " << error;
+-                    exit(Auth::HELPER_OTHER_ERROR);
++               //     exit(Auth::HELPER_OTHER_ERROR);
+                 }
+             }
+ 

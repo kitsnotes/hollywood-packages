@@ -1,0 +1,6 @@
+#!/bin/sh
+
+addgroup --system rtkit 2>/dev/null
+adduser --no-create-home --system --disabled-password --home /dev/null --shell /sbin/nologin --ingroup rtkit rtkit 2>/dev/null
+
+exit 0

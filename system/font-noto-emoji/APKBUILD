@@ -1,0 +1,26 @@
+# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
+# Maintainer: Sören Tempel <soeren+alpine@soeren-tempel.net>
+pkgname=font-noto-emoji
+pkgver=2.038
+pkgrel=0
+pkgdesc="Google Noto emoji fonts"
+url="https://github.com/googlefonts/noto-emoji"
+arch="noarch"
+license="OFL-1.1"
+source="https://github.com/googlefonts/noto-emoji/archive/v$pkgver/font-noto-emoji-$pkgver.tar.gz"
+options="!check" # No code to test
+builddir="$srcdir/noto-emoji-$pkgver"
+
+# Prior to commit 213931dec8bb08b1d4e500bf06f3892d711e9499 we build
+# font-noto-emoji from source. However, some makedependencies were not
+# available on all architectures and building everything from source
+# blocks some builders for some time, hence using the pre-built now.
+
+package() {
+	install -Dm644 -t "$pkgdir"/usr/share/fonts/noto \
+		fonts/NotoColorEmoji.ttf
+}
+
+sha512sums="
+ed6d56086fb18b9572997f745479f8c5bc83e20acaeebf9cefc5127ba2c945f58d91bb49daa108391fdd23c5da7d50041232362cb9ca05c5027a17a6a3b9d72b  font-noto-emoji-2.038.tar.gz
+"

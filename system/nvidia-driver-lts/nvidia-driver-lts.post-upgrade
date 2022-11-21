@@ -1,3 +1,1 @@
-#!/bin/sh
-
-dracut --force --quiet /boot/initramfs-lts `uname -r`
+./nvidia-driver-lts.post-install

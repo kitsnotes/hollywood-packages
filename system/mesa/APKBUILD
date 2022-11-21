@@ -1,7 +1,7 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=mesa
-pkgver=22.1.7
-pkgrel=6
+pkgver=22.2.2
+pkgrel=1
 pkgdesc="Mesa DRI OpenGL library"
 url="https://www.mesa3d.org"
 arch="all"
@@ -134,7 +134,7 @@ package() {
 }
 
 sha512sums="
-447e87359445edce231761d94b316b2aa20e9ab58e4b59d75cbb1696dd0900e7164c32bebc3b75700b4070570b456f7a8cf0914181371754a52427d34e4b9120  mesa-22.1.7.tar.xz
+a1eb67e1ae4880c79b1fdc570f4389baba0b8ba796da7e695c9af19a7d92b6c06b95570e6c796548b61355989025fb7efbf9acac74cbd695f7e297dc913b933c  mesa-22.2.2.tar.xz
 ae5ffb9259efc339a868c778186889fa1a6eacb4dc4b2452f31f9c65e1a6273e856665300d2982fb2680b4d182aae574ceda258e15c00d7ae16960ba09240ef1  disable-rgb10-by-default.patch
 fdbc13888f09d157feae6ce3b8a63cc606d7ed19e364cdb89ccce25a367255b498bbe82862a487c29d8f98d5e31980ef1f0879b06823cedb54801fd54cd461ad  0001-radeonsi-On-Aarch64-force-persistent-buffers-to-GTT.patch
 "

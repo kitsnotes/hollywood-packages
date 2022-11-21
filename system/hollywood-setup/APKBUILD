@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood-setup
 pkgver=1.1
-pkgrel=26
+pkgrel=27
 pkgdesc="Hollywood Setup Assistant"
 url="https://originull.org/hollywood"
 arch="all"
@@ -68,5 +68,5 @@ image() {
 }
 
 sha512sums="
-e0a0c613734248d0ee3a01e2b795a3f073e4aeb8047036599f5abb31d61d0868d4fc180aac7e78e09fe6e773e03bd1a28c2d9590109dac509c76bf32c24c5200  hollywood-horizon.tar.gz
+1fffa82d5a6b112309c7b798e69e957ecb42cc870b7f862eca2a713524c3df2628b8eda0ed641d27cce2ec44b91ac3390ae90d75022088fe2f91f07514e3b643  hollywood-horizon.tar.gz
 "

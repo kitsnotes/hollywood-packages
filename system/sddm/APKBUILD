@@ -1,8 +1,6 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=sddm
 pkgver=0.19.98
-pkgrel=6
+pkgrel=7
 pkgdesc="Simple Desktop Display Manager"
 url="https://github.com/sddm/sddm/"
 # armhf blocked by qt5-qtdeclarative
@@ -36,9 +34,9 @@ pkggroups="sddm"
 builddir="$srcdir/$pkgname"
 source="
 	https://depot.originull.org/upstream/sddm-git.tar.gz
-	sddm-compositor
 	10-hollywood.conf
 	0001-pam-path-fix.patch
+	99-hollywood-temp-fix.patch
 	sddm.initd
 	sddm.confd
 	"
@@ -72,15 +70,14 @@ package() {
 
 	install -Dm755 "$srcdir"/sddm.initd "$pkgdir"/etc/init.d/sddm
 	install -Dm644 "$srcdir"/sddm.confd "$pkgdir"/etc/conf.d/sddm
-	install -Dm755 "$srcdir"/sddm-compositor "$pkgdir"/usr/libexec/hollywood/sddm-compositor
 	install -Dm644 "$srcdir"/10-hollywood.conf "$pkgdir"/etc/sddm.conf.d/10-hollywood.conf
 }
 
 sha512sums="
 63731e27227aeebd2c3c8233ffd8128283a5141a0b6dfbf42efb71e285357653ef6ef536d3c3c8a0199d6faff4fc43d7930393dccbf09469059cf70cc102019b  sddm-git.tar.gz
-b5dd66bc4ef72ef63bab110f97e14dd08e4bfa2ca7a0115839b3b6d7fb0439d88658f702c50455b5609d192bc087b435001bd802204624d52ccec7b1392ef253  sddm-compositor
-196930a89e3d9c43da149f201a31015fc7155449358195db40f0c5a2572e2cf2967c74b5fd5d7a4fac19b80851463b76585ea2d77b367c87d961308a4f6a19f6  10-hollywood.conf
+4693a227d844d6d688db2ce8f166d9594ef43c36e422d164f9c5fe4869e6218c9c11a873a5b8f93fd3ccf3fbb54d9783fe88477395844a853715323ab3ad657a  10-hollywood.conf
 f0b4eb7ef0581701157f9decc637629156f36f6711b9a4bae517f94d7a1df614c81bbd891c918f07ac50e2a3d1519c43ccb9eefd80282c95dd79eca0e8d90904  0001-pam-path-fix.patch
-0bfd0e850505ece7bb4e51e0b60a09892828258400ae9d7d728e9d7d266c4c19c838273bbbb8225d942ea328fe0ac5234b7364f585c9c75108aa60efadf552b7  sddm.initd
+bd17597ecff08c40d968d9bd8cbec3254ca4f4c7826d36f6f016266c4f46bf25672e80fbf0903f857c545b10c50b40be100df8f47d21927afb59bd4a7d013316  99-hollywood-temp-fix.patch
+4876bf46790dd507f0df803987ad81d7ff2a00c22a8aabec88dd0e3a23aeda92aac59f08ef56ed1bf2b5cb9443077e77b31c9f453bafab2fd6f533be242fcbd4  sddm.initd
 b841282b96110ec59a7aa539db0737327b09549d55c78dc4b2c3b28b4a6ad1facf015b3175cb6d3a38f13e47aa6314ef3dc1514a4e60dd653a97409ec54ba706  sddm.confd
 "

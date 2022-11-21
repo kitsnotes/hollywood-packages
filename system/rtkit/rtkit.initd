@@ -1,0 +1,10 @@
+#!/sbin/openrc-run
+
+name="Realtime Scheduling Agent"
+command="/usr/libexec/rtkit-daemon"
+command_background="yes"
+pidfile="/run/$RC_SVCNAME.pid"
+
+depend() {
+	need dbus
+}

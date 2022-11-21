@@ -1,0 +1,22 @@
+pkgname=font-adobe-source-serif
+pkgver=4.004
+pkgrel=0
+pkgdesc="Monospaced font family for user interface and coding environments"
+url="https://adobe-fonts.github.io/source-serif/"
+arch="noarch"
+license="OFL-1.1"
+depends="font-util"
+options="!check"
+source="https://github.com/adobe-fonts/source-serif/releases/download/${pkgver}R/source-serif-${pkgver}.zip"
+builddir="$srcdir/source-serif-${pkgver}"
+
+package() {
+	for x in "$builddir"/OTF/*.otf; do
+		install -d "$pkgdir/usr/share/fonts/OTF/"
+		install -m644 "$x" "$pkgdir/usr/share/fonts/OTF"
+	done
+}
+
+sha512sums="
+3af0451c02a11cac3ea3b123c766cddaa99aa52ba81acca7436930237b5c5e13b0b5c384883499ad508bb4510ab55b81ceebb72d546a2c9cfb695feb6c7d774d  source-serif-4.004.zip
+"

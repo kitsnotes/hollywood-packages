@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtbase
 pkgver=6.3.1
-pkgrel=6
+pkgrel=7
 pkgdesc="A cross-platform application and UI framework"
 url="https://qt.io/"
 arch="all"
@@ -86,7 +86,6 @@ build() {
 		-DQT_FEATURE_eglfs_egldevice=on \
 		-DQT_FEATURE_eglfs_gbm=on \
 		-DQT_FEATURE_kms=ON \
-		-DQT_FEATURE_opengles2=ON \
 		$_opengl
 	cmake --build build --parallel
 }

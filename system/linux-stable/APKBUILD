@@ -2,12 +2,12 @@
 
 _flavor=stable
 pkgname=linux-${_flavor}
-pkgver=6.0.7
+pkgver=6.0.8
 case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver-rc3;;
 esac
-pkgrel=1
+pkgrel=5
 pkgdesc="Linux stable kernel"
 url="https://www.kernel.org"
 depends="initramfs-generator"
@@ -278,7 +278,7 @@ _dev() {
 }
 
 sha512sums="
-a03e67781a3b5593e1f663907079fe4618c0259634d5f8dfed620884c2c154f45e4d371b70353f8dbc88f71148b8a31c8863b26756e81bf82699a2b72be9df8e  linux-6.0.7.tar.xz
-51e7c982c3ae86679555c1df46f35e474546b1f1248c25ebb1e3f0294b54faa49d3ae4b0d5091c95f4a35bcd9bc359dff6a5b132cef1aca3d275a8a5230f5382  stable.aarch64.config
+3afa6877a3c7b0216cc7651fa89c7718dd751559be5b0e42f88e681ba2cfe788eaf9be2c8e7c560e592e3143d06737264559fc8eb771dcfd0ab78f3736d04c17  linux-6.0.8.tar.xz
+fb9b5318c5a31d68cffe19ea044a39f292c6405c82c9b29e5e97e1c6f280004ca30dbab3a6a2e75c84d59aad16a86526b5423018a6731131b660c1087604afcd  stable.aarch64.config
 955cecde83724b30ebc48e3aabb255e031fe46bac64f41fafe840de6b7a58cf4e63dd00f4734dd891fad0cc1cc0ff7621e105a961413838eb4ea61964c0682e8  stable.x86_64.config
 "
