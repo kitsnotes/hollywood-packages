@@ -1,5 +1,5 @@
 system/*/pkg
 system/*/src
 *.o
-
+rsync.sh
 *.iso
