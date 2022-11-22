@@ -12,6 +12,8 @@ makedepends="
 	bubblewrap
 	qt5-qtbase-dev
 	qt6-qtbase-dev
+	qt5-qtdeclarative-dev
+	qt6-qtdeclarative-dev
 	cairo-dev
 	cmake
 	gperf
@@ -21,7 +23,7 @@ makedepends="
 	libepoxy-dev
 	libgcrypt-dev
 	libseccomp-dev
-	libsoup-dev
+	libsoup3-dev
 	libtasn1-dev
 	libwpe-dev
 	libwpebackend-fdo-dev
@@ -55,7 +57,7 @@ build() {
 		-DENABLE_WPE_QT_API=On \
 		-DENABLE_GTKDOC=Off \
 		-DENABLE_INTROSPECTION=Off \
-		-DUSE_SOUP2=On \
+		-DUSE_SOUP3=On \
 		-DUSE_SYSTEMD=Off \
 		-DENABLE_WPE_QT=ON \
 		-GNinja \
