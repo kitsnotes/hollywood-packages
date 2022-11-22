@@ -1,0 +1,6 @@
+#!/bin/sh
+
+addgroup --system dnsmasq 2>/dev/null
+adduser --system --disabled-login --no-create-home --home /dev/null --shell /sbin/nologin --ingroup dnsmasq dnsmasq 2>/dev/null
+
+exit 0
