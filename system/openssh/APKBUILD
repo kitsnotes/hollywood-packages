@@ -1,32 +1,31 @@
-# Contributor: Leonardo Arena <rnalrd@alpinelinux.org>
-# Contributor: Valery Kartel <valery.kartel@gmail.com>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=openssh
-pkgver=8.8_p1
+pkgver=9.1_p1
 _myver=${pkgver%_*}${pkgver#*_}
-pkgrel=2
+pkgrel=1
 pkgdesc="Port of OpenBSD's free SSH release"
 url="https://www.openssh.com/portable.html"
 arch="all"
 license="BSD"
 options="suid"
 depends="openssh-client openssh-sftp-server openssh-server"
+makedepends_build="autoconf automake"
 makedepends_host="
 	linux-headers
-	openssl-dev
-	utmps-dev
-	utmps-static
+	openssl-dev>3
 	zlib-dev
 	"
 #
-# NOTE: if you edit this file, please make sure that it builds with `BOOSTRAP=1 abuild -r`
+# NOTE: if you edit this file, please make sure that it builds with `BOOTSTRAP=1 abuild -r`
 #
-# build boostrap sshd without libedit, linux-pam and krb5
+# build bootstrap sshd without libedit, linux-pam and krb5
 if [ -z "$BOOTSTRAP" ]; then
-	makedepends_host="$makedepends_host libedit-dev linux-pam-dev heimdal-dev"
+	makedepends_host="$makedepends_host libedit-dev linux-pam-dev krb5-dev libfido2-dev
+		utmps-dev utmps-static"
 	subpackages="$pkgname-client-krb5:_client_krb5
 		$pkgname-server-pam:_server_with_flavor
-		$pkgname-server-krb5:_server_with_flavor"
+		$pkgname-server-krb5:_server_with_flavor
+		$pkgname-sk-helper:_ssh_sk_helper"
 fi
 
 makedepends="$makedepends_build $makedepends_host"
@@ -49,6 +48,9 @@ source="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-$_myver.tar
 	disable-forwarding-by-default.patch
 	fix-verify-dns-segfault.patch
 	avoid-redefined-warnings-when-building-with-utmps.patch
+	gss-serv.c.patch
+	default-internal-sftp.patch
+	fix-always-use-compat-getentropy.patch
 
 	sshd.initd
 	sshd.confd
@@ -78,10 +80,18 @@ source="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-$_myver.tar
 builddir="$srcdir"/$pkgname-$_myver
 
 _do_configure() {
+	autoreconf
 	local _with_libedit="--with-libedit"
 	if [ -n "$BOOTSTRAP" ]; then
 		_with_libedit="--without-libedit"
 	fi
+
+	local _extra_cflags="" _extra_libs=""
+	if [ -z "$BOOTSTRAP" ]; then
+		_extra_cflags="$(pkg-config --cflags --static utmps)"
+		_extra_libs="$(pkg-config --libs --static utmps)"
+	fi
+
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
@@ -91,13 +101,17 @@ _do_configure() {
 		--mandir=/usr/share/man \
 		--with-pid-dir=/run \
 		--with-mantype=doc \
+		--with-cflags="$CFLAGS $_extra_cflags" \
+		--with-libs="$_extra_libs" \
+		--with-ldflags="$LDFLAGS" \
+		--disable-utmp \
+		--disable-wtmp \
 		--disable-lastlog \
 		--disable-strip \
 		--with-privsep-path=/var/empty \
 		--with-xauth=/usr/bin/xauth \
 		--with-default-path='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' \
 		--with-privsep-user=sshd \
-		--with-md5-passwords \
 		--with-ssl-engine \
 		$_with_libedit \
 		"$@"
@@ -106,6 +120,7 @@ _do_configure() {
 build() {
 	export LD="$CC"
 	export TEST_SSH_UTF8=no # utf8 test fails
+	local _with_security_key_builtin=
 
 	if [ -z "$BOOTSTRAP" ]; then
 		msg "Building openssh with pam support..."
@@ -118,10 +133,12 @@ build() {
 		make
 		mv sshd sshd.krb5
 		mv ssh ssh.krb5
+
+		_with_security_key_builtin="--with-security-key-builtin"
 	fi
 
 	msg "Building openssh without pam and kerberos5"
-	_do_configure --without-kerberos5 --without-pam
+	_do_configure --without-kerberos5 --without-pam $_with_security_key_builtin
 	make
 }
 
@@ -188,6 +205,12 @@ _client_krb5() {
 	mv "$subpkgdir"/usr/bin/ssh.krb5 "$subpkgdir"/usr/bin/ssh
 }
 
+_ssh_sk_helper() {
+	pkgdesc="OpenSSH libfido2 security key helper"
+	depends="openssh-keygen=$pkgver-r$pkgrel openssh-server-common=$pkgver-r$pkgrel"
+	amove usr/lib/ssh/ssh-sk-helper
+}
+
 _client_default() {
 	pkgdesc="OpenBSD's SSH client"
 	depends="openssh-keygen=$pkgver-r$pkgrel openssh-client-common=$pkgver-r$pkgrel !openssh-client-krb5"
@@ -248,12 +271,15 @@ _server_with_flavor() {
 }
 
 sha512sums="
-d44cd04445f9c8963513b0d5a7e8348985114ff2471e119a6e344498719ef40f09c61c354888a3be9dabcb5870e5cbe5d3aafbb861dfa1d82a4952f3d233a8df  openssh-8.8p1.tar.gz
-f35fffcd26635249ce5d820e7b3e406e586f2d2d7f6a045f221e2f9fb53aebc1ab1dd1e603b3389462296ed77921a1d08456e7aaa3825cbed08f405b381a58e1  fix-utmp.patch
+a1f02c407f6b621b1d0817d1a0c9a6839b67e416c84f3b76c63003b119035b24c19a1564b22691d1152e1d2d55f4dc7eb1af2d2318751e431a99c4efa77edc70  openssh-9.1p1.tar.gz
+b10a9eb167cfbb23b144fdb03f30a0363be9a715ceb3c202c971ec4f36160e434cc6bbad91d0e49106189e07152067f7e227df28b5a1b82f3901cb36cba321b5  fix-utmp.patch
 c1d09c65dbc347f0904edc30f91aa9a24b0baee50309536182455b544f1e3f85a8cecfa959e32be8b101d8282ef06dde3febbbc3f315489339dcf04155c859a9  sftp-interactive.patch
 8df35d72224cd255eb0685d2c707b24e5eb24f0fdd67ca6cc0f615bdbd3eeeea2d18674a6af0c6dab74c2d8247e2370d0b755a84c99f766a431bc50c40b557de  disable-forwarding-by-default.patch
 b0d1fc89bd46ebfc8c7c00fd897732e67a6cda996811c14d99392685bb0b508b52c9dc3188b1a84c0ffa3f72f57189cc615a76b81796dd1b5f552542bd53f84d  fix-verify-dns-segfault.patch
 e85754b2b6c4c37b432d166e63d6293e58c9c8bb6ebd8d3527c83afa2337f14c06d6a4e008ffcc0afd7dc3409e960b89c1dde41d2543c4be7d4813d477ff3a5e  avoid-redefined-warnings-when-building-with-utmps.patch
-48f3f2deb2425d77ff60a54f584c19209d9f202efd664a151626f1af77709e85142f4cf2a76c686cf59344b6a7fe5d2b65713e267b083b4b1b7ef905a71fe846  sshd.initd
+f659641b841981f78b03281b7a01add9fbf35b91c0f21c11335a56d7e389ddf965d83d18d73b724385311cdb597b6d6c46446cbc702cdd4d15e8f43591306cb3  gss-serv.c.patch
+1fb55aae445dfd9ededeba1f204a0c3e4a752128ad0a388f473ace074e68b040112f309192243621fd4f16b0d1cce4f083612b1639c3e18166abf92babe52c93  default-internal-sftp.patch
+6af82768322c848a769ccba97d3cc247384e783cb9f3985983c78b92af8a805937bc1334c58f58348d5638fcf36699476b51332e0c6482ec49471f117036525f  fix-always-use-compat-getentropy.patch
+50e407d72bfafc7fb276a1e56b1701f8cd91dfcbad2304bec516d69fc5e8334857ef96510dff76d0c407f29955dc2b18570d6f7b557688ceb641280f8279af83  sshd.initd
 be7dd5f6d319b2e03528525a66a58310d43444606713786b913a17a0fd9311869181d0fb7927a185d71d392674857dea3c97b6b8284886227d47b36193471a09  sshd.confd
 "
