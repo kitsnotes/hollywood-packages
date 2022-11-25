@@ -1,4 +1,4 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libssh2
 pkgver=1.10.0
 pkgrel=3
@@ -6,7 +6,7 @@ pkgdesc="library for accessing ssh1/ssh2 protocol servers"
 url="https://libssh2.org/"
 arch="all"
 license="BSD-3-Clause"
-makedepends_host="openssl-dev zlib-dev"
+makedepends_host="openssl-dev>3 zlib-dev"
 subpackages="$pkgname-dbg $pkgname-static $pkgname-dev $pkgname-doc"
 source="http://www.libssh2.org/download/libssh2-$pkgver.tar.gz
 	"
