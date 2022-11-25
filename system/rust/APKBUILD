@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=rust
-pkgver=1.62.0
+pkgver=1.63.0
 _llvmver=14
 _bootver=1.62.0
 pkgrel=0
@@ -170,7 +170,6 @@ build() {
 		--set="rust.codegen-units-std=1" \
 		--set="rust.parallel-compiler=false" \
 		--set="target.$_target.llvm-config=/usr/lib/llvm$_llvmver/bin/llvm-config" \
-		--set="target.$_target.musl-root=/usr" \
 		--set="target.$_target.crt-static=false" \
 		--set="target.$_target.cc=${CROSS_COMPILE}gcc" \
 		--set="target.$_target.cxx=${CROSS_COMPILE}c++" \
@@ -188,7 +187,8 @@ build() {
 	sed 's/#deny-warnings = .*/deny-warnings = false/' -i config.toml
 	sed 's|deny(warnings,|deny(|' -i src/bootstrap/lib.rs
 
-	python3 ./x.py dist --jobs ${JOBS:-2}
+	python3 ./x.py dist --jobs 4
+	# ${JOBS:-2}
 }
 
 check() {
@@ -381,7 +381,7 @@ _mv() {
 }
 
 sha512sums="
-02872a8409b0490fa9fa7a70756cbf103643694df6b2e2aea32ad8b70032a3162c7751cd92d78291587ee0120daeb9bc1ae5ec6136c7eb6eb584d8be3032dd3d  rustc-1.62.0-src.tar.xz
+0dd3cd1546bd9c1438afe0c4694e1ed80507f6b437674682c0474e13f83457e9ced4560ddeee58602e01837140f9e34a9e24c6828643dd6f613e07755af6997c  rustc-1.63.0-src.tar.xz
 6b83ae0a3a69cc38fbc3ac61622dc399c1b27d8b407e4e96c535f718274f5407042f4cdaec59bc042153ddf66455f8d607cd91b6bba8d9b8e94c31de51756220  hollywood-target.patch
 03a179e31c95f88a98fb1ba6b2fd0baaf9fe1a74ade76d3096fe45ddc5e453c25109355e667783d9be1bcc585445d07b7270cb3e6e403de971049714f2c6f91a  alpine-move-py-scripts-to-share.patch
 7af23c34096f7a03c5a1b40aa07e00dd6193743c872881018a9baa900f240c6e44918e481ab5ed7787a70ef361e4aeec2a7719bcd695f52988262e23271b44e5  do-not-install-libunwind-source.patch
