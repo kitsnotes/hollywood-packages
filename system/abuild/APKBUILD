@@ -2,7 +2,7 @@
 pkgname=abuild
 pkgver=3.10.0_rc1
 _ver=${pkgver%_git*}
-pkgrel=0
+pkgrel=1
 pkgdesc="Script to build Alpine Packages"
 url="https://git.alpinelinux.org/cgit/abuild/"
 arch="all"
@@ -28,6 +28,7 @@ pkggroups="abuild"
 source="https://git.alpinelinux.org/abuild/snapshot/abuild-$pkgver.tar.xz
 	fix-hostspecs-for-glibc.patch
 	use-debian-adduser-flags.patch
+	fix-aarch64-host-match.patch
 	"
 builddir="$srcdir"/abuild-$pkgver
 
@@ -84,4 +85,5 @@ sha512sums="
 81f43b2aa798a5efbb00ab72bdf2ce803dd9ffc9e4eb6f752fca224884cb12ba0235ec03958a0a001a62ffec2f1cd9c6d342c104fea9f61526ebc8753dca40f2  abuild-3.10.0_rc1.tar.xz
 961b7f001353f6893352d69f04555a5a70ddd1a0c5a52b29ef0bbd9c5b128db1c74ef2da0aaeebe4977c40a2022c7830a36700a9da533abbce7a89a14bd2feae  fix-hostspecs-for-glibc.patch
 7e54a94449a5018fa7b3848c8e73850861b29fa4922b1e3a5ade664b6d7417eaa12aff886455aa0499666410397c46e3c6c5dc080a3d6199366397dfe584c407  use-debian-adduser-flags.patch
+848b1e1efbac73624f590ee28dadc154cd394adfabb11035afb48fcdbba67c81de939776d806cfb71c086af4bb05c283684bc15650df110d954904940d98b110  fix-aarch64-host-match.patch
 "
