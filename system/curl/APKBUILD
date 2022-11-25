@@ -1,30 +1,49 @@
-# Contributor: Sergei Lukin <sergej.lukin@gmail.com>
-# Contributor: Valery Kartel <valery.kartel@gmail.com>
-# Contributor: Łukasz Jendrysik <scadu@yandex.com>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
-
-# RESTRICTED: Do NOT enable the rustls or hyper backends, as they depend on Rust
-# and Rust is not yet available on all architectures.  Any commit which changes
-# this aport from arch=all WILL be reverted.
-
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=curl
-pkgver=7.80.0
-pkgrel=0
+pkgver=7.86.0
+pkgrel=1
 pkgdesc="URL retrival utility and library"
 url="https://curl.se/"
 arch="all"
-license="MIT"
+license="curl"
 depends="ca-certificates"
-depends_dev="openssl1.1-compat-dev nghttp2-dev zlib-dev brotli-dev"
+depends_dev="openssl-dev>3 nghttp2-dev zlib-dev brotli-dev"
 checkdepends="nghttp2 python3"
 makedepends_host="$depends_dev"
 makedepends_build="autoconf automake groff libtool perl"
 subpackages="$pkgname-dbg $pkgname-static $pkgname-doc $pkgname-dev libcurl"
-source="https://curl.se/download/curl-$pkgver.tar.xz"
+[ -z "$BOOTSTRAP" ] && subpackages="$subpackages $pkgname-zsh-completion $pkgname-fish-completion"
+source="
+	https://curl.se/download/curl-$pkgver.tar.xz
+	"
 options="net" # Required for running tests
 [ -n "$BOOTSTRAP" ] && options="$options !check" # remove python3 dependency
 
 # secfixes:
+#   7.86.0-r0:
+#     - CVE-2022-32221
+#     - CVE-2022-35260
+#     - CVE-2022-42915
+#     - CVE-2022-42916
+#   7.85.0-r0:
+#     - CVE-2022-35252
+#   7.84.0-r0:
+#     - CVE-2022-32205
+#     - CVE-2022-32206
+#     - CVE-2022-32207
+#     - CVE-2022-32208
+#   7.83.1-r0:
+#     - CVE-2022-27778
+#     - CVE-2022-27779
+#     - CVE-2022-27780
+#     - CVE-2022-27781
+#     - CVE-2022-27782
+#     - CVE-2022-30115
+#   7.83.0-r0:
+#     - CVE-2022-22576
+#     - CVE-2022-27774
+#     - CVE-2022-27775
+#     - CVE-2022-27776
 #   7.79.0-r0:
 #     - CVE-2021-22945
 #     - CVE-2021-22946
@@ -118,11 +137,6 @@ options="net" # Required for running tests
 #   0:
 #     - CVE-2021-22897
 
-prepare() {
-	default_prepare
-	autoreconf -vfi
-}
-
 build() {
 	./configure \
 		--build=$CBUILD \
@@ -132,13 +146,18 @@ build() {
 		--enable-unix-sockets \
 		--enable-static \
 		--with-openssl \
-		--without-libidn \
 		--without-libidn2 \
 		--with-nghttp2 \
 		--disable-ldap \
 		--with-pic \
+		--enable-websockets \
 		--without-libssh2 # https://bugs.alpinelinux.org/issues/10222
 	make
+
+	# generation of completions is not supported when cross-compiling.
+	if [ -z "$BOOTSTRAP" ]; then
+		make -C scripts/
+	fi
 }
 
 check() {
@@ -147,6 +166,12 @@ check() {
 
 package() {
 	make install DESTDIR="$pkgdir"
+	if [ -z "$BOOTSTRAP" ]; then
+		install -Dm644 scripts/_curl -t \
+			"$pkgdir"/usr/share/zsh/site-functions/
+		install -Dm644 scripts/curl.fish -t \
+			"$pkgdir"/usr/share/fish/completions/
+	fi
 }
 
 libcurl() {
@@ -164,5 +189,5 @@ static() {
 }
 
 sha512sums="
-e04ddd74b0d5b3607a29bcf5d379d83a01c7dffa4ad3e2f25d8c85a3df7dbdb0625b0df1f04f02351695674502828e0e17e8b46c889cbf1e43f86d6e6dd716ab  curl-7.80.0.tar.xz
+18e03a3c00f22125e07bddb18becbf5acdca22baeb7b29f45ef189a5c56f95b2d51247813f7a9a90f04eb051739e9aa7d3a1c5be397bae75d763a2b918d1b656  curl-7.86.0.tar.xz
 "
