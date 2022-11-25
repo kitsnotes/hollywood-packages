@@ -1,9 +1,4 @@
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
-# Contributor: Shiz <hi@shiz.me>
-# Contributor: Jeizsm <jeizsm@gmail.com>
-# Contributor: Ariadne Conill <ariadne@dereferenced.org>
-# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=rust
 pkgver=1.62.0
 _llvmver=14
@@ -44,7 +39,7 @@ makedepends_build="
 	libssh2-dev
 	llvm$_llvmver-dev
 	llvm$_llvmver-test-utils
-	openssl-dev
+	openssl-dev>3
 	python3
 	rust-bootstrap=>$_bootver
 	tar
@@ -94,6 +89,7 @@ subpackages="
 	rustfmt
 	"
 source="https://static.rust-lang.org/dist/rustc-$pkgver-src.tar.xz
+	hollywood-target.patch
 	need-rpath.patch
 	need-ssp_nonshared.patch
 	alpine-move-py-scripts-to-share.patch
@@ -389,6 +385,7 @@ _mv() {
 
 sha512sums="
 02872a8409b0490fa9fa7a70756cbf103643694df6b2e2aea32ad8b70032a3162c7751cd92d78291587ee0120daeb9bc1ae5ec6136c7eb6eb584d8be3032dd3d  rustc-1.62.0-src.tar.xz
+61a68f8f37b8e40be12f906a5ab1ac0aa98dc772f336b798936e47836a2dd64846e609581896c0042692fba3107c71b6095ff5b70760c2d172d0fb14a742a143  hollywood-target.patch
 2d401a01d2c2db92624d672018342907a41aa4a3842708c0a2ab694af0396d568aca4835d1075f244d77c0a4c45e67f893fd175fd97cd7f758090eba9972eba6  need-rpath.patch
 bc28e1edae88f48eb0368cd0905280c323d521c7e13b6fc2bb1fb6e57274fa418afdc9cb3342f4928842e309d0573b98e82976159541c88b35694dceaf7a82e4  need-ssp_nonshared.patch
 03a179e31c95f88a98fb1ba6b2fd0baaf9fe1a74ade76d3096fe45ddc5e453c25109355e667783d9be1bcc585445d07b7270cb3e6e403de971049714f2c6f91a  alpine-move-py-scripts-to-share.patch
