@@ -1,9 +1,8 @@
-# Contributor: Ariadne Conill <ariadne@dereferenced.org>
-# Maintainer: Timo Teras <timo.teras@iki.fi>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=openssl1.1-compat
 pkgver=1.1.1s
 _abiver=${pkgver%.*}
-pkgrel=0
+pkgrel=1
 pkgdesc="toolkit for transport layer security (TLS) - version 1.1"
 url="https://www.openssl.org/"
 arch="all"
@@ -13,8 +12,7 @@ depends_dev="!openssl-dev"
 makedepends_build="perl"
 makedepends_host="linux-headers"
 makedepends="$makedepends_host $makedepends_build"
-subpackages="$pkgname-dbg $pkgname-libs-static:_static $pkgname-dev
-	libcrypto$_abiver:_libcrypto libssl$_abiver:_libssl"
+subpackages="$pkgname-dbg $pkgname-libs-static:_static $pkgname-dev"
 source="https://www.openssl.org/source/openssl-$pkgver.tar.gz
 	man-section.patch
 	ppc64.patch
