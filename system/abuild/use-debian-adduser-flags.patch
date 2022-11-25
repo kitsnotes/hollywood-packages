@@ -1,0 +1,24 @@
+diff -Naur abuild-3.9.0-orig/abuild.in abuild-3.9.0/abuild.in
+--- abuild-3.9.0-orig/abuild.in	2022-11-24 20:03:04.199364335 -0800
++++ abuild-3.9.0/abuild.in	2022-11-24 20:17:09.174196128 -0800
+@@ -620,7 +620,7 @@
+ 	for i in $pkggroups; do
+ 		if ! getent group $i >/dev/null; then
+ 			msg "Creating group $i"
+-			$ADDGROUP -S $i || return 1
++			$ADDGROUP --system $i || return 1
+ 		fi
+ 	done
+ 	for i in $pkgusers; do
+@@ -628,9 +628,9 @@
+ 			local gopt=
+ 			msg "Creating user $i"
+ 			if getent group $i >/dev/null; then
+-				gopt="-G $i"
++				gopt="--ingroup $i"
+ 			fi
+-			$ADDUSER -S -D -H $gopt $i || return 1
++			$ADDUSER --system --disabled-password --no-create-home $gopt $i || return 1
+ 		fi
+ 	done
+ }
