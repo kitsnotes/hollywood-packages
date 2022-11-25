@@ -1,18 +1,21 @@
-# Contributor: Sergei Lukin <sergej.lukin@gmail.com>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libarchive
-pkgver=3.5.2
-pkgrel=0
+pkgver=3.6.1
+pkgrel=1
 pkgdesc="library that can create and read several streaming archive formats"
 url="https://libarchive.org/"
 arch="all"
 license="BSD-2-Clause AND BSD-3-Clause AND Public-Domain"
-makedepends="zlib-dev bzip2-dev xz-dev lz4-dev acl-dev openssl-dev expat-dev
+makedepends="zlib-dev bzip2-dev xz-dev lz4-dev acl-dev openssl-dev>3 expat-dev
 	attr-dev zstd-dev"
 subpackages="$pkgname-static $pkgname-dev $pkgname-doc $pkgname-tools"
 source="https://libarchive.org/downloads/libarchive-$pkgver.tar.xz"
 
 # secfixes:
+#   3.6.1-r0:
+#     - CVE-2022-26280
+#   3.6.0-r0:
+#     - CVE-2021-36976
 #   3.4.2-r0:
 #     - CVE-2020-19221
 #     - CVE-2020-9308
@@ -23,6 +26,8 @@ source="https://libarchive.org/downloads/libarchive-$pkgver.tar.xz"
 
 build() {
 	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
 		--prefix=/usr \
 		--without-xml2
 	make
@@ -40,5 +45,5 @@ tools() {
 }
 
 sha512sums="
-ac7c47f9ddfe5d4d5db6ca9c1bcba788af95662bf0e54ca5426fe66cd8262896e12acc426eecdf0e0d6681c180bcd37f4c4469619273607e95399c7f49b61c7c  libarchive-3.5.2.tar.xz
+2e5a72edc468080c0e8f29e07d9c33826ffb246fa040ec42399bedeecf698b7555f69ffd15057ad79c0f50cd4926d43174599d99632b1b99ec6cd159c43a70b8  libarchive-3.6.1.tar.xz
 "
