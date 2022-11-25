@@ -22,11 +22,13 @@ depends_dev="$_sub
 	glib-dev
 	harfbuzz-dev
 	icu-dev
+	mesa-dev
 	libb2-dev
 	libinput-dev
 	libjpeg-turbo-dev
 	libpng-dev
 	libproxy-dev
+	libdrm-dev
 	libxkbcommon-dev
 	at-spi2-core-dev
 	libglvnd-dev

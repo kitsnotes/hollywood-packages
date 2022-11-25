@@ -26,6 +26,7 @@ depends_dev="$_sub
 	perl
 	sqlite-dev
 	zlib-dev
+	zstd-dev
 	"
 makedepends="$depends_dev
 	at-spi2-core-dev
