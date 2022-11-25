@@ -2,7 +2,7 @@
 # Maintainer: The Cat <the.cat@originull.org>
 pkgname=hollywood-base
 pkgver=1.0.1
-pkgrel=4
+pkgrel=6
 pkgdesc="Meta package for Hollywood OS"
 url="https://originull.org"
 arch="noarch"
@@ -11,7 +11,7 @@ depends="filesystem  apk-tools elogind logrotate eudev coreutils vim nano
 	dash doas efibootmgr grep gawk diffutils sed findutils binutils cpio lsblk gzip tar acpid
 	plymouth plymouth-themes dracut ca-certificates lvm2 device-mapper tzdata kbd kbd-bkeymaps 
 	iptables nftables iproute2 less tmux hostname curl wget e2fsprogs which shadow
-	openrc plymouth-openrc-plugin util-linux hollywood-keys zsh btrfs-progs
+	openrc plymouth-openrc-plugin util-linux hollywood-keys zsh btrfs-progs 
 	adduser agetty connman connman-openrc procps dbus sysklogd cronie sgdisk kmod zlib
 	shadow-login zip bzip2 bash iputils xz openssh openssh-server rsync polkit acl attr e2fsprogs-extra ncurses wpa_supplicant openntpd acpid"
 makedepends=""
