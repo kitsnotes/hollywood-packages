@@ -1,14 +1,14 @@
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=qt5-qtbase
 pkgver=5.15.5_git20220619
-pkgrel=4
+pkgrel=5
 _commit="c772781e57db1da8ac2ed9036aee39137c216017"
 pkgdesc="Qt5 - QtBase components"
 url="https://qt.io/developers/"
 arch="all"
 license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
 _sub="$pkgname-sqlite $pkgname-odbc
-	$pkgname-mysql $pkgname-tds $pkgname-gui"
+	$pkgname-gui"
 # icu-data-full: see https://gitlab.alpinelinux.org/alpine/aports/-/issues/13814
 depends="icu-data-full"
 depends_dev="$_sub
