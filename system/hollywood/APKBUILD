@@ -20,6 +20,7 @@ makedepends="qt6-qtwayland-dev
 	     djvulibre-dev
              libspectre-dev
              efivar-dev
+	     mtdev-dev
 	     hunspell-dev
 	     qt6-qtermwidget-dev
              qt6-polkit-qt-1-dev 
