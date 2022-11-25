@@ -2,7 +2,7 @@
 # Maintainer: A. Wilcox <awilfox@adelielinux.org>
 pkgname=dracut
 pkgver=050
-pkgrel=11
+pkgrel=12
 pkgdesc="Event-driven initramfs infrastructure"
 url="https://dracut.wiki.kernel.org/"
 arch="all"
