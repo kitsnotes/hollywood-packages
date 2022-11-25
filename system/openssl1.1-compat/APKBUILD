@@ -1,38 +1,32 @@
-pkgname=openssl
-pkgver=3.0.7
-_abiver=${pkgver%.*.*}
+# Contributor: Ariadne Conill <ariadne@dereferenced.org>
+# Maintainer: Timo Teras <timo.teras@iki.fi>
+pkgname=openssl1.1-compat
+pkgver=1.1.1s
+_abiver=${pkgver%.*}
 pkgrel=0
-pkgdesc="Toolkit for Transport Layer Security (TLS)"
+pkgdesc="toolkit for transport layer security (TLS) - version 1.1"
 url="https://www.openssl.org/"
 arch="all"
-license="Apache-2.0"
-replaces="openssl"
+license="OpenSSL"
+replaces="libressl"
+depends_dev="!openssl-dev"
 makedepends_build="perl"
 makedepends_host="linux-headers"
 makedepends="$makedepends_host $makedepends_build"
-subpackages="$pkgname-dbg $pkgname-libs-static $pkgname-dev $pkgname-doc
+subpackages="$pkgname-dbg $pkgname-libs-static:_static $pkgname-dev
 	libcrypto$_abiver:_libcrypto libssl$_abiver:_libssl"
 source="https://www.openssl.org/source/openssl-$pkgver.tar.gz
 	man-section.patch
+	ppc64.patch
 	"
 builddir="$srcdir/openssl-$pkgver"
+pcprefix="openssl$_abiver:pc:"
 
 # secfixes:
-#   3.0.7-r0:
-#     - CVE-2022-3786
-#     - CVE-2022-3602
-#   3.0.6-r0:
-#     - CVE-2022-3358
-#   3.0.5-r0:
+#   1.1.1q-r0:
 #     - CVE-2022-2097
-#   3.0.3-r0:
-#     - CVE-2022-1343
-#     - CVE-2022-1434
-#     - CVE-2022-1473
-#   3.0.2-r0:
+#   1.1.1n-r0:
 #     - CVE-2022-0778
-#   3.0.1-r0:
-#     - CVE-2021-4044
 #   1.1.1l-r0:
 #     - CVE-2021-3711
 #     - CVE-2021-3712
@@ -61,7 +55,6 @@ builddir="$srcdir/openssl-$pkgver"
 #   0:
 #     - CVE-2022-1292
 #     - CVE-2022-2068
-#     - CVE-2022-2274
 
 build() {
 	local _target _optflags
@@ -103,8 +96,7 @@ build() {
 		$_target \
 		--prefix=/usr \
 		--libdir=lib \
-		--openssldir=/etc/ssl \
-		enable-ktls \
+		--openssldir=/etc/ssl1.1 \
 		shared \
 		no-zlib \
 		no-async \
@@ -115,6 +107,7 @@ build() {
 		no-ec2m \
 		no-sm2 \
 		no-sm4 \
+		no-ssl2 \
 		no-ssl3 \
 		no-seed \
 		no-weak-ssl-ciphers \
@@ -122,10 +115,6 @@ build() {
 		$CPPFLAGS \
 		$CFLAGS \
 		$LDFLAGS -Wa,--noexecstack
-
-	# dump configuration into logs
-	perl configdata.pm --dump
-
 	make
 }
 
@@ -138,14 +127,15 @@ check() {
 }
 
 package() {
-	make DESTDIR="$pkgdir" install
+	make DESTDIR="$pkgdir" install_sw install_ssldirs
 	# remove the script c_rehash
 	rm "$pkgdir"/usr/bin/c_rehash
+	mv -f "$pkgdir"/usr/bin/openssl "$pkgdir"/usr/bin/openssl$_abiver
 }
 
 _libcrypto() {
 	pkgdesc="Crypto library from openssl"
-	replaces="libcrypto1.1"
+	replaces="libressl2.7-libcrypto"
 	mkdir -p "$subpkgdir"/lib "$subpkgdir"/usr/lib
 	mv "$pkgdir"/etc "$subpkgdir"/
 	for i in "$pkgdir"/usr/lib/libcrypto*; do
@@ -153,7 +143,6 @@ _libcrypto() {
 		ln -s ../../lib/${i##*/} "$subpkgdir"/usr/lib/${i##*/}
 	done
 	mv "$pkgdir"/usr/lib/engines-$_abiver "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/ossl-modules "$subpkgdir"/usr/lib/
 }
 
 _libssl() {
@@ -166,7 +155,12 @@ _libssl() {
 	done
 }
 
+_static() {
+	default_static
+}
+
 sha512sums="
-6c2bcd1cd4b499e074e006150dda906980df505679d8e9d988ae93aa61ee6f8c23c0fa369e2edc1e1a743d7bec133044af11d5ed57633b631ae479feb59e3424  openssl-3.0.7.tar.gz
-8c44e990fe8a820f649631b9f81cf28225b7516065169a7f68e2dd7c067b30df9b2c6cb88fa826afbc9fcdaf156360aabf7c498d2d9ed452968815b12b004809  man-section.patch
+2ef983f166b5e1bf456ca37938e7e39d58d4cd85e9fc4b5174a05f5c37cc5ad89c3a9af97a6919bcaab128a8a92e4bdc8a045e5d9156d90768da8f73ac67c5b9  openssl-1.1.1s.tar.gz
+43c3255118db6f5f340dc865c0f25ccbcafe5bf7507585244ca59b4d27daf533d6c3171aa32a8685cbb6200104bec535894b633de13feaadff87ab86739a445a  man-section.patch
+e040f23770d52b988578f7ff84d77563340f37c026db7643db8e4ef18e795e27d10cb42cb8656da4d9c57a28283a2828729d70f940edc950c3422a54fea55509  ppc64.patch
 "
