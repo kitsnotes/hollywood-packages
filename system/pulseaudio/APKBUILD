@@ -1,3 +1,4 @@
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=pulseaudio
 pkgver=16.1
 pkgrel=6
