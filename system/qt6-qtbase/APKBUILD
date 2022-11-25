@@ -1,13 +1,12 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtbase
 pkgver=6.3.1
-pkgrel=7
+pkgrel=8
 pkgdesc="A cross-platform application and UI framework"
 url="https://qt.io/"
 arch="all"
 license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
 _sub="
-	$pkgname-mysql
 	$pkgname-odbc
 	$pkgname-sqlite
 	$pkgname-gui
@@ -30,9 +29,8 @@ depends_dev="$_sub
 	libproxy-dev
 	libxkbcommon-dev
 	at-spi2-core-dev
-	mariadb-dev
 	libglvnd-dev
-	openssl-dev
+	openssl-dev>3
 	pcre2-dev
 	sqlite-dev
 	tslib-dev
