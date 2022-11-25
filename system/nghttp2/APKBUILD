@@ -1,18 +1,15 @@
-# Contributor: Natanael Copa <ncopa@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=nghttp2
-pkgver=1.46.0
+pkgver=1.51.0
 pkgrel=0
 pkgdesc="Experimental HTTP/2 client, server and proxy"
 url="https://nghttp2.org"
 arch="all"
 license="MIT"
 makedepends_build="autoconf automake libtool"
-makedepends_host="libev-dev openssl1.1-compat-dev zlib-dev c-ares-dev cunit-dev"
+makedepends_host="libev-dev openssl-dev>3 zlib-dev c-ares-dev cunit-dev"
 subpackages="$pkgname-static $pkgname-doc $pkgname-dev $pkgname-libs"
 source="https://github.com/nghttp2/nghttp2/releases/download/v$pkgver/nghttp2-$pkgver.tar.xz
-	remove-mruby-tests.patch
-	disable-failing-musl-unittest.patch
 	"
 # temp allow textrels on riscv64
 [ "$CARCH" = "riscv64" ] && options="$options textrels"
@@ -69,7 +66,5 @@ static() {
 }
 
 sha512sums="
-fcf3573bcc421705190c7cf0e3230f6f3028b669cb2976d29cfeb73e706deaae91ce60d0a615472e3f296454049ea5798f1e8defdd260a98895e94fea6a7a16b  nghttp2-1.46.0.tar.xz
-d3f6a66ad6522babb5ad2b3721d52c1c2af88e57ed2895cf87037da1032ca42dcb95dacc23ea277b9507b4116cec117b5c9a3313759dc56b48199b687b74dd9a  remove-mruby-tests.patch
-ad9a645e00d33747338cd23d1d0ff7c744ea6abd504b9175e086574d23881b188fd014464b660923ff37a64c0c46c4379c96374ac8997b03eb2350f9ec817740  disable-failing-musl-unittest.patch
+0212680e57a15f9afca3b5226429edebd2fe8a52117480007d4472cd0c1bd3aa4d9f21269c637a11efd0f2146a3ee16c3c07ab35d9fb3d4566235d3a14268eeb  nghttp2-1.51.0.tar.xz
 "
