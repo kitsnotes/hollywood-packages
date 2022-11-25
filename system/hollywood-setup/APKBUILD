@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood-setup
 pkgver=1.1
-pkgrel=27
+pkgrel=28
 pkgdesc="Hollywood Setup Assistant"
 url="https://originull.org/hollywood"
 arch="all"
