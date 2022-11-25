@@ -15,7 +15,7 @@ diff --git a/compiler/rustc_target/src/spec/mod.rs b/compiler/rustc_target/src/s
 index dc16739bd560..3d8bbc0b1ff7 100644
 --- a/compiler/rustc_target/src/spec/mod.rs
 +++ b/compiler/rustc_target/src/spec/mod.rs
-@@ -2726,6 +2726,22 @@ pub fn from_path(path: &Path) -> Result<Self, io::Error> {
+@@ -2726,6 +2726,15 @@ pub fn from_path(path: &Path) -> Result<Self, io::Error> {
          Ok(TargetTriple::TargetJson { path_for_rustdoc: canonicalized_path, triple, contents })
      }
 
@@ -23,13 +23,6 @@ index dc16739bd560..3d8bbc0b1ff7 100644
 +    pub fn from_alias(triple: String) -> Self {
 +        match triple.as_str() {
 +            "x86_64-pc-linux-gnu" => TargetTriple::from_triple("x86_64-unknown-linux-gnu"),
-+            _ => TargetTriple::TargetTriple(triple),
-+        }
-+    }
-+
-+    /// Creates a target triple from its alias
-+    pub fn from_alias(triple: String) -> Self {
-+        match triple.as_str() {
 +            "aarch64-linux-gnu" => TargetTriple::from_triple("aarch64-unknown-linux-gnu"),
 +            _ => TargetTriple::TargetTriple(triple),
 +        }
