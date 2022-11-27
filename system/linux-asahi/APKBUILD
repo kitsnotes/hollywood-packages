@@ -10,7 +10,7 @@ case $pkgver in
 	*.*) _kernver=$pkgver-rc${_rcrel};;
 esac
 pkgrel=1
-pkgdesc="AApple Silicon Asahi development Linux kernel"
+pkgdesc="Apple Silicon Asahi development Linux kernel"
 url="https://www.kernel.org"
 arch="aarch64"
 depends="initramfs-generator"
@@ -18,7 +18,7 @@ _depends_dev="perl gmp-dev mpc1-dev mpfr-dev elfutils-dev bash flex bison zstd"
 makedepends="$_depends_dev sed installkernel bc linux-headers linux-firmware-any openssl-dev>3 rust mawk
 	lzop diffutils findutils zstd"
 options="!strip"
-_config=${config:-config-mainline.${CARCH}}
+_config=${config:${_flavor}.${CARCH}.config}
 install=
 source="
 https://github.com/AsahiLinux/linux/archive/${_commit_id}.tar.gz
@@ -215,7 +215,7 @@ _package() {
 package() {
 	depends="$depends linux-firmware-any"
 
-	_package mainline "$pkgdir"
+	_package asahi "$pkgdir"
 }
 
 # subflavors install in $subpkgdir
