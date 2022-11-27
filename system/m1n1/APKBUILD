@@ -1,0 +1,32 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=m1n1
+pkgver=1.1.8
+pkgrel=0
+pkgdesc="Asahi Bootloader for Apple Silicon"
+url="http://asahilinux.org"
+arch="aarch64"
+license="MIT"
+depends=""
+makedepends="imagemagick"
+install=""
+options="!check" #no test suite
+source="m1n1-${pkgver}.tar.gz::https://github.com/AsahiLinux/m1n1/archive/v${pkgver}.tar.gz"
+builddir="$srcdir/m1n1-${pkgver}"
+
+prepare() {
+	default_prepare
+	
+}
+
+build() {
+	make ARCH= RELEASE=1
+}
+
+package() {
+	mkdir -p "$pkgdir"/usr/lib/asahi-boot
+	install -Dm644 "$builddir/build/m1n1.bin" "$pkgdir/usr/lib/asahi-boot"
+}
+
+sha512sums="
+f2e72cb10057681b3d62a2595c8a8111044b409b1e364c59b9903b7a031b3210efba6c21ff0171ed13b87b928fb7cc41659908aa2b4181d281646780edaf8da1  m1n1-1.1.8.tar.gz
+"
