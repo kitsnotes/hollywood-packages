@@ -3,19 +3,11 @@ pkgname=rust
 pkgver=1.64.0
 _llvmver=14
 _bootver=1.63.0
-pkgrel=0
+pkgrel=1
 pkgdesc="The Rust Programming Language"
 url="https://www.rust-lang.org/"
 arch="all"
 license="Apache-2.0 AND MIT"
-
-# temporarily pretend this wasn't upgraded to move everything else forward on
-# riscv.
-if [ "$CARCH" = "riscv64" ]; then
-	pkgver=1.62.1
-	pkgrel=1
-	_bootver=1.61.0
-fi
 
 # gcc is needed at runtime just for linking. Someday rustc might invoke
 # the linker directly, and then we'll only need binutils.
@@ -53,6 +45,7 @@ makedepends_host="
 	libssh2-dev
 	llvm$_llvmver-dev
 	openssl-dev
+	jemalloc-dev
 	zlib-dev
 "
 
@@ -75,7 +68,6 @@ esac
 subpackages="
 	$pkgname-dbg
 	$pkgname-stdlib
-	$pkgname-wasm
 	$pkgname-analysis
 	$pkgname-gdb::noarch
 	$pkgname-lldb::noarch
@@ -114,6 +106,13 @@ builddir="$srcdir/rustc-$pkgver-src"
 _build="$CBUILD"
 _target="$CTARGET"
 
+_rtarget=""
+if [ "$CARCH" = aarch64 ]; then
+	_rtarget="aarch64-unknown-linux-gnu"
+fi
+if [ "$CARCH" = x86_64 ]; then
+        _rtarget="x86_64-unknown-linux-gnu"
+fi
 _rlibdir="usr/lib/rustlib/$_target/lib"
 _sharedir="usr/share/rust"
 
@@ -135,10 +134,6 @@ _clear_vendor_checksums() {
 
 prepare() {
 	default_prepare
-
-	# s390x/musl patches
-	_clear_vendor_checksums libc
-	_clear_vendor_checksums libc-0.2.119
 }
 
 build() {
@@ -146,10 +141,9 @@ build() {
 		export PKG_CONFIG_ALLOW_CROSS=1
 	fi
 
+	# for ARM64
+	export JEMALLOC_SYS_WITH_LG_PAGE=16
 	./configure \
-		--build="$_build" \
-		--host="$_target" \
-		--target="$_target" \
 		--prefix="/usr" \
 		--release-channel="stable" \
 		--enable-local-rust \
@@ -159,34 +153,24 @@ build() {
 		--enable-extended \
 		--tools="analysis,cargo,clippy,src,rustfmt" \
 		--enable-llvm-link-shared \
+		--enable-ninja \
 		--enable-option-checking \
 		--enable-locked-deps \
 		--enable-vendor \
 		--dist-compression-formats=gz \
 		--python="python3" \
+		--set='rust.description="Originull Software"' \
+		--set="rust.jemalloc=true" \
 		--set="rust.codegen-units=1" \
 		--set="rust.codegen-units-std=1" \
-		--set="rust.parallel-compiler=false" \
-		--set="target.$_target.llvm-config=/usr/lib/llvm$_llvmver/bin/llvm-config" \
-		--set="target.$_target.crt-static=false" \
-		--set="target.$_target.cc=${CROSS_COMPILE}gcc" \
-		--set="target.$_target.cxx=${CROSS_COMPILE}c++" \
-		--set="target.$_target.ar=${CROSS_COMPILE}ar" \
-		--set="target.$_target.linker=${CROSS_COMPILE}gcc" \
-		--set="target.$_build.musl-root=/usr" \
-		--set="target.$_build.crt-static=false" \
-		--set="target.$_build.cc=gcc" \
-		--set="target.$_build.cxx=c++" \
-		--set="target.$_build.ar=ar" \
-		--set="target.$_build.linker=gcc" 
+		--set="rust.parallel-compiler=true" \
 		$profiler
 
 	# Allow warnings instead of just aborting the build
 	sed 's/#deny-warnings = .*/deny-warnings = false/' -i config.toml
 	sed 's|deny(warnings,|deny(|' -i src/bootstrap/lib.rs
 
-	python3 ./x.py dist --jobs 4
-	# ${JOBS:-2}
+	python3 ./x.py dist --jobs ${JOBS:-2}
 }
 
 check() {
@@ -199,9 +183,9 @@ check() {
 
 	mkdir -p "$builddir/test-rustc"
 
-	tar xf "$builddir"/build/dist/rustc-$pkgver-$_target.tar.gz \
+	tar xf "$builddir"/build/dist/rustc-$pkgver-$_rtarget.tar.gz \
 		-C "$builddir/test-rustc" --strip-components=2 --exclude=manifest.in --no-same-owner
-	tar xf "$builddir"/build/dist/rust-std-$pkgver-$_target.tar.gz \
+	tar xf "$builddir"/build/dist/rust-std-$pkgver-$_rtarget.tar.gz \
 		-C "$builddir/test-rustc" --strip-components=2 --exclude=manifest.in --no-same-owner
 
 	export LD_LIBRARY_PATH="$builddir/test-rustc/lib/rustlib/$CTARGET/lib"
@@ -226,25 +210,21 @@ package() {
 
 	cd "$pkgdir"
 
-	tar xf "$builddir"/build/dist/rustc-$pkgver-$_target.tar.gz \
+	tar xf "$builddir"/build/dist/rustc-$pkgver-$_rtarget.tar.gz \
 		-C "$pkgdir/usr" --strip-components=2 --exclude=manifest.in --no-same-owner
-	tar xf "$builddir"/build/dist/rust-std-$pkgver-$_target.tar.gz \
+	tar xf "$builddir"/build/dist/rust-std-$pkgver-$_rtarget.tar.gz \
 		-C "$pkgdir/usr" --strip-components=2 --exclude=manifest.in --no-same-owner
-	tar xf "$builddir"/build/dist/rustc-dev-$pkgver-$_target.tar.gz \
+	tar xf "$builddir"/build/dist/rustc-dev-$pkgver-$_rtarget.tar.gz \
 		-C "$pkgdir/usr" --strip-components=2 --exclude=manifest.in --no-same-owner
-	tar xf "$builddir"/build/dist/rust-analysis-$pkgver-$_target.tar.gz \
+	tar xf "$builddir"/build/dist/rust-analysis-$pkgver-$_rtarget.tar.gz \
 		-C "$pkgdir/usr" --strip-components=2 --exclude=manifest.in --no-same-owner
 	tar xf "$builddir"/build/dist/rust-src-$pkgver.tar.gz \
 		-C "$pkgdir/usr" --strip-components=2 --exclude=manifest.in --no-same-owner
-	tar xf "$builddir"/build/dist/cargo-$pkgver-$_target.tar.gz \
+	tar xf "$builddir"/build/dist/cargo-$pkgver-$_rtarget.tar.gz \
 		-C "$pkgdir/usr" --strip-components=2 --exclude=manifest.in --no-same-owner
-	tar xf "$builddir"/build/dist/clippy-$pkgver-$_target.tar.gz \
+	tar xf "$builddir"/build/dist/clippy-$pkgver-$_rtarget.tar.gz \
 		-C "$pkgdir/usr" --strip-components=2 --exclude=manifest.in --no-same-owner
-	tar xf "$builddir"/build/dist/rustfmt-$pkgver-$_target.tar.gz \
-		-C "$pkgdir/usr" --strip-components=2 --exclude=manifest.in --no-same-owner
-	tar xf "$builddir"/build/dist/rust-std-$pkgver-wasm32-unknown-unknown.tar.gz \
-		-C "$pkgdir/usr" --strip-components=2 --exclude=manifest.in --no-same-owner
-	tar xf "$builddir"/build/dist/rust-std-$pkgver-wasm32-wasi.tar.gz \
+	tar xf "$builddir"/build/dist/rustfmt-$pkgver-$_rtarget.tar.gz \
 		-C "$pkgdir/usr" --strip-components=2 --exclude=manifest.in --no-same-owner
 
 	# We don't want to include stuff like rust-llvm-* tools, as we will use the
@@ -275,13 +255,6 @@ stdlib() {
 	depends=
 
 	amove $_rlibdir/*.rlib
-}
-
-wasm() {
-	pkgdesc="WebAssembly targets for rust"
-	depends="rust=$pkgver-r$pkgrel lld wasi-sdk"
-
-	amove usr/lib/rustlib/wasm32-*
 }
 
 analysis() {
