@@ -9,7 +9,7 @@ case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver-rc${_rcrel};;
 esac
-pkgrel=1
+pkgrel=2
 pkgdesc="Apple Silicon Asahi development Linux kernel"
 url="https://www.kernel.org"
 arch="aarch64"
@@ -179,7 +179,7 @@ build() {
 
 _package() {
 	local _buildflavor="$1" _outdir="$2"
-	local _abi_release=${pkgver}-${pkgrel}-${_buildflavor}
+	local _abi_release=${pkgver}-${pkgrel}-asahi
 	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
 
 	cd "$srcdir"/build-$_buildflavor.$CARCH
@@ -196,7 +196,7 @@ _package() {
 	esac
 
 	make -j1 modules_install $_install \
-		ARCH="$(_kernelarch $CARCH)" \
+		ARCH="arm64" \
 		INSTALL_MOD_PATH="$_outdir" \
 		INSTALL_PATH="$_outdir"/boot \
 		INSTALL_DTBS_PATH="$_outdir/boot/dtbs-$_buildflavor"
@@ -225,7 +225,7 @@ virt() {
 
 _dev() {
 	local _flavor=$(echo $subpkgname | sed -E 's/(^linux-|-dev$)//g')
-	local _abi_release=${pkgver}-${pkgrel}-$_flavor
+	local _abi_release=${pkgver}-${pkgrel}-asahi
 	# copy the only the parts that we really need for build 3rd party
 	# kernel modules and install those as /usr/src/linux-headers,
 	# simlar to what ubuntu does
@@ -280,5 +280,5 @@ _dev() {
 
 sha512sums="
 514469bdc2d8e1cf929987898d3036c8c96677dee2c90c809a3abfde8e53fccf53de8957fae865c1c3f82ab32a285eb3b233df835d057c857b2b6ce406bcc5c4  asahi-6.1-rc6-5.tar.gz
-7c097bcb818ff5ef9ef8899520e67e9437c00e1c586e9b2ded5ec11b1d103a4ded69849fd4f7abed003e47f33148a216e1a445718d078641248a9cc424cfbdf3  asahi.aarch64.config
+917c56394ec9c4548daa1087f5d83fd8738b8977c816e82ba8672bfb64d4e01fbba9c01f326884d0621c8038dc4c643700770719d630baba88e5b7c660a1d9a6  asahi.aarch64.config
 "
