@@ -2,7 +2,7 @@
 # Maintainer: Ben Pye <ben@curlybracket.co.uk>
 pkgname=libunwind
 pkgver=1.6.2
-pkgrel=0
+pkgrel=1
 pkgdesc="Portable and efficient C programming interface (API) to determine the call-chain of a program"
 url="https://www.nongnu.org/libunwind/"
 arch="all"
@@ -16,7 +16,8 @@ subpackages="$pkgname-dbg $pkgname-static $pkgname-dev $pkgname-doc"
 source="https://download.savannah.gnu.org/releases/libunwind/libunwind-$pkgver.tar.gz
 	force-enable-man.patch
 	fix-libunwind-pc-in.patch
-	"
+	0001-libunwind-1.6.2-dynamic-page-size.patch
+"
 
 prepare() {
 	default_prepare
@@ -48,4 +49,5 @@ sha512sums="
 1d17dfb14f99a894a6cda256caf9ec481c14068aaf8f3a85fa3befa7c7cca7fca0f544a91a3a7c2f2fc55bab19b06a67ca79f55ac9081151d94478c7f611f8f7  libunwind-1.6.2.tar.gz
 de3cefd8a2fa9ae3eabf052cb94a1fdde4f9b7e85af839220592269f7a885470572f67ecf6d773129de8d82916fbcbdda44b541f4eeec84744c54f230c36b6a1  force-enable-man.patch
 52b568846db7adb50a181f17635e53c8a6d99d6d13c3d35fd8c9a5de5ec0a1ad18d8462c4ae4483d413d4b5aa7375017c36b5cb49805b6f67d96cffafbd02548  fix-libunwind-pc-in.patch
+d9a2867fb55be497a5f9ecf0db98c0a47105ac6c7dc79763951a1169472f16a7774d6523ffec85a757756a891833113c43feafdb2f297adef0d74e2fe6a25583  0001-libunwind-1.6.2-dynamic-page-size.patch
 "
