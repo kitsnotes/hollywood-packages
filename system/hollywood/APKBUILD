@@ -8,8 +8,9 @@ url="https://originull.org"
 arch="all"
 options="!check" # no test suite
 license="GPL2"
-depends="hollywood-base qt6-qtbase qt6-qtwayland elogind eudev libinput libapk-qt efivar efibootmgr hunspell hunspell-lang libdrm ttf-hack ttf-opensans breeze-icons djvulibre libspectre poppler sddm font-noto-emoji font-adobe-source-serif wireplumber pipewire pipewire-pulse wireplumber-logind rtkit pulseaudio-client"
+depends="hollywood-base qt6-qtbase qt6-qtwayland elogind eudev libinput libapk-qt efivar efibootmgr hunspell hunspell-lang libdrm ttf-hack ttf-opensans breeze-icons djvulibre libspectre poppler sddm font-noto-emoji font-adobe-source-serif wireplumber pipewire pipewire-pulse wireplumber-logind rtkit pulseaudio-client qt6-qtmultimedia"
 makedepends="qt6-qtwayland-dev 
+	     qt6-qtmultimedia-dev
 	     mdnsresponder-dev
 	     libinput-dev
 	     libdrm-dev
@@ -60,6 +61,9 @@ package() {
 	cp -ra "$builddir"/assets/wallpapers/* "$pkgdir"/usr/share/wallpapers
 	find "$pkgdir"/usr/share/wallpapers -type d -exec chmod 755 {} \;
 	find "$pkgdir"/usr/share/wallpapers -type f -exec chmod 644 {} \;
+
+	mkdir -p "$pkgdir"/usr/share/sounds/Hollywood
+	cp -ra "$builddir"/assets/sounds/* "$pkgdir"/usr/share/sounds/Hollywood
 
 	ln -s /usr/libexec/hollywood/session $pkgdir/usr/bin/hollywood
 	mkdir -p $pkgdir/etc/skel/Desktop/
