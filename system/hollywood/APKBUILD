@@ -8,7 +8,36 @@ url="https://originull.org"
 arch="all"
 options="!check" # no test suite
 license="GPL2"
-depends="hollywood-base qt6-qtbase qt6-qtwayland elogind eudev libinput libapk-qt efivar efibootmgr hunspell hunspell-lang libdrm ttf-hack ttf-opensans breeze-icons djvulibre libspectre poppler sddm font-noto-emoji font-adobe-source-serif wireplumber pipewire pipewire-pulse wireplumber-logind rtkit pulseaudio-client qt6-qtmultimedia"
+depends="hollywood-base
+	 qt6-qtbase 
+	 qt6-qtwayland 
+	 elogind
+	 eudev
+	 libinput 
+	 libapk-qt
+	 efivar
+	accountsservice
+	efibootmgr
+	hunspell
+	hunspell-lang
+	hunspell-en
+	libdrm
+	ttf-hack
+	ttf-opensans
+	breeze-icons
+	djvulibre
+	libspectre
+	poppler
+	sddm 
+	font-noto-emoji 
+	font-adobe-source-serif
+	wireplumber 
+	pipewire 
+	pipewire-pulse
+	wireplumber-logind
+	rtkit
+	pulseaudio-client 
+	qt6-qtmultimedia"
 makedepends="qt6-qtwayland-dev 
 	     qt6-qtmultimedia-dev
 	     mdnsresponder-dev
