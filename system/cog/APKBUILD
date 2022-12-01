@@ -2,7 +2,7 @@
 # Maintainer: David Demelier <markand@malikania.fr>
 pkgname=cog
 pkgver=0.16.1
-pkgrel=0
+pkgrel=1
 pkgdesc="simple browser for WebKit WPE"
 url="https://github.com/Igalia/cog"
 # riscv64: wpewebkit not available.
@@ -13,6 +13,7 @@ makedepends="cairo-dev
 	eudev-dev
 	libinput-dev
 	libsoup3-dev
+	libepoxy-dev
 	libwpebackend-fdo-dev
 	meson
 	mesa-dev
