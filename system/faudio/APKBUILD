@@ -1,5 +1,4 @@
-# Contributor: TBK <alpine@jjtc.eu>
-# Maintainer: TBK <alpine@jjtc.eu>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=faudio
 pkgver=22.07
 pkgrel=0
