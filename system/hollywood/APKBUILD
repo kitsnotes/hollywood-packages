@@ -2,13 +2,14 @@
 # Maintainer: The Cat <cat@originull.org>
 pkgname=hollywood
 pkgver=1.0
-pkgrel=29
+pkgrel=30
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
 options="!check" # no test suite
 license="GPL2"
 depends="hollywood-base
+	 desktop-file-utils
 	 qt6-qtbase 
 	 qt6-qtwayland 
 	 elogind
