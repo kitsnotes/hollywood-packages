@@ -61,7 +61,7 @@ udev() {
 	pkgdesc="$pkgdesc (udev integration)"
 
 	mkdir -p "$subpkgdir"/
-	mv "$pkgdir"/lib "$subpkgdir"/
+	mv "$pkgdir"/usr/lib "$subpkgdir"/
 	mv "$pkgdir"/etc "$subpkgdir"/
 }
 
