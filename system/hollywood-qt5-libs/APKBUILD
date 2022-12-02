@@ -1,23 +1,22 @@
-# Contributor: The Cat <cat@originull.org>
-# Maintainer: The Cat <cat@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood-qt5-libs
 pkgver=1.0
-pkgrel=33
+pkgrel=34
 pkgdesc="Hollywood Qt5 Support Integration Libraries"
 url="https://originull.org"
 arch="all"
 options="!check" # no test suite
 license="LGPL2"
-depends="qt5-qtbase qt5-qtwayland"
-makedepends="qt5-qtwayland-dev"
+depends="qt5-qtbase qt5-qtwayland qt5-qtmultimedia"
+makedepends="qt5-qtwayland-dev qt5-qtmultimedia-dev"
 source="http://depot.originull.org/upstream/hollywood-desktop-$pkgver.tar.gz"
 builddir="$srcdir/hollywood-desktop-$pkgver"
 
 build() {
-	cd $builddir/libcompositor
-	/usr/lib/qt5/bin/qmake
-	make || true
-	make
+#	cd $builddir/libcompositor
+#	/usr/lib/qt5/bin/qmake
+#	make || true
+#	make
 
         cd $builddir/libcommdlg
         /usr/lib/qt5/bin/qmake
@@ -38,8 +37,8 @@ build() {
 }
 
 package() {
-	cd $builddir/libcompositor
-	make INSTALL_ROOT="$pkgdir" install
+#	cd $builddir/libcompositor
+#	make INSTALL_ROOT="$pkgdir" install
 
         cd $builddir/libcommdlg
         make INSTALL_ROOT="$pkgdir" install
@@ -55,5 +54,5 @@ package() {
 }
 
 sha512sums="
-37cf3bcbc41a7f8d51c0bfab08884ae0818a439061b15e66a0a463a133572fb11a9e57ffe260cc3a6f09514d9b177740a75de6b223a4b72c3a4b8fc9e4d52bea  hollywood-desktop-1.0.tar.gz
+2b2b786778963d409ccf1f66d5c62878bfbb250eb581af89b9baa2bea335dd09ac2934f12cd8fb8269b8d5316ce001681c8869c1c8cf61f0da4863bf8b8e7d8f  hollywood-desktop-1.0.tar.gz
 "
