@@ -1,0 +1,82 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=v4l-utils
+pkgver=1.22.1
+pkgrel=2
+pkgdesc="Userspace tools and conversion library for Video 4 Linux"
+url="https://linuxtv.org/"
+arch="all"
+license="LGPL-2.0-or-later"
+makedepends="qt5-qtbase-dev libjpeg-turbo-dev linux-headers
+	eudev-dev alsa-lib-dev"
+subpackages="$pkgname-dev $pkgname-doc qv4l2 $pkgname-dvbv5 $pkgname-libs"
+source="https://linuxtv.org/downloads/v4l-utils/v4l-utils-$pkgver.tar.bz2
+	"
+
+case "$CARCH" in
+arm*|aarch64)
+	# no desktop opengl on arm, only es2
+	;;
+*)
+	subpackages="$subpackages qvidcap"
+	;;
+esac
+
+build() {
+	export CFLAGS="$CFLAGS -D__off_t=off_t"
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--localstatedir=/var \
+		--enable-libdvbv5 \
+		--disable-static
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make -j1 DESTDIR="$pkgdir" install
+	install -Dm644 "$builddir"/utils/qv4l2/qv4l2.desktop \
+		"$pkgdir"/usr/share/applications/qv4l2.desktop
+	install -Dm644 "$builddir"/utils/qv4l2/qv4l2.svg \
+		"$pkgdir"/usr/share/icons/hicolor/scalable/apps/qv4l2.svg
+}
+
+qv4l2() {
+	pkgdesc="QT v4l2 test control and streaming test application"
+	mkdir -p "$subpkgdir"/usr/bin
+	mv "$pkgdir"/usr/bin/qv4l2 "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/share "$subpkgdir"/usr/
+}
+
+qvidcap() {
+	pkgdesc="v4l2 video capture viewer"
+	amove usr/bin/qvidcap
+}
+
+dvbv5() {
+	pkgdesc="Backwards compatible DVBv5 command line utilities"
+	mkdir -p "$subpkgdir"/usr/bin \
+		"$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/bin/dvb* \
+		"$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/lib/libdvbv5.* \
+		"$subpkgdir"/usr/lib/
+}
+
+libs() {
+	pkgdesc="Collection of video4linux support libraries"
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/* \
+		"$subpkgdir"/usr/lib
+}
+
+sha512sums="
+8a634d8995d13f453dfaf90ca5d0dfb26f2f4b10a0d200d76a949c46f77040d12fc0a5b35e05d7b1ba68bcfc85a445be5a5ab1d4a7d4eabfe3a254038ccc6170  v4l-utils-1.22.1.tar.bz2
+"
