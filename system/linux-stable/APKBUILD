@@ -1,5 +1,4 @@
-# Maintainer: The Cat <cat@originull.org>
-
+# Maintainer: Originull Software <packages@originull.org>
 _flavor=stable
 pkgname=linux-${_flavor}
 pkgver=6.0.8
@@ -12,7 +11,7 @@ pkgdesc="Linux stable kernel"
 url="https://www.kernel.org"
 depends="initramfs-generator"
 _depends_dev="perl gmp-dev mpc1-dev mpfr-dev elfutils-dev bash flex bison zstd"
-makedepends="$_depends_dev sed installkernel bc linux-headers linux-firmware-any openssl1.1-compat-dev mawk
+makedepends="$_depends_dev sed installkernel bc linux-headers linux-firmware-any openssl-dev>3 mawk
 	lzop diffutils findutils zstd"
 options="!strip"
 _config=${config:-config-stable.${CARCH}}
