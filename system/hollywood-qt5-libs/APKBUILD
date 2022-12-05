@@ -13,43 +13,13 @@ source="http://depot.originull.org/upstream/hollywood-desktop-$pkgver.tar.gz"
 builddir="$srcdir/hollywood-desktop-$pkgver"
 
 build() {
-#	cd $builddir/libcompositor
-#	/usr/lib/qt5/bin/qmake
-#	make || true
-#	make
-
-        cd $builddir/libcommdlg
+        cd $builddir/
         /usr/lib/qt5/bin/qmake
-        make || true
 	make
-
-        cd $builddir/platformtheme
-        /usr/lib/qt5/bin/qmake
-        make
-
-	cd $builddir/platformplugin
-        /usr/lib/qt5/bin/qmake
-        make
-
-	cd $builddir/style
-        /usr/lib/qt5/bin/qmake
-        make
 }
 
 package() {
-#	cd $builddir/libcompositor
-#	make INSTALL_ROOT="$pkgdir" install
-
-        cd $builddir/libcommdlg
-        make INSTALL_ROOT="$pkgdir" install
-
-        cd $builddir/platformtheme
-        make INSTALL_ROOT="$pkgdir" install
-
-        cd $builddir/platformplugin
-        make INSTALL_ROOT="$pkgdir" install
-
-        cd $builddir/style
+        cd $builddir/
         make INSTALL_ROOT="$pkgdir" install
 }
 

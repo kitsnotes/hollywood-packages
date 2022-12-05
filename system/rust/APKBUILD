@@ -103,8 +103,10 @@ builddir="$srcdir/rustc-$pkgver-src"
 # 1. Compile with the upstream triplets, compiling alpine's triplets in
 # 2. Compile again, now with our triplets selected as build/target, now that
 #    rustc knows about them
-_build="$CBUILD"
-_target="$CTARGET"
+#_build="$CBUILD"
+#_target="$CTARGET"
+_build="x86_64-unknown-linux-gnu"
+_target="x86_64-unknown-linux-gnu"
 
 _rtarget=""
 if [ "$CARCH" = aarch64 ]; then
