@@ -1,6 +1,4 @@
-# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
-# Contributor: Corey Oliver <coreyjonoliver@gmail.com>
-# Maintainer: Corey Oliver <coreyjonoliver@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=argon2
 _pkgname=phc-winner-argon2
 pkgver=20190702

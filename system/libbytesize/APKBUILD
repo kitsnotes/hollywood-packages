@@ -1,0 +1,55 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=libbytesize
+pkgver=2.7
+pkgrel=2
+pkgdesc="Library for working with arbitrary big sizes in bytes"
+options="!check" # Tests require dealing with locales
+url="https://github.com/storaged-project/libbytesize"
+arch="all"
+license="LGPL-2.1-or-later"
+makedepends="gettext-dev gmp-dev mpfr-dev pcre2-dev python3"
+checkdepends="bash py3-six"
+subpackages="
+	$pkgname-dev
+	$pkgname-lang
+	py-$pkgname:_py:noarch
+	$pkgname-doc
+	$pkgname-tools:_tools:noarch
+	"
+source="https://github.com/storaged-project/libbytesize/releases/download/$pkgver/libbytesize-$pkgver.tar.gz"
+
+build() {
+	./configure --prefix=/usr
+	make
+}
+
+check() {
+	# Disable test that depends on unpackaged pocketlint
+	sed -i 's|canary_tests.sh$||g' tests/Makefile
+
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+_py() {
+	pkgdesc="Python bindings for $pkgname"
+	depends="python3 py3-six"
+
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/python* "$subpkgdir"/usr/lib/
+}
+
+_tools() {
+	pkgdesc="Tools for libbytesize"
+	depends="py-$pkgname"
+
+	mkdir -p "$subpkgdir"/usr/bin
+	mv "$pkgdir"/usr/bin/* "$subpkgdir"/usr/bin
+}
+
+sha512sums="
+3f2bdebad1e145227d7c81b25b8832ab9f984513c35d81254f68c0cb50b1883f3b96fbb258d7c8223fb284d79dc4ec8b01beae3f7687cded629b269ef5b7210e  libbytesize-2.7.tar.gz
+"

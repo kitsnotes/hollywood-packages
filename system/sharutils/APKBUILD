@@ -1,5 +1,4 @@
-# Contributor: A. Wilcox <awilfox@adelielinux.org>
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=sharutils
 pkgver=4.15.2
 pkgrel=1
