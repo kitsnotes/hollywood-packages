@@ -1,8 +1,7 @@
-# Contributor: David Demelier <markand@malikania.fr>
-# Maintainer: David Demelier <markand@malikania.fr>
+#Maintainer: Originull Software <packages@originull.org>
 pkgname=cog
 pkgver=0.16.1
-pkgrel=1
+pkgrel=2
 pkgdesc="simple browser for WebKit WPE"
 url="https://github.com/Igalia/cog"
 # riscv64: wpewebkit not available.

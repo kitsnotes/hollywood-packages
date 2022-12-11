@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libwpebackend-fdo
-pkgver=1.13.1
-pkgrel=1
+pkgver=1.14.0
+pkgrel=0
 pkgdesc="freedesktop.org backend for WPE WebKit"
 url="https://wpewebkit.org/"
 arch="all"
@@ -22,5 +22,5 @@ package() {
 }
 
 sha512sums="
-ad3df9e8dab6a201359f3afcddcab04d341ce3b61d2e5432b78c1160e040da8f5af508c7219ef8a4ea50b851fc7f0cb458a33b85e35ba77cd8565f6ec2ea72de  wpebackend-fdo-1.13.1.tar.xz
+9eda873adda854e1e498236215b7e240076caca52adca4f60277fb26db8ae9e6436b27a9b25ebf95612835acad82b764ccd21d8ae997e8802665dd79251083d6  wpebackend-fdo-1.14.0.tar.xz
 "
