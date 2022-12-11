@@ -61,7 +61,8 @@ makedepends="qt6-qtwayland-dev
 source="https://depot.originull.org/upstream/hollywood-desktop-$pkgver.tar.gz
 	hollywood.conf
 	fontconfig.conf"
-builddir="$srcdir/hollywood-desktop-$pkgver/"
+
+builddir="$srcdir/hollywood-desktop-$pkgver/desktop/"
 subpackages="$pkgname-dev $pkgname-doc"
 replaces="hollywood-shell hollywood-qt6-libs hollywood-sysmon hollywood-settings hollywood-cursors hollywood-assets 
 	  hollywood-compositor hollywood-eglfs hollywood-about startext terminull popular"
