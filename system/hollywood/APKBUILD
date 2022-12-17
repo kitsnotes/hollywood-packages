@@ -2,7 +2,7 @@
 # Maintainer: The Cat <cat@originull.org>
 pkgname=hollywood
 pkgver=1.0
-pkgrel=34
+pkgrel=35
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
@@ -108,7 +108,7 @@ package() {
 }
 
 sha512sums="
-334b77d2ab40cb11f60804759dc12f395784eb084f94ec14338841102b0eb50835908c7b344c76c91ef9d838eeac2eb6a2ac06296e6a7d71537b4e031c74bc47  hollywood-desktop-1.0.tar.gz
+ffa50d11addc86e7f6785335c96a57844c8a82104a952141794481715ca1f584d1855cedc78fba0c416e840fc31ded7939f1d7abe642ff172c5be7449d0b4f9a  hollywood-desktop-1.0.tar.gz
 472516ee32d38e9307f916f7eea03a225ccd7fd2658a04b55fc9495374021898314cf95a912966fe84d13e887ef6dd300177e859099b98e18d30863ad6a19855  hollywood.conf
 1db0ca5dbaffb35f230811741f18e11fd03c3b516728ee99ca82b6ef846b7929b16301c804cb1f184ba5aa1c629df3e855ae5ec6cb5abdc55e5d3b38d9736be8  fontconfig.conf
 "
