@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood-qt5-libs
 pkgver=1.0
-pkgrel=40
+pkgrel=41
 pkgdesc="Hollywood Qt5 Support Integration Libraries"
 url="https://originull.org"
 arch="all"
@@ -24,5 +24,5 @@ package() {
 }
 
 sha512sums="
-334b77d2ab40cb11f60804759dc12f395784eb084f94ec14338841102b0eb50835908c7b344c76c91ef9d838eeac2eb6a2ac06296e6a7d71537b4e031c74bc47  hollywood-desktop-1.0.tar.gz
+ffa50d11addc86e7f6785335c96a57844c8a82104a952141794481715ca1f584d1855cedc78fba0c416e840fc31ded7939f1d7abe642ff172c5be7449d0b4f9a  hollywood-desktop-1.0.tar.gz
 "
