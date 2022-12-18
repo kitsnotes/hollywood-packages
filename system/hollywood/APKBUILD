@@ -96,6 +96,12 @@ package() {
 	mkdir -p "$pkgdir"/usr/share/sounds/Hollywood
 	cp -ra "$builddir"/assets/sounds/* "$pkgdir"/usr/share/sounds/Hollywood
 
+	mkdir -p "$pkgdir"/usr/share/icons/breeze/apps/16
+	mkdir -p "$pkgdir"/usr/share/icons/breeze-dark/apps/16
+
+	cp -a "$builddir"/assets/hollywood-logo-dark.svg "$pkgdir"/usr/share/icons/breeze-dark/apps/16/hollywood-logo.svg
+	cp -a "$builddir"/assets/hollywood-logo-light.svg "$pkgdir"/usr/share/icons/breeze/apps/16/hollywood-logo.svg
+
 	ln -s /usr/libexec/hollywood/session $pkgdir/usr/bin/hollywood
 	mkdir -p $pkgdir/etc/skel/Desktop/
         mkdir -p $pkgdir/etc/xdg/originull/
