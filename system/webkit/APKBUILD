@@ -20,6 +20,7 @@ makedepends="
 	gst-plugins-base-dev
 	harfbuzz-dev
 	lcms2-dev
+	libavif-dev
 	libepoxy-dev
 	libgcrypt-dev
 	libseccomp-dev
@@ -33,6 +34,7 @@ makedepends="
 	openjpeg-dev
 	perl
 	ruby-dev
+	unifdef
 	wayland-dev
 	wayland-protocols
 	woff2-dev
@@ -41,6 +43,7 @@ makedepends="
 subpackages="$pkgname-dev"
 builddir="$srcdir/wpewebkit-$pkgver"
 source="https://wpewebkit.org/releases/wpewebkit-$pkgver.tar.xz
+	hollywood-user-agent.patch
 	"
 
 build() {
@@ -53,6 +56,7 @@ build() {
 		-DBUILD_SHARED_LIBS=True \
 		-DCMAKE_BUILD_TYPE=None \
 		-DPORT=WPE \
+		-DUSE_GSTREAMER_TRANSCODER=Off \
 		-DENABLE_MINIBROWSER=On \
 		-DENABLE_WPE_QT_API=On \
 		-DENABLE_GTKDOC=Off \
@@ -71,4 +75,5 @@ package() {
 
 sha512sums="
 6ee7781ea7ec758075b949b4a3fae6c2fd89986cefefd303a3f727b3db2654e41e487878712c9e4e404dff0fb81d06d1d51de31043e9a08f357e9f3ab88ec95b  wpewebkit-2.39.5.tar.xz
+beb8206f020266ef7594249e0160be978aca81804237da20940233d22c24c2188393dc0714b292a78be8878c08e5c38b30e1be4d621cb696b21f51a9a629ed64  hollywood-user-agent.patch
 "

@@ -1,6 +1,7 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=gstreamer
-pkgver=1.18.5
+pkgver=1.22.0
 pkgrel=0
 pkgdesc="GStreamer streaming media framework"
 url="https://gstreamer.freedesktop.org"
@@ -23,8 +24,8 @@ build() {
 		-Dintrospection=enabled \
 		-Dbash-completion=disabled \
 		-Dptp-helper-permissions=capabilities \
-		-Dpackage-name="GStreamer (Alpine Linux)" \
-		-Dpackage-origin="https://alpinelinux.org" \
+		-Dpackage-name="GStreamer (Hollywood)" \
+		-Dpackage-origin="https://originull.org" \
 		. output
 	meson compile ${JOBS:+-j ${JOBS}} -C output
 }
@@ -47,5 +48,5 @@ doc() {
 }
 
 sha512sums="
-b0bec94e8fe419610fda750618684c25ad8cbbc50e05b6767eb6a5ca81f0f1dc43a1e8a35d255334c9fe63308a67e94763686cf585b9cf09ebbf754ead074293  gstreamer-1.18.5.tar.xz
+cb1f6d9d81c35cef7a688978142e69b9897ff1dad75853db74c2b3a528b8e83485801997106118f9dca4e608cab07b5963b9e2d6f2a43ee9dea6ca3a36af72d7  gstreamer-1.22.0.tar.xz
 "
