@@ -1,0 +1,30 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=unifdef
+pkgver=2.12
+pkgrel=0
+pkgdesc="Remove #ifdef'ed lines"
+url="https://dotat.at/prog/unifdef/"
+arch="all"
+license="GPL"
+depends=""
+install=""
+subpackages="$pkgname-doc"
+source="https://dotat.at/prog/unifdef/unifdef-$pkgver.tar.gz"
+builddir="$srcdir/$pkgname-$pkgver"
+options="!check" #no test suite
+build() {
+	make clean
+	make
+}
+
+package() {
+	mkdir -p "$pkgdir"/usr/bin "$pkgdir"/usr/share/man/man1
+	install -m 0755 unifdef "$pkgdir"/usr/bin/
+	install -m 0755 unifdefall.sh "$pkgdir"/usr/bin/unifdefall
+	install -m 0644 unifdef.1 "$pkgdir"/usr/share/man/man1/
+}
+
+sha512sums="
+9a00f69309578817af5b3a6cf45f293506e8326b520bed7c0ab2f66661e32a115b7f5aa9b0572cfbee5887044e5f0d70967904ec137172e67a1aab5abe09d3b5  unifdef-2.12.tar.gz
+"
