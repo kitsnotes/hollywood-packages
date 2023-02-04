@@ -9,7 +9,7 @@ case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver-rc${_rcrel};;
 esac
-pkgrel=2
+pkgrel=3
 pkgdesc="Apple Silicon Asahi development Linux kernel"
 url="https://www.kernel.org"
 arch="aarch64"
@@ -280,5 +280,5 @@ _dev() {
 
 sha512sums="
 514469bdc2d8e1cf929987898d3036c8c96677dee2c90c809a3abfde8e53fccf53de8957fae865c1c3f82ab32a285eb3b233df835d057c857b2b6ce406bcc5c4  asahi-6.1-rc6-5.tar.gz
-917c56394ec9c4548daa1087f5d83fd8738b8977c816e82ba8672bfb64d4e01fbba9c01f326884d0621c8038dc4c643700770719d630baba88e5b7c660a1d9a6  asahi.aarch64.config
+5e3e5ef3d70a17518d9f5a204568b746dbcfbeac2a6b80d167d56886a34879100572f5b9850270d9562e6ece58b1e1dac04e88f751d285f30aaac86d6eaecb5a  asahi.aarch64.config
 "

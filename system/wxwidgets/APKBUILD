@@ -67,29 +67,17 @@ build() {
 }
 
 check() {
-	ctest --test-dir build-gtk3 --output-on-failure
+	ctest --test-dir build-qt5 --output-on-failure
 }
 
 package() {
 	DESTDIR="$pkgdir" cmake --install build-qt5
-
-	# Rename qt5 cmake files to allow dual use
-	mv "$pkgdir"/usr/lib/cmake/wxWidgets "$pkgdir"/usr/lib/cmake/wxWidgetsQt
-	local f
-	for f in "$pkgdir"/usr/lib/cmake/wxWidgetsQt/*; do
-		local target="$(dirname $f)/$(basename $f | sed -e 's/wxWidgets/wxWidgetsQt/')"
-		mv "$f" "$target"
-	done
-	mv "$pkgdir"/usr/bin/wx-config "$pkgdir"/usr/bin/wx-config-qt
-
-	DESTDIR="$pkgdir" cmake --install build-gtk3
 
 	install -Dm644 wxwin.m4 -t "$pkgdir"/usr/share/aclocal
 	install -Dm644 docs/licence.txt -t "$pkgdir"/usr/share/licenses/$pkgname
 }
 
 dev() {
-	replaces="wxgtk-base-dev"
 	amove usr/bin
 	default_dev
 	amove usr/lib/wx/config

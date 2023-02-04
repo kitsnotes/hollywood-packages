@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=webkit
-pkgver=2.38.2
+pkgver=2.39.5
 pkgrel=0
 pkgdesc="WebKit port optimized for embedded devices"
 url="https://wpewebkit.org"
@@ -70,5 +70,5 @@ package() {
 }
 
 sha512sums="
-be86500d7d88df673f0b958aabc0c5270ca256bea8816cdbd2bf6eb3e81dee2754e748ff3c7046112a5c9941bb84a2f87a02636159412a2824c18ff3afd16770  wpewebkit-2.38.2.tar.xz
+6ee7781ea7ec758075b949b4a3fae6c2fd89986cefefd303a3f727b3db2654e41e487878712c9e4e404dff0fb81d06d1d51de31043e9a08f357e9f3ab88ec95b  wpewebkit-2.39.5.tar.xz
 "
