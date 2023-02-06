@@ -1,0 +1,42 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=qt6-wpe
+pkgver=0.1
+pkgrel=0
+pkgdesc="Qt6 QML WebKit Control"
+url="https://github.com/nowrep/wpewebkit-qt"
+arch="all"
+license="LGPL2"
+depends="qt6-qtdeclarative webkit libwpe libwpebackend-fdo"
+makedepends="webkit-dev qt6-qtdeclarative-dev cmake libwpe-dev libwpebackend-fdo-dev"
+source="https://depot.originull.org/upstream/wpewebkit-qt.tar.gz
+	wpe-webkit-2.0.patch"
+builddir="$srcdir/wpewebkit-qt"
+options="!check" # no test suite
+
+build() {
+	if [ "$CBUILD" != "$CHOST" ]; then
+                CMAKE_CROSSOPTS="-DCMAKE_SYSTEM_NAME=Linux -DCMAKE_HOST_SYSTEM_NAME=Linux"
+        fi
+	cmake \
+	 -DCMAKE_INSTALL_PREFIX=/usr/lib/qt6/ \
+	 -DBUILD_SHARED_LIBS=True \
+         -DCMAKE_BUILD_TYPE=None \
+         -DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+         -DCMAKE_C_FLAGS="$CFLAGS" \
+	.	
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	mkdir "$pkgdir"/usr/lib/qt6/qml/
+	mv "$pkgdir"/usr/lib/qt6/lib/qt/qml/* \
+		"$pkgdir"/usr/lib/qt6/qml/
+	rm -rf "$pkgdir"/usr/lib/qt6/lib/
+}
+
+sha512sums="
+27b2e3a335bb02298eb9bed46eeec1e7ee76082475bdc2554a090071577778b6401fe9071c332caf461bd371557c19039a987fc94c4a23a04887272b000e2ae2  wpewebkit-qt.tar.gz
+5fcc4648a604d35da5af7cd1dde78f99c1265ace52978730d54e7e2c43cc94964206f20f483c63b4b7265a05f5bd7a27c86ae4f31433b6e4bcb2eb2f94c032d5  wpe-webkit-2.0.patch
+"

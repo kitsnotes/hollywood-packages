@@ -1,0 +1,14 @@
+diff -Naur wpewebkit-qt-orig/CMakeLists.txt wpewebkit-qt/CMakeLists.txt
+--- wpewebkit-qt-orig/CMakeLists.txt	2023-02-06 13:03:22.469223877 -0800
++++ wpewebkit-qt/CMakeLists.txt	2023-02-06 13:03:32.609223877 -0800
+@@ -25,7 +25,9 @@
+ if(NOT WPE_WEBKIT_FOUND)
+     pkg_check_modules(WPE_WEBKIT wpe-webkit-1.1 IMPORTED_TARGET)
+ endif()
+-
++if(NOT WPE_WEBKIT_FOUND)
++    pkg_check_modules(WPE_WEBKIT wpe-webkit-2.0 IMPORTED_TARGET)
++endif()
+ add_subdirectory(src)
+ add_subdirectory(tests)
+ 
