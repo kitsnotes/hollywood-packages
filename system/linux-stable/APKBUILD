@@ -1,4 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
+# NOTE: If you rebuild this package remember to rebuild:
+# * apple-bce-stable
+
 _flavor=stable
 pkgname=linux-${_flavor}
 pkgver=6.1.12

@@ -1,0 +1,43 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=apple-bce-stable
+pkgver=6.1.12
+pkgrel=1
+pkgdesc="Apple Buffer Copy Engine driver for T2 Macintoshes"
+url="https://github.com/t2linux/apple-bce-drv"
+arch="x86_64"
+license="GPL-2.0"
+depends="dracut linux-stable"
+makedepends="linux-stable-dev"
+checkdepends=""
+install=""
+source="https://depot.originull.org/upstream/apple-bce-drv.tar.gz
+	dracut.conf"
+builddir="$srcdir/apple-bce-drv"
+options="!check" # no test suite
+
+build() {
+	make
+}
+
+package() {
+	mkdir -p "$pkgdir"/boot "$pkgdir"/lib/modules
+
+        local _install
+        case "$CARCH" in
+                arm*|aarch64) _install="zinstall dtbs_install";;
+                *) _install=install;;
+        esac
+
+        make -j1 install $_install \
+                INSTALL_MOD_PATH="$pkgdir" \
+                INSTALL_PATH="$pkgdir"/boot 
+
+	mkdir -p "$pkgdir"/etc/dracut.conf.d/
+        cp "$srcdir"/dracut.conf "$pkgdir"/etc/dracut.conf.d/apple-bce.conf
+}
+
+sha512sums="
+10670f48af0d0e52fe9b5bb68a838cedd5b7169bd7e7197b8284c25f14ff7fd12ae7d9bba9780b5e4ff0332e50e11a375203976dd0bbfd68615d314aaff19e5c  apple-bce-drv.tar.gz
+2a3487e2f14de074dc750dd2a02db3f145e1777eac0c8183835884b9f1cbc150a0c635b9d4fa86bbd809cd4f9de058981d69d3c8f028632ec024eed64746d7db  dracut.conf
+"
