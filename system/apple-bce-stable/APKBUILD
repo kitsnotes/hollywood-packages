@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=apple-bce-stable
 pkgver=6.1.12
-pkgrel=1
+pkgrel=4
 pkgdesc="Apple Buffer Copy Engine driver for T2 Macintoshes"
 url="https://github.com/t2linux/apple-bce-drv"
 arch="x86_64"
@@ -15,6 +15,7 @@ source="https://depot.originull.org/upstream/apple-bce-drv.tar.gz
 	dracut.conf"
 builddir="$srcdir/apple-bce-drv"
 options="!check" # no test suite
+install="$pkgname.post-install $pkgname.post-upgrade"
 
 build() {
 	make
@@ -39,5 +40,5 @@ package() {
 
 sha512sums="
 10670f48af0d0e52fe9b5bb68a838cedd5b7169bd7e7197b8284c25f14ff7fd12ae7d9bba9780b5e4ff0332e50e11a375203976dd0bbfd68615d314aaff19e5c  apple-bce-drv.tar.gz
-2a3487e2f14de074dc750dd2a02db3f145e1777eac0c8183835884b9f1cbc150a0c635b9d4fa86bbd809cd4f9de058981d69d3c8f028632ec024eed64746d7db  dracut.conf
+ad55a81db251ed0176c0b37d6b89283610760a4868c234186e444845c1816e7b041caaba57251994ab1a1cc700acb11ac14e7e24178a1a953fd9f7980aeda9f9  dracut.conf
 "
