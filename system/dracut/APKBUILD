@@ -1,8 +1,8 @@
-# Contributor: A. Wilcox <awilfox@adelielinux.org>
-# Maintainer: A. Wilcox <awilfox@adelielinux.org>
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=dracut
 pkgver=050
-pkgrel=12
+pkgrel=15
 pkgdesc="Event-driven initramfs infrastructure"
 url="https://dracut.wiki.kernel.org/"
 arch="all"
@@ -73,5 +73,5 @@ lvm() {
 
 sha512sums="
 eba046cf1c8013369a398e585e0bff233daa8595d469ce9acc8bbc6a32d55c6a5429d4219db19abbf6001104be05b357f0961f9e66b7f926039a5d3ee7c2b850  dracut-050.tar.xz
-901fb8ec5ab91f967e9dc1d8de510631c7665d31b3f50f14f627fb035d9e4a9cb484f028a2fe5a2e132e0175e1f0f832e33cfdf2524f9f02aa23e216ba83321d  dracut.conf
+1e1e4a40bf5920a47c2e978a0fab0424cb9f436f5c6d281d7f2308161756e63bb203ad6cad33e3ceab8aa5f7e21ce849e0c6ffe87f4854f8b035d79053e1f3a9  dracut.conf
 "
