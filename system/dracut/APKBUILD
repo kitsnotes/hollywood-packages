@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=dracut
 pkgver=050
-pkgrel=15
+pkgrel=17
 pkgdesc="Event-driven initramfs infrastructure"
 url="https://dracut.wiki.kernel.org/"
 arch="all"
@@ -73,5 +73,5 @@ lvm() {
 
 sha512sums="
 eba046cf1c8013369a398e585e0bff233daa8595d469ce9acc8bbc6a32d55c6a5429d4219db19abbf6001104be05b357f0961f9e66b7f926039a5d3ee7c2b850  dracut-050.tar.xz
-1e1e4a40bf5920a47c2e978a0fab0424cb9f436f5c6d281d7f2308161756e63bb203ad6cad33e3ceab8aa5f7e21ce849e0c6ffe87f4854f8b035d79053e1f3a9  dracut.conf
+22d5408ce59c3f9836d5e77b82fa26da229ad0e25b1233aa3bda931a13cc07e504d25428b87d5a13b73da9bfdf0771e1d91e8b21dd78ab89cdab37f7370bcb8b  dracut.conf
 "
