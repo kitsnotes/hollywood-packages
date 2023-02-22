@@ -1,0 +1,27 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=cmst
+pkgver=2022.11.30
+pkgrel=0
+pkgdesc="connman system tray"
+url="https://github.com/andrew-bibb/cmst"
+arch="all"
+license="MIT"
+depends="connman"
+makedepends="qt6-qtbase-dev qt6-qttools-dev qt6-qttranslations"
+checkdepends=""
+installs="$pkgname $pkgname-doc"
+source="https://github.com/andrew-bibb/cmst/releases/download/cmst-2022.11.30/cmst-${pkgver}.tar.xz"
+builddir="$srcdir/cmst-$pkgver"
+
+build() {
+	qmake6 DISTRO=Hollywood
+	make
+}
+
+package() {
+	make INSTALL_ROOT=$pkgdir install
+}
+
+sha512sums="
+eafc025a22301931b6cc21593fde2e19e3f8c0d90a54d8c0e081ee37996936db4af3a3667b4f04344b99803c96af99e0e231ebbf28bfd1d9bdf4a80ea9d0b17b  cmst-2022.11.30.tar.xz
+"
