@@ -1,7 +1,7 @@
-# Maintainer: Eric Molitor <eric@molitor.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=refind
-pkgver=0.13.3.1
-pkgrel=4
+pkgver=0.13.3.2
+pkgrel=0
 pkgdesc="rEFInd EFI Boot Manager"
 url="https://www.rodsbooks.com/refind"
 arch="x86_64 aarch64"
@@ -10,8 +10,10 @@ license="GPL-3.0-only"
 depends="efibootmgr lsblk"
 makedepends="gnu-efi-dev bash"
 subpackages="$pkgname-doc"
-source="https://sourceforge.net/projects/refind/files/$pkgver/refind-src-$pkgver.tar.gz
+#source="https://sourceforge.net/projects/refind/files/$pkgver/refind-src-$pkgver.tar.gz"
+source="https://depot.originull.org/upstream/refind-src-$pkgver.tar.gz	
 	01-bgrt.patch
+	02-hollywood-banner.patch
 	"
 
 prepare() {
@@ -48,6 +50,7 @@ package() {
 	cp -r icons $pkgdir/usr/share/refind
 }
 sha512sums="
-7966df5dd8dc66cc49a329ed722a567672da8e2fa3f2334d53db65357cea17cba5a4dc5459e358de1079a938da3c63dc626d096ce28b6bf1fa2964be7359dbd1  refind-src-0.13.3.1.tar.gz
-eb576136ba3a7c5eb67227916ccef3769b7cee30f1306f3c64334ffeebc37418b532e37c330238697ff039cdea2689c784ade3631553d29837519a2fb22aabfa  01-bgrt.patch
+579be8bb4c7aae1379b02079716dc7acbfaa27f6542c6d4d924900bc62b73a334a8c3e0cd5e0577fa6f8131354dfc8d4e711864786fb17698902c53a424935f4  refind-src-0.13.3.2.tar.gz
+cd02d8063763eb1f63f791b2172a7c424609c7b1f57d1e36b6f446a5febc612c3dd91a2f47dcdcb770956430ce2ddc07d808b43e43e71f3d3e6ed71d01c26b8b  01-bgrt.patch
+de0190951dde082ce36d28d5b6e776026dd950efd0363ae4a6b57515b2b9b2078d4fe1124380f0b37eee0d8fc13ef008724aba879402288186e5375003af6f91  02-hollywood-banner.patch
 "
