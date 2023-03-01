@@ -1,0 +1,57 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=xdg-desktop-portal
+pkgver=1.16.0
+pkgrel=0
+pkgdesc="Desktop integration portal"
+url="https://github.com/flatpak/xdg-desktop-portal"
+arch="all"
+license="LGPL-2.1-or-later"
+depends="bubblewrap cmd:fusermount3"
+makedepends="
+	flatpak
+	flatpak-dev
+	fontconfig-dev
+	fuse3-dev
+	geoclue-dev
+	gettext-dev
+	glib-dev
+	json-glib-dev
+	libportal-dev
+	meson
+	pipewire-dev
+	xmlto
+	"
+checkdepends="dbus"
+subpackages="$pkgname-lang $pkgname-doc"
+source="https://github.com/flatpak/xdg-desktop-portal/releases/download/$pkgver/xdg-desktop-portal-$pkgver.tar.xz"
+
+build() {
+	abuild-meson \
+		-Db_lto=true \
+		-Dsystemd=disabled \
+		. output
+	meson compile -C output
+}
+
+check() {
+	XDG_RUNTIME_DIR="$(mktemp -d -p "$srcdir")" \
+	dbus-run-session -- \
+		meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+
+	cd "$pkgdir"
+
+	# We don't need this
+	rm -rf usr/lib/systemd
+
+	mkdir -p usr/lib
+	mv usr/share/pkgconfig usr/lib/
+}
+
+sha512sums="
+f7e7e96d3a6757901fbc4c0310aac0afbf37882c279a2859e06f63528049cd9b50dd2d55445d1386f03f62557c1a2ec81d4ee081200367d6269d2dffc75f0912  xdg-desktop-portal-1.16.0.tar.xz
+"

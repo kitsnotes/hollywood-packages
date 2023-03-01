@@ -1,0 +1,99 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=librsvg
+pkgver=2.55.1
+pkgrel=0
+pkgdesc="SAX-based renderer for SVG files into a GdkPixbuf"
+url="https://wiki.gnome.org/Projects/LibRsvg"
+arch="all"
+license="LGPL-2.1-or-later"
+depends_dev="rsvg-convert=$pkgver-r$pkgrel"
+makedepends="
+	bzip2-dev
+	cairo-dev
+	cargo
+	font-dejavu
+	gi-docgen
+	glib-dev
+	gobject-introspection-dev
+	gtk+3.0-dev
+	libgsf-dev
+	py3-docutils
+	rust
+	vala
+	"
+install="$pkgname.post-upgrade"
+subpackages="
+	$pkgname-dbg
+	$pkgname-dev
+	$pkgname-doc
+	rsvg-convert:_convert
+	rsvg-convert-doc:_convert_doc:noarch
+	"
+# this project uses system-deps -> cfg-expr that only accepts rusts' default
+# target triples, and panics othewise (? why) but patching rust crates is
+# impossible, so we have to make our own prevendored tarballs (or make entire
+# infrastructure, rehost repos, etc..)
+source="https://dev.alpinelinux.org/archive/librsvg/librsvg-$pkgver.tar.xz"
+# tests are very dependent on versions of pango/cairo/freetype
+options="!check"
+
+if [ "$CARCH" = "riscv64" ]; then
+	# binutils thinks there are fake textrels
+	options="$options textrels"
+fi
+
+# secfixes:
+#   2.50.4-r0:
+#     - RUSTSEC-2020-0146
+#   2.46.2-r0:
+#     - CVE-2019-20446
+
+export RUSTFLAGS="$RUSTFLAGS -C debuginfo=1"
+
+prepare() {
+	default_prepare
+
+	# XXX: Hack to prevent rebuild on install.
+	sed -Ei \
+		-e 's/^(install-binSCRIPTS:) \$\(bin_SCRIPTS\)/\1/' \
+		-e 's/^(install-am:) all-am/\1/' \
+		Makefile.in
+}
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--libexecdir=/usr/lib/$pkgname \
+		--disable-static \
+		--enable-vala
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+_convert() {
+	pkgdesc="CLI utility to convert SVG files to PNG format"
+
+	amove usr/bin/rsvg-convert
+}
+
+_convert_doc() {
+	pkgdesc="CLI utility to convert SVG files to PNG format (documentation)"
+	depends=""
+	install_if="docs ${subpkgname%-doc}=$pkgver-r$pkgrel"
+
+	pkgdir="$pkgdir-doc" amove usr/share/man/man1/rsvg-convert.*
+}
+
+sha512sums="
+205473cbec1ae071743f78e45ffc16a4a5c454064c1c0e326a2583566a9998ee34558129abf6c790b11461ad01d0665461b2a711d2bba4ffb1ad72af3357fd7c  librsvg-2.55.1.tar.xz
+"

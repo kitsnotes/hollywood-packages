@@ -1,0 +1,45 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=json-glib
+pkgver=1.6.6
+pkgrel=1
+pkgdesc="JSON library built on GLib"
+arch="all"
+url="https://wiki.gnome.org/Projects/JsonGlib"
+license="LGPL-2.1-or-later"
+makedepends="gobject-introspection-dev glib-dev meson"
+subpackages="$pkgname-dev  $pkgname-lang $pkgname-tests $pkgname-dbg"
+source="https://download.gnome.org/sources/json-glib/${pkgver%.*}/json-glib-$pkgver.tar.xz"
+
+build() {
+	abuild-meson \
+		-Dgtk_doc=disabled \
+		.  build
+	meson compile ${JOBS:+-j ${JOBS}} -C build
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C build
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C build
+}
+
+dev() {
+	default_dev
+	mkdir -p "$subpkgdir"/usr/
+	mv "$pkgdir"/usr/bin "$subpkgdir"/usr/
+}
+
+tests() {
+	pkgdesc="Tests for the json-glib package"
+	mkdir -p "$subpkgdir"/usr/
+	mv "$pkgdir"/usr/share \
+		"$pkgdir"/usr/libexec \
+		"$subpkgdir"/usr/
+}
+
+sha512sums="
+b9a737e4ba3ecdfb9cb8f5fb751cc74e5b1553664d3088c44a1f9e5396d4037958af214dcd290ddf5af98088f46167e10e371e134e1de5cbb7aec84c5c0fd017  json-glib-1.6.6.tar.xz
+"

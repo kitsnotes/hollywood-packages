@@ -1,0 +1,71 @@
+# Contributor: Rasmus Thomsen <oss@cogitri.dev>
+# Contributor: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
+pkgname=gcr
+pkgver=3.41.1
+pkgrel=1
+pkgdesc="library for bits of crypto UI and parsing"
+url="https://wiki.gnome.org/Projects/CryptoGlue"
+arch="all"
+license="LGPL-2.0-or-later"
+makedepends="
+	glib-dev
+	gobject-introspection-dev
+	gtk+3.0-dev
+	libgcrypt-dev
+	libsecret-dev
+	libxslt
+	meson gtk-doc
+	openssh-client
+	p11-kit-dev
+	vala
+	"
+checkdepends="xvfb-run dbus-x11"
+subpackages="
+	$pkgname-dev
+	$pkgname-lang
+	$pkgname-base
+	$pkgname-ssh-agent:ssh
+	"
+source="https://download.gnome.org/sources/gcr/${pkgver%.*}/gcr-$pkgver.tar.xz
+	fix-64-bit-time_t-32-bit.patch
+	"
+options="!check"  # testsuite requires community/xvfb-run
+
+build() {
+	abuild-meson \
+		-Db_lto=true \
+		-Dgtk_doc=false \
+		-Dgpg_path=/usr/bin/gpg2 \
+		-Dsystemd=disabled \
+		output
+	meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+check() {
+	xvfb-run meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	depends="$pkgname-ssh-agent=$pkgver-r$pkgrel"
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+base() {
+	pkgdesc="$pkgdesc (base libraries)"
+	depends=""
+
+	amove usr/lib/libgck-1.so.*
+	amove usr/lib/libgcr-base-3.so.*
+}
+
+ssh() {
+	pkgdesc="$pkgdesc (ssh agent daemon)"
+
+	amove usr/libexec/gcr-ssh-agent
+}
+
+sha512sums="
+dd70d41636ede863d05824b26823a8f572902f7a9b6f09b0c70586ef0d4c046864e6956130b9231850a515a9fbfcd56faf20354c1cf8f697f005827c048a2325  gcr-3.41.1.tar.xz
+579b229d6f310ed035974a92a65804deae7b047cf6109e259844ecdc75df32653a2c9f9dcddba9092da335f44d07d5d82056ae0cf5775057bdb9be5b52e29bcc  fix-64-bit-time_t-32-bit.patch
+"
