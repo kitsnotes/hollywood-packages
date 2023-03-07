@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=refind
-pkgver=0.13.3.2
+pkgver=0.14.0.2
 pkgrel=0
 pkgdesc="rEFInd EFI Boot Manager"
 url="https://www.rodsbooks.com/refind"
@@ -10,8 +10,8 @@ license="GPL-3.0-only"
 depends="efibootmgr lsblk"
 makedepends="gnu-efi-dev bash"
 subpackages="$pkgname-doc"
-#source="https://sourceforge.net/projects/refind/files/$pkgver/refind-src-$pkgver.tar.gz"
-source="https://depot.originull.org/upstream/refind-src-$pkgver.tar.gz	
+source="https://sourceforge.net/projects/refind/files/$pkgver/refind-src-$pkgver.tar.gz
+	https://depot.originull.org/upstream/refind-iconset.zip
 	01-bgrt.patch
 	02-hollywood-banner.patch
 	"
@@ -33,8 +33,8 @@ package() {
 	local _target
 
         case "$CARCH" in
-                aarch64*)       _target="aarch64" ;;
-                x86_64)         _target="x86_64" ;;
+                aarch64*)       _target="aa64" ;;
+                x86_64)         _target="x64" ;;
                 *)              msg "Unable to determine architecture from (CARCH=$CARCH)" ; return 1 ;;
         esac
 
@@ -44,13 +44,11 @@ package() {
 	install -Dm0755 refind.conf-sample -t "$pkgdir"/usr/share/refind
 
 	install -Dm0644 docs/man/*.8 -t "$pkgdir"/usr/share/man/man8
-
-	install -Dm0755 mkrlconf mvrefind refind-mkdefault refind-install -t "$pkgdir"/usr/sbin
-
-	cp -r icons $pkgdir/usr/share/refind
+	cp -r "$srcdir"/icons "$pkgdir"/usr/share/refind/
 }
 sha512sums="
-579be8bb4c7aae1379b02079716dc7acbfaa27f6542c6d4d924900bc62b73a334a8c3e0cd5e0577fa6f8131354dfc8d4e711864786fb17698902c53a424935f4  refind-src-0.13.3.2.tar.gz
+41c120c1afec37c508aa5c0ec09a6563c3047ef84932308c91701795b950431dfad17d25cf664039b490a302d475add98441b75f90ff71cadce41febedc68a9e  refind-src-0.14.0.2.tar.gz
+d160ae8d300f79a8d9516e80bf939377d7c6eb4d4b15233a4b221e15da1ce171cb8503e01d35f78823d5302cb3a9070b393767ef83361f74d55cda90ddaf8cec  refind-iconset.zip
 cd02d8063763eb1f63f791b2172a7c424609c7b1f57d1e36b6f446a5febc612c3dd91a2f47dcdcb770956430ce2ddc07d808b43e43e71f3d3e6ed71d01c26b8b  01-bgrt.patch
 de0190951dde082ce36d28d5b6e776026dd950efd0363ae4a6b57515b2b9b2078d4fe1124380f0b37eee0d8fc13ef008724aba879402288186e5375003af6f91  02-hollywood-banner.patch
 "
