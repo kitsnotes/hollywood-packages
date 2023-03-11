@@ -2,115 +2,294 @@
 # Maintainer: The Cat <cat@originull.org>
 pkgname=hollywood
 pkgver=1.0
-pkgrel=36
+pkgrel=37
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
 options="!check" # no test suite
 license="GPL2"
-depends="hollywood-base
-	 desktop-file-utils
-	 qt6-qtbase 
-	 qt6-qtwayland 
-	 elogind
-	 eudev
-	 libinput 
-	 libapk-qt
-	 efivar
-	accountsservice
-	efibootmgr
-	hunspell
-	hunspell-lang
-	hunspell-en
-	libdrm
-	ttf-hack
-	ttf-opensans
-	breeze-icons
-	djvulibre
-	libspectre
-	poppler
-	sddm 
-	font-noto-emoji 
-	font-adobe-source-serif
-	wireplumber 
-	pipewire 
-	pipewire-pulse
-	wireplumber-logind
-	rtkit
-	pulseaudio-client 
-	qt6-qtmultimedia"
+depends="hollywood-desktop hollywood-accessories"
 makedepends="qt6-qtwayland-dev 
-	     qt6-qtmultimedia-dev
-	     mdnsresponder-dev
-	     libinput-dev
-	     libdrm-dev
-	     elogind-dev
-	     libapk-qt-dev 
-	     mesa-dev
-	     poppler-dev
-	     djvulibre-dev
-             libspectre-dev
-             efivar-dev
-	     mtdev-dev
-	     hunspell-dev
-	     qt6-qtermwidget-dev
-             qt6-polkit-qt-1-dev 
-             qt6-qtsvg-dev
-	     qt6-qt5compat-dev
-	     qt6-qtcharts-dev"
+	qt6-qtmultimedia-dev
+	mdnsresponder-dev
+	libinput-dev
+	libdrm-dev
+	elogind-dev
+	libapk-qt-dev 
+	mesa-dev
+	poppler-dev
+	djvulibre-dev
+	libspectre-dev
+	efivar-dev
+	mtdev-dev
+	hunspell-dev
+	qt6-qtermwidget-dev
+	qt6-polkit-qt-1-dev 
+	qt6-qtsvg-dev
+	qt6-qt5compat-dev
+	qt6-qtcharts-dev
+	bcnm-dev
+	boost-dev
+	cmake
+	curl-dev
+	eudev-dev
+	libarchive-dev
+	linux-headers
+	parted-dev
+	skalibs-dev
+	util-linux-dev
+	dosfstools
+	btrfs-progs-libs
+	libcap-dev
+	libxkbfile-dev
+"
+
 source="https://depot.originull.org/upstream/hollywood-desktop-$pkgver.tar.gz
 	hollywood.conf
 	fontconfig.conf"
 
-builddir="$srcdir/hollywood-desktop-$pkgver/desktop/"
-subpackages="$pkgname-dev $pkgname-doc"
-replaces="hollywood-shell hollywood-qt6-libs hollywood-sysmon hollywood-settings hollywood-cursors hollywood-assets 
-	  hollywood-compositor hollywood-eglfs hollywood-about startext terminull popular"
+builddir="$srcdir/hollywood-desktop-$pkgver/"
+subpackages="$pkgname-baselibs $pkgname-desktop $pkgname-setup $pkgname-image $pkgname-accessories $pkgname-dbg $pkgname-dev $pkgname-doc"
+
 build() {
-	cd $builddir
+	# Build the hollywood desktop
+	cd $builddir/desktop/
 	/usr/lib/qt6/bin/qmake
 	make
+
+	
+	# Build our installer
+	cd $builddir/installer/
+	if [ "$CBUILD" != "$CHOST" ]; then
+		CMAKE_CROSSOPTS="-DCMAKE_SYSTEM_NAME=Linux -DCMAKE_HOST_SYSTEM_NAME=Linux"
+	fi
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBUILD_SHARED_LIBS=True \
+		-DBUILD_TOOLS=ON \
+		-DCMAKE_BUILD_TYPE=RelWithDebugInfo \
+		-DCMAKE_CXX_FLAGS="$CXXFLAGS -Wno-format-truncation" \
+		-DCMAKE_C_FLAGS="$CFLAGS" \
+		-DINSTALL=ON \
+		-DBUILD_ISO=ON \
+		${CMAKE_CROSSOPTS} \
+		-Bbuild
+	make -C build
+}
+
+check() {
+	# Do checks for installer
+	CTEST_OUTPUT_ON_FAILURE=TRUE make -C build test
 }
 
 package() {
-	cd $builddir
+	cd $builddir/desktop/
 	make INSTALL_ROOT="$pkgdir" install
 
-	mkdir -p "$pkgdir"/usr/share/fontconfig/conf.avail/
+	cd $builddir/installer/
+	make DESTDIR="$pkgdir" -C build install
+}
+
+accessories() {
+	pkgdesc="Hollywood Accessories"
+	depends="hollywood-desktop hunspell hunspell-lang hunspell-en djvulibre libspectre poppler"
+	mkdir -p "$subpkgdir"/usr/bin
+	mkdir -p "$subpkgdir"/usr/lib/popular
+	mkdir -p "$subpkgdir"/usr/share/popular
+	mkdir -p "$subpkgdir"/usr/share/applications
+
+	mv "$pkgdir"/usr/lib/popular/libqpdfview_pdf.so  "$subpkgdir"/usr/lib/popular/
+	mv "$pkgdir"/usr/lib/popular/libqpdfview_ps.so "$subpkgdir"/usr/lib/popular/
+	mv "$pkgdir"/usr/lib/popular/libqpdfview_djvu.so "$subpkgdir"/usr/lib/popular/
+	mv "$pkgdir"/usr/lib/popular/libqpdfview_image.so "$subpkgdir"/usr/lib/popular/
+	mv "$pkgdir"/usr/bin/startext "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/hwcalc "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/popular "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/share/applications/org.originull.startext.desktop "$subpkgdir"/usr/share/applications/
+	mv "$pkgdir"/usr/share/applications/org.originull.calculator.desktop  "$subpkgdir"/usr/share/applications/
+	mv "$pkgdir"/usr/share/applications/org.originull.popular.desktop  "$subpkgdir"/usr/share/applications/
+	mv "$pkgdir"/usr/share/popular/*.html "$subpkgdir"/usr/share/popular/  "$subpkgdir"/usr/share/applications/
+	mv "$pkgdir"/usr/share/icons/hicolor/scalable/apps/qpdfview.svg  "$subpkgdir"/usr/share/applications/
+	mv "$pkgdir"/usr/share/metainfo/qpdfview.appdata.xml  "$subpkgdir"/usr/share/applications/
+}
+
+desktop() {
+	pkgdesc="Hollywood Desktop"
+	depends="hollywood-baselibs desktop-file-utils
+        qt6-qtbase
+        qt6-qtwayland
+        libapk-qt
+        efivar
+        accountsservice
+        efibootmgr
+        sddm
+        wireplumber
+        pipewire
+        pipewire-pulse
+        wireplumber-logind
+        rtkit
+        pulseaudio-client
+        qt6-qtmultimedia"
+
+	replaces="hollywood"
+
+	mkdir -p "$subpkgdir"/usr/share/wallpapers/
+        cp -ra "$builddir"/desktop/assets/wallpapers/* "$subpkgdir"/usr/share/wallpapers
+        find "$subpkgdir"/usr/share/wallpapers -type d -exec chmod 755 {} \;
+        find "$subpkgdir"/usr/share/wallpapers -type f -exec chmod 644 {} \;
+
+        mkdir -p "$subpkgdir"/usr/share/sounds/Hollywood
+        cp -ra "$builddir"/desktop/assets/sounds/* "$subpkgdir"/usr/share/sounds/Hollywood
+
+        mkdir -p "$subpkgdir"/usr/share/icons/breeze/apps/16
+        mkdir -p "$subpkgdir"/usr/share/icons/breeze-dark/apps/16
+
+        cp -a "$builddir"/desktop/assets/hollywood-logo-dark.svg "$subpkgdir"/usr/share/icons/breeze-dark/apps/16/hollywood-logo.svg
+        cp -a "$builddir"/desktop/assets/hollywood-logo-light.svg "$subpkgdir"/usr/share/icons/breeze/apps/16/hollywood-logo.svg
+
+        mkdir -p "$subpkgdir"/usr/bin
+        mkdir -p "$subpkgdir"/usr/lib
+	mkdir -p "$subpkgdir"/usr/libexec/hollywood/helpers
+	mkdir -p "$subpkgdir"/usr/libexec/hollywood/settings
+        mkdir -p "$subpkgdir"/usr/share/applications
+	mkdir -p "$subpkgdir"/usr/share/wayland-sessions
+	mkdir -p "$subpkgdir"/usr/share/polkit-1/actions
+
+	mv "$pkgdir"/usr/libexec/hollywood/helpers/sysmon "$subpkgdir"/usr/libexec/hollywood/helpers/
+	mv "$pkgdir"/usr/libexec/hollywood/notificationd "$subpkgdir"/usr/libexec/hollywood/
+	mv "$pkgdir"/usr/libexec/hollywood/session "$subpkgdir"/usr/libexec/hollywood/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib49-sys-update.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib50-datetime.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib10-defaults.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib56-efiboot.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib01-general.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib51-displays.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib54-network.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib52-keyboard.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib53-mouse.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib02-wallpaper.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib08-regionlaguage.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib03-stage.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/settings/lib55-energy.so "$subpkgdir"/usr/libexec/hollywood/settings/
+	mv "$pkgdir"/usr/libexec/hollywood/stage "$subpkgdir"/usr/libexec/hollywood/
+
+	mv "$pkgdir"/usr/bin/hwabout "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/terminull "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/appstub "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/shellfm "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/hwsysmon "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/hwsettings "$subpkgdir"/usr/bin/
+
+	mv "$pkgdir"/usr/share/applications/org.originull.about.desktop "$subpkgdir"/usr/share/applications
+	mv "$pkgdir"/usr/share/applications/org.originull.terminull.desktop "$subpkgdir"/usr/share/applications
+	mv "$pkgdir"/usr/share/applications/org.originull.appstub.desktop "$subpkgdir"/usr/share/applications
+	mv "$pkgdir"/usr/share/applications/org.originull.shellfm.desktop "$subpkgdir"/usr/share/applications
+	mv "$pkgdir"/usr/share/applications/org.originull.sysmon.desktop "$subpkgdir"/usr/share/applications
+	mv "$pkgdir"/usr/share/applications/org.originull.hwsettings.desktop "$subpkgdir"/usr/share/applications
+	mv "$pkgdir"/usr/share/wayland-sessions/hollywood.desktop "$subpkgdir"/usr/share/wayland-sessions
+	mv "$pkgdir"/usr/share/polkit-1/actions/org.originull.hwsettings.datetime.policy "$subpkgdir"/usr/share/polkit-1/actions
+	mv "$pkgdir"/usr/share/polkit-1/actions/org.originull.hwsettings.efiboot.policy "$subpkgdir"/usr/share/polkit-1/actions
+	mv "$pkgdir"/usr/share/polkit-1/actions/org.originull.sysmon.policy "$subpkgdir"/usr/share/polkit-1/actions	
+}
+
+baselibs() {
+	pkgdesc="Hollywood Base Libraries"
+	depends="hollywood-base qt6-qtbase qt6-qtwayland elogind eudev libdrm breeze-icons ttf-hack ttf-opensans libinput fontconfig font-noto-emoji font-adobe-source-serif"
+	mkdir -p "$subpkgdir"/usr/bin
+	mkdir -p "$subpkgdir"/usr/lib
+	mkdir -p "$subpkgdir"/usr/share/applications
+	mkdir -p "$subpkgdir"/usr/libexec/hollywood
+	mkdir -p "$subpkgdir"/etc/xdg/originull
+	mkdir -p "$subpkgdir"/etc/skel/.config/originull
+
+	# install the /usr/lib stuff
+	mv "$pkgdir"/usr/lib/libcommdlg-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libcmctl-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libcompositor-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libcompositor-1.la "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libcommdlg-1.la "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libcmctl-1.la "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/pkgconfig/compositor-1.0.pc "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/pkgconfig/commdlg-1.0.pc "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/pkgconfig/hwlogind-1.0.pc "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/pkgconfig/hwudev-1.0.pc "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libhwlogind-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libhwlogind-1.la "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libhwudev-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libshell-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libhwudev-1.la "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/qt6/plugins/platforms/libhollywood.so "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/qt6/plugins/platforms/libhweglfs.so "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/qt6/plugins/styles/libhollywood.so "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/qt6/plugins/wayland-shell-integration/libhw-layer-shell.so "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/qt6/plugins/platformthemes/libhollywood.so "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/qt6/plugins/hwdeviceintegrations/libeglfs-kms-integration.so "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libHWEglfsXkbSupport.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libHWInputSupport.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libHollywoodEglfsPlatformSupport.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libHWEdidSupport.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libHWKmsSupport.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libHWEglFSDeviceIntegration.so.1.0.0 "$subpkgdir"/usr/lib/
+	# install .desktop files
+	mv "$pkgdir"/usr/share/applications/org.originull.compositor.desktop "$subpkgdir"/usr/share/applications/
+	mv "$pkgdir"/usr/share/applications/org.originull.elevator.desktop "$subpkgdir"/usr/share/applications/
+	# install /usr/libexec
+	mv "$pkgdir"/usr/libexec/hollywood/elevator "$subpkgdir"/usr/libexec/hollywood/
+	mv "$pkgdir"/usr/libexec/hollywood/compositor "$subpkgdir"/usr/libexec/hollywood/
+
+	# install /etc
+	install -D -m644 "$srcdir"/hollywood.conf \
+		 "$subpkgdir"/etc/skel/.config/originull/
+	install -D -m644 "$srcdir"/hollywood.conf \
+		 "$subpkgdir"/etc/xdg/originull
+
+	# Install fontconfig
+	mkdir -p "$subpkgdir"/usr/share/fontconfig/conf.avail/
 	install -D -m644 "$srcdir"/fontconfig.conf  \
-		"$pkgdir"/usr/share/fontconfig/conf.avail/50-hollywood.conf
+		"$subpkgdir"/usr/share/fontconfig/conf.avail/50-hollywood.conf
 
-	mkdir -p "$pkgdir"/etc/fonts/conf.d/
-	ln -s /usr/share/fontconfig/conf.avail/50-hollywood.conf "$pkgdir"/etc/fonts/conf.d/50-hollywood.conf
+	mkdir -p "$subpkgdir"/etc/fonts/conf.d/
+	ln -s /usr/share/fontconfig/conf.avail/50-hollywood.conf "$subpkgdir"/etc/fonts/conf.d/50-hollywood.conf
 
-	mkdir -p "$pkgdir"/usr/share/icons/neutral/
-	cp -ra "$builddir"/assets/neutral/* "$pkgdir"/usr/share/icons/neutral/
-	find "$pkgdir"/usr/share/icons/ -type d -exec chmod 755 {} \;
-	find "$pkgdir"/usr/share/icons/ -type f -exec chmod 644 {} \;
-	
-	mkdir -p "$pkgdir"/usr/share/wallpapers/
-	cp -ra "$builddir"/assets/wallpapers/* "$pkgdir"/usr/share/wallpapers
-	find "$pkgdir"/usr/share/wallpapers -type d -exec chmod 755 {} \;
-	find "$pkgdir"/usr/share/wallpapers -type f -exec chmod 644 {} \;
+	# Install neutral cursor theme
+	mkdir -p "$subpkgdir"/usr/share/icons/neutral/
+	cp -ra "$builddir"/desktop/assets/neutral/* "$subpkgdir"/usr/share/icons/neutral/
+	find "$subpkgdir"/usr/share/icons/ -type d -exec chmod 755 {} \;
+	find "$subpkgdir"/usr/share/icons/ -type f -exec chmod 644 {} \;
+}
 
-	mkdir -p "$pkgdir"/usr/share/sounds/Hollywood
-	cp -ra "$builddir"/assets/sounds/* "$pkgdir"/usr/share/sounds/Hollywood
+setup() {
+	pkgdesc="Hollywood HorizonScript based setup assistant"
+	depends="parted e2fsprogs-extra e2fsprogs-libs libcom_err btrfs-progs dosfstools"
+	license="AGPL-3.0+"
 
-	mkdir -p "$pkgdir"/usr/share/icons/breeze/apps/16
-	mkdir -p "$pkgdir"/usr/share/icons/breeze-dark/apps/16
+	mkdir -p "$subpkgdir"/usr/lib
+	mkdir -p "$subpkgdir"/usr/bin
+	mkdir -p "$subpkgdir"/usr/share/doc/horizon
+	mv "$pkgdir"/usr/lib/libdiskman.so "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libhscript.so "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/bin/hscript-executor "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/hscript-validate "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/hscript-simulate "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/hollywood-setup "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/hollywood-setup-run "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/hscript-fetch "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/hscript-printowner "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/bin/horizon-ppc64-detect "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/share/doc/horizon/image.yang "$subpkgdir"/usr/share/doc/horizon/
 
-	cp -a "$builddir"/assets/hollywood-logo-dark.svg "$pkgdir"/usr/share/icons/breeze-dark/apps/16/hollywood-logo.svg
-	cp -a "$builddir"/assets/hollywood-logo-light.svg "$pkgdir"/usr/share/icons/breeze/apps/16/hollywood-logo.svg
+}
 
-	ln -s /usr/libexec/hollywood/session $pkgdir/usr/bin/hollywood
-	mkdir -p $pkgdir/etc/skel/Desktop/
-        mkdir -p $pkgdir/etc/xdg/originull/
-        mkdir -p $pkgdir/etc/skel/.config/originull
-        touch "$pkgdir"/etc/skel/.config/originull/hollywood.conf
-        ln -s /usr/share/applications $pkgdir/etc/skel/Desktop/Applications
-        ln -s /usr/share/applications/org.originull.about.desktop $pkgdir/etc/skel/Desktop/About\ Hollywood.desktop
-        ln -s /usr/share/applications/org.originull.terminull.desktop $pkgdir/etc/skel/Desktop/Terminull.desktop
-        install -D -m644 "$srcdir"/hollywood.conf "$pkgdir"/etc/xdg/originull/hollywood.conf
+image() {
+	pkgdesc="Tools for generating images using HorizonScript"
+	depends="dracut mtools"
+	mkdir -p "$subpkgdir"/usr/bin
+	mkdir -p "$subpkgdir"/usr/lib
+	mkdir -p "$subpkgdir"/usr/share/horizon
+
+	mv "$pkgdir"/usr/bin/hscript-image "$subpkgdir"/usr/bin/
+	mv "$pkgdir"/usr/lib/libhi-backends.so "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/share/horizon/iso "$subpkgdir"/usr/share/horizon/
 }
 
 sha512sums="
