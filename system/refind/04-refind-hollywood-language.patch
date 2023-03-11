@@ -1,0 +1,69 @@
+diff -Naur refind-0.14.0.2-orig/refind/global.h refind-0.14.0.2/refind/global.h
+--- refind-0.14.0.2-orig/refind/global.h	2023-02-20 10:22:29
++++ refind-0.14.0.2/refind/global.h	2023-03-11 15:49:19
+@@ -187,7 +187,7 @@
+ #endif
+ // Directories to search for these MOK-managing programs. Note that SelfDir is
+ // searched in addition to these locations....
+-#define MOK_LOCATIONS           L"\\,EFI\\tools,EFI\\fedora,EFI\\redhat,EFI\\ubuntu,EFI\\suse,EFI\\opensuse,EFI\\altlinux"
++#define MOK_LOCATIONS           L"\\,EFI\\tools,EFI\\fedora,EFI\\redhat,EFI\\ubuntu,EFI\\suse,EFI\\opensuse,EFI\\altlinux,EFI\\hollywood"
+ // Directories to search for memtest86....
+ #define MEMTEST_LOCATIONS       L"EFI\\tools,EFI\\tools\\memtest86,EFI\\tools\\memtest,EFI\\memtest86,EFI\\memtest"
+ // Files that may be Windows recovery files
+@@ -216,9 +216,9 @@
+ #define HIDEUI_FLAG_ALL       ((0xffff))
+ 
+ // Default hint text for program-launch submenus
+-#define SUBSCREEN_HINT1            L"Use arrow keys to move cursor; Enter to boot;"
+-#define SUBSCREEN_HINT2            L"Insert or F2 to edit options; Esc to return to main menu"
+-#define SUBSCREEN_HINT2_NO_EDITOR  L"Esc to return to main menu"
++#define SUBSCREEN_HINT1            L"(Arrows) Move Cursor; (Enter) Boot Selected;"
++#define SUBSCREEN_HINT2            L"(F2) Options; (ESC) Return to Menu"
++#define SUBSCREEN_HINT2_NO_EDITOR  L"(ESC) Return to Menu"
+ 
+ #define NULL_GUID_VALUE { 0x00000000, 0x0000, 0x0000, {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00} };
+ #define REFIND_GUID_VALUE { 0x36D08FA7, 0xCF0B, 0x42F5, {0x8F, 0x14, 0x68, 0xDF, 0x73, 0xED, 0x37, 0x40} };
+diff -Naur refind-0.14.0.2-orig/refind/main.c refind-0.14.0.2/refind/main.c
+--- refind-0.14.0.2-orig/refind/main.c	2023-02-26 09:40:48
++++ refind-0.14.0.2/refind/main.c	2023-03-11 15:48:54
+@@ -169,10 +169,11 @@
+     LOG(1, LOG_LINE_SEPARATOR, L"Displaying About/Info screen");
+     if (AboutMenu.EntryCount == 0) {
+         AboutMenu.TitleImage = BuiltinIcon(BUILTIN_ICON_FUNC_ABOUT);
+-        AddMenuInfoLine(&AboutMenu, PoolPrint(L"rEFInd Version %s", REFIND_VERSION));
++        AddMenuInfoLine(&AboutMenu, PoolPrint(L"Hollywood EFI Bootloader Version %s", REFIND_VERSION));
+         AddMenuInfoLine(&AboutMenu, L"");
+         AddMenuInfoLine(&AboutMenu, L"Copyright (c) 2006-2010 Christoph Pfisterer");
+         AddMenuInfoLine(&AboutMenu, L"Copyright (c) 2012-2023 Roderick W. Smith");
++        AddMenuInfoLine(&AboutMenu, L"Copyright (c) 2023 Originull Software");
+         AddMenuInfoLine(&AboutMenu, L"Portions Copyright (c) Intel Corporation and others");
+         AddMenuInfoLine(&AboutMenu, L"Distributed under the terms of the GNU GPLv3 license");
+         AddMenuInfoLine(&AboutMenu, L"");
+@@ -209,8 +210,9 @@
+         AddMenuInfoLine(&AboutMenu, L"Built with TianoCore EDK2");
+ #endif
+         AddMenuInfoLine(&AboutMenu, L"");
+-        AddMenuInfoLine(&AboutMenu, L"For more information, see the rEFInd Web site:");
+-        AddMenuInfoLine(&AboutMenu, L"http://www.rodsbooks.com/refind/");
++        AddMenuInfoLine(&AboutMenu, L"This bootloader is based on rEFInd: http://www.rodsbooks.com/refind/");
++        AddMenuInfoLine(&AboutMenu, L"All bugs with this bootloader should be filed with Originull Software.");
++        AddMenuInfoLine(&AboutMenu, L"Bugs with this modified rEFInd should not be filed with the upstream project.");
+         AddMenuEntry(&AboutMenu, &MenuEntryReturn);
+         MyFreePool(FirmwareVendor);
+     }
+@@ -371,12 +373,12 @@
+ 
+     LOG(1, LOG_LINE_SEPARATOR, L"System information");
+ #if defined(__MAKEWITH_GNUEFI)
+-    LOG(1, LOG_LINE_NORMAL, L"rEFInd %s built with GNU-EFI", REFIND_VERSION);
++    LOG(1, LOG_LINE_NORMAL, L"Hollywood Bootloader %s built with GNU-EFI", REFIND_VERSION);
+ #else
+-    LOG(1, LOG_LINE_NORMAL, L"rEFInd %s built with TianoCore EDK2", REFIND_VERSION);
++    LOG(1, LOG_LINE_NORMAL, L"Hollywood Bootloader %s built with TianoCore EDK2", REFIND_VERSION);
+ #endif
+     TempStr = GuidAsString(&(SelfVolume->PartGuid));
+-    LOG(1, LOG_LINE_NORMAL, L"rEFInd boot partition GUID: %s", TempStr);
++    LOG(1, LOG_LINE_NORMAL, L"EFI boot partition GUID: %s", TempStr);
+     MyFreePool(TempStr);
+ #if defined(EFI32)
+     LOG(1, LOG_LINE_NORMAL, L"Platform: x86/IA32/i386 (32-bit)");
