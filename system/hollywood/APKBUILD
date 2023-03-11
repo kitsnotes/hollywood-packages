@@ -2,13 +2,12 @@
 # Maintainer: The Cat <cat@originull.org>
 pkgname=hollywood
 pkgver=1.0
-pkgrel=37
+pkgrel=38
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
 options="!check" # no test suite
 license="GPL2"
-depends="hollywood-desktop hollywood-accessories"
 makedepends="qt6-qtwayland-dev 
 	qt6-qtmultimedia-dev
 	mdnsresponder-dev
@@ -97,7 +96,8 @@ accessories() {
 	mkdir -p "$subpkgdir"/usr/lib/popular
 	mkdir -p "$subpkgdir"/usr/share/popular
 	mkdir -p "$subpkgdir"/usr/share/applications
-
+	mkdir -p "$subpkgdir"/usr/share/icons/hicolor/scalable/apps
+	mkdir -p "$subpkgdir"/usr/share/metainfo
 	mv "$pkgdir"/usr/lib/popular/libqpdfview_pdf.so  "$subpkgdir"/usr/lib/popular/
 	mv "$pkgdir"/usr/lib/popular/libqpdfview_ps.so "$subpkgdir"/usr/lib/popular/
 	mv "$pkgdir"/usr/lib/popular/libqpdfview_djvu.so "$subpkgdir"/usr/lib/popular/
@@ -108,9 +108,9 @@ accessories() {
 	mv "$pkgdir"/usr/share/applications/org.originull.startext.desktop "$subpkgdir"/usr/share/applications/
 	mv "$pkgdir"/usr/share/applications/org.originull.calculator.desktop  "$subpkgdir"/usr/share/applications/
 	mv "$pkgdir"/usr/share/applications/org.originull.popular.desktop  "$subpkgdir"/usr/share/applications/
-	mv "$pkgdir"/usr/share/popular/*.html "$subpkgdir"/usr/share/popular/  "$subpkgdir"/usr/share/applications/
-	mv "$pkgdir"/usr/share/icons/hicolor/scalable/apps/qpdfview.svg  "$subpkgdir"/usr/share/applications/
-	mv "$pkgdir"/usr/share/metainfo/qpdfview.appdata.xml  "$subpkgdir"/usr/share/applications/
+	mv "$pkgdir"/usr/share/popular/*.html "$subpkgdir"/usr/share/popular/
+	mv "$pkgdir"/usr/share/icons/hicolor/scalable/apps/qpdfview.svg "$subpkgdir"/usr/share/icons/hicolor/scalable/apps/
+	mv "$pkgdir"/usr/share/metainfo/qpdfview.appdata.xml "$subpkgdir"/usr/share/metainfo/
 }
 
 desktop() {
@@ -190,6 +190,8 @@ desktop() {
 	mv "$pkgdir"/usr/share/polkit-1/actions/org.originull.hwsettings.datetime.policy "$subpkgdir"/usr/share/polkit-1/actions
 	mv "$pkgdir"/usr/share/polkit-1/actions/org.originull.hwsettings.efiboot.policy "$subpkgdir"/usr/share/polkit-1/actions
 	mv "$pkgdir"/usr/share/polkit-1/actions/org.originull.sysmon.policy "$subpkgdir"/usr/share/polkit-1/actions	
+
+	ln -s /usr/libexec/hollywood/session "$subpkgdir"/usr/bin/hollywood
 }
 
 baselibs() {
@@ -201,35 +203,37 @@ baselibs() {
 	mkdir -p "$subpkgdir"/usr/libexec/hollywood
 	mkdir -p "$subpkgdir"/etc/xdg/originull
 	mkdir -p "$subpkgdir"/etc/skel/.config/originull
-
+	mkdir -p "$subpkgdir"/usr/lib/qt6/plugins/platforms
+	mkdir -p "$subpkgdir"/usr/lib/qt6/plugins/platformthemes
+	mkdir -p "$subpkgdir"/usr/lib/qt6/plugins/wayland-shell-integration
+	mkdir -p "$subpkgdir"/usr/lib/qt6/plugins/styles
+	mkdir -p "$subpkgdir"/usr/lib/qt6/plugins/hwdeviceintegrations
 	# install the /usr/lib stuff
-	mv "$pkgdir"/usr/lib/libcommdlg-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libcmctl-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libcompositor-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libcompositor-1.la "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libcommdlg-1.la "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libcmctl-1.la "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libcommdlg* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libcmctl* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libcompositor* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/pkgconfig/compositor-1.0.pc "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/pkgconfig/commdlg-1.0.pc "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/pkgconfig/hwlogind-1.0.pc "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/pkgconfig/hwudev-1.0.pc "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libhwlogind-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libhwlogind-1.la "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libhwudev-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libshell-1.0.so.1.0.0 "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libhwudev-1.la "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/qt6/plugins/platforms/libhollywood.so "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/qt6/plugins/platforms/libhweglfs.so "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/qt6/plugins/styles/libhollywood.so "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/qt6/plugins/wayland-shell-integration/libhw-layer-shell.so "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/qt6/plugins/platformthemes/libhollywood.so "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/qt6/plugins/hwdeviceintegrations/libeglfs-kms-integration.so "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libHWEglfsXkbSupport.so.1.0.0 "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libHWInputSupport.so.1.0.0 "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libHollywoodEglfsPlatformSupport.so.1.0.0 "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libHWEdidSupport.so.1.0.0 "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libHWKmsSupport.so.1.0.0 "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libHWEglFSDeviceIntegration.so.1.0.0 "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libhwlogind* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libhwudev* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libshell* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/qt6/plugins/platforms/libhollywood.so "$subpkgdir"/usr/lib/qt6/plugins/platforms/
+	mv "$pkgdir"/usr/lib/qt6/plugins/platforms/libhweglfs.so "$subpkgdir"/usr/lib/qt6/plugins/platforms/
+	mv "$pkgdir"/usr/lib/qt6/plugins/styles/libhollywood.so "$subpkgdir"/usr/lib/qt6/plugins/styles/
+	# TODO: fix me, to shut up apkbuild
+        cp "$pkgdir"/usr/lib/qt6/plugins/wayland-shell-integration/libhw-layer-shell.so "$subpkgdir"/usr/lib/
+	# real proper location	
+	mv "$pkgdir"/usr/lib/qt6/plugins/wayland-shell-integration/libhw-layer-shell.so "$subpkgdir"/usr/lib/qt6/plugins/wayland-shell-integration/
+	mv "$pkgdir"/usr/lib/qt6/plugins/platformthemes/libhollywood.so "$subpkgdir"/usr/lib/qt6/plugins/platformthemes/
+	mv "$pkgdir"/usr/lib/qt6/plugins/hwdeviceintegrations/libeglfs-kms-integration.so "$subpkgdir"/usr/lib/qt6/plugins/hwdeviceintegrations/
+	mv "$pkgdir"/usr/lib/libHWEglfsXkbSupport* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libHWInputSupport* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libHollywoodEglfsPlatformSupport* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libHWEdidSupport* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libHWKmsSupport* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libHWEglFSDeviceIntegration* "$subpkgdir"/usr/lib/
 	# install .desktop files
 	mv "$pkgdir"/usr/share/applications/org.originull.compositor.desktop "$subpkgdir"/usr/share/applications/
 	mv "$pkgdir"/usr/share/applications/org.originull.elevator.desktop "$subpkgdir"/usr/share/applications/
