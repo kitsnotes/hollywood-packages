@@ -48,10 +48,13 @@ package() {
 
 	# add original Pi Foundation firmware files
 	# we can use either the -standard or -minimal 43455 file so use standard by default
-	#ln -s cyfmac43455-sdio-standard.bin "$srcdir"/firmware-nonfree-$_rpi_brcm/debian/config/brcm80211/cypress/cyfmac43455-sdio.bin
-	install -Dm644 \
+
+	if [ $CARCH == "aarch64"]
+	then
+		install -Dm644 \
 		"$srcdir"/firmware-nonfree-$_rpi_brcm/debian/config/brcm80211/brcm/brcmfmac*raspberrypi* \
 		-t "$pkgdir"/lib/firmware/brcm
+	fi
 
 	# symlinks for Visionfive1 riscv64 boards, till it fixed upstream
 	ln -s ../cypress/cyfmac43430-sdio.bin		"$pkgdir"/lib/firmware/brcm/brcmfmac43430-sdio.starfive,visionfive-v1.bin
