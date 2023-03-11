@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=linux-firmware
-pkgver=20221109
+pkgver=20230310
 pkgrel=0
 pkgdesc="firmware files for linux"
 url="https://git.kernel.org/?p=linux/kernel/git/firmware/linux-firmware.git;a=summary"
@@ -25,15 +25,15 @@ source="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.
 	"
 
 # Put /lib/firmware/* folders in subpackages
-_folders="3com acenic adaptec advansys amd amd-ucode amdgpu amphion ar3k ath10k
-	ath11k ath6k ath9k_htc atmel atusb av7110 bnx2 bnx2x brcm cadence cavium cirrus
-	cis cnm cpia2 cxgb3 cxgb4 cypress dabusb dpaa2 dsp56k e100 edgeport emi26 emi62
+_folders="advansys amd amd-ucode amdgpu amphion ar3k ath10k
+	ath11k ath6k ath9k_htc atmel atusb av7110 bnx2 bnx2x brcm cadence 
+	cnm cpia2 cxgb3 cxgb4 cypress dabusb dpaa2 dsp56k e100 edgeport emi26 emi62
 	ene-ub6250 ess go7007 i915 imx inside-secure intel isci kaweth keyspan
-	keyspan_pda korg libertas liquidio matrox mediatek mellanox meson microchip
-	moxa mrvl mwl8k mwlwifi myricom netronome nvidia ositech qca qcom qed qlogic
-	r128 radeon rockchip rsi rtl8192e rtl_bt rtl_nic rtlwifi rtw88 rtw89 sb16
-	slicoss sun sxg tehuti ti ti-connectivity ti-keystone tigon ttusb-budget
-	ueagle-atm vicam vxge wfx yam yamaha"
+	keyspan_pda korg libertas liquidio mediatek meson microchip
+	moxa mrvl mwl8k mwlwifi myricom nvidia nxp qca qcom
+	rockchip rtl8192e rtl_bt rtl_nic rtlwifi rtw88 rtw89 
+	sxg tehuti ti tigon ttusb-budget
+	ueagle-atm vicam wfx yamaha"
 
 subpackages="$pkgname-other::noarch $pkgname-none::noarch"
 depends="linux-firmware-other=$pkgver-r$pkgrel"
@@ -48,7 +48,7 @@ package() {
 
 	# add original Pi Foundation firmware files
 	# we can use either the -standard or -minimal 43455 file so use standard by default
-	ln -s cyfmac43455-sdio-standard.bin "$srcdir"/firmware-nonfree-$_rpi_brcm/debian/config/brcm80211/cypress/cyfmac43455-sdio.bin
+	#ln -s cyfmac43455-sdio-standard.bin "$srcdir"/firmware-nonfree-$_rpi_brcm/debian/config/brcm80211/cypress/cyfmac43455-sdio.bin
 	install -Dm644 \
 		"$srcdir"/firmware-nonfree-$_rpi_brcm/debian/config/brcm80211/brcm/brcmfmac*raspberrypi* \
 		-t "$pkgdir"/lib/firmware/brcm
@@ -65,6 +65,30 @@ package() {
 			;;
 		esac
 	done
+	
+	# Remove some stuff we do not need in Hollywood
+	rm -rf "$pkgdir"/lib/firmware/acenic
+	rm -rf "$pkgdir"/lib/firmware/radeon
+	rm -rf "$pkgdir"/lib/firmware/ti-keystone
+	rm -rf "$pkgdir"/lib/firmware/qlogic
+	rm -rf "$pkgdir"/lib/firmware/qed
+	rm -rf "$pkgdir"/lib/firmware/cirrus
+	rm -rf "$pkgdir"/lib/firmware/adaptec
+	rm -rf "$pkgdir"/lib/firmware/3com
+	rm -rf "$pkgdir"/lib/firmware/cis
+	rm -rf "$pkgdir"/lib/firmware/ti-connectivity
+	rm -rf "$pkgdir"/lib/firmware/cavium
+	rm -rf "$pkgdir"/lib/firmware/r128
+	rm -rf "$pkgdir"/lib/firmware/mellanox
+	rm -rf "$pkgdir"/lib/firmware/matrox
+	rm -rf "$pkgdir"/lib/firmware/netronome
+	rm -rf "$pkgdir"/lib/firmware/ositech
+	rm -rf "$pkgdir"/lib/firmware/slicoss
+	rm -rf "$pkgdir"/lib/firmware/sun
+	rm -rf "$pkgdir"/lib/firmware/sb16
+	rm -rf "$pkgdir"/lib/firmware/yam
+	rm -rf "$pkgdir"/lib/firmware/vxge
+	rm -rf "$pkgdir"/lib/firmware/rsi
 
 	rm -f "$pkgdir/usr/lib/firmware/{Makefile,README,configure,GPL-3}"
 
@@ -144,7 +168,7 @@ ucode() {
 }
 
 sha512sums="
-5cd690b06f052c1c7ae235fdf0d20d59fb6f663a723d0b11ef40e7ebfb1b3eba6146e028301700151281f15921b65f986c1ea5145772b8facab34d1bdaa18dce  linux-firmware-20221109.tar.gz
+a5655744892d7ebe341c6612a2f34f9f8b29af70b0c5795c5170b79517a88e75a518843278cb3b66e462be2905995ffd4f15373292e42ea387df6fd693333e89  linux-firmware-20230310.tar.gz
 355c940b4fd597101c332207678fd28154d7e7a90cb374b1fdf230d2061bf979af0209c5a423fca8d23ddb3d95abec741e7dd651da7f0aaa97459ed4fe4d2355  BCM43430A1.hcd.90d0bdff
 31b6b80c4e154ad3d6ec86d7f1222d6c062519e3e5134bd64136778b77d66216d1b2b05c53e4cf1b990d8ed41a99c288d6350ca3b6ccc65cdec045dbdbbd2a0c  BCM4345C0.hcd.90d0bdff
 c8b943bfeffa54ce1687ca69884e9d56efd28d5ea1dbef660915a80c3e036a8675e7d4299102c32006193e4895367654bb67e2d08e66d7803f396eee7e3dfbd6  BCM43430B0.hcd.90d0bdff
