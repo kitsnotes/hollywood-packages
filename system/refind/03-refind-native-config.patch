@@ -1,6 +1,6 @@
 diff -Naur refind-0.14.0.2-orig/refind/config.h refind-0.14.0.2/refind/config.h
 --- refind-0.14.0.2-orig/refind/config.h	2023-02-20 10:22:29
-+++ refind-0.14.0.2/refind/config.h	2023-03-11 15:29:26
++++ refind-0.14.0.2/refind/config.h	2023-03-11 19:00:28
 @@ -71,12 +71,16 @@
  #define CONFIG_FILE_NAME         L"refind.conf"
  // Note: Below is combined with MOK_NAMES and FWUPDATE_NAMES to make default
@@ -20,18 +20,28 @@ diff -Naur refind-0.14.0.2-orig/refind/config.h refind-0.14.0.2/refind/config.h
  #define DONT_SCAN_VOLUMES L"LRS_ESP"
 diff -Naur refind-0.14.0.2-orig/refind/main.c refind-0.14.0.2/refind/main.c
 --- refind-0.14.0.2-orig/refind/main.c	2023-02-26 09:40:48
-+++ refind-0.14.0.2/refind/main.c	2023-03-11 15:34:19
-@@ -326,6 +326,13 @@
++++ refind-0.14.0.2/refind/main.c	2023-03-11 18:57:39
+@@ -322,11 +322,22 @@
+             if (FileExists(SelfDir, FileName)) {
+                 GlobalConfig.ConfigFilename = FileName;
+             } else {
+-                Print(L"Specified configuration file (%s) doesn't exist; using\n'refind.conf' default\n", FileName);
++                Print(L"Specified configuration file (%s) doesn't exist; using\n'refind.conf or arch specific default' default\n", FileName);
                  MyFreePool(FileName);
++                // Hollywood Change - See if refindARCH.conf exists
++                if (FileExists(SelfDir, NATIVE_CONFIG_FILE_NAME)) {
++                    GlobalConfig.ConfigFilename = NATIVE_CONFIG_FILE_NAME;
++                }
              } // if/else
          } // if
-+        else
-+        {
-+            // Hollywood Change - See if refindARCH.conf exists
-+            if (FileExists(SelfDir, NATIVE_CONFIG_FILE_NAME)) {
-+                GlobalConfig.ConfigFilename = NATIVE_CONFIG_FILE_NAME;
-+            }
-+        }
      } // if
++    else
++    {
++        // Hollywood Change - See if refindARCH.conf exists
++        if (FileExists(SelfDir, NATIVE_CONFIG_FILE_NAME)) {
++            GlobalConfig.ConfigFilename = NATIVE_CONFIG_FILE_NAME;
++        }
++    }
  } // VOID SetConfigFilename()
  
+ // Adjust the GlobalConfig.DefaultSelection variable: Replace all "+" elements with the

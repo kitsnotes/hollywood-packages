@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=refind
 pkgver=0.14.0.2
-pkgrel=1
+pkgrel=2
 pkgdesc="rEFInd EFI Boot Manager"
 url="https://www.rodsbooks.com/refind"
 arch="x86_64 aarch64"
@@ -53,6 +53,6 @@ sha512sums="
 d160ae8d300f79a8d9516e80bf939377d7c6eb4d4b15233a4b221e15da1ce171cb8503e01d35f78823d5302cb3a9070b393767ef83361f74d55cda90ddaf8cec  refind-iconset.zip
 cd02d8063763eb1f63f791b2172a7c424609c7b1f57d1e36b6f446a5febc612c3dd91a2f47dcdcb770956430ce2ddc07d808b43e43e71f3d3e6ed71d01c26b8b  01-bgrt.patch
 de0190951dde082ce36d28d5b6e776026dd950efd0363ae4a6b57515b2b9b2078d4fe1124380f0b37eee0d8fc13ef008724aba879402288186e5375003af6f91  02-hollywood-banner.patch
-3f1d5af28fab3da3a56446aad99c0c3192129056f8fadd93ee2ffb61b90e17d82fd842415931ed38f524502bcf84482ae7c7bde341106c750a90f5a8377574b4  03-refind-native-config.patch
+20e51981b2caa3f9307544202fa54898e4d6224e44504d7e4257ed4d7cee6f6b03caa1a34b8723521a86aa1b2e659605e614bdc50b7e83fae097da5ead8b6172  03-refind-native-config.patch
 de3030b239d43cdc2191a1cb34504ba64de4747912667f0543bc54a31f1694a75636adc4832647a67a99eefe1c5a94670831f78f44abf0b306ff34d31c8ee5a8  04-refind-hollywood-language.patch
 "
