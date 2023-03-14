@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=apple-bce-stable
 pkgver=6.1.12
-pkgrel=4
+pkgrel=5
 pkgdesc="Apple Buffer Copy Engine driver for T2 Macintoshes"
 url="https://github.com/t2linux/apple-bce-drv"
 arch="x86_64"

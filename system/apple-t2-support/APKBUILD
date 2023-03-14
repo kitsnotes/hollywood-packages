@@ -1,0 +1,31 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=apple-t2-support
+pkgver=1.0
+pkgrel=0
+pkgdesc="Support for Apple Macintosh with T2 Security Chip"
+url="https://github.com/t2linux/"
+arch="x86_64"
+license="GPL-2.0"
+depends="dracut"
+checkdepends=""
+install=""
+source="dracut.conf"
+options="!check" # no test suite
+install="$pkgname.post-install $pkgname.post-upgrade"
+
+build() {
+	return 0
+}
+
+package() {
+	mkdir -p "$pkgdir"/boot "$pkgdir"/lib/modules
+
+
+	mkdir -p "$pkgdir"/etc/dracut.conf.d/
+        cp "$srcdir"/dracut.conf "$pkgdir"/etc/dracut.conf.d/20-apple-t2-drivers.conf
+}
+
+sha512sums="
+afeec785cdaa20405072b07bca83494e7a437a32ddb6aad48be62f4ac9d6e8af32360adcbf4c946b84c42772234372a67919c29c7583d3c678a825d0d8eec3c9  dracut.conf
+"
