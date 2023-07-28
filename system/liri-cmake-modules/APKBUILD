@@ -1,0 +1,33 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=liri-cmake-modules
+pkgver=1.1.0
+pkgrel=0
+pkgdesc="LiriOS CMake Modules"
+url="https://github.com/lirios/cmake-shared"
+options="!check" # No testsuite
+arch="noarch"
+license="BSD-3-Clause"
+makedepends="cmake samurai qt6-qtbase-dev glib-dev"
+source="https://github.com/lirios/cmake-shared/releases/download/v$pkgver/liri-cmake-shared-$pkgver.tar.xz"
+builddir="$srcdir/liri-cmake-shared-$pkgver"
+
+build() {
+	if [ "$CBUILD" != "$CHOST" ]; then
+		CMAKE_CROSSOPTS="-DCMAKE_SYSTEM_NAME=Linux -DCMAKE_HOST_SYSTEM_NAME=Linux"
+	fi
+	cmake -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_SHARED_LIBS=True \
+		$CMAKE_CROSSOPTS .
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --build build --target install
+}
+
+sha512sums="
+83192be7bccdfeb71438e8a1367866cb63a35db8e73cffc281204e6e87ef9ca55adff96527f6ab73fa971e7b47e17c1519a44ba9c95f1bd3e96dea40bbb973d7  liri-cmake-shared-1.1.0.tar.xz
+"
