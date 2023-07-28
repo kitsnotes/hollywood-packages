@@ -1,0 +1,43 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=dbus-broker
+pkgver=33
+pkgrel=2
+pkgdesc="Linux D-Bus Message Broker"
+url="https://github.com/bus1/dbus-broker"
+arch="all"
+license="Apache"
+depends="systemd audit expat"
+makedepends="$depends_dev
+	audit-dev
+	meson
+	systemd-dev
+	py3-docutils
+	"
+pkggroups="messagebus"
+subpackages="
+	$pkgname-doc
+	"
+source="https://github.com/bus1/dbus-broker/releases/download/v$pkgver/$pkgname-$pkgver.tar.xz
+	"
+
+build() {
+        abuild-meson \
+		-Daudit=true \
+		-Ddocs=true \
+		-Dlinux-4-17=true \
+		-Dsystem-console-users=gdm,sddm,lightdm,lxdm \
+                . output
+        meson compile -C output	
+}
+
+check() {
+        meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+        DESTDIR="$pkgdir" meson install --no-rebuild -C output
+	mv "$pkgdir"/usr/lib/systemd/system/dbus-broker.service "$pkgdir"/usr/lib/systemd/system/dbus.service
+}
+sha512sums="
+776684a5d19a6c25fc46dff19821014a32d967f8132385b86c5281f2d69192dce64b3ad92ae6a158d1d64753e89d918385a1a31f32811f54060504113f065baa  dbus-broker-33.tar.xz
+"
