@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtbase
-pkgver=6.3.1
-pkgrel=8
+pkgver=6.5.2
+pkgrel=2
 pkgdesc="A cross-platform application and UI framework"
 url="https://qt.io/"
 arch="all"
@@ -78,7 +78,7 @@ build() {
 		-DINSTALL_INCLUDEDIR=include/qt6 \
 		-DINSTALL_MKSPECSDIR=lib/qt6/mkspecs \
 		-DINSTALL_EXAMPLESDIR=share/doc/qt6/examples \
-		-DQT_QPA_DEFAULT_PLATFORM=hollywood \
+		-DQT_QPA_DEFAULT_PLATFORM=wayland \
 		-DQT_FEATURE_journald=OFF \
 		-DQT_FEATURE_openssl_linked=ON \
 		-DQT_FEATURE_system_sqlite=ON \
@@ -140,17 +140,15 @@ gui() {
 		usr/lib/libQt6EglFsKms*Support.so.* \
 		usr/lib/libQt6Gui.so.* \
 		usr/lib/libQt6OpenGL*.so.* \
-		usr/lib/libQt6XcbQpa.so.* \
 		usr/lib/libQt6PrintSupport.so.* \
 		usr/lib/libQt6Widgets.so.* \
 		usr/lib/qt6/plugins/egldeviceintegrations \
 		usr/lib/qt6/plugins/generic \
 		usr/lib/qt6/plugins/image* \
 		usr/lib/qt6/plugins/platform* \
-		usr/lib/qt6/plugins/printsupport* \
-		usr/lib/qt6/plugins/xcbglintegrations/libqxcb*
+		usr/lib/qt6/plugins/printsupport* 
 }
 
 sha512sums="
-5c4304dc1f5fa80201b61c9c8dbf4c3449506a243ea1f87e336dc3641a37b9d40c2aa4a93190cc69ddde0f349c74e327c35de5f46de888ddfd49616903e8a7b5  qtbase-everywhere-src-6.3.1.tar.xz
+8d97029aae5b73a3e03624c9a8495dbf2fe54a4f5e992071c06f3d93935e64c80f2121b33eeb60a92d96ceb288cb25d74906a5bf47b45bb018d859d4a2d13f20  qtbase-everywhere-src-6.5.2.tar.xz
 "

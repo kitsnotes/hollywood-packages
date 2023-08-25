@@ -1,8 +1,8 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-polkit-qt-1
 pkgver=0.114.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Qt6 wrapper around polkit-1 client libraries"
 # s390x and riscv64 blocked by polkit-elogind
 arch="all !s390x !riscv64"
@@ -14,7 +14,7 @@ makedepends="$depends_dev
 	qt6-qtbase-dev
 	samurai
 	"
-source="http://depot.originull.org//polkit-qt-1-git.tar.gz"
+source="https://depot.originull.org/upstream/polkit-qt-1-git.tar.gz"
 subpackages="$pkgname-dev"
 builddir="$srcdir/polkit-qt-1"
 
@@ -36,6 +36,4 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 
-sha512sums="
-2f50f25a8934e1d11d011bf7fe015993c9745b76887b82b4f74bfb03dfaa307fc96a1d1fe2ff4293e8da9bfa63a766267bbcefbe44718c5b200ca9bbcf06877d  polkit-qt-1-git.tar.gz
-"
+sha512sums="2f50f25a8934e1d11d011bf7fe015993c9745b76887b82b4f74bfb03dfaa307fc96a1d1fe2ff4293e8da9bfa63a766267bbcefbe44718c5b200ca9bbcf06877d  polkit-qt-1-git.tar.gz"

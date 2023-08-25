@@ -1,7 +1,7 @@
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Softawre <packages@originull.org>
 pkgname=qt6-qt5compat
-pkgver=6.3.1
-pkgrel=0
+pkgver=6.5.2
+pkgrel=1
 pkgdesc="Module that contains unsupported Qt 5 APIs"
 url="https://qt.io/"
 arch="all"
@@ -40,5 +40,5 @@ package() {
 }
 
 sha512sums="
-66196a8d29a2789179904638fcd9ec162d5715e7dc28618b3ef78d07682a05578b6c2e7023144c628b94321a9c1332d39826c13adb1e5db5121406c530c9c35c  qt5compat-everywhere-src-6.3.1.tar.xz
+c646231f4bece460bfa6b654cba63a91c938c98b4fca8198e63a3fc15a2c7424ef43a765f612d6555b341a8b46f89293d4567257e489569e4669d9beaee6ed66  qt5compat-everywhere-src-6.5.2.tar.xz
 "

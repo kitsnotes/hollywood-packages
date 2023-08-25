@@ -2,7 +2,7 @@
 # Maintainer: The Cat <cat@originull.org>
 pkgname=qt6-qtermwidget
 pkgver=1.0.9
-pkgrel=1
+pkgrel=4
 pkgdesc="Terminal Widget for Qt6"
 url="https://github.com/kitsnotes/qtermwidget-qt6"
 arch="all"

@@ -1,8 +1,7 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtdatavis3d
-pkgver=6.3.1
-pkgrel=0
+pkgver=6.5.1
+pkgrel=1
 pkgdesc="Qt6 Data Visualization module"
 url="https://qt.io/"
 arch="all"
@@ -39,5 +38,5 @@ package() {
 }
 
 sha512sums="
-2d345e42dcb726b8bfa1ca12b0b7feb7f8df6f74f434a8ace58e1d28c3ce9ab4b0877b6918eb9354878ff4a429b56bb5c6cd95a80feeaa38dd67796f5d5171c7  qtdatavis3d-everywhere-src-6.3.1.tar.xz
+2aebe20de8010e49d49c35decccaafedf540b0ffb35bd0a4d7dad974cee3378063cfddea79a8e5bcfa9b23f5745feeaa4c81ffb7cad3e654721d06dca61b78c6  qtdatavis3d-everywhere-src-6.5.1.tar.xz
 "

@@ -1,8 +1,7 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtconnectivity
-pkgver=6.3.1
-pkgrel=0
+pkgver=6.5.1
+pkgrel=1
 pkgdesc="Provides access to Bluetooth hardware"
 url="https://qt.io/"
 arch="all"
@@ -50,5 +49,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-f35ec394d1be817369959a38528a64dc5a7f060fe37d84363d0b04e14776c796e079787cbe24e7678454a7edf82909d4a3630e614142595dc271fcf10c9a2a0a  qtconnectivity-everywhere-src-6.3.1.tar.xz
+a02f1859e5a02c0df0cebc2c3b0660febbc2f22ba6924558be47e51b3a135fb8376c580f1b5fe21f5b7b22f790bcefa431270accc31c95c0118d43ff0e2a37b8  qtconnectivity-everywhere-src-6.5.1.tar.xz
 "

@@ -1,8 +1,8 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtimageformats
-pkgver=6.3.1
-pkgrel=0
+pkgver=6.5.1
+pkgrel=1
 pkgdesc="Plugins for additional image formats: TIFF, MNG, TGA, WBMP"
 url="https://qt.io/"
 arch="all"
@@ -39,5 +39,5 @@ package() {
 }
 
 sha512sums="
-9be2c4dab869c7709775514ee2dbc9d84c8e76b98e8e8a01fcf96355b3309f1830bff57cd9455bc4a33c5f8f0cb948619806dff6f303233c35e5efbdf3cc92f7  qtimageformats-everywhere-src-6.3.1.tar.xz
+41b82b829579d81e964212ecb6adf56a02fbe0293c33718c428977eb55df2008ea0af6214e051b5415fdfc828c532276be7b9cfb1523d8fc4dc07d4b337d49e3  qtimageformats-everywhere-src-6.5.1.tar.xz
 "
