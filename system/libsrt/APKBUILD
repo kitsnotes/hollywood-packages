@@ -1,0 +1,51 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=libsrt
+pkgver=1.5.1
+pkgrel=0
+pkgdesc="Secure Reliable Transport (SRT)"
+options="!check" # TestMuxer.IPv4_and_IPv6 fail when setting up IPv6
+url="https://www.srtalliance.org/"
+arch="all"
+license="MPL-2.0"
+makedepends="cmake openssl-dev>3 linux-headers samurai"
+checkdepends="gtest-dev"
+subpackages="$pkgname-progs $pkgname-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/Haivision/srt/archive/v$pkgver.tar.gz"
+builddir="$srcdir/srt-$pkgver"
+
+build() {
+	if [ "$CBUILD" != "$CHOST" ]; then
+		CMAKE_CROSSOPTS="-DCMAKE_SYSTEM_NAME=Linux -DCMAKE_HOST_SYSTEM_NAME=Linux"
+	fi
+	cmake -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_BUILD_TYPE=MinSizeRel \
+		-DUSE_ENCLIB=openssl-evp \
+		-DENABLE_UNITTESTS="$(want_check && echo ON || echo OFF)" \
+		-DENABLE_TESTING="$(want_check && echo ON || echo OFF)" \
+		-DENABLE_STATIC=OFF \
+		$CMAKE_CROSSOPTS
+	cmake --build build
+}
+
+check() {
+	cd build
+	# Broken tests
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+progs() {
+	pkgdesc="Tools for working with SRT"
+	depends=""
+	amove usr/bin
+}
+
+sha512sums="
+f3aa1f7773540e2dd31cd19b124eec3c3d830f59c08d953cae01e129a58db7e639bdf94c8a5a678435ae9a1d2402e2c77196fc9c4e75b42aa37d8eafcc16f436  libsrt-1.5.1.tar.gz
+"
