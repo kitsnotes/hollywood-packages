@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtdeclarative
 pkgver=6.5.2
-pkgrel=1
+pkgrel=3
 pkgdesc="Classes for QML and JavaScript languages"
 url="https://qt.io/"
 arch="all"
