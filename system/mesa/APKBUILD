@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=mesa
-pkgver=22.2.2
+pkgver=23.1.6
 pkgrel=2
 pkgdesc="Mesa DRI OpenGL library"
 url="https://www.mesa3d.org"
@@ -54,8 +54,6 @@ makedepends="
 	"
 source="
 	https://mesa.freedesktop.org/archive/mesa-$pkgver.tar.xz
-	disable-rgb10-by-default.patch
-	0001-radeonsi-On-Aarch64-force-persistent-buffers-to-GTT.patch
 	"
 replaces="mesa-dricore"
 options="!check" # we skip tests intentionally
@@ -105,7 +103,6 @@ build() {
     -D gallium-va=enabled \
     -D gallium-vdpau=enabled \
     -D gallium-xa=enabled \
-    -D gallium-xvmc=disabled \
     -D gbm=enabled \
     -D gles1=disabled \
     -D gles2=enabled \
@@ -117,7 +114,9 @@ build() {
     -D osmesa=true \
     -D shared-glapi=enabled \
     -D microsoft-clc=disabled \
-		$_arch_opts \
+		-Drust_std=2021 \
+		-Dvideo-codecs=h264dec,h264enc,h265dec,h265enc \
+	$_arch_opts \
 	 output
 
 	# Print config
@@ -134,7 +133,5 @@ package() {
 }
 
 sha512sums="
-a1eb67e1ae4880c79b1fdc570f4389baba0b8ba796da7e695c9af19a7d92b6c06b95570e6c796548b61355989025fb7efbf9acac74cbd695f7e297dc913b933c  mesa-22.2.2.tar.xz
-ae5ffb9259efc339a868c778186889fa1a6eacb4dc4b2452f31f9c65e1a6273e856665300d2982fb2680b4d182aae574ceda258e15c00d7ae16960ba09240ef1  disable-rgb10-by-default.patch
-fdbc13888f09d157feae6ce3b8a63cc606d7ed19e364cdb89ccce25a367255b498bbe82862a487c29d8f98d5e31980ef1f0879b06823cedb54801fd54cd461ad  0001-radeonsi-On-Aarch64-force-persistent-buffers-to-GTT.patch
+24f1c626fa05a82bcdfb24b67b8e5f96f94d5748309631b83e8d7a62142853cd3be90b92c56bac3bc4d223bf40b424d6d6a9977537b899107295b7d45d7e2575  mesa-23.1.6.tar.xz
 "
