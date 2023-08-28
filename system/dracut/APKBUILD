@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=dracut
 pkgver=050
-pkgrel=17
+pkgrel=18
 pkgdesc="Event-driven initramfs infrastructure"
 url="https://dracut.wiki.kernel.org/"
 arch="all"
@@ -42,10 +42,7 @@ package() {
 	make DESTDIR="$pkgdir" install
 	mkdir -p "$pkgdir"/etc/dracut.conf.d/
 	cp "$srcdir"/dracut.conf "$pkgdir"/etc/dracut.conf.d/hollywood.conf
-	for sysdmod in 00systemd 98dracut-systemd \
-	    01systemd-initrd 02systemd-networkd; do
-		rm -r "$pkgdir"/usr/lib/dracut/modules.d/$sysdmod
-	done
+	rm -r "$pkgdir"/usr/lib/dracut/modules.d/02systemd-networkd
 
 }
 

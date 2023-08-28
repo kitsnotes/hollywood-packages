@@ -1,7 +1,7 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=dbus
 pkgver=1.14.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Freedesktop.org message bus system"
 url="https://www.freedesktop.org/Software/dbus"
 arch="all"
@@ -14,6 +14,7 @@ makedepends="$depends_dev
 	expat-dev
 	glib-dev
 	libsm-dev
+	systemd-dev
 	libtool
 	libx11-dev
 	xmlto
@@ -68,6 +69,7 @@ build() {
 		--enable-modular-tests=yes \
 		--disable-asserts \
 		--enable-user-session \
+		--enable-systemd \
 		--enable-xml-docs \
 		--with-session-socket-dir=/tmp \
 		--with-x
@@ -80,7 +82,6 @@ check() {
 
 package() {
 	make -j1 DESTDIR="$pkgdir" install
-	rm -rf "$pkgdir"/usr/lib/systemd
 
 	install -Dm755 "$srcdir"/dbus.initd "$pkgdir"/etc/init.d/dbus
 	install -Dm644 "$srcdir"/dbus.confd "$pkgdir"/etc/conf.d/dbus

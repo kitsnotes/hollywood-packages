@@ -1,10 +1,8 @@
-# Contributor: Carlo Landmeter
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=polkit
 pkgver=0.120
-pkgrel=5
+pkgrel=6
 pkgdesc="Application development toolkit for controlling system-wide privileges"
 url="https://www.freedesktop.org/wiki/Software/polkit/"
 arch="all !s390x !riscv64" # Rust
@@ -17,7 +15,7 @@ makedepends="
 	bash
 	meson
 	dbus-glib-dev
-	elogind-dev
+	systemd-dev
 	expat-dev
 	glib-dev
 	gobject-introspection-dev
@@ -70,12 +68,11 @@ build() {
 		--disable-static \
 		--enable-introspection \
 		--with-authfw=pam \
-		--with-os-type=alpine \
+		--with-os-type=hollywood \
 		--disable-gtk-doc \
 		--disable-gtk-doc-html \
 		--disable-gtk-doc-pdf \
-		--enable-libelogind \
-		--disable-systemd \
+		--enable-systemd \
 		--with-duktape \
 		--enable-libsystemd-login
 	make

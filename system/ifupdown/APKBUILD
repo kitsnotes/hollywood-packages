@@ -1,0 +1,32 @@
+# Contributor: Orignull <packages@originull.org>
+# Maintainer: Originull <packages@originull.org>
+pkgname=ifupdown
+pkgver=1
+pkgrel=0
+pkgdesc="dummy ifupdown"
+url="https://originull.org"
+arch="all"
+license="MIT"
+depends=""
+makedepends=""
+checkdepends=""
+install=""
+provides="ifupdown-any"
+source=""
+builddir="$srcdir/"
+
+build() {
+	# Replace with proper build command(s)
+	:
+}
+
+check() {
+	# Replace with proper check command(s)
+	:
+}
+
+package() {
+	# Replace with proper package command(s)
+	mkdir $pkgdir
+}
+

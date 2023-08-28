@@ -1,7 +1,7 @@
-# Maintainer: Timo Teräs <timo.teras@iki.fi>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=plymouth
 pkgver=22.02.122
-pkgrel=2
+pkgrel=3
 pkgdesc="graphical bootsplash on linux"
 url="http://www.freedesktop.org/wiki/Software/Plymouth"
 arch="all"
@@ -33,7 +33,7 @@ build() {
 		--disable-gtk \
 		--enable-drm \
 		--with-system-root-install \
-		--disable-systemd-integration
+		--enable-systemd-integration
 	make
 }
 

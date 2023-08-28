@@ -1,6 +1,8 @@
+#Contributor: Originull Software <packages@originull.org>
+#Maintainer: Originull Software <packages@originull.org>
 pkgname=rtkit
 pkgver=0.13
-pkgrel=4
+pkgrel=5
 pkgdesc="D-Bus system service that enables real time scheduling on request"
 url="https://github.com/heftig/rtkit"
 arch="all"
@@ -33,7 +35,7 @@ options="!check"  # no tests are defined
 
 build() {
 	abuild-meson \
-		-Dlibsystemd=disabled \
+		-Dlibsystemd=enabled \
 		-Dinstalled_tests=false \
 		. output
 	meson compile -j ${JOBS:-1} -C output
@@ -47,11 +49,6 @@ package() {
 	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 
 	cd "$pkgdir"
-
-	rm -r usr/lib/systemd
-	# Don't add emtpy /usr/lib dir, but use rmdir instead of rm -rf to fail
-	# if lib is no longer empty.
-	rmdir usr/lib
 
 	install -Dm755 "$srcdir"/$pkgname.initd etc/init.d/$pkgname
 	install -Dm644 "$srcdir"/$pkgname.confd etc/conf.d/$pkgname
