@@ -1,0 +1,81 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=systemd
+pkgver=254
+pkgrel=0
+pkgdesc="system init manager"
+url="https://systemd.io/"
+arch="all"
+license="GPL-2.0"
+depends="acl audit bash cryptsetup dbus iptables kbd kmod util-linux openssl>=3 lz4 linux-pam xz gperf bpftool"
+makedepends="meson clang cryptsetup-libs cryptsetup-dev linux-pam-dev libcap-dev util-linux-dev kmod-dev acl-dev audit-dev xz-dev lz4-dev libgcrypt-dev libidn2-dev libseccomp-dev xz-dev libbpf-dev pcre2-dev py3-jinja2"
+checkdepends=""
+install=""
+replaces="openrc elogind eudev openntpd"
+provides="openrc elogind eudev"
+subpackages="$pkgname-dev $pkgname-doc"
+source="https://github.com/systemd/systemd/archive/refs/tags/v$pkgver/systemd-$pkgver.tar.gz"
+builddir="$srcdir/systemd-$pkgver"
+
+build() {
+
+  local _nameservers=(
+    '9.9.9.9#dns.quad9.net'
+    '2620:fe::9#dns.quad9.net'
+  )
+
+	abuild-meson \
+	-Dmode=release \
+	-Dbootloader=false \
+	-Dhomed=false \
+	-Dlocaled=false \
+	-Dnetworkd=false \
+	-Dmachined=false \
+	-Dimportd=false \
+	-Dsysupdate=false \
+	-Dportabled=false \
+	-Duserdb=false \
+	-Dremote=false \
+	-Drepart=false \
+	-Dkernel-install=false \
+    -Dbpf-framework=true \
+    -Dok-color=magenta \
+    -Dima=false \
+    -Dlibidn2=true \
+    -Dlz4=true \
+    -Dman=true \
+    -Ddbuspolicydir=/usr/share/dbus-1/system.d \
+    -Ddefault-dnssec=no \
+    -Ddefault-hierarchy=unified \
+    -Ddefault-kill-user-processes=false \
+    -Ddefault-locale='C.UTF-8' \
+    -Dlocalegen-path=/usr/bin/locale-gen \
+    -Ddns-over-tls=openssl \
+    -Dfallback-hostname='hollywood' \
+    -Dnologin-path=/usr/bin/nologin \
+    -Ddns-servers="${_nameservers[*]}" \
+    -Drpmmacrosdir=no \
+    -Dsysvinit-path= \
+    -Dsysvrcnd-path= \
+    -Dsbat-distro='hollywood' \
+    -Dsbat-distro-summary='Hollywood' \
+    -Dsbat-distro-pkgname="${pkgname}" \
+    -Dsbat-distro-version="${pkgver}" \
+    -Dsbat-distro-url="https://originull.org/hollywood" \
+		. output
+
+
+    meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="
+84b4d16980fe2e64d5c3c95b9b4fbaad1076f368f493fdd745cbafbe7ce825293384f5fa0b6360ba8188da23c4575e87402fb666a3b71f84ff8b323aba0c07ff  systemd-254.tar.gz
+"
