@@ -1,7 +1,7 @@
-# Maintainer: The Cat <the.cat@arionos.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=dash
 pkgver=0.5.11.5
-pkgrel=7
+pkgrel=8
 pkgdesc="Small and fast POSIX-compliant shell"
 url="http://gondor.apana.org.au/~herbert/dash/"
 arch="all"
