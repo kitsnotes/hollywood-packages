@@ -1,0 +1,47 @@
+diff -Naur qtmultimedia-everywhere-src-6.5.2/src/plugins/multimedia/ffmpeg/CMakeLists.txt qtmultimedia-everywhere-src-6.5.2-new/src/plugins/multimedia/ffmpeg/CMakeLists.txt
+--- qtmultimedia-everywhere-src-6.5.2/src/plugins/multimedia/ffmpeg/CMakeLists.txt	2023-07-07 15:19:09.000000000 +0000
++++ qtmultimedia-everywhere-src-6.5.2-new/src/plugins/multimedia/ffmpeg/CMakeLists.txt	2023-08-26 22:33:21.321833300 +0000
+@@ -121,18 +121,6 @@
+         windowsapp
+ )
+ 
+-qt_internal_extend_target(QFFmpegMediaPlugin CONDITION QT_FEATURE_xlib
+-    SOURCES
+-        qx11screencapture.cpp qx11screencapture_p.h
+-    LIBRARIES
+-        X11
+-        Xrandr
+-        Xext
+-)
+-
+-set_source_files_properties(qx11screencapture.cpp # X headers
+-                            PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)
+-
+ qt_internal_extend_target(QFFmpegMediaPlugin CONDITION QT_FEATURE_linux_v4l
+     SOURCES
+         qv4l2camera.cpp qv4l2camera_p.h
+diff -Naur qtmultimedia-everywhere-src-6.5.2/src/plugins/multimedia/ffmpeg/qffmpegmediaintegration.cpp qtmultimedia-everywhere-src-6.5.2-new/src/plugins/multimedia/ffmpeg/qffmpegmediaintegration.cpp
+--- qtmultimedia-everywhere-src-6.5.2/src/plugins/multimedia/ffmpeg/qffmpegmediaintegration.cpp	2023-07-07 15:19:09.000000000 +0000
++++ qtmultimedia-everywhere-src-6.5.2-new/src/plugins/multimedia/ffmpeg/qffmpegmediaintegration.cpp	2023-08-26 22:33:57.690008046 +0000
+@@ -45,9 +45,6 @@
+ #include "qffmpegscreencapture_uwp_p.h"
+ #endif
+ 
+-#if QT_CONFIG(xlib)
+-#include "qx11screencapture_p.h"
+-#endif
+ 
+ QT_BEGIN_NAMESPACE
+ 
+@@ -168,11 +165,6 @@
+     //    return new QFFmpegScreenCaptureUwp(screenCapture);
+ #endif
+ 
+-#if QT_CONFIG(xlib)
+-    if (QX11ScreenCapture::isSupported())
+-        return new QX11ScreenCapture(screenCapture);
+-#endif
+-
+ #if defined(Q_OS_WINDOWS)
+     return new QFFmpegScreenCaptureDxgi(screenCapture);
+ #elif defined(Q_OS_MACOS) // TODO: probably use it for iOS as well
