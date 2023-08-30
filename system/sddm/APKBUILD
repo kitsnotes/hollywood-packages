@@ -1,6 +1,7 @@
+#Maintainer: Originull Software <packages@originull.org>
 pkgname=sddm
 pkgver=0.19.98
-pkgrel=7
+pkgrel=8
 pkgdesc="Simple Desktop Display Manager"
 url="https://github.com/sddm/sddm/"
 # armhf blocked by qt5-qtdeclarative
@@ -10,12 +11,12 @@ arch="all !armhf !s390x !riscv64"
 license="GPL-2.0-only"
 depends="
 	dbus
-	elogind
+	systemd
 	linux-pam>=1.4
 	upower
 	"
 makedepends="
-	elogind-dev
+	systemd-dev
 	extra-cmake-modules
 	libxcb-dev
 	linux-pam-dev
@@ -26,7 +27,7 @@ makedepends="
 	upower-dev
 	utmps-dev
 	"
-subpackages="$pkgname-doc $pkgname-lang $pkgname-openrc"
+subpackages="$pkgname-doc $pkgname-lang"
 install="sddm.pre-install"
 langdir="/usr/share/sddm/translations"
 pkgusers="sddm"
@@ -37,8 +38,6 @@ source="
 	10-hollywood.conf
 	0001-pam-path-fix.patch
 	99-hollywood-temp-fix.patch
-	sddm.initd
-	sddm.confd
 	"
 
 # secfixes:
@@ -52,8 +51,7 @@ build() {
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DBUILD_MAN_PAGES=ON \
 		-DENABLE_JOURNALD=OFF \
-		-DNO_SYSTEMD=ON \
-		-DUSE_ELOGIND=ON \
+		-DNO_SYSTEMD=OFF \
 		-DUID_MIN=500 \
 		-DUID_MAX=65000 \
 		-DDBUS_CONFIG_DIR=/usr/share/dbus-1/system.d
@@ -68,8 +66,6 @@ check() {
 package() {
 	DESTDIR="$pkgdir" cmake --install build
 
-	install -Dm755 "$srcdir"/sddm.initd "$pkgdir"/etc/init.d/sddm
-	install -Dm644 "$srcdir"/sddm.confd "$pkgdir"/etc/conf.d/sddm
 	install -Dm644 "$srcdir"/10-hollywood.conf "$pkgdir"/etc/sddm.conf.d/10-hollywood.conf
 }
 
@@ -78,6 +74,4 @@ sha512sums="
 4693a227d844d6d688db2ce8f166d9594ef43c36e422d164f9c5fe4869e6218c9c11a873a5b8f93fd3ccf3fbb54d9783fe88477395844a853715323ab3ad657a  10-hollywood.conf
 f0b4eb7ef0581701157f9decc637629156f36f6711b9a4bae517f94d7a1df614c81bbd891c918f07ac50e2a3d1519c43ccb9eefd80282c95dd79eca0e8d90904  0001-pam-path-fix.patch
 bd17597ecff08c40d968d9bd8cbec3254ca4f4c7826d36f6f016266c4f46bf25672e80fbf0903f857c545b10c50b40be100df8f47d21927afb59bd4a7d013316  99-hollywood-temp-fix.patch
-4876bf46790dd507f0df803987ad81d7ff2a00c22a8aabec88dd0e3a23aeda92aac59f08ef56ed1bf2b5cb9443077e77b31c9f453bafab2fd6f533be242fcbd4  sddm.initd
-b841282b96110ec59a7aa539db0737327b09549d55c78dc4b2c3b28b4a6ad1facf015b3175cb6d3a38f13e47aa6314ef3dc1514a4e60dd653a97409ec54ba706  sddm.confd
 "
