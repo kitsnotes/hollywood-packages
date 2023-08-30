@@ -1,3 +1,0 @@
-# See ntpd(8) man page ... some popular options:
-#  -s   Set the time immediately at startup
-#NTPD_OPTS=
