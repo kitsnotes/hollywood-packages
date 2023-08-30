@@ -1,9 +1,7 @@
-# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
-# Contributor: Leonardo Arena <rnalrd@alpinelinux.org>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=util-linux
 pkgver=2.38.1
-pkgrel=6
+pkgrel=7
 pkgdesc="Random collection of Linux utilities"
 url="https://git.kernel.org/cgit/utils/util-linux/util-linux.git"
 arch="all"
@@ -137,7 +135,7 @@ build() {
 		--prefix=/usr \
 		--libdir=/usr/lib \
 		--bindir=/usr/bin \
-		--sbindir=/usr/bin \
+		--sbindir=/usr/sbin \
 		--disable-silent-rules \
 		--disable-newgrp \
 		--disable-login \
@@ -147,7 +145,6 @@ build() {
 		--disable-nls \
 		--disable-tls \
 		--without-udev \
-		--disable-kill \
 		--disable-chfn-chsh \
 		--enable-fs-paths-default=/usr/bin:/usr/local/bin \
 		--with-vendordir=/usr/lib \
