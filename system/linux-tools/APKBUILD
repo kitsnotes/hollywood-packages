@@ -6,7 +6,7 @@ case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
 esac
-pkgrel=0
+pkgrel=2
 pkgdesc="Linux kernel tools meta package"
 url="https://www.kernel.org/"
 arch="all"
@@ -45,7 +45,6 @@ subpackages="
 	perf
 	perf-bash-completion:perf_bashcomp:noarch
 	cpupower
-	cpupower-openrc:cpupower_openrc
 	cpupower-bash-completion:cpupower_bashcomp:noarch
 	$pkgname-dev
 	$pkgname-doc
@@ -54,15 +53,18 @@ subpackages="
 	$pkgname-spi
 	$pkgname-tmon
 	$pkgname-usbip
-	$pkgname-usbip-openrc:usbip_openrc
+	$pkgname-hyperv
 	bpftool bpftool-bash-completion:bpftool_bashcomp:noarch
 	"
 source="https://kernel.org/pub/linux/kernel/v6.x/linux-$_kernver.tar.xz
 	dt_lnk.patch
-	cpupower.initd
-	cpupower.confd
-	usbip.initd
-	usbip.confd
+	cpupower.systemd
+	cpupower.service
+	cpupower.default
+	hv_vss_daemon.service
+	hv_fcopy_daemon.service
+	hv_kvp_daemon.service
+	usbip.service
 	"
 # append patch for non .0
 case $pkgver in
@@ -131,36 +133,25 @@ package() {
 		make install INSTALL_ROOT="$pkgdir"; )
 	( cd tools/usb/usbip ;
 		make DESTDIR="$pkgdir" install; )
-
+	( cd tools/hv; 
+		make DESTDIR="$pkgdir" install; )
 	# we only support bash completions in usr/share/bash-completion
 	mv "$pkgdir"/etc/bash_completion.d/* "$pkgdir"/usr/share/bash-completion/completions/
 	rmdir "$pkgdir"/etc/bash_completion.d
 
-	install -Dm755 "$srcdir"/cpupower.initd "$pkgdir"/etc/init.d/cpupower
-	install -Dm644 "$srcdir"/cpupower.confd "$pkgdir"/etc/conf.d/cpupower
-	install -Dm755 "$srcdir"/usbip.initd "$pkgdir"/etc/init.d/usbip
-	install -Dm644 "$srcdir"/usbip.confd "$pkgdir"/etc/conf.d/usbip
 }
 
 cpupower() {
 	pkgdesc="Linux kernel tool to set CPU power features"
 	depends=""
-
+	install -Dm 644 "$srcdir"/cpupower.default "$subpkgdir/etc/default/$pkgname"
+	install -Dm644 "$srcdir"/cpupower.service -t "$subpkgdir"/usr/lib/systemd/system/
+	install -Dm 755 "$srcdir"/cpupower.systemd "$subpkgdir/usr/lib/systemd/scripts/cpupower"
 	amove \
 		usr/bin/cpu* \
 		usr/sbin/cpu* \
 		usr/lib/libcpu*.so.* \
 		etc/cpu*
-}
-
-cpupower_openrc() {
-	pkgdesc="Linux kernel tool to set CPU power features (OpenRC init scripts)"
-	depends=""
-	install_if="cpupower=$pkgver-r$pkgrel openrc"
-
-	amove \
-		etc/init.d/cpupower \
-		etc/conf.d/cpupower
 }
 
 cpupower_bashcomp() {
@@ -176,19 +167,10 @@ usbip() {
 	provides="usbip-utils=$pkgver-r$pkgrel"
 	depends=""
 
+	install -Dm644 "$srcdir"/usbip.service -t "$pkgdir"/usr/lib/systemd/system/
 	amove \
 		usr/sbin/usb* \
 		usr/lib/libusb*
-}
-
-usbip_openrc() {
-	pkgdesc="utilities for USB device sharing over IP network (OpenRC init scripts)"
-	depends=""
-	install_if="$pkgname-usbip=$pkgver-r$pkgrel openrc"
-
-	amove \
-		etc/init.d/usbip \
-		etc/conf.d/usbip
 }
 
 perf() {
@@ -199,7 +181,7 @@ perf() {
 		usr/bin/perf \
 		usr/bin/trace \
 		usr/lib/perf \
-		usr/libexec
+		usr/libexec/perf*
 
 	# /usr/share/perf-core is apprently not installed on all arches
 	if [ -e "$pkgdir"/usr/share/perf-core ]; then
@@ -213,6 +195,18 @@ perf_bashcomp() {
 	install_if="perf=$pkgver-r$pkgrel bash-completion"
 
 	amove usr/share/bash-completion/completions/perf
+}
+
+hyperv() {
+	pgkdesc="Tools for Hyper-V Guests"
+
+	install -Dm644 "$srcdir"/hv_fcopy_daemon.service -t "$subpkgdir"/usr/lib/systemd/system/
+	install -Dm644 "$srcdir"/hv_kvp_daemon.service -t "$subpkgdir"/usr/lib/systemd/system/
+	install -Dm644 "$srcdir"/hv_vss_daemon.service -t "$subpkgdir"/usr/lib/systemd/system/
+
+	amove usr/libexec/hypervkvpd/* \
+		usr/sbin/lsvmbus \
+		usr/sbin/hv_*	
 }
 
 gpio() {
@@ -260,9 +254,12 @@ bpftool_bashcomp() {
 sha512sums="
 11a48b25e0b513782d3b89101c2ec8dd9cefd6ce08dc63a91137903b66392aa72ca1fe32816710673af84dd47de3ab8738056a6af93dc0d5e60ef4b869b49928  linux-6.4.tar.xz
 0657b461659e79c1926379aab30e7b7ab2d59eaf3e686f1dce468b79eb1320c188c14a0507361660abd2553bccffa9e149fa5b6e4d770d10c99bf5dafd2e05ee  dt_lnk.patch
-97ecfeaaaa8efca7af585316b843bf7be885e88095bbdfbf52bc9a96b14dc862435482781e205ea022ab208978aaa4aabb317354fab890ed514a5088ae5045c8  cpupower.initd
-63cd12a4d8782198c71662e9205e346e064b65bae5e3e175b5bc43bdf7ec6ddf675b60349750afe3c37c8a925f9ae9a93530671821342581bd282a69e0773b8c  cpupower.confd
-fcbd64d844c9bc187d08cef5995e91a46c0df78deb24e96ac9210c0e2c730eca0301970d9b8ffbf003df274682d05072431a26b59d8c491f396618268a12ec92  usbip.initd
-eb8de617e27c4d5fdfee9c442e8f74b0afb4d0fe7b59eca3a19629eb70fea7e09b3c125bc968aa8810d845ce661c829bd0f3fdb2288664f2cccf423bc0ae6ae8  usbip.confd
+2a039c73eebb62f3b736b8b4eae47369eb6ba34861d384239869e0af9a71a66b3d787d90bd33b6851a27e4e3b458fedd2a3c08ee94ba241f560110b907da5692  cpupower.systemd
+62b1e6831f7bd8f0c81ceeb9b1c1e04df0576c65bc03b98b33ed289530a1eebfd5f2368d185b837c0755f7fa5d5c14983417ad48ba034dfee16d9ef4eef3c918  cpupower.service
+1f4e55bddfa3fdf91eeffe48c6482cf02467b0c12edce28b4b9d4be30b95f3151be896b7608e4802fe7779735e33ce93efc7a3038d89455ea6b8fe3bcd19b2f8  cpupower.default
+36e6b7a272b048adcf89e3935a85d5622985d90c5613a2ae5520c51bab87c592b2e4814a03fb95f0200b952117b96fa9933e01a852b91746d48ac84d832e8765  hv_vss_daemon.service
+05242070aa44a1af6719997ec8f6d7c1ad753650e56d1089c3961b064d6afdc91f8aa86ae8ceb57c93238904141804cf51b14481754e89908831ef425408596d  hv_fcopy_daemon.service
+3f96a2918ef3cdfe78d128d8688eb3480a6e99840d6884e78fc246468c9cc1e60d42c1c55fe5bff467ddd114e6578e7d748b31b92c3686efe61e09e35f869e11  hv_kvp_daemon.service
+5a16d46ee1c2c758ee0425bd5f47db210cef996782fc3d2403691259ee26af55cc24e862990df9744eefe1a0b6a82433911b8add3b309bf7ffe32af91dff7d0e  usbip.service
 529268873268d0d5ad9e30f780be27fb1e8e16d2bf7798837ecc66fc6f2974069b84d54b3e722fa2dc703d6215ccbc9c0bb9d2f5d8ff27b28cc85b551e5bce0e  patch-6.4.7.xz
 "
