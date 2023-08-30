@@ -2,7 +2,7 @@
 pkgname=openssh
 pkgver=9.1_p1
 _myver=${pkgver%_*}${pkgver#*_}
-pkgrel=1
+pkgrel=2
 pkgdesc="Port of OpenBSD's free SSH release"
 url="https://www.openssh.com/portable.html"
 arch="all"
@@ -51,8 +51,8 @@ source="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-$_myver.tar
 	gss-serv.c.patch
 	default-internal-sftp.patch
 	fix-always-use-compat-getentropy.patch
-
-	sshd.initd
+	sshdgenkeys.service
+	sshd.service
 	sshd.confd
 	"
 
@@ -174,8 +174,8 @@ package() {
 	fi
 
 	mkdir -p "$pkgdir"/var/empty
-	install -D -m755 "$srcdir"/sshd.initd \
-		"$pkgdir"/etc/init.d/sshd
+	install -Dm644 "$srcdir"/sshd.service -t "$pkgdir"/usr/lib/systemd/system/
+	install -Dm644 "$srcdir"/sshdgenkeys.service -t "$pkgdir"/usr/lib/systemd/system/
 	install -D -m644 "$srcdir"/sshd.confd \
 		"$pkgdir"/etc/conf.d/sshd
 	install -Dm644 "$builddir"/contrib/ssh-copy-id.1 \
@@ -250,8 +250,9 @@ _server_common() {
 	pkgdesc="OpenSSH server configuration files"
 	depends=""
 
+	amove usr/lib/systemd/system/sshdgenkeys.service
+	amove usr/lib/systemd/system/sshd.service
 	amove etc/ssh/sshd_config
-	amove etc/init.d/sshd
 	amove etc/conf.d/sshd
 }
 
@@ -280,6 +281,7 @@ e85754b2b6c4c37b432d166e63d6293e58c9c8bb6ebd8d3527c83afa2337f14c06d6a4e008ffcc0a
 f659641b841981f78b03281b7a01add9fbf35b91c0f21c11335a56d7e389ddf965d83d18d73b724385311cdb597b6d6c46446cbc702cdd4d15e8f43591306cb3  gss-serv.c.patch
 1fb55aae445dfd9ededeba1f204a0c3e4a752128ad0a388f473ace074e68b040112f309192243621fd4f16b0d1cce4f083612b1639c3e18166abf92babe52c93  default-internal-sftp.patch
 6af82768322c848a769ccba97d3cc247384e783cb9f3985983c78b92af8a805937bc1334c58f58348d5638fcf36699476b51332e0c6482ec49471f117036525f  fix-always-use-compat-getentropy.patch
-50e407d72bfafc7fb276a1e56b1701f8cd91dfcbad2304bec516d69fc5e8334857ef96510dff76d0c407f29955dc2b18570d6f7b557688ceb641280f8279af83  sshd.initd
+919bd74c6e95bd3002731a6edaf4f2bc61b89076588afba07e382563cfb647c356d2de57a27eb6527d4407e3e3cd7e6220beeba02e75312ae142c11b7b9637a1  sshdgenkeys.service
+7875dbc858967161790f7482a4cba3d8166b9861f7ba563420e48253823a052950acf3ad4c3ed44173d2e2698b63f75684546a7f891878e6dd18599d284618c1  sshd.service
 be7dd5f6d319b2e03528525a66a58310d43444606713786b913a17a0fd9311869181d0fb7927a185d71d392674857dea3c97b6b8284886227d47b36193471a09  sshd.confd
 "
