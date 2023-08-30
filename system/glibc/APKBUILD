@@ -1,21 +1,22 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=glibc
 pkgver=2.35
-pkgrel=1
+pkgrel=3
 pkgdesc="The GNU C Library (libc implementation)"
 url="https://www.gnu.org/software/libc"
 arch="all"
 license="LGPL2"
 options="lib64"
+depends="tzdata"
 subpackages="
 	$pkgname-dbg
 	$pkgname-dev
+	$pkgname-lang
 	"
 source="http://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz
 	glibc-2.35-fhs-1.patch
 	locale-gen
 	locale.gen.txt"
-depends="tzdata"
 builddir="$srcdir/glibc-$pkgver"
 
 build() {
@@ -26,8 +27,8 @@ build() {
 
 	echo "slibdir=/usr/lib" >> configparms
 	echo "rtlddir=/usr/lib" >> configparms
-	echo "sbindir=/usr/bin" >> configparms
-	echo "rootsbindir=/usr/bin" >> configparms
+	echo "sbindir=/usr/sbin" >> configparms
+	echo "rootsbindir=/usr/sbin" >> configparms
 
 	../configure \
 	--prefix=/usr \
@@ -60,9 +61,6 @@ package() {
 
 	rm -f "$pkgdir"/etc/ld.so.cache
 
-	# Shipped in tzdata
- 	rm -f "$pkgdir"/usr/bin/{tzselect,zdump,zic}
-
 	install -m755 "$srcdir/locale-gen" "$pkgdir/usr/bin"
 	# Create /etc/locale.gen
 	install -m644 "$srcdir/locale.gen.txt" "$pkgdir/etc/locale.gen"
@@ -74,9 +72,6 @@ package() {
 	cp -r "$builddir/C.UTF-8" -t "$pkgdir/usr/lib/locale"
 	sed -i '/#C\.UTF-8 /d' "$pkgdir/etc/locale.gen"
 
-	rm -rf "$pkgdir"/usr/bin/tzselect
-	rm -rf "$pkgdir"/usr/bin/zdump
-	rm -rf "$pkgdir"/usr/bin/zic
 }
 
 sha512sums="
