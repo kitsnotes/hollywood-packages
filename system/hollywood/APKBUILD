@@ -44,7 +44,8 @@ makedepends="qt6-qtwayland-dev
 
 source="https://depot.originull.org/upstream/hollywood-desktop-$pkgver.tar.gz
 	hollywood.conf
-	fontconfig.conf"
+	fontconfig.conf
+	qt65-changes.patch"
 
 builddir="$srcdir/hollywood-desktop-$pkgver/"
 subpackages="$pkgname-baselibs $pkgname-desktop $pkgname-setup $pkgname-image $pkgname-accessories $pkgname-dbg $pkgname-dev $pkgname-doc"
@@ -299,4 +300,5 @@ sha512sums="
 45543dc14990f86701150e376dcb6709b7afe7adfa84b15e6fe27ea81a7aab764afcaf0318df33e7d901ae1fd21d49e314f781e3268553f257e1c6b9847a8080  hollywood-desktop-1.0.tar.gz
 472516ee32d38e9307f916f7eea03a225ccd7fd2658a04b55fc9495374021898314cf95a912966fe84d13e887ef6dd300177e859099b98e18d30863ad6a19855  hollywood.conf
 1db0ca5dbaffb35f230811741f18e11fd03c3b516728ee99ca82b6ef846b7929b16301c804cb1f184ba5aa1c629df3e855ae5ec6cb5abdc55e5d3b38d9736be8  fontconfig.conf
+b75d62e46cb0076c77aefc95480de725b3061629cd08b1130cf10fa49f3ef0eed757e08d9fac4f067bf043e4e34ee228a0738fa527cdb407af88d4af79316437  qt65-changes.patch
 "
