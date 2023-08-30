@@ -1,8 +1,7 @@
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
-# Maintainer: Jakub Jirutka <jakub@jirutka.cz>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=acpid
 pkgver=2.0.33
-pkgrel=2
+pkgrel=3
 pkgdesc="The ACPI Daemon (acpid) With Netlink Support"
 url="https://sourceforge.net/projects/acpid2/"
 arch="all"
@@ -21,7 +20,6 @@ source="https://downloads.sourceforge.net/sourceforge/acpid2/acpid-$pkgver.tar.x
 	lid-closed
 	anything
 	acpid.service
-	$pkgname.confd
 	"
 options="!check"  # no tests provided
 
@@ -46,7 +44,6 @@ package() {
 	install -D -m 755 "$srcdir"/power-supply-ac "$srcdir"/lid-closed -t usr/share/acpid/
 
 	install -Dm644 "$srcdir"/acpid.service -t "$pkgdir"/usr/lib/systemd/system/
-	install -D -m 644 "$srcdir"/$pkgname.confd etc/conf.d/$pkgname
 }
 
 
@@ -57,5 +54,4 @@ daf2510f202377a4db9b52448e4805bc4468c66f507cd4e676dc589306b716043c653ff18b697a4c
 f6df3e75198e779826c187038804ba80e7a445567342ac912ff4e5d894ce936fb9347146c302c7d7c9bbc8b3a0e47aeee9d23a4b297ee37e3938b7310a1b5ad9  lid-closed
 2e04e5c8a428bfc653b4d56f5a2ff4472169a094ed9eee4b02ea88c755848e4803a0edeb054e152516ee50cb67c8c2be2c43e2e9db9dc80b7fcf218b8907ef6c  anything
 aef5709293ec613bc023da835bc25795eccf26ef37648bace62be1aa1dea25841cb86c40ca1c2d9c8a818cae2fdcd3d0adc07e61c7d95dec680bfb5f51362caa  acpid.service
-b8f62dc7d5a2d1338936af79b3e7165cc1c652be0be9e7f8eb00d964c1c1ef91767f16e8662eaa77920d914b966ae208c8480e44cb2dca0de4bfed01f302a089  acpid.confd
 "
