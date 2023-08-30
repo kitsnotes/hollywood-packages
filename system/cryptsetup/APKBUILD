@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=cryptsetup
 pkgver=2.6.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Userspace setup tool for transparent encryption of block devices using the Linux 2.6 cryptoapi"
 url="https://gitlab.com/cryptsetup/cryptsetup"
 arch="all"

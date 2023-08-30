@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=polkit
 pkgver=0.120
-pkgrel=6
+pkgrel=7
 pkgdesc="Application development toolkit for controlling system-wide privileges"
 url="https://www.freedesktop.org/wiki/Software/polkit/"
 arch="all !s390x !riscv64" # Rust
@@ -33,14 +33,12 @@ subpackages="
 	$pkgname-libs
 	$pkgname-doc
 	$pkgname-lang
-	$pkgname-openrc
 	"
 source="https://www.freedesktop.org/software/polkit/releases/polkit-$pkgver.tar.gz
 	make-innetgr-optional.patch
 	duktape-support.patch
 	make-innetgr-optional-duktape.patch
 	alpine-polkit.pam
-	polkit.initd
 	CVE-2021-4034.patch
 	"
 
@@ -105,7 +103,6 @@ package() {
 	chmod 4755 usr/lib/polkit-1/polkit-agent-helper-1
 	chmod 4755 usr/bin/pkexec
 
-	install -Dm755 "$srcdir"/polkit.initd etc/init.d/polkit
 }
 
 sha512sums="
@@ -114,6 +111,5 @@ db072769439d5e17d0eed681e7b94251b77828c1474b40fe40b94293903a64333e7fa17515a32706
 a5f9dea27dca276d8289a14ea3a09bfac995194acdf508df6fd07bfed77360016c1b6a8728f9bb6a1c0f2156efefd9f746eddcf3c2d6049aa52f286ff71b0025  duktape-support.patch
 baeb37d09fda3a8b69ad631f4817b955cea7d1aeaa490cd6296f85681684aef1a3b9ce7f663cdd51745ef7c62105882b21e9da9852ce106ed532658512812c54  make-innetgr-optional-duktape.patch
 f5102dc00d390b3a3c957b62e1712db778c7ffb7378f3d8e816c0757c11a308c5d5303e42595b0d6add9839247c773880cd34e56afacc89eb6efaadf9aae7826  alpine-polkit.pam
-f6e5ac0ed41feb392dfd104979ec577c5936f3db2bd252b12b7b9b2609a0901dae38bebec1ea65ccf4f427860b520383ae4d2c66fb74ab986c715f6b0ad50473  polkit.initd
 462ca97dd15e1035c1df3b7fcaf8f803b3d9ddd3f9d0188889c1b1fc4c5290d717b684b2f355d0840c6f733d9bef906363a1242d6079478abb2aaaf15a357b45  CVE-2021-4034.patch
 "

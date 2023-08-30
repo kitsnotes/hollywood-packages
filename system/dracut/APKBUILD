@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=dracut
 pkgver=050
-pkgrel=18
+pkgrel=19
 pkgdesc="Event-driven initramfs infrastructure"
 url="https://dracut.wiki.kernel.org/"
 arch="all"
@@ -29,6 +29,7 @@ build() {
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--mandir=/usr/share/man \
+                --with-systemdunitdir=/usr/lib/systemd/system \
 		--localstatedir=/var
 	make
 	make doc

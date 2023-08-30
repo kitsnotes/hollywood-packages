@@ -39,6 +39,7 @@ usb:x:85:
 lpadmin:x:89:root
 users:x:100:games
 messagebus:x:101:messagebus
+openvpn:x:104:
 ntp:x:123:
 nofiles:x:200:
 smmsp:x:209:smmsp

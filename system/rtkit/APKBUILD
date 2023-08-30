@@ -2,7 +2,7 @@
 #Maintainer: Originull Software <packages@originull.org>
 pkgname=rtkit
 pkgver=0.13
-pkgrel=5
+pkgrel=6
 pkgdesc="D-Bus system service that enables real time scheduling on request"
 url="https://github.com/heftig/rtkit"
 arch="all"
@@ -20,13 +20,10 @@ makedepends="
 	"
 subpackages="
 	$pkgname-doc
-	$pkgname-openrc
 	"
 install="$pkgname.pre-install"
 source="
 	https://github.com/heftig/rtkit/releases/download/v$pkgver/rtkit-$pkgver.tar.xz
-	$pkgname.initd
-	$pkgname.confd
 
 	sched_getscheduler_sched_setscheduler.patch
 	50-rtkit.rules
@@ -35,7 +32,6 @@ options="!check"  # no tests are defined
 
 build() {
 	abuild-meson \
-		-Dlibsystemd=enabled \
 		-Dinstalled_tests=false \
 		. output
 	meson compile -j ${JOBS:-1} -C output
@@ -50,15 +46,11 @@ package() {
 
 	cd "$pkgdir"
 
-	install -Dm755 "$srcdir"/$pkgname.initd etc/init.d/$pkgname
-	install -Dm644 "$srcdir"/$pkgname.confd etc/conf.d/$pkgname
 	install -Dm644 "$srcdir"/50-rtkit.rules "$pkgdir"/usr/share/polkit-1/rules.d/50-rtkit.rules
 }
 
 sha512sums="
 c058d770a4ccfdf4e2e3a713748b6a705b6d3e148a903b9dbba4bba9d3ded2b819d7dfbfa37b9fad78e57c0a5f10f2f94226f8738f666e692a085ab297a36b36  rtkit-0.13.tar.xz
-a43e811a9c92a6d6523f6d253fe417a9e29298a725463c23ef75e32a4643bdff1a45c6c7293547fbfa0c09ee78dd3939e10d99b338a8a0a6654cb7db19deeb31  rtkit.initd
-c32d70b0b3f85ee51dcd30364f003852a4bed9151eecbb2bf6f70d4512ab1dce958c5161143056ca2f45979fb305e72d8dc97d86732a8fa11c12a3e1c7418eed  rtkit.confd
 9a9bb315e8d207c673cb795f91e025f313bd3a1881323c968777db6c0029de85aaecd06cf833d3ffd7468477f6586de756c077220043631a60155f28c9d66ba3  sched_getscheduler_sched_setscheduler.patch
 1d05906092b186f7483acf5e76cb83fb577e743a314a56d12260ed136007794acb9bc69969024837d3b096ea190feb1b87f8a0671528cd1b67c2d655b1b4a864  50-rtkit.rules
 "

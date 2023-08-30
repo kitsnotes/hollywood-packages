@@ -195,7 +195,7 @@ desktop() {
 
 baselibs() {
 	pkgdesc="Hollywood Base Libraries"
-	depends="hollywood-base qt6-qtbase qt6-qtwayland elogind eudev libdrm breeze-icons ttf-hack ttf-opensans libinput fontconfig font-noto-emoji font-adobe-source-serif"
+	depends="hollywood-base qt6-qtbase qt6-qtwayland libdrm breeze-icons ttf-hack ttf-opensans libinput fontconfig font-noto-emoji font-adobe-source-serif"
 	mkdir -p "$subpkgdir"/usr/bin
 	mkdir -p "$subpkgdir"/usr/lib
 	mkdir -p "$subpkgdir"/usr/share/applications
