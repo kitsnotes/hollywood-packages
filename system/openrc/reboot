@@ -1,3 +1,0 @@
-#!/bin/sh
-
-/usr/sbin/openrc-shutdown -r now
