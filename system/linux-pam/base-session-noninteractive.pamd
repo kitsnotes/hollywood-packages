@@ -1,4 +1,4 @@
-# basic PAM configuration for Alpine.
+# basic PAM configuration for Hollywood.
 
 session		required	pam_limits.so
 session		required	pam_unix.so
