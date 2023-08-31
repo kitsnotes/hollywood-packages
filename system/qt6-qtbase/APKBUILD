@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtbase
 pkgver=6.5.2
-pkgrel=2
+pkgrel=3
 pkgdesc="A cross-platform application and UI framework"
 url="https://qt.io/"
 arch="all"
@@ -16,7 +16,7 @@ depends_dev="$_sub
 	cups-dev
 	dbus-dev
 	double-conversion-dev
-	eudev-dev
+	systemd-dev
 	fontconfig-dev
 	freetype-dev
 	glib-dev
