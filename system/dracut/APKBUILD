@@ -1,35 +1,29 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=dracut
-pkgver=050
-pkgrel=19
+pkgver=059
+pkgrel=1
 pkgdesc="Event-driven initramfs infrastructure"
 url="https://dracut.wiki.kernel.org/"
 arch="all"
 options="!check"  # Test suite is for kernel developers only, requires ext3 rootfs
 license="GPL-2.0+"
 depends="bash gzip libarchive-tools xz"
-makedepends="kmod-dev"
+makedepends="kmod-dev asciidoc"
 triggers="$pkgname.trigger=/usr/share/kernel/*"
 subpackages="$pkgname-doc $pkgname-bash-completion:bashcomp:noarch
 	$pkgname-crypt::noarch $pkgname-lvm::noarch"
 provides="initramfs-generator"
-source="https://www.kernel.org/pub/linux/utils/boot/$pkgname/$pkgname-$pkgver.tar.xz
+source="$pkgname-$pkgver.tar.gz::https://github.com/dracutdevs/$pkgname/archive/refs/tags/$pkgver.tar.gz
 	dracut.conf
 	"
-
-prepare() {
-	default_prepare
-	# Breaks separate /usr with OpenRC
-	rm -r "$builddir"/modules.d/98usrmount
-}
 
 build() {
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--mandir=/usr/share/man \
-                --with-systemdunitdir=/usr/lib/systemd/system \
+		--systemdsystemunitdir=/usr/lib/systemd/system \
 		--localstatedir=/var
 	make
 	make doc
@@ -43,7 +37,7 @@ package() {
 	make DESTDIR="$pkgdir" install
 	mkdir -p "$pkgdir"/etc/dracut.conf.d/
 	cp "$srcdir"/dracut.conf "$pkgdir"/etc/dracut.conf.d/hollywood.conf
-	rm -r "$pkgdir"/usr/lib/dracut/modules.d/02systemd-networkd
+	rm -r "$pkgdir"/usr/lib/dracut/modules.d/01systemd-networkd
 
 }
 
@@ -70,6 +64,6 @@ lvm() {
 }
 
 sha512sums="
-eba046cf1c8013369a398e585e0bff233daa8595d469ce9acc8bbc6a32d55c6a5429d4219db19abbf6001104be05b357f0961f9e66b7f926039a5d3ee7c2b850  dracut-050.tar.xz
-22d5408ce59c3f9836d5e77b82fa26da229ad0e25b1233aa3bda931a13cc07e504d25428b87d5a13b73da9bfdf0771e1d91e8b21dd78ab89cdab37f7370bcb8b  dracut.conf
+196bc8bf18703c72bffb51a7e0493719c58173ad2da7d121eb42f9a8de47e953af36d109214dc4a10b2dc2d3bd19e844f7f51c2bdec087e064ea11f75124032d  dracut-059.tar.gz
+ee0902873afb791919f8bf7161e3f0a465f1098b56845d797758b7b7bd3520c3d55ff45ef9243fa855ff8d1a287fe69ebcaadf3c3ee2045ea5715e54459332a0  dracut.conf
 "
