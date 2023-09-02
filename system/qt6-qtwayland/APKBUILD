@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtwayland
 pkgver=6.5.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Provides APIs for Wayland"
 url="https://qt.io/"
 arch="all"
