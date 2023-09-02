@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=dracut
 pkgver=059
-pkgrel=2
+pkgrel=3
 pkgdesc="Event-driven initramfs infrastructure"
 url="https://dracut.wiki.kernel.org/"
 arch="all"
@@ -16,6 +16,7 @@ subpackages="$pkgname-doc $pkgname-bash-completion:bashcomp:noarch
 provides="initramfs-generator"
 source="$pkgname-$pkgver.tar.gz::https://github.com/dracutdevs/$pkgname/archive/refs/tags/$pkgver.tar.gz
 	dracut.conf
+	overlayfs.patch
 	"
 
 build() {
@@ -66,4 +67,5 @@ lvm() {
 sha512sums="
 196bc8bf18703c72bffb51a7e0493719c58173ad2da7d121eb42f9a8de47e953af36d109214dc4a10b2dc2d3bd19e844f7f51c2bdec087e064ea11f75124032d  dracut-059.tar.gz
 f266912f839210ba7ebc9cfa73814a91e04f39b7ec191b537868381c43d3d4ad78288c212691e55f309f106729d9580ad9f8f64b6cf4d867f6a954c938dd40f9  dracut.conf
+4e6636fc10208b69410bfd299f198e35c4078259f11f8aa5d2db777f904428907106822fe03b4f38fadbfa7cdc6e85bb67864b4ce5b5acf7797400b07734ef60  overlayfs.patch
 "

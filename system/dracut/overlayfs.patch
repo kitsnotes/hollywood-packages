@@ -1,0 +1,12 @@
+diff -Naur dracut-059/modules.d/90dmsquash-live/dmsquash-live-root.sh dracut-059-new/modules.d/90dmsquash-live/dmsquash-live-root.sh
+--- dracut-059/modules.d/90dmsquash-live/dmsquash-live-root.sh	2022-12-24 08:49:27.000000000 -0800
++++ dracut-059-new/modules.d/90dmsquash-live/dmsquash-live-root.sh	2023-09-02 11:18:15.580000000 -0700
+@@ -133,6 +133,8 @@
+     l=$(blkid -s LABEL -o value "$livedev") || l=""
+     u=$(blkid -s UUID -o value "$livedev") || u=""
+ 
++    mkdir /run/overlayfs
++    mkdir /run/ovlwork
+     if [ -z "$overlay" ]; then
+         pathspec="/${live_dir}/overlay-$l-$u"
+     elif strstr "$overlay" ":"; then
