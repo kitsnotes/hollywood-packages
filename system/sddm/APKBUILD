@@ -48,7 +48,7 @@ build() {
 		-DBUILD_MAN_PAGES=ON \
 		-DENABLE_JOURNALD=ON \
 		-DNO_SYSTEMD=OFF \
-		-DUID_MIN=500 \
+		-DUID_MIN=1000 \
 		-DUID_MAX=65000 \
 		-DDBUS_CONFIG_DIR=/usr/share/dbus-1/system.d
 	cmake --build build
