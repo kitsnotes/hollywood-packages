@@ -1,13 +1,13 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=cups
-pkgver=2.4.2
+pkgver=2.4.6
 pkgrel=1
 pkgdesc="The CUPS Printing System"
 url="https://www.cups.org/"
 arch="all"
 license="GPL-2.0-only"
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-doc $pkgname-libs ipptool $pkgname-client
-	$pkgname-lang $pkgname-openrc"
+	$pkgname-lang"
 depends_dev="libgcrypt-dev openssl-dev>3 zlib-dev"
 makedepends="$depends_dev libpaper-dev dbus-dev libjpeg-turbo-dev 
 	linux-headers libusb-dev "
@@ -15,8 +15,6 @@ depends="cups-client poppler-utils openssl>3 dbus"
 install=""
 source="$pkgname-$pkgver.tar.gz::https://github.com/OpenPrinting/cups/archive/v$pkgver.tar.gz
 	$pkgname.logrotate
-	cupsd.initd
-	default-config-no-gssapi.patch
 	"
 
 # secfixes:
@@ -28,11 +26,6 @@ source="$pkgname-$pkgver.tar.gz::https://github.com/OpenPrinting/cups/archive/v$
 #     - CVE-2019-8675
 #   2.2.10-r0:
 #     - CVE-2018-4700
-
-prepare() {
-	default_prepare
-	update_config_sub
-}
 
 build() {
 	./configure \
@@ -76,7 +69,6 @@ package() {
 		usr/share/cups/data/testprint
 
 	install -D -m 644 "$srcdir"/cups.logrotate etc/logrotate.d/cups
-	install -D -m 755 "$srcdir"/cupsd.initd etc/init.d/cupsd
 
 	if [ -e usr/share/applications/cups.desktop ] ; then
 		sed -i 's|^Exec=htmlview http://localhost:631/|Exec=xdg-open http://localhost:631/|g' \
@@ -128,8 +120,6 @@ _mv() {
 }
 
 sha512sums="
-1942a677a78df0dcfaaae4b93cf7bf4ba59865d270d89d893831cb47a02f6b7e581c56bbb9264d39504b46d81c3b17ba89f7c5e21f20628f12ddf7161ac6a574  cups-2.4.2.tar.gz
+390b1a1afca4b6a2cacc42caca26b72888dfb049c663ea3ea1f2f8662c0becaa198ee27bd6ac13c7938c1a3c103ca206fdf2337a130294a1bd3b00f000ddfc35  cups-2.4.6.tar.gz
 cf64211da59e79285f99d437c02fdd7db462855fb2920ec9563ba47bd8a9e5cbd10555094940ceedeb41ac805c4f0ddb9147481470112a11a76220d0298aef79  cups.logrotate
-2c2683f755a220166b3a1653fdd1a6daa9718c8f0bbdff2e2d5e61d1133306260d63a83d3ff41619b5cf84c4913fae5822b79553e2822858f38fa3613f4c7082  cupsd.initd
-ac1ec4453d6a4b641d40089c77d3b776963d90efb092851c8d93deceb6068b111dee71171967ffb7ad0f5adb424398a43f51feb7d5d9734287cfb9e419efaa93  default-config-no-gssapi.patch
 "
