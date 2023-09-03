@@ -1,6 +1,6 @@
 pkgname=accountsservice
 pkgver=22.08.8
-pkgrel=0
+pkgrel=1
 pkgdesc="D-Bus interface for user account query and manipulation"
 url="https://www.freedesktop.org/software/accountsservice/"
 arch="all"
@@ -21,8 +21,7 @@ source="https://www.freedesktop.org/software/accountsservice/accountsservice-$pk
 
 build() {
 	abuild-meson \
-		-Dsystemdsystemunitdir=no \
-		-Delogind=true \
+		-Dsystemdsystemunitdir="/usr/lib/systemd/system/" \
 		-Dintrospection=true \
 		-Ddocbook=false \
 		-Dgtk_doc=false \
