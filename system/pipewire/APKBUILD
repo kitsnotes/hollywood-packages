@@ -1,7 +1,7 @@
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=pipewire
-pkgver=0.3.53
+pkgver=0.3.79
 pkgrel=0
 pkgdesc="Multimedia processing graphs"
 url="https://pipewire.org/"
@@ -22,6 +22,7 @@ makedepends="
 	libfreeaptx-dev
 	libusb-dev
 	libx11-dev
+	ffmpeg-dev
 	meson
 	ncurses-dev
 	py3-docutils
@@ -47,7 +48,6 @@ subpackages="
 install="$pkgname.post-upgrade"
 source="https://gitlab.freedesktop.org/PipeWire/pipewire/-/archive/$pkgver/pipewire-$pkgver.tar.gz
 	pipewire-launcher.sh
-	0001-Revert-pulse-tunnel-use-format-channels-and-rate-pro.patch
 	"
 
 case "$CARCH" in
@@ -70,8 +70,8 @@ build() {
 		-Dman=enabled \
 		-Dgstreamer=enabled \
 		-Dexamples=enabled \
-		-Dffmpeg=disabled \
-		-Dsystemd=disabled \
+		-Dffmpeg=enabled \
+		-Dsystemd=enabled \
 		-Dvulkan=enabled \
 		-Dsdl2=disabled \
 		-Dsession-managers=[] \
@@ -191,7 +191,6 @@ spa_tools() {
 }
 
 sha512sums="
-50f23a7b71f3eb20657ff75de54a9f3056270bf05a5472ec9c7dea1c9d0ed391b6b09496d58b065c3cbc40f9be8088b6737cbf0731973498bcd5a8176c42d443  pipewire-0.3.53.tar.gz
+39e94f44069d3103f4d1991ab0bed62922122bd096ab0a4595ecd3ff7590154c0c7acc1b737f05eb22a8885184626eefe334267acaad9e11ad9ee9e9f5ed24e7  pipewire-0.3.79.tar.gz
 be2bd1520fae27ccca6af4c98e8ebe63541260af55eb085839235a8441a7bce434ba8bf23a5d1ca8b5f361229f5482d5b63504b9a5cbbe9d39bc051207cd7dac  pipewire-launcher.sh
-5a84a255794cd260476f93b154a32a84efc925c1f6ecc64efe659d89eb81bb3090438e2b3c4000a8ab68d8c72bca453e13297719a95f1e4457f43e43acec8bfa  0001-Revert-pulse-tunnel-use-format-channels-and-rate-pro.patch
 "
