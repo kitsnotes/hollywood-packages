@@ -1,0 +1,49 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=bolt
+pkgver=0.9.5
+pkgrel=1
+pkgdesc="Thunderbolt 3 device manager"
+url="https://gitlab.freedesktop.org/bolt/bolt"
+arch="all"
+license="LGPL-2.1-or-later"
+makedepends="
+	asciidoc
+	bash
+	eudev-dev
+	glib-dev
+	meson
+	polkit-dev
+	"
+checkdepends="
+	dbus
+	py3-gobject3
+	"
+subpackages="$pkgname-doc"
+source="https://gitlab.freedesktop.org/bolt/bolt/-/archive/$pkgver/bolt-$pkgver.tar.gz"
+
+# tests hit a udf instruction, due to some test_notify_teardown pointer free
+# being undefined. using a different allocator fixes it, so musl is being
+# strict about the UB tests here, but the issue is not from the code itself
+options="$options !check"
+
+build() {
+	abuild-meson \
+		-Db_lto=true \
+		-Dman=true \
+		-Dsystemd=true \
+		. output
+	meson compile -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="
+cf8625f45d15f5685d99a49c5993a9196b355158be660c63fb22f86c2d9806d41cc13702d2e8d1b8e6f37e4acf3485e2b2c0eb19f907732bdf670680cbc073ae  bolt-0.9.5.tar.gz
+"
