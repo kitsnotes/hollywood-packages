@@ -10,7 +10,7 @@ license="LGPL2"
 depends="qt5-qtbase qt5-qtwayland qt5-qtmultimedia"
 makedepends="qt5-qtwayland-dev qt5-qtmultimedia-dev"
 source="https://depot.originull.org/upstream/hollywood-desktop-$pkgver.tar.gz"
-builddir="$srcdir/hollywood-desktop-$pkgver"
+builddir="$srcdir/hollywood-desktop-$pkgver/desktop/"
 
 build() {
         cd $builddir/
