@@ -2,7 +2,7 @@
 pkgname=openssh
 pkgver=9.1_p1
 _myver=${pkgver%_*}${pkgver#*_}
-pkgrel=2
+pkgrel=3
 pkgdesc="Port of OpenBSD's free SSH release"
 url="https://www.openssh.com/portable.html"
 arch="all"
@@ -20,7 +20,7 @@ makedepends_host="
 #
 # build bootstrap sshd without libedit, linux-pam and krb5
 if [ -z "$BOOTSTRAP" ]; then
-	makedepends_host="$makedepends_host libedit-dev linux-pam-dev krb5-dev libfido2-dev
+	makedepends_host="$makedepends_host libedit-dev linux-pam-dev heimdal-dev libfido2-dev
 		utmps-dev utmps-static"
 	subpackages="$pkgname-client-krb5:_client_krb5
 		$pkgname-server-pam:_server_with_flavor
