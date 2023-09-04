@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=pulseaudio
 pkgver=16.1
-pkgrel=6
+pkgrel=7
 pkgdesc="featureful, general-purpose sound server"
 provider_priority=10
 url="https://www.freedesktop.org/wiki/Software/PulseAudio/"
@@ -34,7 +34,6 @@ makedepends="
 	perl-xml-parser
 	m4
 	"
-depends_openrc="alsa-utils-openrc"
 subpackages="
 	$pkgname-dev
 	$pkgname-doc
