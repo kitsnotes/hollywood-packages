@@ -1,28 +1,21 @@
-# Maintainer: Leonardo Arena <rnalrd@alpinelinux.org>
-# Contributor: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
+# Contributor: Originull Software <packages@originull.org>
 pkgname=heimdal
-pkgver=7.7.0
+pkgver=7.8.0
 _ver=${pkgver/_rc/rc}
-pkgrel=6
-pkgdesc="Iplementation of Kerberos 5"
+pkgrel=1
+pkgdesc="Implementation of Kerberos 5"
 arch="all"
 url="https://github.com/heimdal/"
 license="BSD-3-Clause"
 depends="krb5-conf"
-depends_dev="openssl1.1-compat-dev e2fsprogs-dev"
-makedepends="$depends_dev autoconf automake bash gawk libtool
+depends_dev="openssl-dev>3 e2fsprogs-dev"
+makedepends="$depends_dev autoconf automake bash gawk libtool 
 	ncurses-dev perl readline-dev sqlite-dev texinfo perl-json gdbm-dev"
 options="suid !check" #FIXME: FAIL: snprintf-test
-subpackages="$pkgname-doc $pkgname-dev $pkgname-libs $pkgname-openrc"
+subpackages="$pkgname-doc $pkgname-dev $pkgname-libs"
 source="https://github.com/heimdal/heimdal/releases/download/heimdal-$pkgver/heimdal-$pkgver.tar.gz
-	heimdal-kadmind.initd
-	heimdal-kdc.initd
-	heimdal-kpasswdd.initd
-
 	005_all_heimdal-suid_fix.patch
-	heimdal_missing-include.patch
-	CVE-2018-16860.patch
-	autoconf-270.patch
 	"
 
 # secfixes:
@@ -54,7 +47,7 @@ build() {
 		--with-readline-lib=/usr/lib \
 		--with-readline-include=/usr/include/readline \
 		--with-sqlite3=/usr \
-		--without-openssl \
+		--with-openssl \
 		--with-db-type-preference=
 
 	# make sure we use system version
@@ -78,13 +71,6 @@ package() {
 	mandir=/usr/share/man infodir=/usr/share/info datadir=/var/lib/heimdal \
 	localstatedir=/var/lib/heimdal libexecdir=/usr/sbin install
 
-
-	install -m755 -D "$srcdir"/heimdal-kadmind.initd \
-		"$pkgdir"/etc/init.d/heimdal-kadmind
-	install -m755 -D "$srcdir"/heimdal-kdc.initd \
-		"$pkgdir"/etc/init.d/heimdal-kdc
-	install -m755 -D "$srcdir"/heimdal-kpasswdd.initd \
-		"$pkgdir"/etc/init.d/heimdal-kpasswdd
 
 	for i in 1 3 5 8; do
 		rm -rf "$pkgdir"/usr/share/man/cat$i
@@ -122,12 +108,6 @@ libs() {
 }
 
 sha512sums="
-6660939b5a36ce36310721a08a089fb671d1e3d2e8ac74ea4775bfa5f8f772d32de805551456200fe96cc486c092c44beb84f5dd877008bc305490ee971bbf99  heimdal-7.7.0.tar.gz
-0ae0fec4bdb3907d9e82e788e12ef185dd00e6db4c17f55758da5600fedd72ed1118b6b492d039f91cc54d54bf2f79f624ea38a68067e424b737b128494a4bbd  heimdal-kadmind.initd
-4dca69bb1c1c6dfce8c0fc1da84855e4549be478ab09511fa5143ee61d1609fed7f3303179bc1e499b0f20445e04c41eda132dd1c5f72e2fea4fcf60a35ad2a9  heimdal-kdc.initd
-abee8390632fa775e74900d09e5c72b02fe4f9616b43cc8d0a76175486ed6d4707fb3ce4d06ceb09b0e8d1384e037c3cff6525e11def0122c35c32eebd0d196f  heimdal-kpasswdd.initd
+0167345aca77d65b7a1113874eee5b65ec6e1fec1f196d57e571265409fa35ef95a673a4fd4aafbb0ab5fb5b246b97412353a68d6613a8aff6393a9f1e72999e  heimdal-7.8.0.tar.gz
 2a6b20588a86a9ea3c35209b96ef2da0b39bc3112aec1505e69a60efc9ffb9ddc1d0dbdfaf864142e9d2f81da3d2653de56d6ffa01871c20fde17e4642625c56  005_all_heimdal-suid_fix.patch
-e89efdc942c512363aac1d9797c6bf622324e9200e282bc5ed680300b9e1b39a4ea20f059cdac8f22f972eb0af0e625fd41f267ebcafcfec0aaa81192aff79c1  heimdal_missing-include.patch
-36738795eb3478b55790bf1927f85a421b13b6b47dcc273daeb6630c39a4e1c1258148fa0e9f004ae59a9ac89caf54cb25efedb417e852e42a2c32d02e43fd56  CVE-2018-16860.patch
-bb9a5060f295ad0f42dd3cd5db0b092b7533fd672343cd899807f3b195b9ad65c1c02caad10e43a8a86530f24acc23ebdab481dd186e4737d3c7296efd0286f2  autoconf-270.patch
 "
