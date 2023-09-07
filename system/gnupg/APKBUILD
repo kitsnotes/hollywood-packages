@@ -1,6 +1,4 @@
-# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=gnupg
 # Upgrade to LTS versions only.
 pkgver=2.4.0
@@ -15,7 +13,6 @@ depends="gpg=$pkgver-r$pkgrel
 	gpg-wks-server=$pkgver-r$pkgrel
 	gpgsm=$pkgver-r$pkgrel
 	gpgv=$pkgver-r$pkgrel
-	$pkgname-dirmngr=$pkgver-r$pkgrel
 	$pkgname-utils=$pkgver-r$pkgrel
 	$pkgname-wks-client=$pkgver-r$pkgrel
 	"
@@ -32,7 +29,6 @@ makedepends="
 	libtool
 	libusb-dev
 	npth-dev
-	openldap-dev
 	pinentry
 	sqlite-dev
 	texinfo
@@ -42,7 +38,6 @@ install="$pkgname-scdaemon.pre-install"
 subpackages="
 	$pkgname-doc
 	$pkgname-lang::noarch
-	$pkgname-dirmngr
 	$pkgname-gpgconf
 	$pkgname-scdaemon
 	$pkgname-keyboxd
@@ -58,8 +53,6 @@ source="https://gnupg.org/ftp/gcrypt/gnupg/gnupg-$_ver.tar.bz2
 	0010-avoid-beta-warning.patch
 	0020-avoid-regenerating-defsincdate-use-shipped-file.patch
 	0110-avoid-simple-memory-dumps-via-ptrace.patch
-	0210-dirmngr-hkp-avoid-potential-race-condition-when-some-host-die.patch
-	0230-dirmngr-avoid-automatically-checking-upstream-swdb.patch
 	0330-gpg-default-to-sha512-for-all-signature-types-on-rsa-keys.patch
 	0340-gpg-prefer-sha512-and-sha384-in-personal-digest.patch
 	0420-gpg-drop-import-clean-from-default-keyserver-import-options.patch
@@ -98,6 +91,7 @@ build() {
 		--disable-nls \
 		--enable-bzip2 \
 		--enable-tofu \
+		--disable-ldap \
 		--enable-scdaemon \
 		--enable-ccid-driver
 	make
@@ -135,17 +129,6 @@ _agent() {
 	amove usr/libexec/gpg-preset-passphrase
 	amove usr/libexec/gpg-protect-tool
 	amove usr/share/gnupg/help.txt
-}
-
-dirmngr() {
-	pkgdesc="GNU Privacy Guard 2 - network certificate management service"
-	depends="$pkgname-gpgconf=$pkgver-r$pkgrel"
-	provides="dirmngr=$pkgver-r$pkgrel"  # alternative package name
-	replaces="$pkgname"  # for backward compatibility
-
-	amove usr/bin/dirmngr*
-	amove usr/libexec/dirmngr_ldap
-	amove usr/share/gnupg/sks-keyservers.netCA.pem
 }
 
 gpg() {
@@ -207,7 +190,7 @@ scdaemon() {
 
 _wks_client() {
 	pkgdesc="GNU Privacy Guard 2 - Web Key Service client"
-	depends="gpg=$pkgver-r$pkgrel gpg-agent=$pkgver-r$pkgrel $pkgname-dirmngr=$pkgver-r$pkgrel"
+	depends="gpg=$pkgver-r$pkgrel gpg-agent=$pkgver-r$pkgrel"
 	replaces="$pkgname"  # for backward compatibility
 
 	amove usr/bin/gpg-wks-client
@@ -244,8 +227,6 @@ sha512sums="
 0e2aef4ae5c43c43efe2c914534d73f8f7068b49b5826b1f999296c30395497c4af121e4e99152ff7b43dcf56d1792cd46aea5158ca48597d6e0fca6d7358711  0010-avoid-beta-warning.patch
 18004e52925b1f03e67a29a3d43b39e8119cf3426cdad4136824b932ad906ac499b4ceb3d7573177a9f16410d3b80c8f0e4bcdc54dd284f3f803a2cef609ad01  0020-avoid-regenerating-defsincdate-use-shipped-file.patch
 d77a230e099ac26cf70acf4bf5c4a8446460f677857818027c16fd029292c249a24f31f7073e0388757cf567656e416b7f91af3bba62a85a2ffbdcf985c5050c  0110-avoid-simple-memory-dumps-via-ptrace.patch
-54d6b805ad89b384df140e1dc7c4ecd6703bf317fb97834026458fab92f3f0f4f426f0da86c0fbfe102bb1304a489d15ea2e728d5f97d4f0c9bf14cc30cb8c23  0210-dirmngr-hkp-avoid-potential-race-condition-when-some-host-die.patch
-1c38b039950fa9733e9584ac61d52e12aad56489d7f3aec396b2528d0bf41729971d3fe9b4d04d50595a2a954181892ed1ec93f1b7ade24e4da26744d78598fc  0230-dirmngr-avoid-automatically-checking-upstream-swdb.patch
 9e6c109f6617b4abb7a9d8abd4c8d128247dd21915bf7a75bb6a9f5b6da2a9d4dcee27147db3f88de79e4cb2621222ae62d95c0ce115658ef39bcd01587b5f82  0330-gpg-default-to-sha512-for-all-signature-types-on-rsa-keys.patch
 462af7b1e530e00d3870062666ef427d6df57ee8358b043c06fb8b7b54e50891fc8a49beeaabe45d1822d222ffc47da624798ceb8889a02e38ce85612453bb8b  0340-gpg-prefer-sha512-and-sha384-in-personal-digest.patch
 0c1c44932e47ded65d412c48f859f1615a896ae1dd0a9e0e46fd491f3a25adc80e29fe12e329c3f541a60729cdf82330e81ab7bb7cacf1ddc6a9701a38bbbfaf  0420-gpg-drop-import-clean-from-default-keyserver-import-options.patch
