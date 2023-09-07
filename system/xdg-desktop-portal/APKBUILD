@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=xdg-desktop-portal
 pkgver=1.16.0
-pkgrel=0
+pkgrel=1
 pkgdesc="Desktop integration portal"
 url="https://github.com/flatpak/xdg-desktop-portal"
 arch="all"
@@ -19,6 +19,7 @@ makedepends="
 	json-glib-dev
 	libportal-dev
 	meson
+	systemd-dev
 	pipewire-dev
 	xmlto
 	"
@@ -29,7 +30,7 @@ source="https://github.com/flatpak/xdg-desktop-portal/releases/download/$pkgver/
 build() {
 	abuild-meson \
 		-Db_lto=true \
-		-Dsystemd=disabled \
+		-Dsystemd=enabled \
 		. output
 	meson compile -C output
 }
@@ -44,9 +45,6 @@ package() {
 	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 
 	cd "$pkgdir"
-
-	# We don't need this
-	rm -rf usr/lib/systemd
 
 	mkdir -p usr/lib
 	mv usr/share/pkgconfig usr/lib/
