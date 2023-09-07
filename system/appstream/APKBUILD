@@ -17,7 +17,7 @@ makedepends="
 	libxml2-dev
 	libxmlb-dev
 	meson
-	qt6-qtbase-dev
+	qt5-qtbase-dev
 	yaml-dev
 	"
 triggers="$pkgname.trigger=/usr/share/app-info/*"
