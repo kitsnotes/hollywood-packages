@@ -1,7 +1,6 @@
-# Contributor: André Klitzing <aklitzing@gmail.com>
-# Maintainer: André Klitzing <aklitzing@gmail.com>
+# Contributor: Originull Software <packages@originull.org>
 pkgname=ostree
-pkgver=2022.7
+pkgver=2023.6
 pkgrel=0
 pkgdesc="Operating system and container binary deployment and upgrades"
 url="https://github.com/ostreedev/ostree"
@@ -14,7 +13,6 @@ subpackages="
 	$pkgname-dev
 	$pkgname-doc
 	$pkgname-dbg
-	$pkgname-grub:grub:noarch
 	$pkgname-bash-completion:bashcomp:noarch
 	"
 source="https://github.com/ostreedev/ostree/releases/download/v$pkgver/libostree-$pkgver.tar.xz
@@ -40,26 +38,15 @@ build() {
 		--disable-static \
 		--disable-glibtest \
 		--with-curl \
-		--without-soup 
+		--without-soup \
 		--with-openssl
 	make
 }
 
 package() {
 	make DESTDIR="$pkgdir" install
-}
-
-dev() {
-	default_dev
-	amove usr/lib/libostree/ostree-trivial-httpd
-}
-
-grub() {
-	pkgdesc="GRUB2 integration for OSTree"
-	install_if="$pkgname=$pkgver-r$pkgrel grub"
-
-	amove etc/grub.d/*
-	amove usr/lib/libostree/grub2-*
+	rm -rf "$pkgdir"/etc/grub.d/
+	rm -rf "$pkgdir"/usr/lib/libostree/grub2-*
 }
 
 bashcomp() {
@@ -71,5 +58,5 @@ bashcomp() {
 }
 
 sha512sums="
-725eff027b2c4c1aec0c222a5fa6059f3a777f4d0c831b82a4021befba0078692aa5ced2c4c609530c70462b4148a3cc33152e3d9dc4a5d6f8cf98f61ef09c2a  libostree-2022.7.tar.xz
+ae803d41ed38ec713959cfa88dab3db94f63c14cc4ad7fc1b0941e3fcfe5128436e25a354c8a291f93ea0c59a3f440b57aecefa109996427463f9165331f78f1  libostree-2023.6.tar.xz
 "
