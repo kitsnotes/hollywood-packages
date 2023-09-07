@@ -1,10 +1,9 @@
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
-# Contributor: André Klitzing <aklitzing@gmail.com>
-# Maintainer: André Klitzing <aklitzing@gmail.com>
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=flatpak
 # Follows GNOME versioning, MINOR (the 2nd number) must be even.
-pkgver=1.14.0
-pkgrel=2
+pkgver=1.14.4
+pkgrel=1
 pkgdesc="Application deployment framework for desktop apps"
 url="https://flatpak.org/"
 arch="all"
@@ -90,10 +89,6 @@ package() {
 
 	cd "$pkgdir"
 
-	# Remove systemd-specific files.
-	rm -rf usr/lib/systemd
-	rm -rf usr/lib/sysusers.d
-
 	# Move fish completions to directory where abuild expects it.
 	mv usr/share/fish/vendor_completions.d usr/share/fish/completions
 
@@ -107,7 +102,7 @@ fishcomp() {
 }
 
 sha512sums="
-88f011534a8da6c2421d7d24043756bfe6c46957b6d09ba96b269002a5f0d0372b51f4a8643af2020ef4ed8c5b5f102994ddab54a7052cfba15f8e3b160e8a83  flatpak-1.14.0.tar.xz
+3f97096affd4f1de184ded353f1ab403d9f1813b199b9a1595596cc7c5d6b46062aa2ef184255823f50ae95ca60d0542d9b9e520f9a605f9bc51091863bf89b0  flatpak-1.14.4.tar.xz
 57d23d2778556eafc3035e6be575bf95b4032f123b35f2b1657eff5e7496de253173edc657f90531ee58e25673f4f27a5cd1cc76b14a038edb244f104a231771  modules-load.conf
 665dc6003360ea65ce391fe2283344d47c1dafc8f860a5ba410641c7ef54d0c68a63c41963843aeb0364b95df567a83cb80007db282bd284a0744aacced8f1d3  fusermount3.patch
 "
