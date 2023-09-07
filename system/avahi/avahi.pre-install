@@ -1,0 +1,7 @@
+#!/bin/sh
+
+addgroup --system --gid 28 netdev 2>/dev/null
+addgroup --system --gid 86 avahi 2>/dev/null
+adduser --no-create-home --system --disabled-password --home /var/run/avahi-daemon --uid 86 --shell /sbin/nologin --ingroup avahi avahi 2>/dev/null
+
+exit 0
