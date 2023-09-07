@@ -1,5 +1,4 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=geoclue
 pkgver=2.7.0
 pkgrel=0
@@ -9,6 +8,7 @@ arch="all"
 license="LGPL-2.1-or-later"
 makedepends="
 	avahi-dev
+	modemmanager-dev
 	gobject-introspection-dev
 	intltool
 	json-glib-dev
@@ -29,7 +29,7 @@ case "$CARCH" in
 		;;
 	*)
 		_arch_opts=""
-		makedepends="$makedepends modemmanager-dev"
+		makedepends="$makedepends"
 		;;
 esac
 
