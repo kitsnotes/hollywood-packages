@@ -1,0 +1,53 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=libqmi
+pkgver=1.32.4
+pkgrel=0
+pkgdesc="QMI modem protocol helper library"
+url="https://www.freedesktop.org/wiki/Software/libqmi"
+arch="all"
+license="GPL-2.0-or-later AND LGPL-2.1-or-later"
+makedepends="
+	bash-completion-dev
+	glib-dev
+	gobject-introspection-dev
+	help2man
+	libgudev-dev
+	libmbim-dev
+	libqrtr-glib-dev
+	linux-headers
+	meson
+	python3
+	"
+subpackages="
+	$pkgname-dev
+	$pkgname-doc
+	$pkgname-bash-completion
+	qmi-utils
+	"
+source="https://gitlab.freedesktop.org/mobile-broadband/libqmi/-/archive/$pkgver/libqmi-$pkgver.tar.gz"
+
+build() {
+	abuild-meson \
+		-Db_lto=true \
+		. output
+	meson compile -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+utils() {
+	pkgdesc="$pkgdesc (CLI utilities)"
+
+	amove usr/bin
+}
+
+sha512sums="
+03ea0965150d68ebfdd418ced1318fb49ebdb9cd76c4725c809d278fe36f00ad9503b33c1c7430173fb22a1e98af9de3e3d93c5dceba2034c27684ed6f7069ca  libqmi-1.32.4.tar.gz
+"

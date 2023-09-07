@@ -1,0 +1,84 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=modemmanager
+pkgver=1.20.6
+pkgrel=2
+pkgdesc="ModemManager library"
+url="https://www.freedesktop.org/wiki/Software/ModemManager"
+arch="all"
+license="GPL-2.0-or-later AND LGPL-2.1-or-later"
+depends="dbus polkit libmm-glib=$pkgver-r$pkgrel"
+depends_dev="libmm-glib=$pkgver-r$pkgrel"
+makedepends="
+	$depends_dev
+	bash-completion-dev
+	systemd-dev
+	gobject-introspection-dev
+	gtk-doc
+	libgudev-dev
+	libmbim-dev
+	libqmi-dev
+	linux-headers
+	meson
+	polkit-dev
+	vala
+	"
+checkdepends="glib-dev py3-gobject3 py3-dbus"
+options="!check" # https://bugs.freedesktop.org/show_bug.cgi?id=101197
+subpackages="
+	$pkgname-lang
+	$pkgname-doc
+	libmm-glib:libmm
+	$pkgname-dev
+	$pkgname-bash-completion
+	"
+source="https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/archive/$pkgver/ModemManager-$pkgver.tar.gz
+	$pkgname.rules
+	broadband-modem-qmi-enable-disable-messaging-AT-unso.patch
+	"
+builddir="$srcdir"/ModemManager-$pkgver
+
+build() {
+	abuild-meson \
+		-Db_lto=true \
+		-Dsystemdsystemunitdir=/usr/lib/systemd/system \
+		-Ddbus_policy_dir=/usr/share/dbus-1/system.d \
+		-Dgtk_doc=true \
+		-Dpolkit=permissive \
+		-Dsystemd_journal=true \
+		-Dsystemd_suspend_resume=true \
+		-Dvapi=true \
+		. output
+	meson compile -C output
+}
+
+check() {
+	meson test --no-rebuild -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+	install -m644 -D "$srcdir/$pkgname.rules" \
+		"$pkgdir/usr/share/polkit-1/rules.d/01-org.freedesktop.ModemManager.rules"
+
+	# post-install message
+	mkdir -p "$pkgdir/usr/share/doc/$pkgname"
+	cat > "$pkgdir"/usr/share/doc/$pkgname/README.alpine <<- EOF
+	If your USB modem shows up as a Flash drive when you plug it in:
+
+	install 'usb-modeswitch' to automatically switch to USB modem mode whenever you plug it in.
+	To control your modem without the root password: add your user account to the 'plugdev' group.
+	EOF
+}
+
+libmm() {
+	depends=""
+	amove usr/lib/girepository-1.0
+	amove usr/lib/libmm-glib.so*
+}
+
+sha512sums="
+4fb197d37c76d93f611d7ef679304f678a43406339ce8de1f6eacd24dba5408aa0a6e4e99c01ed2583920603a71cd4aaf54f6e2274a5f2d0d41b5a5ce7021078  ModemManager-1.20.6.tar.gz
+6fab86c27502b29be0c6610d835a3249a4a81993eb986cff2c3ea9393fadd3f693ba4bb0532ae0e50a83d359559511859dd05f7ea2f0cb52839f535a7e49f8a0  modemmanager.rules
+339f4138a19063e77545cf722aeebf12a46255a68a07b322b59754573f3b09af2093e797c6762b24ebad696a0aec1d769046d9a738b28f8f9a27b2edd8e89d29  broadband-modem-qmi-enable-disable-messaging-AT-unso.patch
+"

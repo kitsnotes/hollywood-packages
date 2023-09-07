@@ -1,0 +1,28 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=libqrtr-glib
+pkgver=1.2.2
+pkgrel=0
+pkgdesc="Qualcomm IPC Router protocol helper library"
+url="https://gitlab.freedesktop.org/mobile-broadband/libqrtr-glib"
+arch="all"
+license="LGPL-2.1-or-later"
+makedepends="glib-dev gobject-introspection-dev gtk-doc linux-headers meson"
+subpackages="$pkgname-dev $pkgname-doc"
+source="https://gitlab.freedesktop.org/mobile-broadband/libqrtr-glib/-/archive/$pkgver/libqrtr-glib-$pkgver.tar.gz"
+
+build() {
+	abuild-meson . output
+	meson compile -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="
+e420b9dd6eae355520aba00995196a8495dc5c6a7bbbbce259782506765fe41599f72933fc015a2695a8070ff102e23afd69c578dfdfc6a3c6eff8cb16e3f7e6  libqrtr-glib-1.2.2.tar.gz
+"

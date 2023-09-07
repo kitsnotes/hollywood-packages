@@ -1,0 +1,50 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=libmbim
+pkgver=1.28.4
+pkgrel=0
+pkgdesc="MBIM modem protocol helper library"
+url="https://www.freedesktop.org/wiki/Software/libmbim/"
+arch="all"
+license="GPL-2.0-or-later AND LGPL-2.1-or-later"
+makedepends="
+	bash-completion-dev
+	glib-dev
+	gobject-introspection-dev
+	help2man
+	meson
+	py3-gobject3
+	python3
+	"
+subpackages="
+	$pkgname-dev
+	$pkgname-doc
+	$pkgname-tools
+	$pkgname-bash-completion
+	"
+source="https://gitlab.freedesktop.org/mobile-broadband/libmbim/-/archive/$pkgver/libmbim-$pkgver.tar.gz"
+
+build() {
+	abuild-meson \
+		-Db_lto=true \
+		. output
+	meson compile -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+tools() {
+	pkgdesc="Tools for libmbim"
+
+	amove usr/bin usr/libexec
+}
+
+sha512sums="
+adba3907dbf610b32a6d5a0ce3920902e35a9febd7e19f9a77ee1ca15f879f21ca826514e56f0e6d6f90dfa00fca4bcc1e2c7a0f0890bbb6c4489d077b98de6a  libmbim-1.28.4.tar.gz
+"
