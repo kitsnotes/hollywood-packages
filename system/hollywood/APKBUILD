@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0
-pkgrel=50
+pkgrel=51
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
@@ -200,7 +200,7 @@ desktop() {
 baselibs() {
 	pkgdesc="Hollywood Base Libraries"
 	depends="hollywood-base qt6-qtbase qt6-qtwayland libdrm breeze-icons ttf-hack ttf-opensans libinput fontconfig font-noto-emoji 
-	avahi-compat-libdns_sd avahi-daemon font-adobe-source-serif"
+	avahi-compat-libdns_sd avahi font-adobe-source-serif"
 	mkdir -p "$subpkgdir"/usr/bin
 	mkdir -p "$subpkgdir"/usr/lib
 	mkdir -p "$subpkgdir"/usr/share/applications
