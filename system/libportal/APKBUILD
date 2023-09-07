@@ -1,0 +1,70 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=libportal
+pkgver=0.7
+pkgrel=1
+pkgdesc="GIO-style async APIs for most Flatpak portals"
+url="https://github.com/flatpak/libportal"
+arch="all"
+license="LGPL-3.0-or-later"
+makedepends="
+	meson
+	glib-dev
+	gtk-doc
+	gobject-introspection-dev
+	vala
+	gtk+3.0-dev
+	qt5-qtbase-dev
+	qt5-qttools-dev
+	qt5-qtx11extras-dev
+	"
+subpackages="
+	$pkgname-dev
+	$pkgname-gtk3:_gtk3
+	$pkgname-qt5:_qt5
+	"
+source="$pkgname-$pkgver.tar.gz::https://github.com/flatpak/libportal/archive/$pkgver.tar.gz"
+options="!check" #requires xvfb, we don't support
+#TODO: re-add GTK4
+
+build() {
+	abuild-meson \
+		-Dbackend-gtk3=enabled \
+		-Dbackend-gtk4=disabled \
+		-Dbackend-qt5=enabled \
+		-Ddocs=false \
+		. output
+	meson compile -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+_gtk3() {
+	pkgdesc="$pkgdesc (GTK+3.0 backend)"
+	# for gobject instrospection
+	depends="$pkgname=$pkgver-r$pkgrel"
+
+	amove usr/lib/libportal-gtk3*
+	amove usr/lib/girepository-1.0/XdpGtk3*
+}
+
+_gtk4() {
+	pkgdesc="$pkgdesc (GTK4.0 backend)"
+	# for gobject instrospection
+	depends="$pkgname=$pkgver-r$pkgrel"
+
+	amove usr/lib/libportal-gtk4*
+	amove usr/lib/girepository-1.0/XdpGtk4*
+}
+
+_qt5() {
+	pkgdesc="$pkgdesc (Qt5 backend)"
+	depends=""
+
+	amove usr/lib/libportal-qt5*
+}
+
+sha512sums="
+7e6f002e42533f5bb1d2a79e9f3ebb0bdf0fabee2505707569a9afbba80621672f70778c5cac987bcc61aa09a7eeffc4ccc57ba24fb75cf50b86b5d7d6323bc4  libportal-0.7.tar.gz
+"
