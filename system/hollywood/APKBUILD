@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0
-pkgrel=52
+pkgrel=53
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
@@ -27,6 +27,7 @@ makedepends="qt6-qtwayland-dev
 	qt6-qtermwidget-dev
 	qt6-polkit-qt-1-dev 
 	qt6-qtsvg-dev
+	qt5-qtsvg-dev
 	qt6-qt5compat-dev
 	qt6-qtcharts-dev
 	bcnm-dev
@@ -133,6 +134,7 @@ desktop() {
         qt6-qtwayland
         libapk-qt
         efivar
+	dbus-broker
         accountsservice
 	bolt
 	bluez
@@ -235,7 +237,7 @@ baselibs() {
 	mv "$pkgdir"/usr/lib/pkgconfig/hwudev-1.0.pc "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/libhwlogind* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/libhwudev* "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libshell* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libshell-* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/qt6/plugins/platforms/libhollywood.so "$subpkgdir"/usr/lib/qt6/plugins/platforms/
 	mv "$pkgdir"/usr/lib/qt6/plugins/platforms/libhweglfs.so "$subpkgdir"/usr/lib/qt6/plugins/platforms/
 	mv "$pkgdir"/usr/lib/qt6/plugins/styles/libhollywood.so "$subpkgdir"/usr/lib/qt6/plugins/styles/
@@ -289,7 +291,8 @@ qt5libs() {
 
 	amove usr/lib/qt5/* \
 		usr/lib/libcommdlg5* \
-		usr/lib/libcompositor5* 
+		usr/lib/libcompositor5* \
+		usr/lib/libshell5*
 }
 
 setup() {
@@ -327,7 +330,7 @@ image() {
 }
 
 sha512sums="
-507e1d48b6b1d655aac8da70ef28fd531a9f73fc3863fc29392b15458a2ffcdce55c07b202070cf059ca00eeefe976b3fa92389b26ba10aa86c48170ab01398d  hollywood-desktop-1.0.tar.gz
+d74fca2447145ef059eb49605c4d4a9324166a277180a0396676aa2f41b35ef296b1aff9619c03255dd0fd429564c7a5f77804d1b3f6d663780c0fb2a8ce0ad6  hollywood-desktop-1.0.tar.gz
 472516ee32d38e9307f916f7eea03a225ccd7fd2658a04b55fc9495374021898314cf95a912966fe84d13e887ef6dd300177e859099b98e18d30863ad6a19855  hollywood.conf
 1db0ca5dbaffb35f230811741f18e11fd03c3b516728ee99ca82b6ef846b7929b16301c804cb1f184ba5aa1c629df3e855ae5ec6cb5abdc55e5d3b38d9736be8  fontconfig.conf
 "
