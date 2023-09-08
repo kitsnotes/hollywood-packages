@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=cmst
 pkgver=2022.11.30
-pkgrel=0
+pkgrel=1
 pkgdesc="connman system tray"
 url="https://github.com/andrew-bibb/cmst"
 arch="all"
