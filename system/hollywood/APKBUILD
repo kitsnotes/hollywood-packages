@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0
-pkgrel=51
+pkgrel=52
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
@@ -9,10 +9,13 @@ options="!check" # no test suite
 license="GPL2"
 makedepends="qt6-qtwayland-dev 
 	qt6-qtmultimedia-dev
+	qt5-qtbase-dev
+	qt5-qtmultimedia-dev
+	qt5-qtwayland-dev
 	avahi-dev
 	libinput-dev
 	libdrm-dev
-	elogind-dev
+	systemd-dev
 	libapk-qt-dev 
 	mesa-dev
 	poppler-dev
@@ -30,7 +33,7 @@ makedepends="qt6-qtwayland-dev
 	boost-dev
 	cmake
 	curl-dev
-	eudev-dev
+	systemd-dev
 	libarchive-dev
 	linux-headers
 	parted-dev
@@ -47,15 +50,20 @@ source="https://depot.originull.org/upstream/hollywood-desktop-$pkgver.tar.gz
 	fontconfig.conf
 	"
 builddir="$srcdir/hollywood-desktop-$pkgver/"
-subpackages="$pkgname-baselibs $pkgname-desktop $pkgname-setup $pkgname-image $pkgname-accessories $pkgname-dbg $pkgname-dev $pkgname-doc"
+subpackages="$pkgname-baselibs $pkgname-desktop $pkgname-setup $pkgname-image $pkgname-accessories $pkgname-dbg $pkgname-dev $pkgname-doc $pkgname-qt5-libs:qt5libs"
 
 build() {
 	# Build the hollywood desktop
-	cd $builddir/desktop/
-	/usr/lib/qt6/bin/qmake
+	mkdir $builddir/desktop/build-qt6 || true
+	cd $builddir/desktop/build-qt6
+	/usr/lib/qt6/bin/qmake ../
 	make
 
-	
+	mkdir $builddir/desktop/build-qt5-libs || true
+	cd $builddir/desktop/build-qt5-libs
+	/usr/lib/qt5/bin/qmake ../
+	make
+
 	# Build our installer
 	cd $builddir/installer/
 	if [ "$CBUILD" != "$CHOST" ]; then
@@ -81,7 +89,12 @@ check() {
 }
 
 package() {
-	cd $builddir/desktop/
+	cd $builddir/desktop/build-qt5-libs
+	make INSTALL_ROOT="$pkgdir" install
+
+	rm -rf "$pkgdir"/usr/include
+
+	cd $builddir/desktop/build-qt6
 	make INSTALL_ROOT="$pkgdir" install
 
 	cd $builddir/installer/
@@ -213,9 +226,9 @@ baselibs() {
 	mkdir -p "$subpkgdir"/usr/lib/qt6/plugins/styles
 	mkdir -p "$subpkgdir"/usr/lib/qt6/plugins/hwdeviceintegrations
 	# install the /usr/lib stuff
-	mv "$pkgdir"/usr/lib/libcommdlg* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libcommdlg-* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/libcmctl* "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libcompositor* "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib/libcompositor-* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/pkgconfig/compositor-1.0.pc "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/pkgconfig/commdlg-1.0.pc "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/pkgconfig/hwlogind-1.0.pc "$subpkgdir"/usr/lib/
@@ -264,6 +277,19 @@ baselibs() {
 	cp -ra "$builddir"/desktop/assets/neutral/* "$subpkgdir"/usr/share/icons/neutral/
 	find "$subpkgdir"/usr/share/icons/ -type d -exec chmod 755 {} \;
 	find "$subpkgdir"/usr/share/icons/ -type f -exec chmod 644 {} \;
+}
+
+qt5libs() {
+        pkgdesc="Hollywood Desktop"
+        depends="hollywood-baselibs
+        qt5-qtbase
+        qt5-qtwayland
+	qt5-qtmultimedia
+	"
+
+	amove usr/lib/qt5/* \
+		usr/lib/libcommdlg5* \
+		usr/lib/libcompositor5* 
 }
 
 setup() {
