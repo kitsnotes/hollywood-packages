@@ -1,0 +1,45 @@
+diff -Naur wpewebkit-2.41.2-orig/Source/WebKit/PlatformWPE.cmake wpewebkit-2.41.2/Source/WebKit/PlatformWPE.cmake
+--- wpewebkit-2.41.2-orig/Source/WebKit/PlatformWPE.cmake	2023-09-08 00:18:49.220748325 -0700
++++ wpewebkit-2.41.2/Source/WebKit/PlatformWPE.cmake	2023-09-08 00:19:31.541110408 -0700
+@@ -493,7 +493,7 @@
+     )
+ 
+     set(qtwpe_LIBRARIES
+-        Qt5::Core Qt5::Quick
++        Qt::Core Qt::Quick
+         WebKit
+         ${GLIB_GOBJECT_LIBRARIES}
+         ${GLIB_LIBRARIES}
+@@ -506,8 +506,8 @@
+         ${JavaScriptCoreGLib_FRAMEWORK_HEADERS_DIR}
+         ${CMAKE_BINARY_DIR}
+         ${GLIB_INCLUDE_DIRS}
+-        ${Qt5_INCLUDE_DIRS}
+-        ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
++        ${Qt_INCLUDE_DIRS}
++        ${QtGui_PRIVATE_INCLUDE_DIRS}
+         ${LIBEPOXY_INCLUDE_DIRS}
+         ${LIBSOUP_INCLUDE_DIRS}
+         ${WPE_INCLUDE_DIRS}
+@@ -527,16 +527,16 @@
+     target_compile_definitions(qtwpe PUBLIC QT_NO_KEYWORDS=1)
+     target_link_libraries(qtwpe ${qtwpe_LIBRARIES})
+     target_include_directories(qtwpe PRIVATE ${qtwpe_INCLUDE_DIRECTORIES})
+-    install(TARGETS qtwpe DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}/qt5/qml/org/wpewebkit/qtwpe/")
+-    install(FILES ${WEBKIT_DIR}/UIProcess/API/wpe/qt/qmldir DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}/qt5/qml/org/wpewebkit/qtwpe/")
++    install(TARGETS qtwpe DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}/qt6/qml/org/wpewebkit/qtwpe/")
++    install(FILES ${WEBKIT_DIR}/UIProcess/API/wpe/qt/qmldir DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}/qt6/qml/org/wpewebkit/qtwpe/")
+ 
+-    file(MAKE_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qt5/qml/org/wpewebkit/qtwpe)
++    file(MAKE_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qt6/qml/org/wpewebkit/qtwpe)
+     add_custom_command(TARGET qtwpe POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy
+         ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libqtwpe.so
+-        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qt5/qml/org/wpewebkit/qtwpe)
++        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qt6/qml/org/wpewebkit/qtwpe)
+     add_custom_command(TARGET qtwpe POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy
+         ${WEBKIT_DIR}/UIProcess/API/wpe/qt/qmldir
+-        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qt5/qml/org/wpewebkit/qtwpe)
++        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qt6/qml/org/wpewebkit/qtwpe)
+ endif ()
+ 
+ install(TARGETS WPEInjectedBundle

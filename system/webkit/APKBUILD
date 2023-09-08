@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=webkit
 pkgver=2.41.2
-pkgrel=0
+pkgrel=1
 pkgdesc="WebKit port optimized for embedded devices"
 url="https://wpewebkit.org"
 arch="all !x86 !riscv64" # x86: Out of memory, riscv64: fails to link
@@ -43,6 +43,7 @@ makedepends="
 subpackages="$pkgname-dev"
 builddir="$srcdir/wpewebkit-$pkgver"
 source="https://wpewebkit.org/releases/wpewebkit-$pkgver.tar.xz
+	qtwpe-use-qt6.patch
 	hollywood-user-agent.patch
 	"
 
@@ -64,6 +65,7 @@ build() {
 		-DUSE_SOUP3=On \
 		-DUSE_SYSTEMD=On \
 		-DENABLE_WPE_QT=ON \
+		-DENABLE_ACCESSIBILITY=OFF \
 		-GNinja \
 		$CMAKE_CROSSOPTS .
 	cmake --build build
@@ -75,5 +77,6 @@ package() {
 
 sha512sums="
 dcdef6f072e65101a7b0e99cedd8afddf445dffb6fbbaecfb810803cfbd14101e95a1d024aeb3a28e7c4b9a757ee2a2779b8faae6f1fe9543b7545b1b971a55b  wpewebkit-2.41.2.tar.xz
+c02541300b012396b78b944dd7bdda3d3b66b438b02fae823481006146f7c85e5efc32e7e49a27201b7dfab24a5c9a71fbae574583a21ce788deef9912533e6e  qtwpe-use-qt6.patch
 beb8206f020266ef7594249e0160be978aca81804237da20940233d22c24c2188393dc0714b292a78be8878c08e5c38b30e1be4d621cb696b21f51a9a629ed64  hollywood-user-agent.patch
 "
