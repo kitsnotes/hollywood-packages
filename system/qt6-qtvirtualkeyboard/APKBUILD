@@ -1,7 +1,6 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtvirtualkeyboard
-pkgver=6.3.1
+pkgver=6.5.2
 pkgrel=0
 pkgdesc="Virtual keyboard framework"
 url="https://qt.io/"
@@ -41,5 +40,5 @@ package() {
 }
 
 sha512sums="
-3e5e66b53bd9f0e45069b5423bb1f54cfe5cb36480b1fb5c786a726d7f8fdb69ba122f2b02f34ea6316ea3ae748999884c060c5b8f5ae1dd4fa684252f795234  qtvirtualkeyboard-everywhere-src-6.3.1.tar.xz
+acb1f5de2f0d7f985f14d8f77a37698b7ecc7db15a9911148a5f3dafa26db68f2712f9d0f2c9babec9c20b672e350e0431faed2959d2b6eb43113304ab049470  qtvirtualkeyboard-everywhere-src-6.5.2.tar.xz
 "
