@@ -1,7 +1,7 @@
 #Maintainer: Originull Software <packages@originull.org>
 pkgname=cog
-pkgver=0.16.1
-pkgrel=2
+pkgver=0.18.0
+pkgrel=0
 pkgdesc="simple browser for WebKit WPE"
 url="https://github.com/Igalia/cog"
 # riscv64: wpewebkit not available.
@@ -21,7 +21,7 @@ makedepends="cairo-dev
 	wayland-protocols
 	webkit-dev
 	"
-source="https://github.com/Igalia/cog/releases/download/$pkgver/cog-$pkgver.tar.xz"
+source="https://wpewebkit.org/releases//cog-$pkgver.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 
 build() {
@@ -39,5 +39,5 @@ package() {
 }
 
 sha512sums="
-c52e339629d32ae76feccdbff6f1507b992da8bd2cd8708e586c1aee6b434f1012844c61f4962e96049b3b8e55d201fbbb8747ad8712220b95d92860d4b021a0  cog-0.16.1.tar.xz
+667b19f695ad7cf5710f9b717a2bdf0b3dbdaa8b1a440cace08e1f4217bf439055ffff55d04a2e364f090cf8868cea6f22aad36adfd3635db1c5a29e2800d0f1  cog-0.18.0.tar.xz
 "
