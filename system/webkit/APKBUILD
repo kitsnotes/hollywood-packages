@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=webkit
-pkgver=2.39.5
+pkgver=2.41.2
 pkgrel=0
 pkgdesc="WebKit port optimized for embedded devices"
 url="https://wpewebkit.org"
@@ -62,7 +62,7 @@ build() {
 		-DENABLE_GTKDOC=Off \
 		-DENABLE_INTROSPECTION=Off \
 		-DUSE_SOUP3=On \
-		-DUSE_SYSTEMD=Off \
+		-DUSE_SYSTEMD=On \
 		-DENABLE_WPE_QT=ON \
 		-GNinja \
 		$CMAKE_CROSSOPTS .
@@ -74,6 +74,6 @@ package() {
 }
 
 sha512sums="
-6ee7781ea7ec758075b949b4a3fae6c2fd89986cefefd303a3f727b3db2654e41e487878712c9e4e404dff0fb81d06d1d51de31043e9a08f357e9f3ab88ec95b  wpewebkit-2.39.5.tar.xz
+dcdef6f072e65101a7b0e99cedd8afddf445dffb6fbbaecfb810803cfbd14101e95a1d024aeb3a28e7c4b9a757ee2a2779b8faae6f1fe9543b7545b1b971a55b  wpewebkit-2.41.2.tar.xz
 beb8206f020266ef7594249e0160be978aca81804237da20940233d22c24c2188393dc0714b292a78be8878c08e5c38b30e1be4d621cb696b21f51a9a629ed64  hollywood-user-agent.patch
 "
