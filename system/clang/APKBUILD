@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=clang
 pkgver=16.0.6
-pkgrel=3
+pkgrel=1
 _llvmver=${pkgver%%.*}
 pkgdesc="C language family front-end for LLVM"
 arch="all"
@@ -41,8 +41,6 @@ source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/c
 	https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/cmake-$pkgver.src.tar.xz
 
 	clang-default-fno-semantic-interposition.patch
-	clang-001-fortify-include.patch
-	clang-002-fortify-enable.patch
 	clang-003-as-needed.patch
 	9008-Clang-Support-more-stdio-builtins.patch
 	9012-Call-printName-to-get-name-of-Decl.patch
@@ -108,11 +106,9 @@ package() {
 	depends="
 		$pkgname-headers=$pkgver-r$pkgrel
 		$pkgname-libs=$pkgver-r$pkgrel
-		fortify-headers>=1.1-r2
 		gcc
 		libstdc++-dev
 		llvm$_llvmver-linker-tools
-		musl-dev
 		"
 
 	# create system config
