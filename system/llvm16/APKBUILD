@@ -3,7 +3,7 @@ _pkgname=llvm
 pkgver=16.0.6
 _majorver=${pkgver%%.*}
 pkgname=$_pkgname$_majorver
-pkgrel=1
+pkgrel=2
 pkgdesc="Low Level Virtual Machine compiler system, version $_majorver"
 arch="all"
 url="https://llvm.org/"
@@ -16,7 +16,7 @@ makedepends_build="cmake chrpath python3 py3-setuptools samurai"
 # diffutils for diff: unrecognized option: strip-trailing-cr
 # coreutils for 'od' binary
 checkdepends="bash coreutils diffutils"
-subpackages="$pkgname-static $pkgname-libs $pkgname-linker-tools:linktools $pkgname-dev $pkgname-test-utils-pyc $pkgname-test-utils:_test_utils"
+subpackages="$pkgname-static $pkgname-libs $pkgname-linker-tools:linktools $pkgname-dev $pkgname-test-utils:_test_utils"
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/llvm-project-$pkgver.src.tar.xz
 	allocscore.patch
 	fix-memory-mf_exec-on-aarch64.patch
@@ -164,13 +164,13 @@ build() {
 		-DLLVM_ENABLE_ASSERTIONS=OFF \
 		-DLLVM_ENABLE_DUMP=ON \
 		-DLLVM_ENABLE_EH=ON \
-		-DLLVM_ENABLE_FFI=ON \
+		-DLLVM_ENABLE_FFI=OFF \
 		-DLLVM_ENABLE_LIBCXX=OFF \
 		-DLLVM_ENABLE_LIBEDIT=OFF \
 		-DLLVM_ENABLE_PIC=ON \
 		-DLLVM_ENABLE_RTTI=ON \
 		-DLLVM_ENABLE_SPHINX=OFF \
-		-DLLVM_ENABLE_TERMINFO=ON \
+		-DLLVM_ENABLE_TERMINFO=OFF \
 		-DLLVM_ENABLE_ZLIB=ON \
 		-DLLVM_ENABLE_ZSTD=$zstd \
 		-DLLVM_INCLUDE_BENCHMARKS=OFF \
