@@ -9,7 +9,7 @@ case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver-rc3;;
 esac
-pkgrel=6
+pkgrel=7
 pkgdesc="Linux stable kernel"
 url="https://www.kernel.org"
 depends="initramfs-generator"
