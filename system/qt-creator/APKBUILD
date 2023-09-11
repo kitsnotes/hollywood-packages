@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt-creator
 pkgver=11.0.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Lightweight and cross-platform C++ IDE"
 url="https://qt-project.org/wiki/Category:Tools::QtCreator"
 arch="x86_64 aarch64" # qt6-qtwebengine
@@ -16,10 +16,11 @@ makedepends="
 	botan-dev
 	clang-dev
 	clang-static
+	clang-extra-tools
 	cmake
 	elfutils-dev
-	llvm14-dev
-	llvm14-static
+	llvm16-dev
+	llvm16-static
 	qt6-qt5compat-dev
 	qt6-qtdeclarative-dev
 	qt6-qtquick3d-dev
