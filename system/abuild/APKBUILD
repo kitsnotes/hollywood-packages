@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=abuild
-pkgver=3.10.0
+pkgver=3.11.21
 _ver=${pkgver%_git*}
-pkgrel=2
+pkgrel=1
 pkgdesc="Script to build Alpine Packages"
 url="https://git.alpinelinux.org/cgit/abuild/"
 arch="all"
@@ -25,18 +25,13 @@ subpackages="
 	"
 options="suid !check" # checksuite depends on bats
 pkggroups="abuild"
-source="https://git.alpinelinux.org/abuild/snapshot/abuild-$pkgver.tar.xz
+source="https://gitlab.alpinelinux.org/alpine/abuild/-/archive/$pkgver/abuild-$pkgver.tar.gz
 	fix-hostspecs-for-glibc.patch
 	use-debian-adduser-flags.patch
 	fix-aarch64-host-match.patch
+	abuild-use-bash-and-clang.patch
 	"
 builddir="$srcdir"/abuild-$pkgver
-
-prepare() {
-	default_prepare
-
-	sed -i -e "/^CHOST=/s/=.*/=$CHOST/" abuild.conf
-}
 
 build() {
 	make VERSION="$pkgver-r$pkgrel"
@@ -82,8 +77,9 @@ _rootbld() {
 }
 
 sha512sums="
-6381feff6612e4a25d11b12b0fe6af8f84ec33be9470d8996b699eefee93bcb8430115e46edd84353211a7f438d2d0d9e7486dae58a953fb8bd42b9e966c5a77  abuild-3.10.0.tar.xz
+798cfed101c8660feb872375353a99065642220d5b6e88779b87716f5b50a456f456d24b9c9def8ebe4e01a3e67a080c2686cf6f54a4410b364ed98f4fcbbec8  abuild-3.11.21.tar.gz
 961b7f001353f6893352d69f04555a5a70ddd1a0c5a52b29ef0bbd9c5b128db1c74ef2da0aaeebe4977c40a2022c7830a36700a9da533abbce7a89a14bd2feae  fix-hostspecs-for-glibc.patch
 7e54a94449a5018fa7b3848c8e73850861b29fa4922b1e3a5ade664b6d7417eaa12aff886455aa0499666410397c46e3c6c5dc080a3d6199366397dfe584c407  use-debian-adduser-flags.patch
 848b1e1efbac73624f590ee28dadc154cd394adfabb11035afb48fcdbba67c81de939776d806cfb71c086af4bb05c283684bc15650df110d954904940d98b110  fix-aarch64-host-match.patch
+339791971f9e160baac44431567237926e0e165f2ff2ecdd3ce2f77f1713cb59d0da4746a53c14686af1e8cb80cb830a3305ad8e5cf4cdff9a0484804bfb175c  abuild-use-bash-and-clang.patch
 "
