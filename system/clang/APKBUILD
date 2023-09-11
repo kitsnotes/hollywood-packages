@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=clang
 pkgver=16.0.6
-pkgrel=1
+pkgrel=2
 _llvmver=${pkgver%%.*}
 pkgdesc="C language family front-end for LLVM"
 arch="all"
@@ -282,7 +282,6 @@ package() {
 
 dev() {
 	default_dev
-	_default_replace
 
 	# move cmake to -dev
 	amove usr/lib/llvm$_llvmver/lib/cmake/clang
@@ -298,12 +297,10 @@ dev() {
 
 static() {
 	default_static
-	_default_replace
 }
 
 bash() {
 	default_bashcomp
-	_default_replace
 }
 
 libs() {
@@ -311,11 +308,9 @@ libs() {
 	# this can fail depending on the symlinks and is already moved
 	amove usr/lib/libclang-cpp.so.* || true
 	amove usr/lib/llvm$_llvmver/lib/libclang-cpp.so*
-	_default_replace
 }
 
 libclang() {
-	_default_replace
 	replaces="$replaces clang-libs"
 	depends="$pkgname-headers=$pkgver-r$pkgrel"
 
@@ -328,7 +323,6 @@ libclang() {
 analyzer() {
 	pkgdesc="Clang source code analysis framework"
 	depends="$pkgname=$pkgver-r$pkgrel py3-$pkgname=$pkgver-r$pkgrel perl python3"
-	_default_replace
 
 	amove \
 		usr/bin/scan* \
@@ -346,13 +340,11 @@ analyzer() {
 }
 
 headers() {
-	_default_replace
 	amove usr/lib/llvm$_llvmver/lib/clang/$_llvmver/include
 }
 
 extra() {
 	pkgdesc="Extra tools built using Clang's tooling APIs"
-	_default_replace
 
 	if [ "$_default_clang" = "yes" ]; then
 		amove \
@@ -420,7 +412,6 @@ extra() {
 }
 
 emacs() {
-	_default_replace
 	pkgdesc="clang plugin for emacs"
 	install_if="$pkgname-extra-tools=$pkgver-r$pkgrel emacs"
 
@@ -437,7 +428,6 @@ python() {
 }
 
 ccache() {
-	_default_replace
 	pkgdesc="$pkgdesc (ccache symlinks)"
 	install_if="$pkgname=$pkgver-r$pkgrel ccache"
 	replaces="$replaces ccache"
@@ -448,13 +438,6 @@ ccache() {
 	if [ "$_default_clang" = yes ]; then
 		ln -sfv ../../../bin/ccache "$subpkgdir"/usr/lib/ccache/bin/clang++
 		ln -sfv ../../../bin/ccache "$subpkgdir"/usr/lib/ccache/bin/clang
-	fi
-}
-
-_default_replace() {
-	if [ "$_default_clang" = yes ]; then
-		replaces="clang${subpkgname#"$pkgname"} clang15${subpkgname#"$pkgname"}"
-		provides="clang${subpkgname#"$pkgname"}=$pkgver-r$pkgrel"
 	fi
 }
 
