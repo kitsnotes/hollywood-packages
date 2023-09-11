@@ -37,7 +37,7 @@
 
 pkgname=git
 pkgver=2.38.1
-pkgrel=0
+pkgrel=1
 pkgdesc="Distributed version control system"
 url="https://www.git-scm.com/"
 arch="all"
@@ -63,7 +63,6 @@ subpackages="$pkgname-dbg
 	$pkgname-fast-import:_fast_import
 	$pkgname-cvs::noarch
 	$pkgname-daemon
-	$pkgname-daemon-openrc:daemon_openrc
 	$pkgname-scalar
 	$pkgname-gitweb::noarch
 	$pkgname-subtree::noarch
@@ -72,8 +71,6 @@ subpackages="$pkgname-dbg
 	"
 
 source="https://www.kernel.org/pub/software/scm/git/git-$pkgver.tar.xz
-	git-daemon.initd
-	git-daemon.confd
 	fix-t4219-with-sticky-bit.patch
 	"
 
@@ -157,9 +154,6 @@ package() {
 		$install_man
 
 	mkdir -p "$pkgdir"/var/git
-
-	install -Dm755 "$srcdir"/git-daemon.initd "$pkgdir"/etc/init.d/git-daemon
-	install -Dm644 "$srcdir"/git-daemon.confd "$pkgdir"/etc/conf.d/git-daemon
 
 	install -Dm644 contrib/completion/git-completion.bash \
 		"$pkgdir"/usr/share/bash-completion/completions/git
@@ -246,15 +240,6 @@ daemon() {
 		"$pkgdir"/$_gitcoredir/git-http-backend \
 		"$pkgdir"/$_gitcoredir/git-shell \
 		"$subpkgdir"/$_gitcoredir/
-}
-
-daemon_openrc() {
-	pkgdesc="Git protocol daemon"
-
-	default_openrc
-
-	depends="git-daemon=$pkgver-r$pkgrel $depends_openrc"
-	install_if="openrc $pkgname-daemon=$pkgver-r$pkgrel"
 }
 
 gitweb() {
@@ -355,7 +340,5 @@ _perl_config() {
 
 sha512sums="
 e62ca6f54f01d2e4ccffb5f94e8e5cd2f3e098b766d909c694a8daf4d00d5cdeb9cc5ff8e9bc55d888406f292ba99433d334d4da9689c0ce5d7299a3c67c90e0  git-2.38.1.tar.xz
-89528cdd14c51fd568aa61cf6c5eae08ea0844e59f9af9292da5fc6c268261f4166017d002d494400945e248df6b844e2f9f9cd2d9345d516983f5a110e4c42a  git-daemon.initd
-fbf1f425206a76e2a8f82342537ed939ff7e623d644c086ca2ced5f69b36734695f9f80ebda1728f75a94d6cd2fcb71bf845b64239368caab418e4d368c141ec  git-daemon.confd
 be5d568fc5b8b84c9afb97b31e471e41f32ccfe188eba0588ea0ef98b2d96c2ce4b2c1a3d70e88205aa4f6667f850b3f32c13bbb149ecddbf670344c162a4e25  fix-t4219-with-sticky-bit.patch
 "
