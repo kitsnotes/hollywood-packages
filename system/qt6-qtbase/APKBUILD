@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtbase
 pkgver=6.5.2
-pkgrel=4
+pkgrel=5
 pkgdesc="A cross-platform application and UI framework"
 url="https://qt.io/"
 arch="all"
@@ -14,6 +14,7 @@ _sub="
 depends_dev="$_sub
 	egl-wayland
 	cups-dev
+	clang
 	dbus-dev
 	double-conversion-dev
 	systemd-dev
@@ -68,6 +69,7 @@ source="https://download.qt.io/$_rel/qt/${pkgver%.*}/${pkgver/_/-}/submodules/qt
 [ "$CARCH" = "x86_64" ] && _opengl2="-DQT_FEATURE_eglfs_egldevice=on \\ -DQT_FEATURE_eglfs_gbm=on\\"
 
 build() {
+	CC=clang CXX=clang++ \
 	cmake -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 		-DCMAKE_INSTALL_PREFIX=/usr \
