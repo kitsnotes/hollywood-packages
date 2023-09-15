@@ -8,7 +8,7 @@ arch="all"
 license="GPL-2.0-or-later"
 subpackages="$pkgname-doc"
 depends="hwids-usb"
-makedepends="libusb-dev eudev-dev autoconf automake bash libtool linux-headers"
+makedepends="libusb-dev systemd-dev autoconf automake bash libtool linux-headers"
 source="https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-$pkgver.tar.xz
 	hwdata.patch
 	"
