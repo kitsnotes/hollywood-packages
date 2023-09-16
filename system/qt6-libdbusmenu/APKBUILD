@@ -1,0 +1,44 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=qt6-libdbusmenu
+pkgver=0.9.3.16.04.20160218
+pkgrel=1
+pkgdesc="library to export QMenu over DBusMenu protocol"
+url="https://launchpad.net/libdbusmenu-qt"
+arch="all"
+license="LGPL-2.1-or-later"
+options="!check"  # requires as-of-yet unpkg'd qjson, may require dbus?
+depends_dev="qt6-qtbase-dev"
+makedepends="$depends_dev cmake doxygen samurai"
+subpackages="$pkgname-dev $pkgname-doc"
+source="http://archive.ubuntu.com/ubuntu/pool/main/libd/libdbusmenu-qt/libdbusmenu-qt_0.9.3+16.04.20160218.orig.tar.gz
+	qt6-changes.patch
+	libdbusmenu-qt6-cmake.patch
+	dbusmenu-xml.patch
+"
+
+builddir="$srcdir"/"libdbusmenu-qt-0.9.3+16.04.20160218"
+
+prepare() {
+	sed -e '/tests/d' -i $builddir/CMakeLists.txt # Build fails with Qt6
+	default_prepare
+}
+
+build() {
+	cmake -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+	    -DCMAKE_INSTALL_LIBDIR=lib \
+	    -DCMAKE_BUILD_TYPE=None \
+	    -DUSE_QT6=ON
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+dfaba59cedd320e6a3b5a9c0a5e13fb9e0952224e39cdd6ee3b32b03d95ac850a533e2a73835a7c0ead93b2283b9c235472bacb84e3d761ebe9e9398345314a9  libdbusmenu-qt_0.9.3+16.04.20160218.orig.tar.gz
+78262897e6ba8cbf2abd82db540c1b9c22572c343c44a7d512079d0d3d14562bc590fde447ebc46b8c513622c3f17fb8d3fcad25a85e19fff3025fde5fc4a1ed  qt6-changes.patch
+002e9e7bec61c8b403d82ff20cedcbc56d166df589cc749374ba03717d3455841dc719794cbac81d8baac2b5dab94bfd35cb7ef7d79ef86bf356830850e617c7  libdbusmenu-qt6-cmake.patch
+79e56308f927d2b467b033b0166eee04825895f31bcef73ec28103996e58016ff36320767647a52a8d80e469fa7640b88cade951a55bc17ae4b380515324303d  dbusmenu-xml.patch
+"
