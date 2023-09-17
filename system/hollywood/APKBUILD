@@ -1,13 +1,14 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0
-pkgrel=58
+pkgrel=59
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
 options="!check" # no test suite
 license="GPL2"
 makedepends="qt6-qtwayland-dev 
+	qt6-qttools-dev
 	qt6-qtmultimedia-dev
 	qt5-qtbase-dev
 	qt5-qtmultimedia-dev
@@ -44,6 +45,9 @@ makedepends="qt6-qtwayland-dev
 	btrfs-progs-libs
 	libcap-dev
 	libxkbfile-dev
+	py3-sphinx
+	py3-sphinxcontrib-qthelp
+	qt6-libdbusmenu-dev
 "
 
 source="https://depot.originull.org/upstream/hollywood-desktop-$pkgver.tar.gz
@@ -60,6 +64,7 @@ build() {
 	/usr/lib/qt6/bin/qmake QMAKE_CXXFLAGS+="-DHW_BUILD_VER=$buildver" ../
 	make
 
+	# Build supporting qt5 libraries
 	mkdir $builddir/desktop/build-qt5-libs || true
 	cd $builddir/desktop/build-qt5-libs
 	/usr/lib/qt5/bin/qmake ../
@@ -82,6 +87,25 @@ build() {
 		${CMAKE_CROSSOPTS} \
 		-Bbuild
 	make -C build
+
+	# build our help files
+	cd $builddir/help
+	make qthelp
+	# build compiled help (.qch)
+	/usr/lib/qt6/libexec/qhelpgenerator $builddir/help/build/qthelp/org.originull.hollywood.qhcp
+	# build our qt help collection (.qhc)
+	cat <<EOF > $builddir/help/build/qthelp/collection.qhcp
+<?xml version="1.0" encoding="utf-8" ?>
+<QHelpCollectionProject version="1.0">
+    <docFiles>
+        <register>
+            <file>org.originull.hollywood.qch</file>
+        </register>
+    </docFiles>
+</QHelpCollectionProject>
+EOF
+	 /usr/lib/qt6/libexec/qhelpgenerator $builddir/help/build/qthelp/collection.qhcp
+
 }
 
 check() {
@@ -210,6 +234,9 @@ desktop() {
 	mv "$pkgdir"/usr/share/polkit-1/actions/org.originull.sysmon.policy "$subpkgdir"/usr/share/polkit-1/actions	
 
 	ln -s /usr/libexec/hollywood/session "$subpkgdir"/usr/bin/hollywood
+
+	install -D -m644 "$builddir"/help/build/qthelp/collection.qhc "$subpkgdir"/usr/share/qhelp/org.originull.hollywood.qhc
+	install -D -m644 "$builddir"/help/build/qthelp/org.originull.hollywood.qch "$subpkgdir"/usr/share/qhelp/org.originull.hollywood.qch
 }
 
 baselibs() {
@@ -330,7 +357,7 @@ image() {
 }
 
 sha512sums="
-ab8febc024e9d3654169b84b082061e2b115903ce2d1890109b6a3643656b136c13d333ae07d3ad7e5fa3da648fbfd71da5bc2eb96bfd8888e17ca0ece1dffa5  hollywood-desktop-1.0.tar.gz
+3534e1f7c5384b0a18ce552de0bed48ebbf4e36aace8ce4a3d8ab98bd8b8b0ce10d03b0fd180aad79d766f090f4771db8e0f6cd50d024710c8b5b535e1939daf  hollywood-desktop-1.0.tar.gz
 472516ee32d38e9307f916f7eea03a225ccd7fd2658a04b55fc9495374021898314cf95a912966fe84d13e887ef6dd300177e859099b98e18d30863ad6a19855  hollywood.conf
 1db0ca5dbaffb35f230811741f18e11fd03c3b516728ee99ca82b6ef846b7929b16301c804cb1f184ba5aa1c629df3e855ae5ec6cb5abdc55e5d3b38d9736be8  fontconfig.conf
 "
