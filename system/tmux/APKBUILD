@@ -1,7 +1,6 @@
-# Contributor: Natanael Copa <ncopa@alpinelinux.org>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=tmux
-pkgver=3.2a
+pkgver=3.3a
 pkgrel=0
 pkgdesc="Tool to control multiple terminals from a single terminal"
 url="https://tmux.github.io"
@@ -42,5 +41,5 @@ package() {
 }
 
 sha512sums="
-6e52c7f5d03b2c8b8c4c8caac092a166956ba97334b426f2823d74dc5849a1d31a80145924f641f69dd2c244809e9350d9bd7070897fa2e3e1f9f086f9b2f365  tmux-3.2a.tar.gz
+29a846df7d93601c42a22f84f606931dc65da1f70b67d351d0425f77ea3affe3e8218b2940d42cd3dadf3cd1aa95032daad3ecb14fbff0f69939d1beae0498c7  tmux-3.3a.tar.gz
 "
