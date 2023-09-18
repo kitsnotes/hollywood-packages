@@ -10,14 +10,14 @@ _pkgsnap="${pkgver##*_git}"
 [ "$CHOST" != "$CTARGET" ] && _target="-$CTARGET_ARCH" || _target=""
 
 pkgname="$pkgname$_target"
-pkgrel=2
+pkgrel=3
 pkgdesc="The GNU Compiler Collection"
 url="https://gcc.gnu.org"
 arch="all"
 license="GPL-2.0-or-later AND LGPL-2.1-or-later"
 _gccrel=$pkgver-r$pkgrel
 depends="binutils$_target"
-makedepends_build="gcc$_cross g++$_cross bison flex texinfo gawk zip gmp-dev mpfr-dev mpc1-dev zlib-dev"
+makedepends_build="clang bison flex texinfo gawk zip gmp-dev mpfr-dev mpc1-dev zlib-dev"
 makedepends_host="linux-headers gmp-dev mpfr-dev mpc1-dev isl-dev zlib-dev !gettext-dev libucontext-dev"
 subpackages=" "
 [ "$CHOST" = "$CTARGET" ] && subpackages="gcc-gdb gcc-doc$_target"
@@ -25,9 +25,9 @@ replaces="libstdc++ binutils"
 
 : "${LANG_CXX:=true}"
 : "${LANG_D:=false}"
-: "${LANG_OBJC:=true}"
-: "${LANG_GO:=true}"
-: "${LANG_FORTRAN:=true}"
+: "${LANG_OBJC:=false}"
+: "${LANG_GO:=false}"
+: "${LANG_FORTRAN:=false}"
 : "${LANG_ADA:=false}"
 : "${LANG_JIT:=true}"
 
@@ -335,9 +335,11 @@ build() {
 		$_hash_style_configure
 		"
 
+	export CXX=clang++ 
+	export CC=clang
 	mkdir -p "$_builddir"
 	cd "$_builddir"
-	"$_gccdir"/configure $gccconfiguration \
+	CXX=clang++ CC=clang "$_gccdir"/configure $gccconfiguration \
 		--with-pkgversion="$version"
 
 	msg "building gcc"
@@ -508,7 +510,7 @@ libcxx_dev() {
 
 gpp() {
 	pkgdesc="GNU C++ standard library and compiler"
-	depends="libstdc++=$_gccrel libstdc++-dev$_target=$_gccrel gcc$_target=$_gccrel libc-dev"
+	depends="libstdc++=$_gccrel libstdc++-dev$_target=$_gccrel gcc$_target=$_gccrel glibc-dev"
 	mkdir -p "$subpkgdir/$_gcclibexec" \
 		"$subpkgdir"/usr/bin \
 		"$subpkgdir"/usr/${_target:+$CTARGET/}include \
@@ -542,7 +544,7 @@ libobjc() {
 objc() {
 	pkgdesc="GNU Objective-C"
 	replaces="gcc"
-	depends="libc-dev gcc=$_gccrel libobjc=$_gccrel"
+	depends="glibc-dev gcc=$_gccrel libobjc=$_gccrel"
 
 	mkdir -p "$subpkgdir/$_gcclibexec" \
 		"$subpkgdir"/$_gcclibdir/include \
