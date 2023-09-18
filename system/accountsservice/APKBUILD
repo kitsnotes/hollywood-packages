@@ -1,6 +1,6 @@
 pkgname=accountsservice
 pkgver=22.08.8
-pkgrel=1
+pkgrel=2
 pkgdesc="D-Bus interface for user account query and manipulation"
 url="https://www.freedesktop.org/software/accountsservice/"
 arch="all"
@@ -8,7 +8,7 @@ license="GPL-3.0-or-later"
 depends_dev="gobject-introspection-dev"
 makedepends="
 	$depends_dev
-	elogind-dev
+	systemd-dev
 	glib-dev
 	intltool
 	meson
