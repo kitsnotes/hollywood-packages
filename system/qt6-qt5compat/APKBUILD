@@ -1,7 +1,7 @@
 # Maintainer: Originull Softawre <packages@originull.org>
 pkgname=qt6-qt5compat
 pkgver=6.5.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Module that contains unsupported Qt 5 APIs"
 url="https://qt.io/"
 arch="all"
@@ -11,6 +11,7 @@ license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1
 depends="icu-data-full"
 depends_dev="
 	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
 	"
 makedepends="$depends_dev
 	cmake
