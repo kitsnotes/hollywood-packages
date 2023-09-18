@@ -205,7 +205,6 @@ makedepends="$makedepends_build $makedepends_host"
 source="https://dev.alpinelinux.org/archive/gcc/${_pkgbase%%.*}-$_pkgsnap/gcc-${_pkgbase%%.*}-$_pkgsnap.tar.xz
 	0001-posix_memalign.patch
 	0002-gcc-poison-system-directories.patch
-	0003-specs-turn-on-Wl-z-now-by-default.patch
 	0005-On-linux-targets-pass-as-needed-by-default-to-the-li.patch
 	0006-Enable-Wformat-and-Wformat-security-by-default.patch
 	0007-Enable-Wtrampolines-by-default.patch
@@ -224,8 +223,6 @@ source="https://dev.alpinelinux.org/archive/gcc/${_pkgbase%%.*}-$_pkgsnap/gcc-${
 	0028-configure-fix-detection-of-atomic-builtins-in-libato.patch
 	0029-libstdc-do-not-throw-exceptions-for-non-C-locales-on.patch
 	0030-gdc-unconditionally-link-libgphobos-against-libucont.patch
-	0031-druntime-link-against-libucontext-on-all-platforms.patch
-	0033-libphobos-do-not-use-LFS64-symbols.patch
 	0034-libgo-fix-lfs64-use.patch
 	"
 
@@ -255,9 +252,10 @@ prepare() {
 		return 1
 	fi
 
+sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
+
 	sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
-	sed -e '/m32=/s/m32=.*/m32=..\/lib32$/' \
-	echo ${_pkgbase:-$pkgver} > gcc/BASE-VER
+#	sed -e '/m32=/s/m32=.*/m32=..\/lib32$/' echo ${_pkgbase:-$pkgver} > gcc/BASE-VER
 }
 
 build() {
@@ -725,7 +723,6 @@ sha512sums="
 284719308cad4546ebd85934fb9f12112e8f1a4c3e5beea0760da1f73509907c194e7c133e6e755b6148bd1c51a72c071ac0d16b05641d901af7105461686655  gcc-13-20230722.tar.xz
 1ecffba1b07d60e1b4422302b032bbea918b674c8e12b30aa6965b544d700ce86b61e9f7b8d402c6caf59257f491a394dd0912f0948565d6eae9335ee54f3b35  0001-posix_memalign.patch
 163f282455b6a4df33f011bcd8b0440566ba0ffaeeab30d8ac52d39948980a56881ca0eff60687129d59556389a58b9d64e7768750bd70b1fe0fedbc9fc30dc2  0002-gcc-poison-system-directories.patch
-3f24bb6a50d3c45b71ea05590e32fe3e69b91377ab185352891d5035c76ed193117c6d0b314a4c364bcf136b9a9dd5c926d6c7c30ab436976c121ebfea8d3ddd  0003-specs-turn-on-Wl-z-now-by-default.patch
 444550e55491ff89fe8cbbb4b73d017c9c147cdce1ad5c0561fe7d6ab3834515a814c7676c408cfeec18e1aaace27b3c26a2ffe4a75042285df5124976c38672  0005-On-linux-targets-pass-as-needed-by-default-to-the-li.patch
 5a5f57e4e45745bb4d9d63d7d410fe9dd56ce12dbd70c376dd45015909307faf02391e75368e4e7404591614a874cee41b20652cf27be234765d6db97ceb4e7e  0006-Enable-Wformat-and-Wformat-security-by-default.patch
 3a2b22388398a93dae7787e794cd580b9c577326f286241e086120c1fcfdd9228c2e00407088ebb163fb1acc21722c199071343551c989a958dc3c845b15132d  0007-Enable-Wtrampolines-by-default.patch
@@ -744,7 +741,5 @@ ab88a2f63e3545bbc36537aa9a86f2c6c35e41bbf702d6e13743a405cdac4f901eed5737189b780d
 720a4001f9a1fa4122e456077ecff8d3eb8af7c83d0a81f9da6a6cca05b23664206a82a349e34482c48bfe40e99aa5f21567613d0913f6a24f282bc84a994496  0028-configure-fix-detection-of-atomic-builtins-in-libato.patch
 2044c23b23726965c0a6fd39f616cc464badd650947cb40495eeabd906a3af629878c1d28b403b8eb46b30a1a0ba39083023290d62f0c99ccf070063226e3f8f  0029-libstdc-do-not-throw-exceptions-for-non-C-locales-on.patch
 58e8415612e1042329ad114471852c19f6bf15bf3bfd7cd81ceeafa75778bcc28410a01071a7c8cbf12b8f549acd85723215772813deedb8f266e28b9e01a353  0030-gdc-unconditionally-link-libgphobos-against-libucont.patch
-d47b559075f40d526235f47b91da1d0cf6bfe6c5b7311bbfe08af9dd6e8f27e6c7cd82e3b2d529aab0536246fc56e2d42c089b22cacb0e7f09ca4a9d07556994  0031-druntime-link-against-libucontext-on-all-platforms.patch
-c474f34e6f9a4239d486a65141a133dbe8ce91427d502a57a9fd6eb403478a2b5715ba74f24c1cc0761e16eec77ba2c1ca921fb7d7bc1e040fc3703fc9559e75  0033-libphobos-do-not-use-LFS64-symbols.patch
 c4482ffc36e7894b2140800159f4cbc9a3e9011e43a69b69f4fa92d5a11e2ee645c7e21df4423dd1e0636e8890849a5719647bfbdf84f951d638f8f488cb718c  0034-libgo-fix-lfs64-use.patch
 "
