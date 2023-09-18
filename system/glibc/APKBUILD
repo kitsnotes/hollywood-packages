@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=glibc
 pkgver=2.38
-pkgrel=1
+pkgrel=2
 pkgdesc="The GNU C Library (libc implementation)"
 url="https://www.gnu.org/software/libc"
 arch="all"
@@ -32,17 +32,16 @@ build() {
 	cd "$builddir"
 	mkdir -p glibc-build lib32-glibc-build
 
-	local _configureflags=--prefix=/usr \
-	--with-headers=/usr/include \
-	--with-bugurl=https://originull.org/hollywood/bugs \
-	--enable-kernel=3.2 \
-	--enable-stack-protector=strong \
-	--disable-systemtap \
-	--enable-multi-arch \
-	--disable-profile \
-	--disable-crypt \
-	--disable-werror \
-        libc_cv_slibdir=/usr/lib
+	local _configureflags=(--prefix=/usr 
+	--with-headers=/usr/include 
+	--with-bugurl=https://originull.org/hollywood/bugs 
+	--enable-kernel=3.2 
+	--enable-stack-protector=strong 
+	--disable-systemtap 
+	--disable-profile 
+	--disable-crypt 
+	--disable-werror
+        libc_cv_slibdir=/usr/lib)
 
 	cd "$builddir/glibc-build"
 
@@ -55,6 +54,8 @@ build() {
 	--build=$CBUILD \
 	--host=$CHOST \
 	--target=$CTARGET \
+	--libdir=/usr/lib \
+	--libexecdir=/usr/lib \
 	$_configureflags
 
 	make
