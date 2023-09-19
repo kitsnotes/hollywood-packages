@@ -18,7 +18,7 @@ license="GPL-2.0-or-later AND LGPL-2.1-or-later"
 _gccrel=$pkgver-r$pkgrel
 depends="binutils$_target"
 _makedepends_build="clang bison flex texinfo gawk zip gmp-dev mpfr-dev mpc1-dev zlib-dev glibc-dev flex"
-makedepends_host="linux-headers gmp-dev mpfr-dev mpc1-dev isl-dev zlib-dev !gettext-dev libucontext-dev"
+makedepends_host="linux-headers gmp-dev mpfr-dev mpc1-dev isl-dev zlib-dev !gettext-dev libucontext-dev flex glibc-dev"
 subpackages=" "
 [ "$CHOST" = "$CTARGET" ] && subpackages="gcc-gdb gcc-doc$_target"
 [ "$CTARGET" = "x86_64" ] && makedepends_build="$_makedepends_build lib32-glibc"
