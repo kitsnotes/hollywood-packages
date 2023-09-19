@@ -1,4 +1,4 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=alsa-lib
 pkgver=1.2.6.1
 pkgrel=0
@@ -6,7 +6,14 @@ pkgdesc="Advanced Linux Sound Architecture (ALSA) library"
 url="https://alsa-project.org/"
 arch="all"
 license="LGPL-2.1-or-later"
-subpackages="$pkgname-dbg $pkgname-dev"
+_subpackages="$pkgname-dbg $pkgname-dev"
+
+if [ "$CARCH" = "x86_64" ]; then
+        subpackages="$_subpackages lib32-$pkgname:lib32"
+else
+        subpackages="$_subpackages"
+fi
+
 makedepends="linux-headers"
 source="https://alsa-project.org/files/pub/lib/alsa-lib-$pkgver.tar.bz2
 	remove-test.patch
@@ -14,10 +21,13 @@ source="https://alsa-project.org/files/pub/lib/alsa-lib-$pkgver.tar.bz2
 	"
 
 build() {
-	./configure \
+	mkdir "$builddir"/build64
+	cd "$builddir"/build64
+	../configure \
 		--build=$CBUILD \
 		--host=$CHOST \
 		--prefix=/usr \
+		--libdir=/usr/lib \
 		--disable-python \
 		--disable-static \
 		--disable-resmgr \
@@ -27,14 +37,45 @@ build() {
 		--disable-dependency-tracking \
 		--without-versioned
 	make
+
+	# Build 32 bit library
+	if [ "$CARCH" = "x86_64" ]; then
+		export CC='gcc -m32'
+		export PKG_CONFIG=i686-pc-linux-gnu-pkg-config
+
+	        mkdir "$builddir"/build32
+	        cd "$builddir"/build32
+	        ../configure \
+	                --build=$CBUILD \
+	                --host=$CHOST \
+	                --prefix=/usr \
+	                --libdir=/usr/lib32 \
+	                --disable-python \
+	                --disable-static \
+	                --disable-resmgr \
+	                --enable-rawmidi \
+	                --enable-seq \
+	                --enable-aload \
+	                --disable-dependency-tracking \
+	                --without-versioned
+	fi
 }
 
 check() {
+	cd "$builddir"/build64
+	make check
+	cd "$builddir"/build32
 	make check
 }
 
 package() {
+	cd "$builddir"/build64
 	make -j1 DESTDIR="$pkgdir" install
+}
+
+lib32() {
+	cd "$builddir"/build32
+	make -j1 DESTDIR="$subpkgdir" install
 }
 
 sha512sums="
