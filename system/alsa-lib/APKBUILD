@@ -64,8 +64,10 @@ build() {
 check() {
 	cd "$builddir"/build64
 	make check
+if [ "$CARCH" = "x86_64" ]; then
 	cd "$builddir"/build32
 	make check
+fi
 }
 
 package() {
