@@ -1,7 +1,6 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtpositioning
-pkgver=6.3.1
+pkgver=6.5.2
 pkgrel=0
 pkgdesc="Provides access to position, satellite and area monitoring classes"
 url="https://qt.io/"
@@ -54,5 +53,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-32cea980147487e5ea6dbd25347b3b37f74fd9d8180d7b463f784eb3877361862e38bfa310e36d83dd9c9eed91b4415812ec9ee7329c96818a32d99a17f76e5f  qtpositioning-everywhere-src-6.3.1.tar.xz
+8319e999de227d6ee999a4e7f84e3a12e2a8b070375fd7b86cef7a7962cce1d4d45f17a846df779561e1cedde80a80240bd2a03259c8a2ed5ebda6e209bdd991  qtpositioning-everywhere-src-6.5.2.tar.xz
 "
