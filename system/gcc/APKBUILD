@@ -17,17 +17,19 @@ arch="all"
 license="GPL-2.0-or-later AND LGPL-2.1-or-later"
 _gccrel=$pkgver-r$pkgrel
 depends="binutils$_target"
-makedepends_build="gcc$_cross g++$_cross bison flex texinfo gawk zip gmp-dev mpfr-dev mpc1-dev zlib-dev"
+_makedepends_build="clang bison flex texinfo gawk zip gmp-dev mpfr-dev mpc1-dev zlib-dev glibc-dev"
 makedepends_host="linux-headers gmp-dev mpfr-dev mpc1-dev isl-dev zlib-dev !gettext-dev libucontext-dev"
 subpackages=" "
 [ "$CHOST" = "$CTARGET" ] && subpackages="gcc-gdb gcc-doc$_target"
+[ "$CTARGET" = "x86_64" ] && makedepends_build="$_makedepends_build lib32-glibc"
+[ "$CTARGET" = "aarch64" ] && makedepends_build="$_makedepends_build"
 replaces="libstdc++ binutils"
 
 : "${LANG_CXX:=true}"
 : "${LANG_D:=false}"
-: "${LANG_OBJC:=true}"
-: "${LANG_GO:=true}"
-: "${LANG_FORTRAN:=true}"
+: "${LANG_OBJC:=false}"
+: "${LANG_GO:=false}"
+: "${LANG_FORTRAN:=false}"
 : "${LANG_ADA:=false}"
 : "${LANG_JIT:=true}"
 
@@ -254,7 +256,10 @@ prepare() {
 
 sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
 
-	sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
+sed -e '/m64=/s/lib64/lib/' \
+    -e '/m32=/s/m32=.*/m32=..\/lib32$(call if_multiarch,:i386-linux-gnu)/' \
+    -i.orig gcc/config/i386/t-linux64
+
 #	sed -e '/m32=/s/m32=.*/m32=..\/lib32$/' echo ${_pkgbase:-$pkgver} > gcc/BASE-VER
 }
 
@@ -270,7 +275,7 @@ build() {
 
 	case "$CTARGET" in
 	aarch64-*-*-*)		_arch_configure="--with-arch=armv8-a --with-abi=lp64 --disable-multilib";;
-	x86_64-*-*-*)		_arch_configure="--enable-multilib"
+	x86_64-*-*-*)		_arch_configure="--enable-multilib --with-multilib-list=m64,m32"
 	esac
 
 	case "$CTARGET_ARCH" in
@@ -337,11 +342,13 @@ build() {
 
 	mkdir -p "$_builddir"
 	cd "$_builddir"
-	"$_gccdir"/configure $gccconfiguration \
+	export CXX=clang++ 
+	export CC=clang
+	CXX=clang++ CC=clang "$_gccdir"/configure $gccconfiguration \
 		--with-pkgversion="$version"
 
 	msg "building gcc"
-	make
+	CXX=clang++ CC=clang make
 
 	# we build gccjit separate to not build all of gcc with --enable-host-shared
 	# as doing so slows it down a few %, so for some quick if's here we gain

@@ -15,7 +15,7 @@ _subpackages="
 	"
 
 if [ "$CARCH" = "x86_64" ]; then
-	subpackages="$_subpackages lib32-$pkgname"
+	subpackages="$_subpackages lib32-$pkgname:lib32"
 else
 	subpackages="$_subpackages"
 fi
@@ -111,7 +111,7 @@ package() {
 
 }
 
-lib32_glibc() {
+lib32() {
 	cd "$builddir/lib32-glibc-build"
 
         make DESTDIR="$subpkgdir" install
