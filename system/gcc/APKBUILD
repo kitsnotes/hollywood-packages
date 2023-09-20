@@ -117,31 +117,6 @@ else
 	export BOOT_LDFLAGS="$LDFLAGS"
 fi
 
-case "$CARCH" in
-# GDC hasn't been ported to PowerPC
-# See libphobos/configure.tgt in GCC sources for supported targets
-# riscv fails with: error: static assert  "unimplemented"
-ppc64le|riscv64)	LANG_D=false ;;
-# GDC does currently not work on 32-bit musl architectures.
-# This is a known upstream issue.
-# See: https://github.com/dlang/druntime/pull/3383
-armhf|armv7|x86)	LANG_D=false ;;
-esac
-
-# libitm has TEXTRELs in ARM build, so disable for now
-case "$CTARGET_ARCH" in
-arm*)		_libitm=false ;;
-mips*)		_libitm=false ;;
-riscv64)	_libitm=false ;;
-esac
-
-# Internal libffi fails to build on MIPS at the moment, need to
-# investigate further.  We disable LANG_GO on mips64 as it requires
-# the internal libffi.
-case "$CTARGET_ARCH" in
-mips*)		LANG_GO=false ;;
-esac
-
 # Fortran uses libquadmath if toolchain has __float128
 # currently on x86, x86_64 and ia64
 _libquadmath=$LANG_FORTRAN
@@ -152,11 +127,23 @@ esac
 
 # libatomic is a dependency for openvswitch
 $_libatomic && subpackages="$subpackages libatomic::$CTARGET_ARCH"
+if [ "$CTARGET_ARCH" = "x86_64" ]; then
+	$_libatomic && subpackages="$subpackages lib32-libatomic:libatomic32"
+fi
 $_libgcc && subpackages="$subpackages libgcc::$CTARGET_ARCH"
+if [ "$CTARGET_ARCH" = "x86_64" ]; then
+	$_libgcc && subpackages="$subpackages lib32-libgcc:libgcc32"
+fi
 $_libquadmath && subpackages="$subpackages libquadmath::$CTARGET_ARCH"
+if [ "$CTARGET_ARCH" = "x86_64" ]; then
+	$_libquadmath && subpackages="$subpackages lib32-libquadmath:libquadmath32"
+fi
 if $_libgomp; then
 	depends="$depends libgomp=$_gccrel"
 	subpackages="$subpackages libgomp::$CTARGET_ARCH"
+	if [ "$CTARGET_ARCH" = "x86_64" ]; then
+		subpackages="$subpackages lib32-libgomp:libgomp32"
+	fi
 fi
 
 case "$CARCH" in
@@ -167,6 +154,9 @@ esac
 _languages=c
 if $LANG_CXX; then
 	subpackages="$subpackages libstdc++:libcxx:$CTARGET_ARCH libstdc++-dev$_target:libcxx_dev g++$_target:gpp"
+	if [ "$CTARGET_ARCH" = "x86_64" ]; then
+		subpackages="$subpackages lib32-libstdc++:libcxx32"
+	fi
 	_languages="$_languages,c++"
 fi
 if $LANG_D; then
@@ -176,11 +166,17 @@ if $LANG_D; then
 fi
 if $LANG_OBJC; then
 	subpackages="$subpackages libobjc::$CTARGET_ARCH gcc-objc$_target:objc"
+	if [ "$CTARGET_ARCH" = "x86_64" ]; then
+		subpackages="$subpackages lib32-libobjc:libobjc32"
+        fi
 	_languages="$_languages,objc"
 fi
 if $LANG_GO; then
 	subpackages="$subpackages libgo::$CTARGET_ARCH gcc-go$_target:go"
 	_languages="$_languages,go"
+	if [ "$CTARGET_ARCH" = "x86_64" ]; then
+		subpackages="$subpackages lib32-libgo:libgo32"
+        fi
 fi
 if $LANG_FORTRAN; then
 	subpackages="$subpackages libgfortran::$CTARGET_ARCH gfortran$_target:gfortran"
@@ -199,6 +195,9 @@ if $LANG_ADA; then
 fi
 if $LANG_JIT; then
 	subpackages="$subpackages libgccjit:jit libgccjit-dev:jitdev"
+#	if [ "$CTARGET_ARCH" = "x86_64" ]; then
+#		subpackages="$subpackages lib32-libgccjit:jit32"
+#        fi
 fi
 makedepends="$makedepends_build $makedepends_host"
 
@@ -484,6 +483,15 @@ libatomic() {
 	mv "$pkgdir"/usr/${_target:+$CTARGET/}lib/libatomic.so.* "$subpkgdir"/usr/lib/
 }
 
+libatomic32() {
+        pkgdesc="GCC Atomic library (32-bit)"
+        depends=
+        replaces="gcc"
+
+        mkdir -p "$subpkgdir"/usr/lib32
+        mv "$pkgdir"/usr/${_target:+$CTARGET/}lib32/libatomic.so.* "$subpkgdir"/usr/lib32/
+}
+
 libcxx() {
 	pkgdesc="GNU C++ standard runtime library"
 	depends=
@@ -498,6 +506,14 @@ libcxx() {
 	mv "$pkgdir"/usr/${_target:+$CTARGET/}lib/libstdc++.so.* "$subpkgdir"/usr/lib/
 }
 
+libcxx32() {
+        pkgdesc="GNU C++ standard runtime library (32-bit)"
+        depends=
+
+        mkdir -p "$subpkgdir"/usr/lib32
+        mv "$pkgdir"/usr/${_target:+$CTARGET/}lib32/libstdc++.so.* "$subpkgdir"/usr/lib32/
+}
+
 libcxx_dev() {
 	pkgdesc="GNU C++ standard runtime library (development files)"
 	depends=
@@ -509,6 +525,12 @@ libcxx_dev() {
 		usr/${_target:+$CTARGET/}lib/libstdc++fs.a \
 		usr/${_target:+$CTARGET/}lib/libsupc++.a \
 		usr/${_target:+$CTARGET/}include/c++
+
+        amove usr/${_target:+$CTARGET/}lib32/libstdc++.a \
+                usr/${_target:+$CTARGET/}lib32/libstdc++exp.a \
+                usr/${_target:+$CTARGET/}lib32/libstdc++.so \
+                usr/${_target:+$CTARGET/}lib32/libstdc++fs.a \
+                usr/${_target:+$CTARGET/}lib32/libsupc++.a
 }
 
 gpp() {
@@ -530,6 +552,12 @@ jit() {
 	amove usr/lib/libgccjit.so*
 }
 
+jit32() {
+        pkgdesc="GCC JIT Library (32-bit)"
+        depends=
+        amove usr/lib32/libgccjit.so*
+}
+
 jitdev() {
 	pkgdesc="GCC JIT Library (development files)"
 	depends="libgccjit"
@@ -542,6 +570,14 @@ libobjc() {
 	depends=
 	mkdir -p "$subpkgdir"/usr/lib
 	mv "$pkgdir"/usr/${_target:+$CTARGET/}lib/libobjc.so.* "$subpkgdir"/usr/lib/
+}
+
+libobjc32() {
+        pkgdesc="GNU Objective-C runtime (32-bit)"
+        replaces="objc"
+        depends=
+        mkdir -p "$subpkgdir"/usr/lib32
+        mv "$pkgdir"/usr/${_target:+$CTARGET/}lib32/libobjc.so.* "$subpkgdir"/usr/lib32/
 }
 
 objc() {
@@ -575,6 +611,23 @@ libgomp() {
 	mv "$pkgdir"/usr/${_target:+$CTARGET/}lib/libgomp.so.* "$subpkgdir"/usr/lib/
 }
 
+libgcc32() {
+        pkgdesc="GNU C compiler runtime libraries (32-bit)"
+        depends=
+
+        mkdir -p "$subpkgdir"/usr/lib32
+        mv "$pkgdir"/usr/${_target:+$CTARGET/}lib32/libgcc_s.so.* "$subpkgdir"/usr/lib32/
+}
+
+libgomp32() {
+        pkgdesc="GCC shared-memory parallel programming API library (32-bit)"
+        depends=
+        replaces="gcc"
+
+        mkdir -p "$subpkgdir"/usr/lib32
+        mv "$pkgdir"/usr/${_target:+$CTARGET/}lib32/libgomp.so.* "$subpkgdir"/usr/lib32/
+}
+
 libgphobos() {
 	pkgdesc="D programming language standard library for GCC"
 	depends=
@@ -582,6 +635,15 @@ libgphobos() {
 	mkdir -p "$subpkgdir"/usr/lib
 	mv "$pkgdir"/usr/lib/libgdruntime.so.* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/libgphobos.so.*  "$subpkgdir"/usr/lib/
+}
+
+libgphobos32() {
+        pkgdesc="D programming language standard library for GCC (32-bit)"
+        depends=
+
+        mkdir -p "$subpkgdir"/usr/lib32
+        mv "$pkgdir"/usr/lib32/libgdruntime.so.* "$subpkgdir"/usr/lib32/
+        mv "$pkgdir"/usr/lib32/libgphobos.so.*  "$subpkgdir"/usr/lib32/
 }
 
 gdc() {
@@ -616,6 +678,14 @@ libgo() {
 	mv "$pkgdir"/usr/lib/libgo.so.* "$subpkgdir"/usr/lib/
 }
 
+libgo32() {
+        pkgdesc="Go runtime library for GCC (32-bit)"
+        depends=
+
+        mkdir -p "$subpkgdir"/usr/lib32
+        mv "$pkgdir"/usr/lib32/libgo.so.* "$subpkgdir"/usr/lib32/
+}
+
 go() {
 	pkgdesc="GCC Go frontend (intended for bootstrapping community/go)"
 	depends="gcc=$_gccrel libgo=$_gccrel !go"
@@ -627,8 +697,10 @@ go() {
 
 	mkdir -p "$subpkgdir"/$_gcclibexec \
 		"$subpkgdir"/usr/lib \
+		"$subpkgdir"/usr/lib32 \
 		"$subpkgdir"/usr/bin
 	mv "$pkgdir"/usr/lib/go "$subpkgdir"/usr/lib/
+	mv "$pkgdir"/usr/lib32/go "$subpkgdir"/usr/lib32/
 	mv "$pkgdir"/usr/bin/*gccgo "$subpkgdir"/usr/bin/
 	mv "$pkgdir"/usr/bin/*go "$subpkgdir"/usr/bin
 	mv "$pkgdir"/usr/bin/*gofmt "$subpkgdir"/usr/bin
@@ -642,7 +714,13 @@ go() {
 		"$pkgdir"/usr/lib/libgobegin.a \
 		"$pkgdir"/usr/lib/libgolibbegin.a \
 		"$subpkgdir"/usr/lib/
+        mv "$pkgdir"/usr/lib32/libgo.a \
+                "$pkgdir"/usr/lib32/libgo.so \
+                "$pkgdir"/usr/lib32/libgobegin.a \
+                "$pkgdir"/usr/lib32/libgolibbegin.a \
+                "$subpkgdir"/usr/lib32/
 }
+
 
 libgfortran() {
 	pkgdesc="Fortran runtime library for GCC"
@@ -659,6 +737,23 @@ libquadmath() {
 
 	mkdir -p "$subpkgdir"/usr/lib
 	mv "$pkgdir"/usr/lib/libquadmath.so.* "$subpkgdir"/usr/lib/
+}
+
+libgfortran32() {
+        pkgdesc="Fortran runtime library for GCC"
+        depends=
+
+        mkdir -p "$subpkgdir"/usr/lib32
+        mv "$pkgdir"/usr/lib32/libgfortran.so.* "$subpkgdir"/usr/lib32/
+}
+
+libquadmath32() {
+        replaces="gcc"
+        pkgdesc="128-bit math library for GCC"
+        depends=
+
+        mkdir -p "$subpkgdir"/usr/lib32
+        mv "$pkgdir"/usr/lib32/libquadmath.so.* "$subpkgdir"/usr/lib32/
 }
 
 gfortran() {
@@ -691,6 +786,14 @@ libgnat() {
 
 	mkdir -p "$subpkgdir"/usr/lib
 	mv "$pkgdir"/usr/lib/libgna*.so "$subpkgdir"/usr/lib/
+}
+
+libgnat32() {
+        pkgdesc="GNU Ada runtime shared libraries"
+        depends=
+
+        mkdir -p "$subpkgdir"/usr/lib32
+        mv "$pkgdir"/usr/lib32/libgna*.so "$subpkgdir"/usr/lib32/
 }
 
 libgnatstatic() {

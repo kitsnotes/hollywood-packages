@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=glibc
 pkgver=2.38
-pkgrel=2
+pkgrel=3
 pkgdesc="The GNU C Library (libc implementation)"
 url="https://www.gnu.org/software/libc"
 arch="all"
@@ -112,6 +112,7 @@ package() {
 }
 
 lib32() {
+	pkgdesc="GNU C Library (32-bit)"
 	cd "$builddir/lib32-glibc-build"
 
         make DESTDIR="$subpkgdir" install

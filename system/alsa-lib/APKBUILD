@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=alsa-lib
 pkgver=1.2.6.1
-pkgrel=0
+pkgrel=2
 pkgdesc="Advanced Linux Sound Architecture (ALSA) library"
 url="https://alsa-project.org/"
 arch="all"
@@ -45,9 +45,7 @@ build() {
 
 	        mkdir "$builddir"/build32
 	        cd "$builddir"/build32
-	        ../configure \
-	                --build=$CBUILD \
-	                --host=$CHOST \
+		../configure \
 	                --prefix=/usr \
 	                --libdir=/usr/lib32 \
 	                --disable-python \
@@ -73,11 +71,27 @@ fi
 package() {
 	cd "$builddir"/build64
 	make -j1 DESTDIR="$pkgdir" install
+if [ "$CARCH" = "x86_64" ]; then
+        cd "$builddir"/build32
+        make -j1 DESTDIR="$pkgdir/build32" install
+        rm -rf "$pkgdir"/build32/usr/bin
+        rm -rf "$pkgdir"/build32/usr/include
+        rm -rf "$pkgdir"/build32/usr/share
+	mv "$pkgdir"/build32/usr/lib32 "$pkgdir"/usr/lib32
+	rmdir "$pkgdir"/build32/usr
+	rmdir "$pkgdir"/build32/
+fi
+}
+
+dev() {
+if [ "$CARCH" = "x86_64" ]; then
+	amove usr/lib32/pkgconfig/*
+fi
+	default_dev
 }
 
 lib32() {
-	cd "$builddir"/build32
-	make -j1 DESTDIR="$subpkgdir" install
+	amove usr/lib32/*
 }
 
 sha512sums="
