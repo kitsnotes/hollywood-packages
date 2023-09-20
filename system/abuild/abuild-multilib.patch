@@ -1,0 +1,143 @@
+diff -Naur abuild-3.11.21-orig/abuild.in abuild-3.11.21/abuild.in
+--- abuild-3.11.21-orig/abuild.in	2023-09-19 21:47:42.937393887 -0700
++++ abuild-3.11.21/abuild.in	2023-09-19 21:48:21.207516809 -0700
+@@ -1434,16 +1434,26 @@
+ find_so_files() {
+ 	local rpaths=$(cat "$1")
+ 	shift
+-	while [ $# -gt 0 ]; do
+-		real_so_path "$1" /usr/lib /lib $rpaths || return 1
+-		shift
+-	done
++        while [ $# -gt 0 ]; do
++                if [[ $subpkgname =~ ^lib32.* ]]; then
++			msg "realpath lib32"
++                        real_so_path "$1" /usr/lib32 /lib32 $rpaths || return 1
++                else
++                        real_so_path "$1" /usr/lib /lib $rpaths || return 1
++                fi
++                shift
++        done
+ 	return 0
+ }
+ 
+ subpkg_provides_prefixed_so() {
+-	[ -n "$sonameprefix" ] && grep -q -w "^$sonameprefix$1" \
+-		"$pkgbasedir"/.control.*/.provides-so 2>/dev/null
++	if [[ $subpkgname =~ ^lib32.* ]]; then
++		[ -n "$sonameprefix" ] && grep -q -w "^$sonameprefix$1" \
++			"$pkgbasedir"/.control.*/.provides-so 2>/dev/null
++	else
++		[ -n "$sonameprefix" ] && grep -q -w "^$sonameprefix$1" \
++                        "$pkgbasedir"/.control.*/.provides-so32 2>/dev/null
++	fi
+ }
+ 
+ subpkg_provides_so() {
+@@ -1487,6 +1497,7 @@
+ 		msg "  added libgcc (due to libpthread)"
+ 	fi
+ 
++	# 64-bit dependencies
+ 	[ -f "$dir"/.needs-so ] && for i in $(cat "$dir"/.needs-so); do
+ 		# first check if its provided by same apkbuild
+ 		grep -q -w "^$sonameprefix$i" "$dir"/.provides-so 2>/dev/null && continue
+@@ -1501,6 +1512,20 @@
+ 		fi
+ 	done
+ 
++	# 32-bit dependencies
++	[ -f "$dir"/.needs-so32 ] && for i in $(cat "$dir"/.needs-so32); do
++                # first check if its provided by same apkbuild
++                grep -q -w "^$sonameprefix$i" "$dir"/.provides-so32 2>/dev/null && continue
++
++                if subpkg_provides_prefixed_so "$i"; then
++                        autodeps="$autodeps so32:$sonameprefix$i"
++                elif subpkg_provides_so "$i" \
++                                || $APK $apkroot info --quiet --installed "so32:$i"; then
++                        autodeps="$autodeps so32:$i"
++                else
++                        missing="$missing $i"
++                fi
++        done
+ 	# find all packages that holds the so files
+ 	if [ -f "$dir"/.rpaths ]; then
+ 		local so_files=$(find_so_files "$dir"/.rpaths $missing) \
+@@ -1558,6 +1583,11 @@
+ 			"$dir"/.provides-so | sort -u \
+ 			>> "$dir"/.PKGINFO
+ 	fi
++        if [ -f "$dir"/.provides-so32 ]; then
++                sed 's/^\(.*\) \([0-9].*\)/provides = so32:\1=\2/' \
++                        "$dir"/.provides-so32 | sort -u \
++                        >> "$dir"/.PKGINFO
++        fi
+ 	if [ -f "$dir"/.provides-pc ]; then
+ 		sed 's/^/provides = pc:/' "$dir"/.provides-pc | sort -u \
+ 			>> "$dir"/.PKGINFO
+@@ -1582,6 +1612,9 @@
+ find_scanelf_paths() {
+ 	local datadir="$1"
+ 	local paths="$datadir/lib:$datadir/usr/lib" i= rpaths=
++	if [[ $subpkgname =~ ^lib32.* ]]; then
++		paths="$datadir/lib32:$datadir/usr/lib32"
++	fi
+ 	if [ -n "$ldpath" ]; then
+ 		paths="$paths:$(echo "${datadir}${ldpath}" | sed "s|:|:$datadir|g")"
+ 	fi
+@@ -1626,6 +1659,13 @@
+ 	fi
+ 	msg "Scanning shared objects"
+ 	# lets tell all the .so files this package provides in .provides-so
++	TMPLIBNAME=".provides-so"
++
++	if [[ $subpkgname =~ ^lib32.* ]]; then
++		msg "Scanning lib32 32-bit objects"
++		TMPLIBNAME=".provides-so32"
++	fi
++
+ 	scanelf --nobanner --soname $opt "$@" | while read etype soname file; do
+ 		# if soname field is missing, soname will be the filepath
+ 		sover=0
+@@ -1658,16 +1698,19 @@
+ 	# use awk to filter out dupes that has sover = 0
+ 	done | awk '{ if (so[$1] == 0) so[$1] = $2; }
+ 		END { for (i in so) print(i " " so[i]); }' \
+-		| sort -u > "$controldir"/.provides-so
++		| sort -u > "$controldir"/"$TMPLIBNAME"
+ 
++	cp "$controldir"/"$TMPLIBNAME" /tmp/outputtest-$subpkgname
+ 	# verify that we dont have any duplicates
+-	local dupes="$(cut -d' ' -f1 "$controldir"/.provides-so | uniq -d)"
++	local dupes="$(cut -d' ' -f1 "$controldir"/$TMPLIBNAME | uniq -d)"
+ 	if [ -n "$dupes" ]; then
+ 		die  "provides multiple versions of same shared object: $dupes"
+ 	fi
+ 
+-	# now find the so dependencies
+-	scanelf --nobanner --recursive --needed  --etype ET_DYN,ET_EXEC "$datadir"  | tr ' ' ':' \
++	# now find the so dependencies (64-bit)
++	touch "$controldir"/.provides-so
++	touch "$controldir"/.provides-so32
++	scanelf --nobanner --recursive --needed -M 64  --etype ET_DYN,ET_EXEC "$datadir"  | tr ' ' ':' \
+ 		| awk -F ":" '$2 != "" {print $2}'  \
+ 		| sed 's:,:\n:g' | sort -u \
+ 	| while read soname; do
+@@ -1676,6 +1719,17 @@
+ 			|| list_has "$soname" $somask \
+ 			|| echo $soname
+ 	done > "$controldir"/.needs-so
++
++	# Another scan for 32-bit dependencies
++	scanelf --nobanner --recursive --needed -M 32 --etype ET_DYN,ET_EXEC "$datadir"  | tr ' ' ':' \
++                | awk -F ":" '$2 != "" {print $2}'  \
++                | sed 's:,:\n:g' | sort -u \
++        | while read soname; do
++                # only add files that are not self provided
++                grep -q -w "^$sonameprefix$soname" "$controldir"/.provides-so32 \
++                        || list_has "$soname" $somask \
++                        || echo $soname
++        done > "$controldir"/.needs-so32
+ }
+ 
+ # normalize a symlink target path (1st arg)
