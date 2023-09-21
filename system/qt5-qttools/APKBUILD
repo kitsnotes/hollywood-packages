@@ -1,4 +1,4 @@
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qttools
 pkgver=5.15.5_git20220619
 pkgrel=0
@@ -10,7 +10,7 @@ license="(LGPL-2.0-or-later OR GPL-3.0-only OR GPL-2.0-or-later) AND Qt-GPL-exce
 # adding llvm-dev breaks the qdoc plugin, because it uses llvm-config to find
 # the wrong clang include directory.
 makedepends="
-	clang-dev>=12
+	clang-dev
 	qt5-qtbase-dev
 	qt5-qtdeclarative-dev
 	vulkan-headers
