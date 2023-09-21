@@ -1,8 +1,6 @@
-# Contributor: k0r10n <k0r10n.dev@gmail.com>
-# Contributor: Ivan Tham <pickfire@riseup.net>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=extra-cmake-modules
-pkgver=5.95.0
+pkgver=5.110.0
 pkgrel=0
 pkgdesc="Extra CMake modules"
 url="https://projects.kde.org/projects/kdesupport/extra-cmake-modules"
@@ -33,5 +31,5 @@ package() {
 }
 
 sha512sums="
-b99cda146c4dec0c21bd558d6435996aaacf3db819f96ca16a0344d8da8dd30bb3ff37aa03f2ac78c4e5da6b0874844fba2bebd24015a804ba985c93c924064e  extra-cmake-modules-5.95.0.tar.xz
+86473d1a238879a8582c3c29fa5e4ba463664dc2051fccbb44be4b74a9198224b06f4531a75298f2a00f4a4c89c4a72faa577ba7f62e5d4a711dd6165f3078fb  extra-cmake-modules-5.110.0.tar.xz
 "
