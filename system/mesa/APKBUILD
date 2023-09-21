@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=mesa
 pkgver=23.1.6
-pkgrel=2
+pkgrel=3
 pkgdesc="Mesa DRI OpenGL library"
 url="https://www.mesa3d.org"
 arch="all"
@@ -10,7 +10,7 @@ subpackages="
 	$pkgname-dbg
 	$pkgname-dev
 	"
-_llvmver=14
+_llvmver=16
 depends_dev="
 	libdrm-dev
 	libxext-dev
@@ -21,7 +21,7 @@ depends_dev="
 makedepends="
 	$depends_dev
 	bison
-	eudev-dev
+	systemd-dev
 	expat-dev
 	findutils
 	flex
