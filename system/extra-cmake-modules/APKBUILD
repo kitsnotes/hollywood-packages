@@ -1,15 +1,15 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=extra-cmake-modules
-pkgver=5.110.0
+pkgver=5.239.0
 pkgrel=0
 pkgdesc="Extra CMake modules"
 url="https://projects.kde.org/projects/kdesupport/extra-cmake-modules"
 arch="noarch"
 license="BSD-3-Clause"
 depends="cmake"
-makedepends="py3-sphinx samurai"
+makedepends="py3-sphinx samurai qt6-qtbase-dev qt5-qtbase-dev"
 checkdepends="qt5-qtbase-dev qt5-qtquickcontrols2-dev"
-source="https://download.kde.org/stable/frameworks/${pkgver%.*}/extra-cmake-modules-$pkgver.tar.xz"
+source="https://depot.originull.org/upstream/extra-cmake-modules-5.239.0.tar.gz"
 subpackages="$pkgname-doc"
 
 build() {
@@ -31,5 +31,5 @@ package() {
 }
 
 sha512sums="
-86473d1a238879a8582c3c29fa5e4ba463664dc2051fccbb44be4b74a9198224b06f4531a75298f2a00f4a4c89c4a72faa577ba7f62e5d4a711dd6165f3078fb  extra-cmake-modules-5.110.0.tar.xz
+d3ba3e2813e63bf6099fd975bee5e02d94ce96e2b8f161ecd753748b230ef4c58c7bece77ae6e93ee3cb8d55164490870f11edf1f24a0ddb82ce44b5160b4bec  extra-cmake-modules-5.239.0.tar.gz
 "
