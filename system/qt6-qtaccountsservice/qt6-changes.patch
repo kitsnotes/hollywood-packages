@@ -1,0 +1,254 @@
+diff -Naur qtaccountsservice-1.3.0-orig/CMakeLists.txt qtaccountsservice-1.3.0/CMakeLists.txt
+--- qtaccountsservice-1.3.0-orig/CMakeLists.txt	2023-09-24 10:41:09.510000000 -0700
++++ qtaccountsservice-1.3.0/CMakeLists.txt	2023-09-24 10:41:12.910000000 -0700
+@@ -13,7 +13,7 @@
+ endif()
+ 
+ ## Set minimum versions required:
+-set(QT_MIN_VERSION "5.8.0")
++set(QT_MIN_VERSION "6.5.0")
+ 
+ ## Liri specific setup common for all modules:
+ include(LiriSetup)
+@@ -23,7 +23,7 @@
+ add_feature_info("QtAccountsService Examples" QTACCOUNTSSERVICE_WITH_EXAMPLES "Build QtAccountsService examples")
+ 
+ ## Find Qt 5:
+-find_package(Qt5 "${QT_MIN_VERSION}"
++find_package(Qt6 "${QT_MIN_VERSION}"
+     CONFIG REQUIRED
+     COMPONENTS
+         Core
+diff -Naur qtaccountsservice-1.3.0-orig/examples/listusers/CMakeLists.txt qtaccountsservice-1.3.0/examples/listusers/CMakeLists.txt
+--- qtaccountsservice-1.3.0-orig/examples/listusers/CMakeLists.txt	2023-09-24 10:41:09.510000000 -0700
++++ qtaccountsservice-1.3.0/examples/listusers/CMakeLists.txt	2023-09-24 10:41:12.910000000 -0700
+@@ -2,7 +2,7 @@
+     SOURCES
+         main.cpp
+     LIBRARIES
+-        Qt5::Core
+-        Liri::Qt5AccountsService
++        Qt6::Core
++        Liri::Qt6AccountsService
+     NO_TARGET_INSTALLATION
+ )
+diff -Naur qtaccountsservice-1.3.0-orig/examples/listusers/main.cpp qtaccountsservice-1.3.0/examples/listusers/main.cpp
+--- qtaccountsservice-1.3.0-orig/examples/listusers/main.cpp	2023-09-24 10:41:09.510000000 -0700
++++ qtaccountsservice-1.3.0/examples/listusers/main.cpp	2023-09-24 10:41:12.910000000 -0700
+@@ -24,8 +24,8 @@
+ #include <QtCore/QCoreApplication>
+ #include <QtCore/QDebug>
+ 
+-#include <Qt5AccountsService/AccountsManager>
+-#include <Qt5AccountsService/UserAccount>
++#include <Qt6AccountsService/AccountsManager>
++#include <Qt6AccountsService/UserAccount>
+ 
+ using namespace QtAccountsService;
+ 
+diff -Naur qtaccountsservice-1.3.0-orig/examples/loggedinuser/CMakeLists.txt qtaccountsservice-1.3.0/examples/loggedinuser/CMakeLists.txt
+--- qtaccountsservice-1.3.0-orig/examples/loggedinuser/CMakeLists.txt	2023-09-24 10:41:09.510000000 -0700
++++ qtaccountsservice-1.3.0/examples/loggedinuser/CMakeLists.txt	2023-09-24 10:41:12.910000000 -0700
+@@ -5,8 +5,8 @@
+     RESOURCES
+         resources.qrc
+     LIBRARIES
+-        Qt5::Core
+-        Qt5::Gui
+-        Qt5::Qml
++        Qt6::Core
++        Qt6::Gui
++        Qt6::Qml
+     NO_TARGET_INSTALLATION
+ )
+diff -Naur qtaccountsservice-1.3.0-orig/examples/useraccount/CMakeLists.txt qtaccountsservice-1.3.0/examples/useraccount/CMakeLists.txt
+--- qtaccountsservice-1.3.0-orig/examples/useraccount/CMakeLists.txt	2023-09-24 10:41:09.510000000 -0700
++++ qtaccountsservice-1.3.0/examples/useraccount/CMakeLists.txt	2023-09-24 10:41:12.910000000 -0700
+@@ -5,8 +5,8 @@
+     RESOURCES
+         resources.qrc
+     LIBRARIES
+-        Qt5::Core
+-        Qt5::Gui
+-        Qt5::Qml
++        Qt6::Core
++        Qt6::Gui
++        Qt6::Qml
+     NO_TARGET_INSTALLATION
+ )
+diff -Naur qtaccountsservice-1.3.0-orig/examples/userslistview/CMakeLists.txt qtaccountsservice-1.3.0/examples/userslistview/CMakeLists.txt
+--- qtaccountsservice-1.3.0-orig/examples/userslistview/CMakeLists.txt	2023-09-24 10:41:09.510000000 -0700
++++ qtaccountsservice-1.3.0/examples/userslistview/CMakeLists.txt	2023-09-24 10:41:12.910000000 -0700
+@@ -5,8 +5,8 @@
+     RESOURCES
+         resources.qrc
+     LIBRARIES
+-        Qt5::Core
+-        Qt5::Gui
+-        Qt5::Qml
++        Qt6::Core
++        Qt6::Gui
++        Qt6::Qml
+     NO_TARGET_INSTALLATION
+ )
+diff -Naur qtaccountsservice-1.3.0-orig/src/accountsservice/CMakeLists.txt qtaccountsservice-1.3.0/src/accountsservice/CMakeLists.txt
+--- qtaccountsservice-1.3.0-orig/src/accountsservice/CMakeLists.txt	2023-09-24 10:41:09.510000000 -0700
++++ qtaccountsservice-1.3.0/src/accountsservice/CMakeLists.txt	2023-09-24 10:41:12.910000000 -0700
+@@ -1,10 +1,10 @@
+-liri_add_module(Qt5AccountsService
++liri_add_module(Qt6AccountsService
+     DESCRIPTION
+         "Qt style API for Accounts Service"
+     MODULE_NAME
+-        Qt5AccountsService
++        Qt6AccountsService
+     VERSIONED_MODULE_NAME
+-        Qt5AccountsService
++        Qt6AccountsService
+     SOURCES
+         accountsmanager.cpp
+         accountsmanager.h
+@@ -30,11 +30,11 @@
+         QT_NO_CAST_FROM_ASCII
+         QT_NO_FOREACH
+     PUBLIC_LIBRARIES
+-        Qt5::Core
+-        Qt5::DBus
+-        Qt5::Gui
++        Qt6::Core
++        Qt6::DBus
++        Qt6::Gui
+     PKGCONFIG_DEPENDENCIES
+-        Qt5Core
+-        Qt5DBus
+-        Qt5Gui
++        Qt6Core
++        Qt6DBus
++        Qt6Gui
+ )
+diff -Naur qtaccountsservice-1.3.0-orig/src/accountsservice/accountsmanager.h qtaccountsservice-1.3.0/src/accountsservice/accountsmanager.h
+--- qtaccountsservice-1.3.0-orig/src/accountsservice/accountsmanager.h	2023-09-24 10:41:09.520000000 -0700
++++ qtaccountsservice-1.3.0/src/accountsservice/accountsmanager.h	2023-09-24 10:41:36.280000000 -0700
+@@ -27,7 +27,7 @@
+ #include <QtCore/QObject>
+ #include <QtDBus/QDBusConnection>
+ 
+-#include <Qt5AccountsService/UserAccount>
++#include <Qt6AccountsService/UserAccount>
+ 
+ QT_FORWARD_DECLARE_CLASS(QDBusObjectPath)
+ 
+@@ -35,7 +35,7 @@
+ 
+ class AccountsManagerPrivate;
+ 
+-class QT5ACCOUNTSSERVICE_EXPORT AccountsManager : public QObject
++class QT6ACCOUNTSSERVICE_EXPORT AccountsManager : public QObject
+ {
+     Q_OBJECT
+ public:
+diff -Naur qtaccountsservice-1.3.0-orig/src/accountsservice/useraccount.h qtaccountsservice-1.3.0/src/accountsservice/useraccount.h
+--- qtaccountsservice-1.3.0-orig/src/accountsservice/useraccount.h	2023-09-24 10:41:09.520000000 -0700
++++ qtaccountsservice-1.3.0/src/accountsservice/useraccount.h	2023-09-24 10:41:46.010000000 -0700
+@@ -28,7 +28,7 @@
+ #include <QtCore/QString>
+ #include <QtDBus/QDBusConnection>
+ 
+-#include <Qt5AccountsService/qt5accountsserviceglobal.h>
++#include <Qt6AccountsService/qt6accountsserviceglobal.h>
+ 
+ namespace QtAccountsService {
+ 
+@@ -36,7 +36,7 @@
+ class AccountsManagerPrivate;
+ class UserAccountPrivate;
+ 
+-class QT5ACCOUNTSSERVICE_EXPORT UserAccount : public QObject
++class QT6ACCOUNTSSERVICE_EXPORT UserAccount : public QObject
+ {
+     Q_OBJECT
+     Q_PROPERTY(qlonglong userId READ userId WRITE setUserId NOTIFY userIdChanged)
+diff -Naur qtaccountsservice-1.3.0-orig/src/accountsservice/usersmodel.h qtaccountsservice-1.3.0/src/accountsservice/usersmodel.h
+--- qtaccountsservice-1.3.0-orig/src/accountsservice/usersmodel.h	2023-09-24 10:41:09.520000000 -0700
++++ qtaccountsservice-1.3.0/src/accountsservice/usersmodel.h	2023-09-24 10:41:58.360000000 -0700
+@@ -26,14 +26,14 @@
+ 
+ #include <QtCore/QAbstractListModel>
+ 
+-#include <Qt5AccountsService/qt5accountsserviceglobal.h>
++#include <Qt6AccountsService/qt6accountsserviceglobal.h>
+ 
+ namespace QtAccountsService {
+ 
+ class UserAccount;
+ class UsersModelPrivate;
+ 
+-class QT5ACCOUNTSSERVICE_EXPORT UsersModel : public QAbstractListModel
++class QT6ACCOUNTSSERVICE_EXPORT UsersModel : public QAbstractListModel
+ {
+     Q_OBJECT
+     Q_DECLARE_PRIVATE(UsersModel)
+diff -Naur qtaccountsservice-1.3.0-orig/src/accountsservice/usersmodel_p.h qtaccountsservice-1.3.0/src/accountsservice/usersmodel_p.h
+--- qtaccountsservice-1.3.0-orig/src/accountsservice/usersmodel_p.h	2023-09-24 10:41:09.520000000 -0700
++++ qtaccountsservice-1.3.0/src/accountsservice/usersmodel_p.h	2023-09-24 10:41:12.910000000 -0700
+@@ -24,8 +24,8 @@
+ #ifndef QTACCOUNTSSERVICE_USERSMODEL_P_H
+ #define QTACCOUNTSSERVICE_USERSMODEL_P_H
+ 
+-#include <Qt5AccountsService/AccountsManager>
+-#include <Qt5AccountsService/UserAccount>
++#include <Qt6AccountsService/AccountsManager>
++#include <Qt6AccountsService/UserAccount>
+ 
+ //
+ //  W A R N I N G
+diff -Naur qtaccountsservice-1.3.0-orig/src/imports/accountsservice/CMakeLists.txt qtaccountsservice-1.3.0/src/imports/accountsservice/CMakeLists.txt
+--- qtaccountsservice-1.3.0-orig/src/imports/accountsservice/CMakeLists.txt	2023-09-24 10:41:09.520000000 -0700
++++ qtaccountsservice-1.3.0/src/imports/accountsservice/CMakeLists.txt	2023-09-24 10:41:12.910000000 -0700
+@@ -11,5 +11,5 @@
+         QT_NO_CAST_FROM_ASCII
+         QT_NO_FOREACH
+     PUBLIC_LIBRARIES
+-        Liri::Qt5AccountsService
++        Liri::Qt6AccountsService
+ )
+diff -Naur qtaccountsservice-1.3.0-orig/src/imports/accountsservice/main.cpp qtaccountsservice-1.3.0/src/imports/accountsservice/main.cpp
+--- qtaccountsservice-1.3.0-orig/src/imports/accountsservice/main.cpp	2023-09-24 10:41:09.520000000 -0700
++++ qtaccountsservice-1.3.0/src/imports/accountsservice/main.cpp	2023-09-24 10:41:12.910000000 -0700
+@@ -26,9 +26,9 @@
+ #include <QtQml/qqmlengine.h>
+ #include <QtQml/qqmlcomponent.h>
+ 
+-#include <Qt5AccountsService/AccountsManager>
+-#include <Qt5AccountsService/UserAccount>
+-#include <Qt5AccountsService/UsersModel>
++#include <Qt6AccountsService/AccountsManager>
++#include <Qt6AccountsService/UserAccount>
++#include <Qt6AccountsService/UsersModel>
+ 
+ QT_BEGIN_NAMESPACE
+ 
+diff -Naur qtaccountsservice-1.3.0-orig/tests/auto/api/CMakeLists.txt qtaccountsservice-1.3.0/tests/auto/api/CMakeLists.txt
+--- qtaccountsservice-1.3.0-orig/tests/auto/api/CMakeLists.txt	2023-09-24 10:41:09.530000000 -0700
++++ qtaccountsservice-1.3.0/tests/auto/api/CMakeLists.txt	2023-09-24 10:41:12.910000000 -0700
+@@ -9,5 +9,5 @@
+         ../../../src/accountsservice/org.freedesktop.Accounts.xml
+         ../../../src/accountsservice/org.freedesktop.Accounts.User.xml
+     LIBRARIES
+-        Liri::Qt5AccountsService
++        Liri::Qt6AccountsService
+ )
+diff -Naur qtaccountsservice-1.3.0-orig/tests/auto/api/tst_api.cpp qtaccountsservice-1.3.0/tests/auto/api/tst_api.cpp
+--- qtaccountsservice-1.3.0-orig/tests/auto/api/tst_api.cpp	2023-09-24 10:41:09.530000000 -0700
++++ qtaccountsservice-1.3.0/tests/auto/api/tst_api.cpp	2023-09-24 10:41:12.910000000 -0700
+@@ -23,8 +23,8 @@
+ 
+ #include <QtTest/QtTest>
+ 
+-#include <Qt5AccountsService/AccountsManager>
+-#include <Qt5AccountsService/UserAccount>
++#include <Qt6AccountsService/AccountsManager>
++#include <Qt6AccountsService/UserAccount>
+ 
+ #include "fakeaccounts.h"
+ #include "accounts_adaptor.h"
