@@ -1,0 +1,307 @@
+diff -Naur liri-cmake-shared-1.1.0-orig/modules/LiriAddExecutable.cmake liri-cmake-shared-1.1.0/modules/LiriAddExecutable.cmake
+--- liri-cmake-shared-1.1.0-orig/modules/LiriAddExecutable.cmake	2023-09-21 21:49:19.910000000 -0700
++++ liri-cmake-shared-1.1.0/modules/LiriAddExecutable.cmake	2023-09-21 21:50:23.900000000 -0700
+@@ -28,7 +28,7 @@
+ # This function creates a CMake target for a generic console or GUI binary.
+ function(liri_add_executable name)
+     # Find packages we need
+-    find_package(Qt5 "5.0" CONFIG REQUIRED COMPONENTS Core)
++    find_package(Qt6 "6.0" CONFIG REQUIRED COMPONENTS Core)
+ 
+     # Parse arguments
+     _liri_parse_all_arguments(
+@@ -50,16 +50,16 @@
+     add_executable("${name}" ${_arg_EXE_FLAGS})
+     if(DEFINED _arg_RESOURCES)
+         if(${_arg_QTQUICK_COMPILER})
+-            find_package(Qt5QuickCompiler)
+-            if(Qt5QuickCompiler_FOUND)
++            find_package(Qt6QuickCompiler)
++            if(Qt6QuickCompiler_FOUND)
+                 qtquick_compiler_add_resources(RESOURCES ${_arg_RESOURCES})
+                 list(APPEND _arg_SOURCES ${_arg_RESOURCES})
+             else()
+-                message(WARNING "Qt5QuickCompiler not found, fall back to standard resources")
+-                qt5_add_resources(RESOURCES ${_arg_RESOURCES})
++                message(WARNING "Qt6QuickCompiler not found, fall back to standard resources")
++                qt6_add_resources(RESOURCES ${_arg_RESOURCES})
+             endif()
+         else()
+-            qt5_add_resources(RESOURCES ${_arg_RESOURCES})
++            qt6_add_resources(RESOURCES ${_arg_RESOURCES})
+         endif()
+         list(APPEND _arg_SOURCES ${RESOURCES})
+     endif()
+diff -Naur liri-cmake-shared-1.1.0-orig/modules/LiriAddIndicator.cmake liri-cmake-shared-1.1.0/modules/LiriAddIndicator.cmake
+--- liri-cmake-shared-1.1.0-orig/modules/LiriAddIndicator.cmake	2023-09-21 21:49:19.910000000 -0700
++++ liri-cmake-shared-1.1.0/modules/LiriAddIndicator.cmake	2023-09-21 21:50:35.050000000 -0700
+@@ -36,7 +36,7 @@
+         )
+ 
+     # Find packages we need
+-    find_package(Qt5 "5.0" CONFIG REQUIRED COMPONENTS Core LinguistTools)
++    find_package(Qt6 "6.0" CONFIG REQUIRED COMPONENTS Core LinguistTools)
+ 
+     string(TOLOWER "${name}" name_lower)
+ 
+@@ -58,7 +58,7 @@
+ 
+     # Translations
+     file(GLOB _translations "${_translations_path}/*_*.ts")
+-    qt5_add_translation(_qm_FILES ${_translations})
++    qt6_add_translation(_qm_FILES ${_translations})
+ 
+     # Target
+     set(target "${name}Indicator")
+diff -Naur liri-cmake-shared-1.1.0-orig/modules/LiriAddModule.cmake liri-cmake-shared-1.1.0/modules/LiriAddModule.cmake
+--- liri-cmake-shared-1.1.0-orig/modules/LiriAddModule.cmake	2023-09-21 21:49:19.910000000 -0700
++++ liri-cmake-shared-1.1.0/modules/LiriAddModule.cmake	2023-09-21 21:51:01.630000000 -0700
+@@ -34,7 +34,7 @@
+ # in the form of a CMake package and pkg-config file.
+ function(liri_add_module name)
+     # Find packages we need
+-    find_package(Qt5 "5.0" CONFIG REQUIRED COMPONENTS Core)
++    find_package(Qt6 "6.0" CONFIG REQUIRED COMPONENTS Core)
+ 
+     # Include other functions and macros
+     include(CMakePackageConfigHelpers)
+@@ -95,16 +95,16 @@
+     # Add resources
+     if(DEFINED _arg_RESOURCES)
+         if(${_arg_QTQUICK_COMPILER})
+-            find_package(Qt5QuickCompiler)
+-            if(Qt5QuickCompiler_FOUND)
++            find_package(Qt6QuickCompiler)
++            if(Qt6QuickCompiler_FOUND)
+                 qtquick_compiler_add_resources(RESOURCES ${_arg_RESOURCES})
+                 list(APPEND _arg_SOURCES ${_arg_RESOURCES})
+             else()
+                 message(WARNING "Qt5QuickCompiler not found, fall back to standard resources")
+-                qt5_add_resources(RESOURCES ${_arg_RESOURCES})
++                qt6_add_resources(RESOURCES ${_arg_RESOURCES})
+             endif()
+         else()
+-            qt5_add_resources(RESOURCES ${_arg_RESOURCES})
++            qt6_add_resources(RESOURCES ${_arg_RESOURCES})
+         endif()
+         list(APPEND _arg_SOURCES ${RESOURCES})
+     endif()
+diff -Naur liri-cmake-shared-1.1.0-orig/modules/LiriAddPlugin.cmake liri-cmake-shared-1.1.0/modules/LiriAddPlugin.cmake
+--- liri-cmake-shared-1.1.0-orig/modules/LiriAddPlugin.cmake	2023-09-21 21:49:19.910000000 -0700
++++ liri-cmake-shared-1.1.0/modules/LiriAddPlugin.cmake	2023-09-21 21:51:30.240000000 -0700
+@@ -27,7 +27,7 @@
+ 
+ function(liri_add_plugin name)
+     # Find packages we need
+-    find_package(Qt5 "5.0" CONFIG REQUIRED COMPONENTS Core)
++    find_package(Qt6 "6.0" CONFIG REQUIRED COMPONENTS Core)
+ 
+     # Parse arguments
+     _liri_parse_all_arguments(
+@@ -51,15 +51,15 @@
+     if(DEFINED _arg_RESOURCES)
+         if(${_arg_QTQUICK_COMPILER})
+             find_package(Qt5QuickCompiler)
+-            if(Qt5QuickCompiler_FOUND)
++            if(Qt6QuickCompiler_FOUND)
+                 qtquick_compiler_add_resources(RESOURCES ${_arg_RESOURCES})
+                 list(APPEND _arg_SOURCES ${_arg_RESOURCES})
+             else()
+-                message(WARNING "Qt5QuickCompiler not found, fall back to standard resources")
+-                qt5_add_resources(RESOURCES ${_arg_RESOURCES})
++                message(WARNING "Qt6QuickCompiler not found, fall back to standard resources")
++                qt6_add_resources(RESOURCES ${_arg_RESOURCES})
+             endif()
+         else()
+-            qt5_add_resources(RESOURCES ${_arg_RESOURCES})
++            qt6_add_resources(RESOURCES ${_arg_RESOURCES})
+         endif()
+         list(APPEND _arg_SOURCES ${RESOURCES})
+     endif()
+diff -Naur liri-cmake-shared-1.1.0-orig/modules/LiriAddQmlModule.cmake liri-cmake-shared-1.1.0/modules/LiriAddQmlModule.cmake
+--- liri-cmake-shared-1.1.0-orig/modules/LiriAddQmlModule.cmake	2023-09-21 21:49:19.910000000 -0700
++++ liri-cmake-shared-1.1.0/modules/LiriAddQmlModule.cmake	2023-09-21 21:51:40.780000000 -0700
+@@ -48,11 +48,11 @@
+     add_custom_target("${target}" SOURCES ${_arg_QML_FILES})
+ 
+     # Find qmlplugindump
+-    get_target_property(QMake_EXECUTABLE Qt5::qmake LOCATION)
++    get_target_property(QMake_EXECUTABLE Qt6::qmake LOCATION)
+     get_filename_component(_qmake_path ${QMake_EXECUTABLE} DIRECTORY)
+     find_program(QmlPluginDump_EXECUTABLE
+         NAMES
+-            qmlplugindump-qt5
++            qmlplugindump-qt6
+             qmlplugindump
+         PATHS
+             "${_qmake_path}"
+diff -Naur liri-cmake-shared-1.1.0-orig/modules/LiriAddQmlPlugin.cmake liri-cmake-shared-1.1.0/modules/LiriAddQmlPlugin.cmake
+--- liri-cmake-shared-1.1.0-orig/modules/LiriAddQmlPlugin.cmake	2023-09-21 21:49:19.910000000 -0700
++++ liri-cmake-shared-1.1.0/modules/LiriAddQmlPlugin.cmake	2023-09-21 21:52:16.710000000 -0700
+@@ -27,7 +27,7 @@
+ 
+ function(liri_add_qml_plugin name)
+     # Find packages we need
+-    find_package(Qt5 "5.0" CONFIG REQUIRED COMPONENTS Qml Quick)
++    find_package(Qt6 "6.0" CONFIG REQUIRED COMPONENTS Qml Quick)
+ 
+     # Parse arguments
+     _liri_parse_all_arguments(
+@@ -51,11 +51,11 @@
+     string(REGEX REPLACE "-" "_" name_upper "${name_upper}")
+ 
+     # Find qmlplugindump
+-    get_target_property(QMake_EXECUTABLE Qt5::qmake LOCATION)
++    get_target_property(QMake_EXECUTABLE Qt6::qmake LOCATION)
+     get_filename_component(_qmake_path ${QMake_EXECUTABLE} DIRECTORY)
+     find_program(QmlPluginDump_EXECUTABLE
+         NAMES
+-            qmlplugindump-qt5
++            qmlplugindump-qt6
+             qmlplugindump
+         PATHS
+             "${_qmake_path}"
+@@ -89,15 +89,15 @@
+     if(DEFINED _arg_RESOURCES)
+         if(${_arg_QTQUICK_COMPILER})
+             find_package(Qt5QuickCompiler)
+-            if(Qt5QuickCompiler_FOUND)
++            if(Qt6QuickCompiler_FOUND)
+                 qtquick_compiler_add_resources(RESOURCES ${_arg_RESOURCES})
+                 list(APPEND _arg_SOURCES ${_arg_RESOURCES})
+             else()
+-                message(WARNING "Qt5QuickCompiler not found, fall back to standard resources")
+-                qt5_add_resources(RESOURCES ${_arg_RESOURCES})
++                message(WARNING "Qt6QuickCompiler not found, fall back to standard resources")
++                qt6_add_resources(RESOURCES ${_arg_RESOURCES})
+             endif()
+         else()
+-            qt5_add_resources(RESOURCES ${_arg_RESOURCES})
++            qt6_add_resources(RESOURCES ${_arg_RESOURCES})
+         endif()
+         list(APPEND _arg_SOURCES ${RESOURCES})
+     endif()
+@@ -116,7 +116,7 @@
+             "${CMAKE_CURRENT_BINARY_DIR}"
+             ${_arg_INCLUDE_DIRECTORIES}
+         PUBLIC_INCLUDE_DIRECTORIES ${_arg_PUBLIC_INCLUDE_DIRECTORIES}
+-        LIBRARIES "Qt5::Qml;Qt5::Quick;${_arg_LIBRARIES}"
++        LIBRARIES "Qt6::Qml;Qt6::Quick;${_arg_LIBRARIES}"
+         PUBLIC_LIBRARIES ${_arg_PUBLIC_LIBRARIES}
+         PUBLIC_DEFINES
+             ${_arg_PUBLIC_DEFINES}
+diff -Naur liri-cmake-shared-1.1.0-orig/modules/LiriAddSettingsModule.cmake liri-cmake-shared-1.1.0/modules/LiriAddSettingsModule.cmake
+--- liri-cmake-shared-1.1.0-orig/modules/LiriAddSettingsModule.cmake	2023-09-21 21:49:19.910000000 -0700
++++ liri-cmake-shared-1.1.0/modules/LiriAddSettingsModule.cmake	2023-09-21 21:52:26.990000000 -0700
+@@ -36,7 +36,7 @@
+         )
+ 
+     # Find packages we need
+-    find_package(Qt5 "5.0" CONFIG REQUIRED COMPONENTS Core LinguistTools)
++    find_package(Qt6 "6.0" CONFIG REQUIRED COMPONENTS Core LinguistTools)
+ 
+     string(TOLOWER "${name}" name_lower)
+ 
+@@ -55,7 +55,7 @@
+ 
+     # Translations
+     file(GLOB _translations "${_translations_path}/*_*.ts")
+-    qt5_add_translation(_qm_FILES ${_translations})
++    qt6_add_translation(_qm_FILES ${_translations})
+ 
+     # Sources
+     set(_sources ${_arg_CONTENTS} ${_arg_METADATA} ${_qm_FILES})
+diff -Naur liri-cmake-shared-1.1.0-orig/modules/LiriAddTest.cmake liri-cmake-shared-1.1.0/modules/LiriAddTest.cmake
+--- liri-cmake-shared-1.1.0-orig/modules/LiriAddTest.cmake	2023-09-21 21:49:19.910000000 -0700
++++ liri-cmake-shared-1.1.0/modules/LiriAddTest.cmake	2023-09-21 21:52:40.750000000 -0700
+@@ -27,7 +27,7 @@
+ 
+ function(liri_add_test name)
+     # Find packages we need
+-    find_package(Qt5 "5.0" CONFIG REQUIRED COMPONENTS Core Test)
++    find_package(Qt6 "6.0" CONFIG REQUIRED COMPONENTS Core Test)
+ 
+     # Parse arguments
+     _liri_parse_all_arguments(
+@@ -64,7 +64,7 @@
+             "${CMAKE_CURRENT_BINARY_DIR}"
+             ${_arg_INCLUDE_DIRECTORIES}
+         DEFINES ${_arg_DEFINES}
+-        LIBRARIES "Qt5::Core;Qt5::Test;${_arg_LIBRARIES}"
++        LIBRARIES "Qt6::Core;Qt6::Test;${_arg_LIBRARIES}"
+         DBUS_ADAPTOR_SOURCES ${_arg_DBUS_ADAPTOR_SOURCES}
+         DBUS_ADAPTOR_FLAGS ${_arg_DBUS_ADAPTOR_FLAGS}
+         DBUS_INTERFACE_SOURCES ${_arg_DBUS_INTERFACE_SOURCES}
+diff -Naur liri-cmake-shared-1.1.0-orig/modules/LiriBuild.cmake liri-cmake-shared-1.1.0/modules/LiriBuild.cmake
+--- liri-cmake-shared-1.1.0-orig/modules/LiriBuild.cmake	2023-09-21 21:49:19.910000000 -0700
++++ liri-cmake-shared-1.1.0/modules/LiriBuild.cmake	2023-09-21 21:53:13.680000000 -0700
+@@ -135,13 +135,13 @@
+ 
+     add_custom_command(
+         OUTPUT "${_header_filename}" "${_source_filename}"
+-        COMMAND Qt5::qdbusxml2cpp ${_arg_FLAGS} "${_option}" "${_header_filename}:${_source_filename}" "${infile}"
++        COMMAND Qt6::qdbusxml2cpp ${_arg_FLAGS} "${_option}" "${_header_filename}:${_source_filename}" "${infile}"
+         DEPENDS "${infile}"
+         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+         VERBATIM
+     )
+ 
+-    qt5_wrap_cpp(_moc_sources TARGET "${target}" "${_header_filename}")
++    qt6_wrap_cpp(_moc_sources TARGET "${target}" "${_header_filename}")
+     set_source_files_properties("${_moc_sources}" PROPERTIES HEADER_FILE_ONLY OFF)
+     target_sources("${target}" PRIVATE "${_header_filename}" "${_source_filename}" "${_moc_sources}")
+ endfunction()
+@@ -175,12 +175,12 @@
+         list(APPEND dbus_sources "${sources}")
+     endforeach()
+     if(_arg_DBUS_ADAPTOR_SOURCES OR _arg_DBUS_INTERFACE_SOURCES)
+-        # This implicitely requires Qt5::DBus
+-        list(FIND _arg_LIBRARIES "Qt5::DBus" _qt5_dbus_index)
+-        if(${_qt5_dbus_index} EQUAL -1)
+-            find_package(Qt5 "5.0" CONFIG REQUIRED COMPONENTS DBus)
+-            message(STATUS "Adding Qt5::DBus target to ${target}")
+-            list(APPEND _arg_LIBRARIES "Qt5::DBus")
++        # This implicitely requires Qt6::DBus
++        list(FIND _arg_LIBRARIES "Qt6::DBus" _qt6_dbus_index)
++        if(${_qt6_dbus_index} EQUAL -1)
++            find_package(Qt6 "6.0" CONFIG REQUIRED COMPONENTS DBus)
++            message(STATUS "Adding Qt6::DBus target to ${target}")
++            list(APPEND _arg_LIBRARIES "Qt6::DBus")
+         endif()
+     endif()
+ 
+diff -Naur liri-cmake-shared-1.1.0-orig/modules/LiriQDoc.cmake liri-cmake-shared-1.1.0/modules/LiriQDoc.cmake
+--- liri-cmake-shared-1.1.0-orig/modules/LiriQDoc.cmake	2023-09-21 21:49:19.910000000 -0700
++++ liri-cmake-shared-1.1.0/modules/LiriQDoc.cmake	2023-09-21 21:54:04.370000000 -0700
+@@ -35,10 +35,10 @@
+         ${ARGN}
+     )
+ 
+-    find_package(Qt5Core QUIET)
+-    if(TARGET Qt5::qmake)
++    find_package(Qt6Core QUIET)
++    if(TARGET Qt6::qmake)
+         # Find QT_INSTALL_DOCS AND QT_HOST_DATA
+-        get_target_property(QMake_EXECUTABLE Qt5::qmake LOCATION)
++        get_target_property(QMake_EXECUTABLE Qt6::qmake LOCATION)
+         if(NOT QT_INSTALL_DOCS)
+             exec_program("${QMake_EXECUTABLE}" ARGS "-query QT_INSTALL_DOCS" RETURN_VALUE return_code OUTPUT_VARIABLE QT_INSTALL_DOCS)
+         endif()
+@@ -55,7 +55,7 @@
+     # Find qdoc executable
+     find_program(QDoc_EXECUTABLE
+         NAMES
+-            qdoc-qt5
++            qdoc-qt6
+             qdoc
+         PATHS
+             "${_path}"
+@@ -65,7 +65,7 @@
+         add_custom_target(docs
+             ALL
+             COMMAND
+-                QT_INSTALL_DOCS=${QT_INSTALL_DOCS} QT_VER="${Qt5Core_VERSION_MAJOR}.${Qt5Core_VERSION_MINOR}" QT_VERSION="${Qt5Core_VERSION_MAJOR}.${Qt5Core_VERSION_MINOR}" QT_VERSION_TAG="${Qt5Core_VERSION_MAJOR}.${Qt5Core_VERSION_MINOR}" ${_arg_ENVIRONMENT} "${QDoc_EXECUTABLE}" --outputdir "${CMAKE_CURRENT_BINARY_DIR}/qdoc_html" "${qdoc_filename}"
++                QT_INSTALL_DOCS=${QT_INSTALL_DOCS} QT_VER="${Qt6Core_VERSION_MAJOR}.${Qt6Core_VERSION_MINOR}" QT_VERSION="${Qt6Core_VERSION_MAJOR}.${Qt6Core_VERSION_MINOR}" QT_VERSION_TAG="${Qt6Core_VERSION_MAJOR}.${Qt6Core_VERSION_MINOR}" ${_arg_ENVIRONMENT} "${QDoc_EXECUTABLE}" --outputdir "${CMAKE_CURRENT_BINARY_DIR}/qdoc_html" "${qdoc_filename}"
+         )
+         if(_arg_OUTPUT_DIRECTORY_VARIABLE)
+             set(${_arg_OUTPUT_DIRECTORY_VARIABLE} "${CMAKE_CURRENT_BINARY_DIR}/qdoc_html" PARENT_SCOPE)
