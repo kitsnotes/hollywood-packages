@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=geoclue
 pkgver=2.7.0
-pkgrel=0
+pkgrel=1
 pkgdesc="dbus geolocation service"
 url="https://gitlab.freedesktop.org/geoclue/geoclue/-/wikis/home"
 arch="all"
