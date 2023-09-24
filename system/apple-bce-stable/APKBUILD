@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=apple-bce-stable
-pkgver=6.1.12
-pkgrel=5
+pkgver=6.5.4
+pkgrel=1
 pkgdesc="Apple Buffer Copy Engine driver for T2 Macintoshes"
 url="https://github.com/t2linux/apple-bce-drv"
 arch="x86_64"
@@ -39,6 +39,6 @@ package() {
 }
 
 sha512sums="
-10670f48af0d0e52fe9b5bb68a838cedd5b7169bd7e7197b8284c25f14ff7fd12ae7d9bba9780b5e4ff0332e50e11a375203976dd0bbfd68615d314aaff19e5c  apple-bce-drv.tar.gz
+b4c8ef0d205aaa646e305f20470734edb4ace8743ad6a6b7111f40c354645078de8b63042e81b713ce9dafa1a910539accc4292d58e12ba316a9c1b55d3cd6e6  apple-bce-drv.tar.gz
 ad55a81db251ed0176c0b37d6b89283610760a4868c234186e444845c1816e7b041caaba57251994ab1a1cc700acb11ac14e7e24178a1a953fd9f7980aeda9f9  dracut.conf
 "
