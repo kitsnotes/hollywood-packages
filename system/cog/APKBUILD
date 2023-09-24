@@ -9,7 +9,7 @@ arch="all !riscv64"
 license="MIT"
 makedepends="cairo-dev
 	cmake
-	eudev-dev
+	systemd-dev
 	libinput-dev
 	libsoup3-dev
 	libepoxy-dev
