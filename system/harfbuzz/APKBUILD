@@ -1,8 +1,7 @@
-# Contributor: Sören Tempel <soeren+alpinelinux@soeren-tempel.net>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=harfbuzz
-pkgver=3.1.2
-pkgrel=3
+pkgver=8.2.1
+pkgrel=0
 pkgdesc="Text shaping library"
 url="https://freedesktop.org/wiki/Software/HarfBuzz"
 arch="all"
@@ -58,5 +57,5 @@ utils() {
 }
 
 sha512sums="
-4d1093904bd450c6d65130b3d7198c07cfc5cce9a5d234fcb14bae1101b28e697ba42cb455217f863d8d5c83830784f716ae59a2dbb38e88156677213bdb4799  harfbuzz-3.1.2.tar.gz
+23d6abbd270885d7ae1ebb3c981f0c331a48d891e23caffe9e254f5e7e205bb0348add7b371526166a49b336f8076f92c11ef76ca81f48a6fd9f58812ec96d79  harfbuzz-8.2.1.tar.gz
 "
