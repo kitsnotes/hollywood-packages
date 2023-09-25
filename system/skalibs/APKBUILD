@@ -3,7 +3,6 @@
 pkgname=skalibs
 # NOTE: If you're upgrading to a new version that fixes some security
 # vulnerability, rebuild the following aports:
-# - busybox
 # - mingetty
 # - openssh
 # - util-linux
