@@ -9,12 +9,12 @@
 #
 pkgname=zsh
 pkgver=5.8.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Very advanced and programmable command interpreter (shell)"
 url="https://www.zsh.org/"
 arch="all"
 license="custom"
-makedepends="ncurses-dev diffutils"
+makedepends="ncurses-dev diffutils skalibs-dev utmps-dev"
 source="https://download.sourceforge.net/project/zsh/zsh/$pkgver/zsh-$pkgver.tar.xz
 	skel
 	zprofile
@@ -160,6 +160,6 @@ _submv() {
 sha512sums="
 f54a5a47ed15d134902613f6169c985680afc45a67538505e11b66b348fcb367145e9b8ae2d9eac185e07ef5f97254b85df01ba97294002a8c036fd02ed5e76d  zsh-5.8.1.tar.xz
 d820fcf65bb3c52f23e968110b5df1188fc0b64079312f64d22ffe35de3b4f3055d4d629b3b0f97a1bfaddf62dbc80676af31c3a1a79645632082abfc854cf97  skel
-57e57126e9e4d45c1ea1c62c60c0454098afe1f76823ed7f276b078b0d08f731b49e9fac50c9a9048b9655385a8110072d10de5bb11ccf66ec32f56a03143a7f  zprofile
-1675e016f97333cad89b587f4292d81b6bc10e27b75482e3e0c3808539c95bd49b907b6579fb98d817f77f2f2384c0df5afa3e2b6f43b6ae9b466925cd9ccffc  zshrc
+477dfca9b8e647f75b8bad72a830861274b9c06b2a0d1cc0b838cafb602aef2ffa79056783810917ec30eb86793d937ffad2729019669f042eead3e96352276a  zprofile
+1d6301e763aadc333b40008107da54d9d38366daa2799cfad44b211354552b1eea926b5e22ce1dc135f1fc68f20d40e550da421ad9c6aa9d907c78b85f271bb5  zshrc
 "

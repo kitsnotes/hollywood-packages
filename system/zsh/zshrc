@@ -1,5 +1,8 @@
 # enable emacs input mode by default
 bindkey -e
+# Enable home/end
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
 
 # set standard PS1
 do_colour() {
@@ -15,16 +18,16 @@ do_colour() {
 
     if ${colourise} ; then
         if [[ ${EUID} == 0 ]] ; then
-            PS1='%B%F{white}%m%f%b %B%F{cyan}%~%f%b %B%F{red}%#%f%b '
+            PS1='%B%F{red}!! %n@%B%F{white}%m%f%b %B%F{cyan}%~%f%b %B%F{red}%#%f%b '
         else
-            PS1='%n on %B%F{white}%m%f%b %~ %B%F{green}%#%f%b '
+            PS1='%n@%B%F{white}%m%f%b %~ %B%F{green}%#%f%b '
         fi
     else
         if [[ ${EUID} == 0 ]] ; then
             # show root@ when we don't have colors
-            PS1='! %n on %m %~ %# '
+            PS1='%n@%m %~ %# '
         else
-            PS1='%n on %m %~ %# '
+            PS1='%n@%m %~ %# '
         fi
     fi
 }
