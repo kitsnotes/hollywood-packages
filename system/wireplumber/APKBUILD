@@ -2,11 +2,10 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=wireplumber
 pkgver=0.4.14
-pkgrel=1
+pkgrel=2
 pkgdesc="Session / policy manager implementation for PipeWire"
 url="https://pipewire.org/"
-# s390x blocked by pipewire
-arch="all !s390x"
+arch="all"
 license="LGPL-2.1-or-later"
 depends_dev="
 	systemd-dev
@@ -23,7 +22,7 @@ checkdepends="
 	dbus
 	pipewire
 	"
-subpackages="$pkgname-dbg $pkgname-dev $pkgname-logind"
+subpackages="$pkgname-dbg $pkgname-dev"
 source="https://gitlab.freedesktop.org/PipeWire/wireplumber/-/archive/$pkgver/wireplumber-$pkgver.tar.gz"
 
 case "$CARCH" in
@@ -46,19 +45,6 @@ check() {
 
 package() {
 	DESTDIR="$pkgdir" meson install --no-rebuild -C output
-}
-
-logind() {
-	# This not only needs libelogind, but also elogind being installed and
-	# running. Otherwise wireplumber fails to launch.
-	depends="$depends elogind"
-	# The purpose of the (e)logind module currently is limited to preventing
-	# GDM from hijacking the Bluetooth HFP/HSP profile. But GDM users cannot
-	# use bluetooth audio without, so install it for them
-	install_if="$pkgname=$pkgver-r$pkgrel gdm"
-	pkgdesc="wireplumbers optional (e)logind integration needed by GDM users"
-
-	amove usr/lib/wireplumber-0.4/libwireplumber-module-logind.so
 }
 
 sha512sums="
