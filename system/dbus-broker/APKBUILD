@@ -12,6 +12,7 @@ makedepends="$depends_dev
 	meson
 	systemd-dev
 	py3-docutils
+	libcap-ng-dev
 	"
 pkggroups="messagebus"
 subpackages="
