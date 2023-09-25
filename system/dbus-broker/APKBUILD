@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=dbus-broker
 pkgver=33
-pkgrel=2
+pkgrel=3
 pkgdesc="Linux D-Bus Message Broker"
 url="https://github.com/bus1/dbus-broker"
 arch="all"
@@ -37,6 +37,7 @@ check() {
 package() {
         DESTDIR="$pkgdir" meson install --no-rebuild -C output
 	mv "$pkgdir"/usr/lib/systemd/system/dbus-broker.service "$pkgdir"/usr/lib/systemd/system/dbus.service
+	mv "$pkgdir"/usr/lib/systemd/user/dbus-broker.service "$pkgdir"/usr/lib/systemd/user/dbus.service
 }
 sha512sums="
 776684a5d19a6c25fc46dff19821014a32d967f8132385b86c5281f2d69192dce64b3ad92ae6a158d1d64753e89d918385a1a31f32811f54060504113f065baa  dbus-broker-33.tar.xz
