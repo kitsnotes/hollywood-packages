@@ -2,14 +2,10 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtwebengine
 pkgver=6.5.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Provides support for web applications using the Chromium browser project"
 url="https://qt.io/"
-# riscv64 unknown current CPU
-# s390x blocked by qt6-qtdeclarative
-# ppc64le not supported by chromium
-# 32-bit arches are blocked by memory exhaustion and "libblink_core.a: error adding symbols: file format not recognized"
-arch="all !riscv64 !s390x !ppc64le !armv7 !x86 !armhf"
+arch="all"
 license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
 depends_dev="
 	alsa-lib-dev
@@ -23,6 +19,7 @@ depends_dev="
 	libxml2-dev
 	libxslt-dev
 	minizip-dev
+	harfbuzz-dev
 	nss-dev
 	opus-dev
 	pciutils-dev
@@ -74,8 +71,12 @@ build() {
 		-DINSTALL_INCLUDEDIR=include/qt6 \
 		-DINSTALL_MKSPECSDIR=lib/qt6/mkspecs \
 		-DINSTALL_EXAMPLESDIR=share/doc/qt6/examples \
+		-DQT_FEATURE_qtwebengine_build=ON \
+		-DQT_FEATURE_qtwebengine_core_build=ON \
+		-DQT_FEATURE_qtwebengine_widgets_build=ON \
+		-DQT_FEATURE_qtwebengine_quick_build=ON \
 		-DQT_FEATURE_webengine_system_alsa=ON \
-		-DQT_FEATURE_webengine_system_ffmpeg=ON \
+		-DQT_FEATURE_webengine_system_ffmpeg=OFF \
 		-DQT_FEATURE_webengine_system_icu=ON \
 		-DQT_FEATURE_webengine_system_libevent=ON \
 		-DQT_FEATURE_webengine_system_libpci=ON \
@@ -88,6 +89,7 @@ build() {
 		-DQT_FEATURE_webengine_system_pulseaudio=ON \
 		-DQT_FEATURE_webengine_system_zlib=ON \
 		-DQT_FEATURE_webengine_proprietary_codecs=ON \
+		-DQT_FEATURE_webengine_system_harfbuzz=ON \
 		-DQT_FEATURE_webengine_kerberos=ON \
 		-DQT_FEATURE_webengine_webrtc_pipewire=ON
 	cmake --build build
