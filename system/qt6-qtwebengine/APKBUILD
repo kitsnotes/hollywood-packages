@@ -44,6 +44,7 @@ makedepends="$depends_dev
 	nodejs
 	perl
 	py3-html5lib
+	libepoxy-dev
 	python3
 	samurai
 	"
