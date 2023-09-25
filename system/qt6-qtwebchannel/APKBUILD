@@ -1,7 +1,6 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtwebchannel
-pkgver=6.3.1
+pkgver=6.5.2
 pkgrel=0
 pkgdesc="Provides access to QObject or QML objects from HTML clients"
 url="https://qt.io/"
@@ -50,5 +49,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-d253e087a9e97173a6a97eac46d8dfa740d3c77182dfd57514c14e68e50f6745cd90e9367cbb5f5d0a7c43fcbfc046af0bd9124fb2517d741bb5ab1a5af5bf62  qtwebchannel-everywhere-src-6.3.1.tar.xz
+405595dfdfed48aafe42969881994472cb08dc4105a63ccf8c5ca059c0c243b654c38356059ea26cda9165a50b306c92d296dd3eca430b29615ec0ac68431c09  qtwebchannel-everywhere-src-6.5.2.tar.xz
 "

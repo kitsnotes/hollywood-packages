@@ -1,7 +1,6 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtwebsockets
-pkgver=6.3.1
+pkgver=6.5.2
 pkgrel=0
 pkgdesc="Provides WebSocket communication compliant with RFC 6455"
 url="https://qt.io/"
@@ -49,5 +48,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-25ab603753fdc1c65585b6aa91d3777f48e0763cff97978478586a0f04d0536b5c4d5853f9218d2a0c3b3d01b1bd9ca7e2f0e90020737c1fc70bdd4a3cd5a30c  qtwebsockets-everywhere-src-6.3.1.tar.xz
+0ede50ef09ec92cc9ff73ac8287d93c82eddaaefb8df05687f24fa1b9fcafe0e34cdef324ad81c89353ea9e21509243efce63bb42b640050309c61d100d354a7  qtwebsockets-everywhere-src-6.5.2.tar.xz
 "
