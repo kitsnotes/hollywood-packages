@@ -1,18 +1,19 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=linux-tools
-pkgver=6.4.7
+pkgver=6.5.5
 case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
 esac
-pkgrel=2
+pkgrel=0	
 pkgdesc="Linux kernel tools meta package"
 url="https://www.kernel.org/"
 arch="all"
 license="GPL-2.0-only"
 depends="perf cpupower $pkgname-gpio $pkgname-iio"
 depends_dev="pciutils-dev readline-dev gettext-dev"
+llvmver=16
 makedepends="
 	$depends_dev
 	asciidoc
@@ -26,17 +27,19 @@ makedepends="
 	elfutils-dev
 	findutils
 	flex
+	systemd-dev
 	glib-dev
 	libbpf-dev
 	libcap-dev
 	libtool
 	libtraceevent-dev
 	linux-headers
-	llvm-dev
+	llvm$_llvmver-dev
 	ncurses-dev
 	numactl-dev
 	python3-dev
 	sysfsutils-dev
+	libunwind-dev
 	xmlto
 	zlib-dev
 	zstd-dev
@@ -57,7 +60,6 @@ subpackages="
 	bpftool bpftool-bash-completion:bpftool_bashcomp:noarch
 	"
 source="https://kernel.org/pub/linux/kernel/v6.x/linux-$_kernver.tar.xz
-	dt_lnk.patch
 	cpupower.systemd
 	cpupower.service
 	cpupower.default
@@ -82,23 +84,6 @@ builddir="$srcdir"/linux-$_kernver
 
 [ "$CARCH" = "riscv64" ] && options="$options textrels"
 
-prepare() {
-	cd "$srcdir"/linux-$_kernver
-	if [ "${pkgver%.0}" = "$pkgver" ]; then
-		msg "Applying patch-$pkgver.xz"
-		unxz -c < "$srcdir"/patch-$pkgver.xz | patch -p1 -N
-	fi
-
-	# tools/perf/Makefile is just a wrapper around tools/perf/Makefile.perf
-	# which calls the latter with a -j make(1) option set. However, it discards
-	# variables set via the command-line in the process (e.g. mandir or prefix).
-	# As such, it prevents us from correctly installing man pages with our current
-	# setup. Just symlink the former to the latter to fix that.
-	ln -fs Makefile.perf "$builddir"/tools/perf/Makefile
-
-	default_prepare
-}
-
 _make_tools() {
 	make -C "$builddir"/tools \
 		VERSION=$pkgver-$pkgrel NLS=false LIBINTL_LIBS=-lintl WERROR=0 \
@@ -110,7 +95,7 @@ build() {
 	_make_tools perf cpupower gpio iio spi tmon bpf/bpftool
 	( cd tools/usb/usbip ;
 	./autogen.sh
-	sed -i 's,-Wall -Werror -Wextra,,' configure.ac ;
+	#sed -i 's,-Wall -Werror -Wextra,,' configure.ac ;
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
@@ -252,8 +237,7 @@ bpftool_bashcomp() {
 }
 
 sha512sums="
-11a48b25e0b513782d3b89101c2ec8dd9cefd6ce08dc63a91137903b66392aa72ca1fe32816710673af84dd47de3ab8738056a6af93dc0d5e60ef4b869b49928  linux-6.4.tar.xz
-0657b461659e79c1926379aab30e7b7ab2d59eaf3e686f1dce468b79eb1320c188c14a0507361660abd2553bccffa9e149fa5b6e4d770d10c99bf5dafd2e05ee  dt_lnk.patch
+1b59dc5e65d4922c3217a8c8f19022dfd6595ae89747861d825bfeb51a4ae6c85449d05db69635a712bef7b355b80318195665582d8933b1fed6ba582f6ff257  linux-6.5.tar.xz
 2a039c73eebb62f3b736b8b4eae47369eb6ba34861d384239869e0af9a71a66b3d787d90bd33b6851a27e4e3b458fedd2a3c08ee94ba241f560110b907da5692  cpupower.systemd
 62b1e6831f7bd8f0c81ceeb9b1c1e04df0576c65bc03b98b33ed289530a1eebfd5f2368d185b837c0755f7fa5d5c14983417ad48ba034dfee16d9ef4eef3c918  cpupower.service
 1f4e55bddfa3fdf91eeffe48c6482cf02467b0c12edce28b4b9d4be30b95f3151be896b7608e4802fe7779735e33ce93efc7a3038d89455ea6b8fe3bcd19b2f8  cpupower.default
@@ -261,5 +245,5 @@ sha512sums="
 05242070aa44a1af6719997ec8f6d7c1ad753650e56d1089c3961b064d6afdc91f8aa86ae8ceb57c93238904141804cf51b14481754e89908831ef425408596d  hv_fcopy_daemon.service
 3f96a2918ef3cdfe78d128d8688eb3480a6e99840d6884e78fc246468c9cc1e60d42c1c55fe5bff467ddd114e6578e7d748b31b92c3686efe61e09e35f869e11  hv_kvp_daemon.service
 5a16d46ee1c2c758ee0425bd5f47db210cef996782fc3d2403691259ee26af55cc24e862990df9744eefe1a0b6a82433911b8add3b309bf7ffe32af91dff7d0e  usbip.service
-529268873268d0d5ad9e30f780be27fb1e8e16d2bf7798837ecc66fc6f2974069b84d54b3e722fa2dc703d6215ccbc9c0bb9d2f5d8ff27b28cc85b551e5bce0e  patch-6.4.7.xz
+753af5890352b68a471fa3d7660c517e2845008589a304db7a7da3fbb57b327e3a786446ca2aeddcf0ffa069b41ba82be435990156aa1ba377c377f6da612c5a  patch-6.5.5.xz
 "
