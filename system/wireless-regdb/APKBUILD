@@ -1,7 +1,6 @@
-# Contributor: Stefan Wagner <stw@bit-strickerei.de>
-# Maintainer: Stefan Wagner <stw@bit-strickerei.de>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=wireless-regdb
-pkgver=2021.08.28
+pkgver=2023.05.03
 pkgrel=0
 pkgdesc="Central Regulatory Domain Database"
 url="https://wireless.wiki.kernel.org/en/developers/regulatory/wireless-regdb"
@@ -15,9 +14,10 @@ package() {
 	install -D -m644 "$builddir"/regulatory.bin "$pkgdir"/usr/lib/crda/regulatory.bin
 	install -D -m644 "$builddir"/regulatory.bin.5 "$pkgdir"/usr/share/man/man5/regulatory.bin.5
 	install -D -m644 "$builddir"/regulatory.db "$pkgdir"/lib/firmware/regulatory.db
+	install -D -m644 "$builddir"/regulatory.db.5 "$pkgdir"/usr/share/man/man5/regulatory.bin.5
 	install -D -m644 "$builddir"/regulatory.db.p7s "$pkgdir"/lib/firmware/regulatory.db.p7s
 }
 
 sha512sums="
-3f6efe644d600e95fe1f237451ddbf68277d34ed7778b7e3e965faa220979071ce00370b941683fbb62d4540af880e7823aa7261596b129476a4487c04076a40  wireless-regdb-2021.08.28.tar.xz
+9de4852a1d351c11399ca55ea2ad61be23f488c61595b5c5afa3498d76488adc8120c6c77644275c460efcd1bb5bb68fa25597e73bec22ae847321bb55f7af27  wireless-regdb-2023.05.03.tar.xz
 "
