@@ -1,14 +1,13 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=avahi
 pkgver=0.8
-pkgrel=13
+pkgrel=14
 pkgdesc="multicast/unicast DNS-SD framework"
 url="https://www.avahi.org/"
 arch="all"
 license="LGPL-2.1-or-later"
 pkgusers="avahi"
 pkggroups="avahi"
-depends_openrc="dbus"
 depends_dev="gdbm-dev"
 makedepends="
 	$depends_dev
