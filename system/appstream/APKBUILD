@@ -12,6 +12,7 @@ makedepends="
 	glib-dev
 	gobject-introspection-dev
 	gperf
+	systemd-dev
 	itstool
 	libsoup3-dev
 	libxml2-dev
