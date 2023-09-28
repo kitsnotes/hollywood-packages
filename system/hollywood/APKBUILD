@@ -131,26 +131,25 @@ package() {
 
 accessories() {
 	pkgdesc="Hollywood Accessories"
-	depends="hollywood-desktop hunspell hunspell-lang hunspell-en djvulibre libspectre poppler"
+	depends="hollywood-desktop hunspell hunspell-lang hunspell-en djvulibre libspectre poppler qt6-qtwebengine"
 	mkdir -p "$subpkgdir"/usr/bin
 	mkdir -p "$subpkgdir"/usr/lib/popular
 	mkdir -p "$subpkgdir"/usr/share/popular
 	mkdir -p "$subpkgdir"/usr/share/applications
 	mkdir -p "$subpkgdir"/usr/share/icons/hicolor/scalable/apps
 	mkdir -p "$subpkgdir"/usr/share/metainfo
-	mv "$pkgdir"/usr/lib/popular/libqpdfview_pdf.so  "$subpkgdir"/usr/lib/popular/
-	mv "$pkgdir"/usr/lib/popular/libqpdfview_ps.so "$subpkgdir"/usr/lib/popular/
-	mv "$pkgdir"/usr/lib/popular/libqpdfview_djvu.so "$subpkgdir"/usr/lib/popular/
-	mv "$pkgdir"/usr/lib/popular/libqpdfview_image.so "$subpkgdir"/usr/lib/popular/
-	mv "$pkgdir"/usr/bin/startext "$subpkgdir"/usr/bin/
-	mv "$pkgdir"/usr/bin/hwcalc "$subpkgdir"/usr/bin/
-	mv "$pkgdir"/usr/bin/popular "$subpkgdir"/usr/bin/
-	mv "$pkgdir"/usr/share/applications/org.originull.startext.desktop "$subpkgdir"/usr/share/applications/
-	mv "$pkgdir"/usr/share/applications/org.originull.calculator.desktop  "$subpkgdir"/usr/share/applications/
-	mv "$pkgdir"/usr/share/applications/org.originull.popular.desktop  "$subpkgdir"/usr/share/applications/
-	mv "$pkgdir"/usr/share/popular/*.html "$subpkgdir"/usr/share/popular/
 	mv "$pkgdir"/usr/share/icons/hicolor/scalable/apps/qpdfview.svg "$subpkgdir"/usr/share/icons/hicolor/scalable/apps/
+	mv "$pkgdir"/usr/share/popular/*.html "$subpkgdir"/usr/share/popular/
 	mv "$pkgdir"/usr/share/metainfo/qpdfview.appdata.xml "$subpkgdir"/usr/share/metainfo/
+	amove usr/lib/popular/libqpdfview_*.so \
+		usr/bin/startext \
+		usr/bin/hwcalc \
+		usr/bin/popular \
+		usr/bin/quickweb \
+		usr/share/applications/org.originull.startext.desktop \
+		usr/share/applications/org.originull.calculator.desktop \
+		usr/share/applications/org.originull.popular.desktop \
+		usr/share/applications/org.originull.quickweb.desktop 
 }
 
 desktop() {
@@ -175,6 +174,7 @@ desktop() {
         pipewire-pulse
         rtkit
         pulseaudio-client
+	qt6-qtwebengine
 	smartmontools xdg-dbus-proxy xdg-desktop-portal flatpak
         qt6-qtmultimedia"
 
@@ -202,29 +202,40 @@ desktop() {
 	mkdir -p "$subpkgdir"/usr/share/wayland-sessions
 	mkdir -p "$subpkgdir"/usr/share/polkit-1/actions
 
-	mv "$pkgdir"/usr/libexec/hollywood/helpers/sysmon "$subpkgdir"/usr/libexec/hollywood/helpers/
-	mv "$pkgdir"/usr/libexec/hollywood/notificationd "$subpkgdir"/usr/libexec/hollywood/
-	mv "$pkgdir"/usr/libexec/hollywood/session "$subpkgdir"/usr/libexec/hollywood/
+	amove usr/libexec/hollywood/helpers/sysmon
+
 	amove usr/libexec/hollywood/settings/*.so
-	mv "$pkgdir"/usr/libexec/hollywood/stage "$subpkgdir"/usr/libexec/hollywood/
 
-	mv "$pkgdir"/usr/bin/hwabout "$subpkgdir"/usr/bin/
-	mv "$pkgdir"/usr/bin/terminull "$subpkgdir"/usr/bin/
-	mv "$pkgdir"/usr/bin/appstub "$subpkgdir"/usr/bin/
-	mv "$pkgdir"/usr/bin/shellfm "$subpkgdir"/usr/bin/
-	mv "$pkgdir"/usr/bin/hwsysmon "$subpkgdir"/usr/bin/
-	mv "$pkgdir"/usr/bin/hwsettings "$subpkgdir"/usr/bin/
+	amove usr/bin/hwabout \
+		usr/bin/terminull \
+		usr/bin/appstub \
+		usr/bin/shellfm \
+		usr/bin/hwsysmon \
+		usr/bin/hwsettings \
+		usr/bin/hwhelp \
+		usr/bin/volctl
 
-	mv "$pkgdir"/usr/share/applications/org.originull.about.desktop "$subpkgdir"/usr/share/applications
-	mv "$pkgdir"/usr/share/applications/org.originull.terminull.desktop "$subpkgdir"/usr/share/applications
-	mv "$pkgdir"/usr/share/applications/org.originull.appstub.desktop "$subpkgdir"/usr/share/applications
-	mv "$pkgdir"/usr/share/applications/org.originull.shellfm.desktop "$subpkgdir"/usr/share/applications
-	mv "$pkgdir"/usr/share/applications/org.originull.sysmon.desktop "$subpkgdir"/usr/share/applications
-	mv "$pkgdir"/usr/share/applications/org.originull.hwsettings.desktop "$subpkgdir"/usr/share/applications
-	mv "$pkgdir"/usr/share/wayland-sessions/hollywood.desktop "$subpkgdir"/usr/share/wayland-sessions
-	mv "$pkgdir"/usr/share/polkit-1/actions/org.originull.hwsettings.datetime.policy "$subpkgdir"/usr/share/polkit-1/actions
-	mv "$pkgdir"/usr/share/polkit-1/actions/org.originull.hwsettings.efiboot.policy "$subpkgdir"/usr/share/polkit-1/actions
-	mv "$pkgdir"/usr/share/polkit-1/actions/org.originull.sysmon.policy "$subpkgdir"/usr/share/polkit-1/actions	
+	amove usr/libexec/hollywood/stage \
+		usr/libexec/hollywood/notificationd \
+		usr/libexec/hollywood/session \
+		usr/libexec/hollywood/updated 
+
+	amove usr/share/applications/org.originull.about.desktop \
+		usr/share/applications/org.originull.terminull.desktop \
+		usr/share/applications/org.originull.appstub.desktop \
+		usr/share/applications/org.originull.shellfm.desktop \
+		usr/share/applications/org.originull.sysmon.desktop \
+		usr/share/applications/org.originull.hwsettings.desktop \
+		usr/share/applications/org.originull.help.desktop \
+		usr/share/applications/org.originull.volctl.desktop
+
+	amove usr/share/wayland-sessions/hollywood.desktop
+	amove usr/share/polkit-1/actions/org.originull.hwsettings.datetime.policy \
+		usr/share/polkit-1/actions/org.originull.hwsettings.efiboot.policy \
+		usr/share/polkit-1/actions/org.originull.sysmon.policy
+
+	amove usr/share/dbus-1/system-services/org.originull.updated.service \
+		usr/share/dbus-1/system.d/org.originull.updated.conf
 
 	ln -s /usr/libexec/hollywood/session "$subpkgdir"/usr/bin/hollywood
 
@@ -248,6 +259,7 @@ baselibs() {
 	mkdir -p "$subpkgdir"/usr/lib/qt6/plugins/styles
 	mkdir -p "$subpkgdir"/usr/lib/qt6/plugins/hwdeviceintegrations
 	# install the /usr/lib stuff
+	amove usr/lib/libpavu*
 	mv "$pkgdir"/usr/lib/libcommdlg-* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/libcmctl* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/libcompositor-* "$subpkgdir"/usr/lib/
