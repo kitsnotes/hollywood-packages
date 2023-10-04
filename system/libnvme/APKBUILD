@@ -1,0 +1,57 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=libnvme
+pkgver=1.5
+pkgrel=2
+pkgdesc="C Library for NVM Express on Linux"
+url="https://github.com/linux-nvme/libnvme/"
+arch="all"
+license="LGPL-2.1-or-later"
+depends_dev="
+	json-c-dev
+	linux-headers
+	openssl-dev>3
+	"
+makedepends="
+	$depends_dev
+	bash
+	dbus-dev
+	meson
+	python3-dev
+	swig
+	util-linux-dev
+	"
+checkdepends="diffutils"
+subpackages="${pkgname}mi:mi $pkgname-dev py3-nvme:_py3"
+source="https://github.com/linux-nvme/libnvme/archive/v$pkgver/libnvme-v$pkgver.tar.gz
+	doc-test.patch
+	"
+
+build() {
+	abuild-meson \
+		-Db_lto=true \
+		-Ddocs=false \
+		. output
+	meson compile -C output
+}
+
+check() {
+	meson test --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+_py3() {
+	pkgdesc="$pkgdesc (python bindings)"
+	amove usr/lib/python3*
+}
+
+mi() {
+	amove usr/lib/libnvme-mi.so.*
+}
+
+sha512sums="
+0a19eca2dd7c48c9da3123767c3c789dfb7528d6f5b2b2dfdc8af7cd64e1d724fb81c6002b9821ce916cc7adb6b5e5e28253f1d73131188b0559c6d276a7d07c  libnvme-v1.5.tar.gz
+6ca036287d964db018a2ddfb5480b0b46e6f2edd9f0a7c39dbf5977ce58d8da4d619705e16a3f269bfa7c619d6da5aeff20d9b558c697f6d68e5d89a73ef586e  doc-test.patch
+"

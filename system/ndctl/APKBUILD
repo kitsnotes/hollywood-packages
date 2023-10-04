@@ -1,27 +1,45 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Contributor: Breno Leitao <breno.leitao@gmail.com>
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=ndctl
-pkgver=74
-pkgrel=0
+pkgver=78
+pkgrel=1
 pkgdesc="Utility library for managing the libnvdimm (non-volatile memory device) sub-system in the Linux kernel"
 url="https://github.com/pmem/ndctl"
 arch="all"
 license="GPL-2.0-only AND LGPL-2.1-only"
 depends="kmod"
-makedepends="meson asciidoc asciidoctor autoconf automake bash-completion
-	eudev-dev iniparser-dev json-c-dev keyutils-dev kmod-dev libtool
-	linux-headers util-linux-dev xmlto"
-subpackages="$pkgname-doc $pkgname-dev $pkgname-libs
-	$pkgname-bash-completion"
-source="ndctl-$pkgver.tar.gz::https://github.com/pmem/ndctl/archive/v$pkgver.tar.gz"
+makedepends="
+	asciidoc
+	asciidoctor
+	bash-completion-dev
+	systemd-dev
+	iniparser-dev
+	json-c-dev
+	keyutils-dev
+	kmod-dev
+	libtraceevent-dev
+	libtracefs-dev
+	linux-headers
+	meson
+	util-linux-dev
+	"
+subpackages="
+	$pkgname-doc
+	$pkgname-dev
+	$pkgname-libs
+	$pkgname-bash-completion
+	"
+source="ndctl-$pkgver.tar.gz::https://github.com/pmem/ndctl/archive/v$pkgver.tar.gz
+	no-bash.patch
+	"
 options="!check" # tests require building & loading the nfit_test.ko kernel module
 
 build() {
 	abuild-meson \
+		-Db_lto=true \
 		-Dsystemd=disabled \
+		-Dversion-tag="$pkgver" \
 		. output
-	meson compile ${JOBS:+-j ${JOBS}} -C output
+	meson compile -C output
 }
 
 package() {
@@ -29,5 +47,6 @@ package() {
 }
 
 sha512sums="
-b8c4f8ee39aeb85679a97c46cb1ec345041ad91074be35f04de3a688957164374f92b3efc4f745c3b28098086689db861fd22799b056230267b3327406749473  ndctl-74.tar.gz
+ad217dd45c8d6bbd0089a88c46e1e04813b65e97c8817aaddeca967b20ce948e76c4b7ede5517c45d0b645b5c3dc61aac95cc944e8e5fc60100e45b41f13f2a0  ndctl-78.tar.gz
+cb48fdf9ff293164bf0ef52f38194d4bfb56eeec3f4cd173f4d3dd545ab17dcaeeb0362a3df700b519dc2c97407664094363faf76b900135eb24fed1ae4519fa  no-bash.patch
 "
