@@ -12,7 +12,7 @@ subpackages="$pkgname-dev $pkgname-doc py3-$pkgname-pyc py3-$pkgname:_py3"
 source="https://releases.pagure.org/volume_key/volume_key-$pkgver.tar.xz"
 
 build() {
-	./configure \
+	LIBS="$LIBS -lgpgme" ./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
 		--prefix=/usr \
@@ -21,7 +21,7 @@ build() {
 		--localstatedir=/var \
 		--without-python \
 		--with-python3
-	make
+	LIBS="$LIBS -lgpgme" make
 }
 
 check() {
