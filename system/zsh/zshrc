@@ -18,19 +18,43 @@ do_colour() {
 
     if ${colourise} ; then
         if [[ ${EUID} == 0 ]] ; then
-            PS1='%B%F{red}!! %n@%B%F{white}%m%f%b %B%F{cyan}%~%f%b %B%F{red}%#%f%b '
+            PS1='%B%F{red}!!%b%f[%B%F{red}%n@%B%F{white}%m%f%b:%F{cyan}%~%f]%B%F{red}%#%f%b '
         else
-            PS1='%n@%B%F{white}%m%f%b %~ %B%F{green}%#%f%b '
+            PS1='[%n@%B%F{white}%m%f%b:%F{cyan}%~%f]%F{white}%B%#%f%b '
         fi
     else
         if [[ ${EUID} == 0 ]] ; then
             # show root@ when we don't have colors
-            PS1='%n@%m %~ %# '
+            PS1='!![%n@%m:%~]%# '
         else
-            PS1='%n@%m %~ %# '
+            PS1='[%n@%m:%~]%# '
         fi
     fi
 }
 
 do_colour
 unset -f do_colour
+
+# If command-not-found is available, use it
+if (( ! ${+functions[command_not_found_handler]} )) ; then
+	function command_not_found_handler {
+		[[ -x /usr/libexec/command-not-found ]] || return 1
+		/usr/libexec/command-not-found ${1+"$1"} && :
+	}
+fi
+
+# Source a local zsh_aliases
+if [ -f ~/.zsh_aliases ]; then
+    . ~/.zsh_aliases
+fi
+
+# Export our terminal title
+DISABLE_AUTO_TITLE="true"
+case $TERM in
+ cygwin|xterm*|putty*|rxvt*|ansi)
+    precmd () { builtin print -Pn "$USER@$HOST: \e\0;$USER@$HOST: %~\a"}
+    ;;
+ screen*)
+    precmd () { builtin print -Pn "\ek$1:q\e\\" }
+    ;;
+esac

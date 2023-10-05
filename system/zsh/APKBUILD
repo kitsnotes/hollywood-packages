@@ -8,8 +8,8 @@
 #     - CVE-2018-1071
 #
 pkgname=zsh
-pkgver=5.8.1
-pkgrel=2
+pkgver=5.9
+pkgrel=0
 pkgdesc="Very advanced and programmable command interpreter (shell)"
 url="https://www.zsh.org/"
 arch="all"
@@ -40,8 +40,7 @@ _comps="android-tools::Unix/_adb
 	postgresql:postgresql-client:Unix/_postgresql
 	rsync::Unix/_rsync
 	subversion::Unix/_subversion
-	tmux::Unix/_tmux
-	zfs::Unix/_zfs*:Unix/_zpool"
+	tmux::Unix/_tmux"
 for _i in $_comps; do
 	subpackages="$subpackages ${_i%%:*}-zsh-completion:_completion:noarch"
 done
@@ -158,8 +157,8 @@ _submv() {
 }
 
 sha512sums="
-f54a5a47ed15d134902613f6169c985680afc45a67538505e11b66b348fcb367145e9b8ae2d9eac185e07ef5f97254b85df01ba97294002a8c036fd02ed5e76d  zsh-5.8.1.tar.xz
+d9138b7f379ad942a5f46819d2dd52d31f3a1129f2a0d1b53d4c5cd43c318b60396da6d37c57c477b8e958fb750209aca0ae93f8c9dd42ac958de006a0ff067e  zsh-5.9.tar.xz
 d820fcf65bb3c52f23e968110b5df1188fc0b64079312f64d22ffe35de3b4f3055d4d629b3b0f97a1bfaddf62dbc80676af31c3a1a79645632082abfc854cf97  skel
 477dfca9b8e647f75b8bad72a830861274b9c06b2a0d1cc0b838cafb602aef2ffa79056783810917ec30eb86793d937ffad2729019669f042eead3e96352276a  zprofile
-1d6301e763aadc333b40008107da54d9d38366daa2799cfad44b211354552b1eea926b5e22ce1dc135f1fc68f20d40e550da421ad9c6aa9d907c78b85f271bb5  zshrc
+19eb40169763020478d65ba2f75c910f905069cdcef05e6c05a2116b85f886c31f424d551d5e2543be9eabe6a5da04960748a4dd823a7a0ebf2fbdb2f1d26cd7  zshrc
 "
