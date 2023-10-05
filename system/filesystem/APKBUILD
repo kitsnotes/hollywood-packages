@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=filesystem
-pkgver=1.0.0
-pkgrel=16
+pkgver=1.0.1
+pkgrel=0
 pkgdesc="Hollywood base dir structure and init scripts"
 url="https://originull.org"
 arch="all"
@@ -60,9 +60,7 @@ package() {
 		dev/shm \
 		etc \
 		etc/apk \
-		etc/conf.d \
 		etc/crontabs \
-		etc/init.d \
 		etc/modprobe.d \
 		etc/modules-load.d \
 		etc/network/if-down.d \
@@ -73,6 +71,7 @@ package() {
 		etc/skel \
 		etc/skel/Desktop \
 		etc/skel/Documents \
+		etc/skel/Downloads \
 		etc/skel/Music \
 		etc/skel/Templates \
 		etc/skel/Videos \
@@ -158,6 +157,7 @@ package() {
 		# valid login shells
 		/bin/sh
 		/bin/ash
+		/bin/bash
 		/bin/dash
 		/bin/zsh
 	EOF
