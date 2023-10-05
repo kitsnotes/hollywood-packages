@@ -49,12 +49,12 @@ if [ -f ~/.zsh_aliases ]; then
 fi
 
 # Export our terminal title
-DISABLE_AUTO_TITLE="true"
-case $TERM in
- cygwin|xterm*|putty*|rxvt*|ansi)
-    precmd () { builtin print -Pn "$USER@$HOST: \e\0;$USER@$HOST: %~\a"}
-    ;;
- screen*)
-    precmd () { builtin print -Pn "\ek$1:q\e\\" }
-    ;;
-esac
+#DISABLE_AUTO_TITLE="true"
+#case $TERM in
+# cygwin|xterm*|putty*|rxvt*|ansi)
+#    precmd () { builtin print -Pn "$USER@$HOST: \e\0;$USER@$HOST: %~\a"}
+#    ;;
+# screen*)
+#    precmd () { builtin print -Pn "\ek$1:q\e\\" }
+#    ;;
+#esac
