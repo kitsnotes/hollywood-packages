@@ -6,7 +6,7 @@ case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
 esac
-pkgrel=0	
+pkgrel=1
 pkgdesc="Linux kernel tools meta package"
 url="https://www.kernel.org/"
 arch="all"
@@ -33,11 +33,11 @@ makedepends="
 	libcap-dev
 	libtool
 	libtraceevent-dev
+	openssl-dev>3
 	linux-headers
 	llvm$_llvmver-dev
 	ncurses-dev
 	numactl-dev
-	python3-dev
 	sysfsutils-dev
 	libunwind-dev
 	xmlto
@@ -86,8 +86,8 @@ builddir="$srcdir"/linux-$_kernver
 
 _make_tools() {
 	make -C "$builddir"/tools \
-		VERSION=$pkgver-$pkgrel NLS=false LIBINTL_LIBS=-lintl WERROR=0 \
-		prefix=/usr libdir=/usr/lib lib=lib mandir=/usr/share/man \
+		VERSION=$pkgver-$pkgrel NLS=false LIBINTL_LIBS=-lintl WERROR=0 NO_LIBPYTHON=1 \
+		NO_JEVENTS=1 prefix=/usr libdir=/usr/lib lib=lib mandir=/usr/share/man \
 		"$@"
 }
 
