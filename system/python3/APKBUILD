@@ -1,8 +1,8 @@
 #Maintainer: Originull Software <packages@originull.org>
 pkgname=python3
 # the python3-tkinter's pkgver needs to be synchronized with this.
-pkgver=3.10.8
-_bluez_ver=5.65
+pkgver=3.11.6
+_bluez_ver=5.68
 _basever="${pkgver%.*}"
 pkgrel=1
 pkgdesc="A high-level scripting language"
@@ -38,9 +38,6 @@ makedepends="
 	"
 source="https://www.python.org/ftp/python/$pkgver/Python-$pkgver.tar.xz
 	https://www.kernel.org/pub/linux/bluetooth/bluez-$_bluez_ver.tar.xz
-	fix-xattrs-glibc.patch
-	custom-bluetooth-h-path.patch
-	arm-alignment.patch
 	"
 options="net" # Required for tests
 builddir="$srcdir/Python-$pkgver"
@@ -182,12 +179,8 @@ package() {
 	rm -r "$pkgdir"/usr/bin/idle* "$pkgdir"/usr/lib/python*/idlelib \
 		"$pkgdir"/usr/lib/python*/tkinter
 
-	# TODO(Leo): some stuff still wants /usr/bin/python to be python2
-	# which is a bummer because they are holding back progress but they
-	# are important enough that we need to do it
-	#
-	# Python3 is the canonical python for the moment
-	# ln -s /usr/bin/python3 "$pkgdir"/usr/bin/python
+	ln -s python3 "$pkgdir"/usr/bin/python
+        ln -s python3-config "$pkgdir"/usr/bin/python-config
 }
 
 dev() {
@@ -221,9 +214,6 @@ pythonispython3() {
 }
 
 sha512sums="
-40e3e77d79618c81d6fc57c5d119b99c2959dcf932f40aad6b26f2ec39c5e713e6ff298f7597b4fad2ab94680db3732483b5ca0a45e6ae58c14580b3ea44cb0f  Python-3.10.8.tar.xz
-c20c09a1a75053c77d73b3ce15ac7fd321eb6df5ca1646d57c6848b87c0c9957908bc17dd928da4ef2aacfc8667877cbc7511c1ba43db839bfa9bf1fb8269907  bluez-5.65.tar.xz
-fe123dd871f7a3fa868c499a957b94f1d815a1e1de964aaff1116c579defd4d9d1e9b7eb418cf114b169b97426ed603bf4b1e61b45ec483df06abe988c6a30ee  fix-xattrs-glibc.patch
-14b00953cdb5fe757b38dbf759d7203c3504b46e330494ec195db92290640ec640fb29cc4456208a25dadc028ebaf211b0df71f458a3b76023fdafb4f91ff46a  custom-bluetooth-h-path.patch
-a84483246e413650a904c34c18f5e4f4168c39067d069f48557c330de6eb3db19fd96a4d453d742db3dcb7c7f962722903f62823c752ff90510c89830435ffc0  arm-alignment.patch
+94b1038f6f53de0c44f99f72ed0f2e0791fd9d2a325ae00ba145b2b2c332c27b300b3ea3473017518089478f15e01867b1bb203c16610039cce36f8366de341a  Python-3.11.6.tar.xz
+1805fb68923a5e098777b69835d7593396f8f2bbf52e1cfe58e7447621497a700b23389c79e96b2d663c611335f6ea9df11efe8aa75a8842f6b73105f66e799c  bluez-5.68.tar.xz
 "
