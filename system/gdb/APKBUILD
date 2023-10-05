@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=gdb
-pkgver=12.1
-pkgrel=3
+pkgver=13.1
+pkgrel=0
 pkgdesc="The GNU Debugger"
 url="https://www.gnu.org/software/gdb/"
 arch="all"
@@ -87,5 +87,5 @@ multiarch() {
 }
 
 sha512sums="
-425568d2e84672177d0fb87b1ad7daafdde097648d605e30cf0656970f66adc6a82ca2d83375ea4be583e9683a340e5bfdf5819668ddf66728200141ae50ff2d  gdb-12.1.tar.xz
+e65054ffbc0357eeed4b17e1edc5ef45aa73c9ddf3b1210651e3d859576e27c1d27b266800fe26328eda58857455ccd8632f4000cfc5f63f90854096290187ca  gdb-13.1.tar.xz
 "
