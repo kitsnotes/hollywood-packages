@@ -1,8 +1,7 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=gpgme
-pkgver=1.18.0
-pkgrel=1
+pkgver=1.22.0
+pkgrel=0
 pkgdesc="gnupg made easy"
 url="https://www.gnupg.org/related_software/gpgme/"
 arch="all"
@@ -12,22 +11,53 @@ license="LGPL-2.1-or-later GPL-3.0-or-later"
 # gnupg-dirmngr); these must be explicitly defined in the package's depends
 # (not here!).
 depends="gpg gpg-agent gpgsm"
+makedepends="
+	libassuan-dev
+	libgpg-error-dev
+	py3-setuptools
+	py3-wheel
+	python3-dev
+	qt5-qtbase-dev
+	qt6-qtbase-dev
+	swig
+	texinfo
+	"
 checkdepends="gnupg"
-makedepends="python3-dev py3-setuptools py3-wheel swig libgpg-error-dev libassuan-dev qt5-qtbase-dev"
 install="$pkgname.post-upgrade gpgmepp.post-upgrade qgpgme.post-upgrade"
 subpackages="
 	$pkgname-dev
 	$pkgname-doc
 	gpgmepp
+	py3-gpgme-pyc
 	py3-gpgme:py3
 	q$pkgname
-	$pkgname-lisp:lisp:noarch
+	q${pkgname}6
+	$pkgname-lisp::noarch
 	"
 source="https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-$pkgver.tar.bz2
-	0003-python310.patch
-	gpgme-1.18.0-gpg_error_1_46-1.patch
+	lfs64.patch
+	fix-qt-tests.patch
 	"
-options="!check" # qt5 test suite failing
+
+case "$CARCH" in
+x86|armhf|armv7)
+	# the tests fail here despite some fixes above;
+	#
+	# FAIL!  : AddExistingSubkeyJobTest::testAddExistingSubkeyWithExpiration() Compared values are not the same
+	#    Actual   (result.code())                     : 1
+	#    Expected (static_cast<int>(GPG_ERR_INV_TIME)): 161
+	#    Loc: [t-addexistingsubkey.cpp(238)]
+	options="$options !check"
+	;;
+esac
+
+prepare() {
+	default_prepare
+
+	# can't build qt5+qt6 at once or share the same tree
+	cp -r "$builddir" "$srcdir"/qt6
+}
+
 build() {
 	./configure \
 		--build=$CBUILD \
@@ -37,18 +67,34 @@ build() {
 		--mandir=/usr/share/man \
 		--infodir=/usr/share/info \
 		--localstatedir=/var \
-		--enable-languages="cl cpp python qt" \
-		--enable-static
+		--enable-languages="python cl qt cpp" \
+		--enable-static \
+		--disable-dependency-tracking
+	make
+
+	cd "$srcdir"/qt6
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--localstatedir=/var \
+		--enable-languages="qt6 cpp" \
+		--enable-static \
+		--disable-dependency-tracking
 	make
 }
 
 package() {
 	make DESTDIR="$pkgdir" install
+	make -C "$srcdir"/qt6 DESTDIR="$pkgdir" install
 
-	#local eggdir="$(echo "$pkgdir"/usr/lib/python3*/site-packages/gpg-$pkgver-*.egg)"
-	#mv "$eggdir"/gpg "$pkgdir"/usr/lib/python3*/site-packages/
-	#mv "$eggdir"/EGG-INFO "${eggdir/-linux*/.egg-info}"
-	#rm -r "$eggdir"
+	local eggdir="$(echo "$pkgdir"/usr/lib/python3*/site-packages/gpg-$pkgver-*.egg)"
+	mv "$eggdir"/gpg "$pkgdir"/usr/lib/python3*/site-packages/
+	mv "$eggdir"/EGG-INFO "${eggdir/-linux*/.egg-info}"
+	rm -r "$eggdir"
 }
 
 check() {
@@ -76,13 +122,19 @@ py3() {
 }
 
 qgpgme() {
-	pkgdesc="Qt bindings for GPGME"
+	pkgdesc="Qt5 bindings for GPGME"
 
-	amove usr/lib/libqgpgme.so*
+	amove usr/lib/libqgpgme.so.*
+}
+
+qgpgme6() {
+	pkgdesc="Qt6 bindings for GPGME"
+
+	amove usr/lib/libqgpgmeqt6.so.*
 }
 
 sha512sums="
-c0cb0b337d017793a15dd477a7f5eaef24587fcda3d67676bf746bb342398d04792c51abe3c26ae496e799c769ce667d4196d91d86e8a690d02c6718c8f6b4ac  gpgme-1.18.0.tar.bz2
-d62367b69f31b507f0bbdfd6778a1491892f0ec26f8345a2186af78b8123e6d4e9687a90b0425a8cd5fb074e62d24f849d121c58b004ae68bed4e8260f7d5c6b  0003-python310.patch
-13436eebc4edcf354c68c9279f0ce89742436e968c6fbaa8d81581b94f52b570bf2f2f797891b8c9ea995c037018fb9c92bf7fbeb129ce86d37ce3e2a637dee9  gpgme-1.18.0-gpg_error_1_46-1.patch
+17053053fa885f01416433e43072ac716b5d5db0c3edf45b2d6e90e6384d127626e6ae3ce421abba8f449f5ca7e8963f3d62f3565d295847170bc998d1ec1a70  gpgme-1.22.0.tar.bz2
+14856041423365463d0e479b85c721f88761e507b480dfde3cda2deb2a323055f016125651a55f7c1b821cec76d2721196407c40c37dbe256959d9b3e1fdecf5  lfs64.patch
+061728bee3137c0bb4f4ec1595052049ac162127959d7e0b4565a4a59cd69d8e83ea427c1c6236b8a1c190cd77071d162cea8bb1a701d2bac6e86f1501869f5f  fix-qt-tests.patch
 "
