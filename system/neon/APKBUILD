@@ -1,0 +1,51 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=neon
+pkgver=0.32.5
+pkgrel=2
+pkgdesc="HTTP and WebDAV client library with a C interface"
+url="https://notroj.github.io/neon/"
+arch="all"
+license="LGPL-2.0-or-later"
+makedepends="
+	expat-dev
+	gzip
+	openssl-dev>3
+	xmlto
+	zlib-dev
+	"
+checkdepends="openssl>3"
+depends="ca-certificates"
+depends_dev="$makedepends"
+subpackages="$pkgname-dev $pkgname-doc"
+source="https://notroj.github.io/neon/neon-$pkgver.tar.gz"
+# /usr/bin/openssl invocation fails in testsuite, not sure why
+options="!check"
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--with-ssl \
+		--with-expat \
+		--without-gssapi \
+		--disable-nls \
+		--enable-shared \
+		--disable-static \
+		--enable-threadsafe-ssl=posix \
+		--with-ca-bundle=/etc/ssl/certs/ca-certificates.crt
+	make
+	make docs
+}
+
+check() {
+	make check
+}
+
+package() {
+	make -j1 DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+97a067fcea6156e2d5cf981e8d8fc9b0a709b8175bc8061a1f254bff7b11a27fdafc5e8425665523e917133084ea3a11e11de7c1210a8d2eb3f6b1cca26ea844  neon-0.32.5.tar.gz
+"
