@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0
-pkgrel=62
+pkgrel=63
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
@@ -199,8 +199,12 @@ desktop() {
 	mkdir -p "$subpkgdir"/usr/libexec/hollywood/helpers
 	mkdir -p "$subpkgdir"/usr/libexec/hollywood/settings
         mkdir -p "$subpkgdir"/usr/share/applications
+	mkdir -p "$subpkgdir"/usr/share/qhelp
 	mkdir -p "$subpkgdir"/usr/share/wayland-sessions
 	mkdir -p "$subpkgdir"/usr/share/polkit-1/actions
+
+        cp "$builddir"/help/build/qthelp/org.qhc "$subpkgdir"/usr/share/qhelp/org.originull.hollywood.qhc
+	cp "$builddir"/help/build/qthelp/org.originull.hollywood.qch "$subpkgdir"/usr/share/qhelp/org.originull.hollywood.qch
 
 	amove usr/libexec/hollywood/helpers/sysmon
 
@@ -362,7 +366,7 @@ image() {
 }
 
 sha512sums="
-28545e9f2a9cd383046adfe1c7986bde4fc82ec67e2aa4a2c6c685511582ffa0b20d19348a3c8db50047845b285a8a96adda2bbd4b0ad6619f35606069600aa1  hollywood-desktop-1.0.tar.gz
+ee0972de7f00f9d4e42922b4bfd1c669a1b8c94c83043d9c303e433771f18cd7f499a523ff835969bd622ea8633904a2fc040a7bb09ada0965ae8ce929bc6ef5  hollywood-desktop-1.0.tar.gz
 472516ee32d38e9307f916f7eea03a225ccd7fd2658a04b55fc9495374021898314cf95a912966fe84d13e887ef6dd300177e859099b98e18d30863ad6a19855  hollywood.conf
 1db0ca5dbaffb35f230811741f18e11fd03c3b516728ee99ca82b6ef846b7929b16301c804cb1f184ba5aa1c629df3e855ae5ec6cb5abdc55e5d3b38d9736be8  fontconfig.conf
 "
