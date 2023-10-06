@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=avahi
 pkgver=0.8
-pkgrel=14
+pkgrel=15
 pkgdesc="multicast/unicast DNS-SD framework"
 url="https://www.avahi.org/"
 arch="all"
@@ -83,6 +83,7 @@ build() {
 		--enable-compat-libdns_sd \
 		--enable-compat-howl \
 		--enable-python \
+		--with-systemdsystemunitdir=/usr/lib/systemd/system \
 		--with-dbus-sys=/usr/share/dbus-1/system.d \
 		--with-distro=debian
 	make
@@ -101,6 +102,7 @@ package() {
 	ln -s avahi-compat-libdns_sd.pc "$pkgdir"/usr/lib/pkgconfig/libdns_sd.pc
 	ln -s avahi-compat-libdns_sd/dns_sd.h "$pkgdir"/usr/include/
 
+	rm -rf "$pkgdir"/etc/init.d/
 	# XXX these are added since the python support, but are broken
 	rm -v "$pkgdir"/usr/bin/avahi-bookmarks
 	rm -v "$pkgdir"/usr/bin/avahi-discover
