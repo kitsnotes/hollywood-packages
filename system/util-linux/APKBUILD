@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=util-linux
 pkgver=2.38.1
-pkgrel=8
+pkgrel=9
 pkgdesc="Random collection of Linux utilities"
 url="https://git.kernel.org/cgit/utils/util-linux/util-linux.git"
 arch="all"
