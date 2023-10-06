@@ -1,8 +1,7 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=audit
-pkgver=3.0.9
-pkgrel=2
+pkgver=3.1.2
+pkgrel=0
 pkgdesc="User space tools for kernel auditing"
 url="https://people.redhat.com/sgrubb/audit/"
 arch="all"
@@ -45,6 +44,6 @@ static() {
 }
 
 sha512sums="
-5219eb0b41746eca3406008a97731c0083e7be50ec88563a39537de22cb69fe88490f5fe5a11535930f360b11a62538e2ff6cbe39e059cd760038363954ef4d6  audit-3.0.9.tar.gz
+a97003a294ed3671df01e2952688e7d5eef59a35f6891feb53e67c4c7eab9ae8c2d18de41a5b5b20e0ad7156fac93aec05f32f6bc5eea706b42b6f27f676446a  audit-3.1.2.tar.gz
 90c7d213a0b4ef27bf643e046dd2b3c5909706c62fba24ef34ecb32ff07b73fda13ed04c616a7cf8148115fc977aa1096b61e717abd5bd32f72f7bb4ac07999f  usr-paths.patch
 "
