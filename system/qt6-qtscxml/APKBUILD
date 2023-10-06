@@ -1,7 +1,6 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtscxml
-pkgver=6.3.1
+pkgver=6.5.2
 pkgrel=0
 pkgdesc="Static and runtime integration of SCXML models into Qt6 code"
 url="https://qt.io/"
@@ -39,5 +38,5 @@ package() {
 }
 
 sha512sums="
-b4782c6e9e98dfd8dae0ce75e69db7a3bc2f2764f8f8ee086e05d01e1cd4b824512925d5afc48ed0a6e8d15d43086fefb05b917a28018786726a58ea5bab6a78  qtscxml-everywhere-src-6.3.1.tar.xz
+fafea704d5e592a31c11f0039336de587353a57d5a69b07d0346fd2906488810d0ed1fc9267a0bf06aeae7f93ae19e150c5734bc969c1e0c7bc4e6215744ac3a  qtscxml-everywhere-src-6.5.2.tar.xz
 "

@@ -1,7 +1,6 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtnetworkauth
-pkgver=6.3.1
+pkgver=6.5.2
 pkgrel=0
 pkgdesc="Network authentication module"
 url="https://qt.io/"
@@ -38,5 +37,5 @@ package() {
 }
 
 sha512sums="
-e7e73c57f9bfebaca7990b5d886682a4fbe5d46c8c952d056514236ae7d6beee4614dc9c957c1fa2526c89c0fc70e7dc8727533d3cc754d367cd7ec749cf2e03  qtnetworkauth-everywhere-src-6.3.1.tar.xz
+f9374c2729f584532e90114a3bf8939eb27e90e31a2c76c414e8e5fb23a1feac96b23ec31ebfc59122f7d8431ef2ab285a8e840ffba143752e586a0a527d3436  qtnetworkauth-everywhere-src-6.5.2.tar.xz
 "

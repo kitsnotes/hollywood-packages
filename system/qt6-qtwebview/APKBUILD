@@ -1,7 +1,6 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtwebview
-pkgver=6.3.1
+pkgver=6.5.2
 pkgrel=0
 pkgdesc="Provides a way to display web content in a QML application"
 url="https://qt.io/"
@@ -54,5 +53,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-73529993e2ca308c841d731c87180bbdb25df93ccf3e472349c5f141f5212678ebe090898f1ee396c4cf07f9eab46e1c3cc7a5371ef5c0dc8fc0c0b9709b2997  qtwebview-everywhere-src-6.3.1.tar.xz
+fd392bd0fce6534d09c79e43db5f16514ae243edd31e0c0ea3a9028a65af5b5c3e5b770ff91e6b924141c412b6e8ca2538767e8280d761f7d33428a5c06daf2a  qtwebview-everywhere-src-6.5.2.tar.xz
 "
