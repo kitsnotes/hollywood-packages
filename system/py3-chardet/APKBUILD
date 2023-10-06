@@ -1,31 +1,39 @@
 # Maintainer: Originull Software <packages@originull.org>
 _pkgname=chardet
 pkgname=py3-$_pkgname
-pkgver=4.0.0
-pkgrel=5
+pkgver=5.2.0
+pkgrel=0
 pkgdesc="The Universal Character Encoding Detector"
 url="https://github.com/chardet/chardet/"
 arch="noarch"
 license="LGPL-2.1-or-later"
 depends="python3"
-makedepends="py3-setuptools"
+makedepends="py3-gpep517 py3-setuptools py3-wheel"
 checkdepends="py3-pytest"
-source="https://files.pythonhosted.org/packages/source/${_pkgname:0:1}/$_pkgname/$_pkgname-$pkgver.tar.gz"
+subpackages="$pkgname-pyc"
+source="$pkgname-$pkgver.tar.gz::https://github.com/chardet/chardet/archive/refs/tags/$pkgver.tar.gz"
 builddir="$srcdir/$_pkgname-$pkgver"
 
 replaces="py-chardet" # Backwards compatibility
 provides="py-chardet=$pkgver-r$pkgrel" # Backwards compatibility
 
 build() {
-	python3 setup.py build
+	gpep517 build-wheel \
+		--wheel-dir .dist \
+		--output-fd 3 3>&1 >&2
 }
 
 check() {
-	python3 -m pytest
+	python3 -m venv --clear --without-pip --system-site-packages .testenv
+	.testenv/bin/python3 -m installer .dist/*.whl
+	.testenv/bin/python3 -m pytest
 }
 
 package() {
-	python3 setup.py install --prefix=/usr --root="$pkgdir" --optimize=1
+	python3 -m installer -d "$pkgdir" \
+		.dist/*.whl
 }
 
-sha512sums="ebd7f420e1094445270db993f6373ffe7370419e002b0bb13299dc6c9b0f7c4e77b0f44f871fba6371e6869e7c86728514367db377e3137487a3acf50cb81e96  chardet-4.0.0.tar.gz"
+sha512sums="
+3c6614882b251e53322eb75fdd01c3d7664c5f611bbfc1480fa10d57f02906b4be42a8b7ff4d3bdc00465340a2ca46b31f1f0d25f64d4f69df0ac0876e71e87f  py3-chardet-5.2.0.tar.gz
+"

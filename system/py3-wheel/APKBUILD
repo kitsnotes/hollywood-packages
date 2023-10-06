@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-wheel
 _pyname=wheel
-pkgver=0.36.2
-pkgrel=4
+pkgver=0.41.2
+pkgrel=0
 pkgdesc="built-package format for Python"
 options="!check" # Testsuite fails
 url="https://github.com/pypa/wheel"
@@ -28,5 +28,7 @@ package() {
 	python3 setup.py install --prefix=/usr --root="$pkgdir"
 	install -Dm 0644 "$srcdir"/$_pyname-$pkgver/docs/index.rst "$pkgdir/usr/share/doc/py3-wheel"
 }
-sha512sums="73f5c6e77b8c396163b02e12ce7291e32960d771c732d8e97476971201b29e654d53551b2ce17db1fbde5697ced1908607995cac38fe2b61c63aec6abd4b6aaf  wheel-0.36.2.tar.gz
-e20281a6fd42cf6dd24be9edf6b469cc7da0c03012127f5224a03c7cd40c785a8f7ae8e4c9829b590e5ca1242300224dcb7c3e571a9347736608512065a27065  use-system-packaging.patch"
+sha512sums="
+46632c2e61f286d33609bc7f954da86c537e4c70b30cb57e79ae8fd5e4422f4fb46dcf2434361d3c6b45b9e5adc6cbf33daa1cd2fc40f31a393162c97ed38356  wheel-0.41.2.tar.gz
+3ff5bb40767039ced5073c18a5c8e069387997f0179709e93f4f90ffc41933037b61a62728702e1a45053f2575e056a8afcf0cce972f91e97a38a6dfa7aa153d  use-system-packaging.patch
+"

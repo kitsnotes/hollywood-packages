@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-yaml
 _pkgname=PyYAML
-pkgver=5.4.1.1
-pkgrel=3
+pkgver=6.0.1
+pkgrel=0
 pkgdesc="Python3 bindings for YAML"
 url="https://pyyaml.org/"
 arch="all"
@@ -38,4 +38,6 @@ package() {
 	python3 setup.py install --prefix=/usr --root="$pkgdir"
 }
 
-sha512sums="bcbe911fbef7e6e8ef8a76293593d4d792dbbf0931a2d031cdeacddf7064b69f958484217bc60d1b7614dcc83ef56cd5c0cd48a0339ab9add623ef70cb2d0a20  PyYAML-5.4.1.1.tar.gz"
+sha512sums="
+1c74a92a4ad7d47854dc7bcb2e89b3c8e0b14fa815c7dbfbc22b24480dbba6c81e971c77ee384c494a960914b95f06edf943d7431925a5ed674a0ba830d258e0  PyYAML-6.0.1.tar.gz
+"
