@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libxcrypt
 pkgver=4.4.28
-pkgrel=1
+pkgrel=3
 pkgdesc="Extended crypt library for descrypt, md5crypt, bcrypt and others."
 url="https://github.com/besser82/libxcrypt"
 arch="all"
@@ -59,6 +59,8 @@ compat() {
 
 	make DESTDIR="$subpkgdir" install
 	rm -rf "$subpkgdir"/usr/share/man/
+	rm -rf "$subpkgdir"/usr/lib/pkgconfig/
+	rm -rf "$subpkgdir"/usr/include/
 }
 
 sha512sums="
