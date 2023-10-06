@@ -1,8 +1,6 @@
-# Contributor: Stuart Cardall <developer@it-offshore.co.uk>
-# Contributor: Oleg Titov <oleg.titov@gmail.com>
-# Maintainer: Stuart Cardall <developer@it-offshore.co.uk>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=cython
-pkgver=0.29.24
+pkgver=0.29.36
 pkgrel=1
 pkgdesc="Cython is an optimising static compiler for both the Python & the extended Cython programming languages."
 url="https://cython.org/"
@@ -11,8 +9,7 @@ license="Apache-2.0"
 makedepends="py3-setuptools python3-dev"
 depends="python3"
 subpackages="cython-doc"
-source="cython-$pkgver.tar.gz::https://github.com/cython/cython/archive/$pkgver.tar.gz
-cython-test-fix.patch"
+source="cython-$pkgver.tar.gz::https://github.com/cython/cython/archive/$pkgver.tar.gz"
 
 # compatible fix for removing dev subpkg from apkbuild
 # cython is not a library but a compiler and does not need a dev subpackage
@@ -34,6 +31,5 @@ package() {
 }
 
 sha512sums="
-387a827f3cb7428248019744e3ed606a133d98ac882b83624d24ae0fdf8a8f2334978555d7d84e5cc4adaf715c541fef64e45bcbdda85ca33473c21f99360be8  cython-0.29.24.tar.gz
-6a924351d54636edf5c65309c285a7298a6b25d28a81812c636fd16901471b4d9522f271ec28c2e03c0a48fa926aa52bfbe60bf4cb80073d7837b81828a7220c  cython-test-fix.patch
+a086fe1a11290cd3c870b891e61a0a0e2595bab9c26888024a758b6950c07059346d682fa9349e46c0af89805abbdd750059b3189960b8ce18007dfb5eb4391a  cython-0.29.36.tar.gz
 "
