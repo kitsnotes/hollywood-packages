@@ -1,28 +1,24 @@
-diff -Naur libapk-qt-v0.4.2/CMakeLists.txt libapk-qt-v0.4.2-qt6/CMakeLists.txt
---- libapk-qt-v0.4.2/CMakeLists.txt	2021-02-24 02:03:31.000000000 -0800
-+++ libapk-qt-v0.4.2-qt6/CMakeLists.txt	2022-07-24 14:07:30.512394140 -0700
-@@ -34,7 +34,7 @@
+diff -Naur libapk-qt-v0.4.4-orig/CMakeLists.txt libapk-qt-v0.4.4/CMakeLists.txt
+--- libapk-qt-v0.4.4-orig/CMakeLists.txt	2023-10-05 20:08:55.660000000 -0700
++++ libapk-qt-v0.4.4/CMakeLists.txt	2023-10-05 20:09:27.390000000 -0700
+@@ -35,11 +35,11 @@
  set(CMAKE_AUTOMOC ON)
  
  # Required by ApkQt
--find_package(Qt5 CONFIG REQUIRED COMPONENTS Core)
-+find_package(Qt6 CONFIG REQUIRED COMPONENTS Core)
+-set(QT_DEFAULT_MAJOR_VERSION 5)
++set(QT_DEFAULT_MAJOR_VERSION 6)
+ find_package(QT NAMES Qt5 Qt6 REQUIRED COMPONENTS Core)
+ message(STATUS "Qt major version: ${QT_VERSION_MAJOR}")
+-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
+-#find_package(Qt6 REQUIRED COMPONENTS Core) # Uncomment this instead of line above to try Qt6
++#find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
++find_package(Qt6 REQUIRED COMPONENTS Core) # Uncomment this instead of line above to try Qt6
  find_package(LibApk REQUIRED)
  
- # Install cmake package configuration files
-diff -Naur libapk-qt-v0.4.2/apk-qt.pc.in libapk-qt-v0.4.2-qt6/apk-qt.pc.in
---- libapk-qt-v0.4.2/apk-qt.pc.in	2021-02-24 02:03:31.000000000 -0800
-+++ libapk-qt-v0.4.2-qt6/apk-qt.pc.in	2022-07-24 14:07:30.512394140 -0700
-@@ -7,5 +7,5 @@
- Version: @QTAPK_VERSION_STRING@
- Libs: -lapk-qt
- Cflags: -I${includedir}/ApkQt
--Requires: Qt5Core
-+Requires: Qt6Core
- Requires.private: apk
-diff -Naur libapk-qt-v0.4.2/examples/CMakeLists.txt libapk-qt-v0.4.2-qt6/examples/CMakeLists.txt
---- libapk-qt-v0.4.2/examples/CMakeLists.txt	2021-02-24 02:03:31.000000000 -0800
-+++ libapk-qt-v0.4.2-qt6/examples/CMakeLists.txt	2022-07-24 14:07:30.512394140 -0700
+ if(QT_MAJOR_VERSION EQUAL "6")
+diff -Naur libapk-qt-v0.4.4-orig/examples/CMakeLists.txt libapk-qt-v0.4.4/examples/CMakeLists.txt
+--- libapk-qt-v0.4.4-orig/examples/CMakeLists.txt	2023-10-05 20:08:55.660000000 -0700
++++ libapk-qt-v0.4.4/examples/CMakeLists.txt	2023-10-05 20:10:26.450000000 -0700
 @@ -13,7 +13,7 @@
  
  include(FeatureSummary)
@@ -41,60 +37,21 @@ diff -Naur libapk-qt-v0.4.2/examples/CMakeLists.txt libapk-qt-v0.4.2-qt6/example
      apk-qt
  )
  
-diff -Naur libapk-qt-v0.4.2/src/CMakeLists.txt libapk-qt-v0.4.2-qt6/src/CMakeLists.txt
---- libapk-qt-v0.4.2/src/CMakeLists.txt	2021-02-24 02:03:31.000000000 -0800
-+++ libapk-qt-v0.4.2-qt6/src/CMakeLists.txt	2022-07-24 14:07:30.512394140 -0700
+diff -Naur libapk-qt-v0.4.4-orig/src/CMakeLists.txt libapk-qt-v0.4.4/src/CMakeLists.txt
+--- libapk-qt-v0.4.4-orig/src/CMakeLists.txt	2023-10-05 20:08:55.670000000 -0700
++++ libapk-qt-v0.4.4/src/CMakeLists.txt	2023-10-05 20:09:52.130000000 -0700
 @@ -49,7 +49,7 @@
  )
  
  
--target_link_libraries(apk-qt PUBLIC Qt5::Core)
+-target_link_libraries(apk-qt PUBLIC Qt::Core)
 +target_link_libraries(apk-qt PUBLIC Qt6::Core)
  
  if (USE_STATIC_LIBAPK)
      target_link_libraries(apk-qt PRIVATE LibApk::LibApkStatic)
-diff -Naur libapk-qt-v0.4.2/src/QtApk_metatypes.cpp libapk-qt-v0.4.2-qt6/src/QtApk_metatypes.cpp
---- libapk-qt-v0.4.2/src/QtApk_metatypes.cpp	2021-02-24 02:03:31.000000000 -0800
-+++ libapk-qt-v0.4.2-qt6/src/QtApk_metatypes.cpp	2022-07-24 14:08:12.569021784 -0700
-@@ -12,21 +12,21 @@
-     // register types withing Qt's type system
-     // it will allow us to use our types with QVariant
-     // and in signal-slot connections
--    qRegisterMetaType<QtApk::Package>("QtApk::Package");
--    qRegisterMetaTypeStreamOperators<QtApk::Package>("QtApk::Package");
--    qRegisterMetaTypeStreamOperators<QVector<QtApk::Package>>("QVector<QtApk::Package>");
--    qRegisterMetaType<QtApk::Repository>("QtApk::Repository");
--    qRegisterMetaTypeStreamOperators<QtApk::Repository>("QtApk::Repository");
--    qRegisterMetaTypeStreamOperators<QVector<QtApk::Repository>>("QVector<QtApk::Repository>");
-+    //qRegisterMetaType<QtApk::Package>("QtApk::Package");
-+//    qRegisterMetaTypeStreamOperators<QtApk::Package>("QtApk::Package");
-+ //   qRegisterMetaTypeStreamOperators<QVector<QtApk::Package>>("QVector<QtApk::Package>");
-+    //qRegisterMetaType<QtApk::Repository>("QtApk::Repository");
-+  //  qRegisterMetaTypeStreamOperators<QtApk::Repository>("QtApk::Repository");
-+  //  qRegisterMetaTypeStreamOperators<QVector<QtApk::Repository>>("QVector<QtApk::Repository>");
-     // also register flags
--    qRegisterMetaType<QtApk::DbOpenFlags>("QtApk::DbOpenFlags");
--    qRegisterMetaType<QtApk::DbOpenFlags>("DbOpenFlags"); // without namespace
--    qRegisterMetaType<QtApk::DbUpdateFlags>("QtApk::DbUpdateFlags");
--    qRegisterMetaType<QtApk::DbUpdateFlags>("DbUpdateFlags"); // without namespace
--    qRegisterMetaType<QtApk::DbUpgradeFlags>("QtApk::DbUpgradeFlags");
--    qRegisterMetaType<QtApk::DbUpgradeFlags>("DbUpgradeFlags"); // without namespace
--    qRegisterMetaType<QtApk::DbDelFlags>("QtApk::DbDelFlags");
--    qRegisterMetaType<QtApk::DbDelFlags>("DbDelFlags"); // without namespace
-+    //qRegisterMetaType<QtApk::DbOpenFlags>("QtApk::DbOpenFlags");
-+    //qRegisterMetaType<QtApk::DbOpenFlags>("DbOpenFlags"); // without namespace
-+    //qRegisterMetaType<QtApk::DbUpdateFlags>("QtApk::DbUpdateFlags");
-+    //qRegisterMetaType<QtApk::DbUpdateFlags>("DbUpdateFlags"); // without namespace
-+   // qRegisterMetaType<QtApk::DbUpgradeFlags>("QtApk::DbUpgradeFlags");
-+    //qRegisterMetaType<QtApk::DbUpgradeFlags>("DbUpgradeFlags"); // without namespace
-+    //qRegisterMetaType<QtApk::DbDelFlags>("QtApk::DbDelFlags");
-+    //qRegisterMetaType<QtApk::DbDelFlags>("DbDelFlags"); // without namespace
- }
- 
- Q_CONSTRUCTOR_FUNCTION(registerMetaTypes);
-diff -Naur libapk-qt-v0.4.2/tests/CMakeLists.txt libapk-qt-v0.4.2-qt6/tests/CMakeLists.txt
---- libapk-qt-v0.4.2/tests/CMakeLists.txt	2021-02-24 02:03:31.000000000 -0800
-+++ libapk-qt-v0.4.2-qt6/tests/CMakeLists.txt	2022-07-24 14:07:30.512394140 -0700
+diff -Naur libapk-qt-v0.4.4-orig/tests/CMakeLists.txt libapk-qt-v0.4.4/tests/CMakeLists.txt
+--- libapk-qt-v0.4.4-orig/tests/CMakeLists.txt	2023-10-05 20:08:55.680000000 -0700
++++ libapk-qt-v0.4.4/tests/CMakeLists.txt	2023-10-05 20:10:07.670000000 -0700
 @@ -7,37 +7,37 @@
  )
  
