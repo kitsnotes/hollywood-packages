@@ -1,0 +1,33 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=py3-gpep517
+_pkgname=gpep517
+pkgver=15
+pkgrel=0
+pkgdesc="Minimal backend script to aid installing Python packages through PEP 517-compliant build systems"
+url="https://github.com/mgorny/gpep517/"
+arch="noarch"
+license="MIT"
+depends="py3-installer python3"
+subpackages="$pkgname-pyc"
+source="https://github.com/mgorny/gpep517/archive/v$pkgver/gpep517-v$pkgver.tar.gz
+	gpep517
+	"
+builddir="$srcdir/$_pkgname-$pkgver"
+
+check() {
+	python3 -m gpep517 --help
+}
+
+package() {
+	local sitedir="$(python3 -c 'import site;print(site.getsitepackages()[0])')"
+	mkdir -p "$pkgdir/$sitedir"
+	cp -a gpep517 "$pkgdir/$sitedir"
+	python3 -m compileall "$pkgdir/$sitedir"
+
+	install -Dm755 "$srcdir"/gpep517 -t "$pkgdir"/usr/bin
+}
+
+sha512sums="
+7c3b878220e907ef801301eadc0e3031dd3c31770cc50bb7119ab32f9244c8a33792b4896ddeffc5d4b7be9f1d881fba5179de155f11845f510e455be59fb92e  gpep517-v15.tar.gz
+3e90bf2d94006672c66f5082812115903054b6e05a5d37aa9a0fd33f7b2c8368f13e5fbd3ea815c386d6155dcbf8babd69faa9ca27b95f35b35a4ef47974efd7  gpep517
+"
