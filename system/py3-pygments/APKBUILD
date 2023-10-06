@@ -1,18 +1,19 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-pygments
 _pkgname=Pygments
-pkgver=2.10.0
-pkgrel=2
+pkgver=2.16.1
+pkgrel=1
 pkgdesc="Syntax highlighting package written in Python"
 url="https://pygments.org/"
 arch="noarch"
 license="BSD-2-Clause"
 depends="python3"
-makedepends="py3-setuptools"
-checkdepends="py3-pytest"
-subpackages="$pkgname-doc"
+makedepends="py3-setuptools py3-gpep517 py3-wheel py3-installer"
+checkdepends="py3-pytest py3-lxml py3-wcag-contrast-ratio"
+subpackages="$pkgname-pyc $pkgname-doc"
 source="https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-$pkgver.tar.gz"
 builddir="$srcdir/$_pkgname-$pkgver"
+options="!check" # causes issues when bootstrapping (py3-pytest depends on this)
 
 replaces="py-pygments" # Backwards compatibility
 provides="py-pygments=$pkgver-r$pkgrel" # Backwards compatibility
@@ -22,7 +23,9 @@ provides="py-pygments=$pkgver-r$pkgrel" # Backwards compatibility
 #     - CVE-2021-20270
 
 build() {
-	python3 setup.py build
+	gpep517 build-wheel \
+		--wheel-dir .dist \
+		--output-fd 3 3>&1 >&2
 }
 
 check() {
@@ -30,7 +33,8 @@ check() {
 }
 
 package() {
-	python3 setup.py install --prefix=/usr --root="$pkgdir"
+	python3 -m installer -d "$pkgdir" \
+		.dist/Pygments*.whl
 
 	mkdir -p "$pkgdir"/usr/bin
 	ln -s pygmentize "$pkgdir"/usr/bin/pygmentize-3
@@ -55,5 +59,5 @@ doc() {
 }
 
 sha512sums="
-28fdf35e333717795f199e0ef936d6df16ac0752324839ac36cabd2f9f6759a57663527d37f1c2f470258d63c3cf190f6dd4b631b21c849fc76575036fbdae12  Pygments-2.10.0.tar.gz
+9b66c79c03e7ecd36cc00efd428a0a6b372e70dbccdcaae26eff4d56c07a17e2e00d2cf0291eb6624ffd1c896b797789b973e80ccbca4240d56daad95eacfd80  Pygments-2.16.1.tar.gz
 "

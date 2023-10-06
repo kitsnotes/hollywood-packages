@@ -1,0 +1,39 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=py3-flit-core
+pkgver=3.9.0
+pkgrel=0
+pkgdesc="simple packaging tool for simple packages (core)"
+url="https://flit.readthedocs.io/"
+arch="noarch"
+license="BSD-3-Clause"
+makedepends="py3-installer"
+checkdepends="py3-pytest py3-testpath"
+subpackages="$pkgname-pyc"
+source="https://files.pythonhosted.org/packages/source/f/flit/flit-$pkgver.tar.gz"
+builddir="$srcdir/flit-$pkgver/flit_core"
+options="!check" # py3-testpath depends on this
+
+# split from py3-flit, allow replacing files
+replaces="py3-flit<3.5.1-r3"
+
+build() {
+	# don't need this with py3.11 for tomli
+	rm -rf flit_core/vendor/
+	python3 build_dists.py
+}
+
+check() {
+	python3 -m pytest
+}
+
+package() {
+	python3 -m installer -d "$pkgdir" \
+		dist/flit_core-$pkgver-py3-none-any.whl
+
+	# remove installed tests
+	rm -r "$pkgdir"/usr/lib/python3*/site-packages/flit_core/tests
+}
+
+sha512sums="
+3cbca4530fe463e27fb43130e0d00681e63434bdd552bd61b4a2f3b7967729d9d9a49c69b1a2380ed99bcca1e66a38e592f41cbe38a471d3e7297ab00cdabc29  flit-3.9.0.tar.gz
+"
