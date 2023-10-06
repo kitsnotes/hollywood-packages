@@ -1,9 +1,8 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-bcrypt
 _pkgname=bcrypt
 pkgver=3.2.0
-pkgrel=5
+pkgrel=7
 pkgdesc="Modern password hashing for your software and your servers"
 url="https://github.com/pyca/bcrypt"
 arch="all"

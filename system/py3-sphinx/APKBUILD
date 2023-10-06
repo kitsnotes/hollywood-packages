@@ -1,8 +1,7 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Fabian Affolter <fabian@affolter-engineering.ch>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-sphinx
 pkgver=4.3.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Python Documentation Generator"
 # checkdepends require 'imagemagick' and 'py3-html5lib' which
 # are in community/, 'imagemagick' itself also needs 'librsvg'

@@ -1,8 +1,7 @@
-# Maintainer: Luca Weiss <luca@z3ntu.xyz>
-pkgname=py3-dbusmock
+# Maintainer: Originull Software <packages@originull.org>
 _pyname=python-dbusmock
 pkgver=0.28.0
-pkgrel=0
+pkgrel=1
 pkgdesc="Mock D-Bus objects for tests"
 url="https://github.com/martinpitt/python-dbusmock"
 arch="noarch"

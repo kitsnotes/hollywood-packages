@@ -1,10 +1,8 @@
-# Contributor: Fabian Affolter <fabian@affolter-engineering.ch>
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
-# Maintainer: Fabian Affolter <fabian@affolter-engineering.ch>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-yaml
 _pkgname=PyYAML
 pkgver=5.4.1.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Python3 bindings for YAML"
 url="https://pyyaml.org/"
 arch="all"

@@ -1,9 +1,8 @@
-# Contributor: Peter Bui <pnutzh4x0r@gmail.com>
-# Maintainer: Matt Smith <mcs@darkregion.net>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-pygments
 _pkgname=Pygments
 pkgver=2.10.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Syntax highlighting package written in Python"
 url="https://pygments.org/"
 arch="noarch"

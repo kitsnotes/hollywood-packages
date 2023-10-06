@@ -1,8 +1,8 @@
-# Maintainer: Drew DeVault <sir@cmpwn.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-six
 _pkgname=six
 pkgver=1.16.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Python 2 and 3 compatibility library"
 url="https://pypi.python.org/pypi/six"
 arch="noarch"

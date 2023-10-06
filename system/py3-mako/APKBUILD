@@ -1,9 +1,8 @@
-# Contributor: Fabian Affolter <fabian@affolter-engineering.ch>
-# Maintainer: Fabian Affolter <fabian@affolter-engineering.ch>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-mako
 _pkgname=Mako
 pkgver=1.1.5
-pkgrel=1
+pkgrel=2
 pkgdesc="Python3 fast templating language"
 url="https://www.makotemplates.org/"
 arch="noarch"

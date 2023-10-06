@@ -1,8 +1,7 @@
-# Contributor: Jean-Louis Fuchs <jean-louis.fuchs@adfinis-sygroup.ch>
-# Maintainer: Jean-Louis Fuchs <jean-louis.fuchs@adfinis-sygroup.ch>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-monotonic
 pkgver=1.6
-pkgrel=1
+pkgrel=2
 pkgdesc="Provides a clock which never goes backwards"
 url="https://github.com/atdt/monotonic/"
 arch="noarch"

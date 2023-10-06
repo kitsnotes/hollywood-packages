@@ -1,9 +1,8 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-idna
 _pkgname=idna
 pkgver=3.3
-pkgrel=1
+pkgrel=2
 pkgdesc="IDNA 2008 and UTS #46 for Python3"
 url="https://github.com/kjd/idna"
 arch="noarch"

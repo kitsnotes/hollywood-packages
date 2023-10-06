@@ -1,9 +1,8 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Fabian Affolter <fabian@affolter-engineering.ch>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-snowballstemmer
 _pkgname=snowballstemmer
 pkgver=2.1.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Snowball stemming library collection for Python3"
 url="https://github.com/shibukawa/snowball_py"
 arch="noarch"

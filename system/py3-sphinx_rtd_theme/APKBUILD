@@ -1,9 +1,8 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Fabian Affolter <fabian@affolter-engineering.ch>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-sphinx_rtd_theme
 _pkgname=sphinx_rtd_theme
 pkgver=0.4.3
-pkgrel=5
+pkgrel=6
 pkgdesc="Sphinx theme for readthedocs.org"
 url="https://github.com/snide/sphinx_rtd_theme"
 arch="noarch"

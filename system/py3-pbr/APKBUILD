@@ -1,9 +1,8 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-pbr
 _pkgname=pbr
 pkgver=5.8.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Python3 Build Reasonableness"
 url="https://pypi.python.org/pypi/pbr"
 arch="noarch"

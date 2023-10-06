@@ -1,8 +1,7 @@
-# Contributor: Jean-Louis Fuchs <jean-louis.fuchs@adfinis-sygroup.ch>
-# Maintainer: Jean-Louis Fuchs <jean-louis.fuchs@adfinis-sygroup.ch>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-attrs
 pkgver=21.2.0
-pkgrel=1
+pkgrel=3
 pkgdesc="Python classes without boilerplate"
 url="http://www.attrs.org"
 arch="noarch"

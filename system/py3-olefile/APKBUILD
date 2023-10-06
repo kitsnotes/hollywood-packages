@@ -1,8 +1,7 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-olefile
 pkgver=0.46
-pkgrel=6
+pkgrel=7
 pkgdesc="Python module to read/write MS OLE2 files"
 url="https://www.decalage.info/olefile"
 arch="noarch"

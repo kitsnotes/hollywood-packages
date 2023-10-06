@@ -1,8 +1,8 @@
-# Maintainer: Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-tappy
 _pkgname=tap.py
 pkgver=3.0
-pkgrel=4
+pkgrel=5
 pkgdesc="Python3 Test Anything Protocol (TAP) tools"
 url="https://github.com/python-tap/tappy"
 arch="noarch"

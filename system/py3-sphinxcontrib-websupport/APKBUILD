@@ -1,8 +1,8 @@
-# Maintainer: André Klitzing <aklitzing@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-sphinxcontrib-websupport
 _pkgname=sphinxcontrib-websupport
 pkgver=1.2.4
-pkgrel=1
+pkgrel=2
 pkgdesc="Sphinx API for Web Apps"
 url="https://pypi.python.org/pypi/sphinxcontrib-websupport"
 arch="noarch"

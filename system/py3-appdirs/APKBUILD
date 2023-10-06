@@ -1,9 +1,8 @@
-# Contributor: TBK <alpine@jjtc.eu>
-# Maintainer: Keith Maxwell <keith.maxwell@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-appdirs
 _pkgname=appdirs
 pkgver=1.4.4
-pkgrel=3
+pkgrel=6
 pkgdesc="A small Python module for determining appropriate platform-specific dirs."
 url="https://pypi.org/project/appdirs/"
 arch="noarch"

@@ -1,8 +1,7 @@
-# Contributor: Peter Bui <pnutzh4x0r@gmail.com>
-# Maintainer: Drew DeVault <sir@cmpwn.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-asn1
 pkgver=0.4.8
-pkgrel=2
+pkgrel=5
 pkgdesc="Python3 ASN1 library"
 url="http://snmplabs.com/pyasn1/"
 arch="noarch"

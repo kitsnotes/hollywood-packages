@@ -1,8 +1,7 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-pynacl
 pkgver=1.4.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Python3 binding to the Networking and Cryptography (NaCl) library"
 url="https://github.com/pyca/pynacl"
 arch="all"

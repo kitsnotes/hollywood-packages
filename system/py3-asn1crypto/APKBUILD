@@ -1,9 +1,8 @@
-# Contributor: André Klitzing <aklitzing@gmail.com>
-# Maintainer: André Klitzing <aklitzing@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-asn1crypto
 _pyname=asn1crypto
 pkgver=1.4.0
-pkgrel=2
+pkgrel=5
 pkgdesc="Python3 ASN.1 library with a focus on performance and a pythonic API"
 url="https://github.com/wbond/asn1crypto"
 arch="noarch"

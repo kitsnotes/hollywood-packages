@@ -1,8 +1,7 @@
-# Contributor: Fabian Affolter <fabian@affolter-engineering.ch>
-# Maintainer: Fabian Affolter <fabian@affolter-engineering.ch>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-pillow
 pkgver=8.4.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Python Imaging Library"
 options="!check"
 url="https://python-pillow.org/"

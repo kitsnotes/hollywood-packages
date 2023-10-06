@@ -1,9 +1,8 @@
-# Contributor: <xmingske@gmail.com>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 _pkgname=chardet
 pkgname=py3-$_pkgname
 pkgver=4.0.0
-pkgrel=3
+pkgrel=5
 pkgdesc="The Universal Character Encoding Detector"
 url="https://github.com/chardet/chardet/"
 arch="noarch"

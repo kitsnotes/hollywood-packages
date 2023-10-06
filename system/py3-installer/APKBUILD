@@ -1,8 +1,7 @@
-# Contributor: Sean McAvoy <seanmcavoy@gmail.com>
-# Maintainer: Sean McAvoy <seanmcavoy@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-installer
 pkgver=0.6.0
-pkgrel=0
+pkgrel=1
 pkgdesc="low-level library for installing from a Python wheel distribution"
 url="https://github.com/pypa/installer"
 arch="noarch"

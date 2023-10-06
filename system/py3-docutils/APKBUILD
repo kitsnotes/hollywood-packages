@@ -1,8 +1,7 @@
-# Contributor: Matt Smith <mcs@darkregion.net>
-# Maintainer: Matt Smith <mcs@darkregion.net>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-docutils
 pkgver=0.16
-pkgrel=4
+pkgrel=5
 pkgdesc="Documentation Utilities for Python3"
 url="https://pypi.python.org/pypi/docutils"
 arch="noarch"

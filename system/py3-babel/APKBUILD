@@ -1,9 +1,8 @@
-# Contributor: Kaarle Ritvanen <kunkku@alpinelinux.org>
-# Maintainer: Kaarle Ritvanen <kunkku@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-babel
 _pkgname=Babel
 pkgver=2.9.1
-pkgrel=1
+pkgrel=3
 pkgdesc="Python3 i18n tool"
 url="http://babel.pocoo.org/"
 arch="noarch"

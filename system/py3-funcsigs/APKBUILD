@@ -1,9 +1,8 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-funcsigs
 _pkgname=funcsigs
 pkgver=1.0.2
-pkgrel=6
+pkgrel=7
 pkgdesc="Python3 function signatures from PEP362 for Python 3.2+"
 url="http://funcsigs.readthedocs.org"
 arch="noarch"

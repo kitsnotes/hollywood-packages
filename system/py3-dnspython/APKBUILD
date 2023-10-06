@@ -1,9 +1,8 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-dnspython
 _pyname=dnspython
 pkgver=2.1.0
-pkgrel=2
+pkgrel=3
 pkgdesc="A DNS toolkit for Python3"
 url="https://www.dnspython.org/"
 arch="all"

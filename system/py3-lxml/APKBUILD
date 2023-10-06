@@ -1,10 +1,8 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-lxml
 _pkgname=lxml
 pkgver=4.9.0
-pkgrel=0
+pkgrel=1
 pkgdesc="Python3 LXML Library"
 url="https://lxml.de/"
 arch="all"

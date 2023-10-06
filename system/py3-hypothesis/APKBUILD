@@ -1,9 +1,7 @@
-# Contributor: Drew DeVault <sir@cmpwn.com>
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Maintainer: Michał Polański <michal@polanski.me>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-hypothesis
 pkgver=6.31.6
-pkgrel=0
+pkgrel=1
 pkgdesc="Advanced property-based (QuickCheck-like) testing for Python"
 options="!check"
 url="https://hypothesis.works/"

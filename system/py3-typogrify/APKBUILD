@@ -1,8 +1,7 @@
-# Contributor: Patrycja Rosa <alpine@ptrcnull.me>
-# Maintainer: Patrycja Rosa <alpine@ptrcnull.me>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-typogrify
 pkgver=2.0.7
-pkgrel=1
+pkgrel=2
 pkgdesc="Filters to enhance web typography, including support for Django & Jinja templates"
 url="https://github.com/mintchaos/typogrify"
 arch="noarch"

@@ -1,8 +1,7 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-ordered-set
 pkgver=4.0.2
-pkgrel=3
+pkgrel=4
 pkgdesc="MutableSet that remembers its order"
 url="https://github.com/LuminosoInsight/ordered-set"
 arch="noarch"

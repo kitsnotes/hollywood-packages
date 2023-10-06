@@ -1,9 +1,8 @@
-# Contributor: Stefan Wagner <stw@bit-strickerei.de>
-# Maintainer: Stefan Wagner <stw@bit-strickerei.de>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-webencodings
 _pkgname=webencodings
 pkgver=0.5.1
-pkgrel=5
+pkgrel=6
 pkgdesc="Character encoding for the web"
 url="https://github.com/gsnedders/python-webencodings"
 arch="noarch"

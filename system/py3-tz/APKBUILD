@@ -1,8 +1,7 @@
-# Contributor: Peter Bui <pnutzh4x0r@gmail.com>
-# Maintainer: Fabian Affolter <fabian@affolter-engineering.ch>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-tz
 pkgver=2021.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Python3 definitions of world timezone"
 url="http://pytz.sourceforge.net/"
 arch="noarch"

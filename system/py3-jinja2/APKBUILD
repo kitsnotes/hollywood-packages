@@ -1,9 +1,8 @@
-# Contributor: Matt Smith <mcs@darkregion.net>
-# Maintainer: Matt Smith <mcs@darkregion.net>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-jinja2
 _pkgname=Jinja2
 pkgver=3.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A small but fast and easy to use stand-alone python template engine"
 url="https://palletsprojects.com/p/jinja/"
 arch="noarch"

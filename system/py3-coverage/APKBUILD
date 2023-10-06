@@ -1,8 +1,7 @@
-# Maintainer: Valery Kartel <valery.kartel@gmail.com>
-# Contributor: Valery Kartel <valery.kartel@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-coverage
 pkgver=5.5
-pkgrel=1
+pkgrel=2
 pkgdesc="Code coverage measurement for Python"
 options="!check" # Requires unpackaged 'flaky'
 url="https://pypi.python.org/pypi/coverage"

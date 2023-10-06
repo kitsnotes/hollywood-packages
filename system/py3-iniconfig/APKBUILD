@@ -1,9 +1,8 @@
-# Contributor: Justin Berthault <justin.berthault@zaclys.net>
-# Maintainer: Justin Berthault <justin.berthault@zaclys.net>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-iniconfig
 _pyname=iniconfig
 pkgver=1.1.1
-pkgrel=2
+pkgrel=3
 pkgdesc="brain-dead simple config-ini parsing"
 url="https://github.com/RonnyPfannschmidt/iniconfig"
 arch="noarch"

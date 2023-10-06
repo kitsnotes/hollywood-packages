@@ -1,9 +1,8 @@
-# Contributor: Stuart Cardall <developer@it-offshore.co.uk>
-# Maintainer: Stuart Cardall <developer@it-offshore.co.uk>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-pluggy
 _pkgname=pluggy
 pkgver=0.13.1
-pkgrel=5
+pkgrel=6
 pkgdesc="Plugin management and hook calling for Python"
 # Needs py3-pytest for checkdepends, which require py3-pluggy
 # in depends, so disable here to break a circular dependency
