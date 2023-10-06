@@ -1,14 +1,14 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-docutils
-pkgver=0.16
-pkgrel=5
+pkgver=0.20.1
+pkgrel=0
 pkgdesc="Documentation Utilities for Python3"
-url="https://pypi.python.org/pypi/docutils"
+url="https://pypi.org/project/docutils"
 arch="noarch"
 license="BSD-2-Clause AND GPL-3.0-or-later AND Python-2.0"
 depends="python3"
 makedepends="py3-setuptools"
-subpackages="$pkgname-doc::noarch"
+subpackages="$pkgname-pyc"
 source="https://files.pythonhosted.org/packages/source/d/docutils/docutils-$pkgver.tar.gz"
 builddir="$srcdir/docutils-$pkgver"
 
@@ -24,35 +24,16 @@ check() {
 }
 
 package() {
-	python3 setup.py install --prefix=/usr --root="$pkgdir"
+	python3 setup.py install --skip-build --root="$pkgdir"
 
 	# Remove .py extension and add version suffix to executable files.
 	local path; for path in "$pkgdir"/usr/bin/*.py; do
-		mv "$path" "${path/.py/-3}"
-	done
-
-	cd "$pkgdir"/usr/bin
-	local bin; for bin in *-3; do
-		ln -s "$bin" "$pkgdir"/usr/bin/"${bin/-3/}"
+		mv "$path" "${path/.py/}"
+		ln -sfv "$(basename "${path/.py/}")" "$path"
+		ln -sfv "$(basename "${path/.py/}")" "${path/.py/}-3"
 	done
 }
 
-doc() {
-	replaces=""
-	provides=""
-	pkgdesc="$pkgdesc (documentation)"
-	local docdir="$subpkgdir/usr/share/doc/$pkgname"
-	local licdir="$subpkgdir/usr/share/licenses/$pkgname"
-
-	cd "$builddir"
-
-	mkdir -p "$docdir"
-	cp -R docs/* "$docdir"/
-	cp ./*.txt "$docdir"/
-
-	mkdir -p "$licdir"
-	rm -f licenses/docutils.conf
-	cp licenses/* "$licdir"/
-}
-
-sha512sums="4e0c6662924cac6b8f28bb77a4f50eafd637c1083990a23dbd905d8a05362a18dae96e63408ed43b595b693ca755c7961d1282129d3215ed3774af0dddcc0466  docutils-0.16.tar.gz"
+sha512sums="
+a0ddca315d03677003036d6a8052ac96fbd3fcc4508564938ea684d79bedb4d322d83449c7b26e55b19b0aadd6e46ca9ac409bb16279a20f06c70e9c15ef5eb0  docutils-0.20.1.tar.gz
+"
