@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0
-pkgrel=63
+pkgrel=64
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
@@ -161,6 +161,7 @@ desktop() {
         libapk-qt
         efivar
 	dbus-broker
+	udisks2
         accountsservice
 	bolt
 	bluez
@@ -366,7 +367,7 @@ image() {
 }
 
 sha512sums="
-ee0972de7f00f9d4e42922b4bfd1c669a1b8c94c83043d9c303e433771f18cd7f499a523ff835969bd622ea8633904a2fc040a7bb09ada0965ae8ce929bc6ef5  hollywood-desktop-1.0.tar.gz
+ad01964fcf5a1834916f8acf8f87ed5d7841b7e6c9afeb848316c9d16b68e5062ab52ff7fb0367fe5bf3a514ed1b7d01b9915889b6c699b0ee8a5628a8aee887  hollywood-desktop-1.0.tar.gz
 472516ee32d38e9307f916f7eea03a225ccd7fd2658a04b55fc9495374021898314cf95a912966fe84d13e887ef6dd300177e859099b98e18d30863ad6a19855  hollywood.conf
 1db0ca5dbaffb35f230811741f18e11fd03c3b516728ee99ca82b6ef846b7929b16301c804cb1f184ba5aa1c629df3e855ae5ec6cb5abdc55e5d3b38d9736be8  fontconfig.conf
 "
