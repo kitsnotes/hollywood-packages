@@ -1,7 +1,9 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0
+# pkgrel represents Hollywood "build number"
 pkgrel=64
+# When bumping pkgrel, update pkgver in system/hollywood-base
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"

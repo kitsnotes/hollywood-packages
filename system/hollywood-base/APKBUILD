@@ -1,8 +1,9 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood-base
-pkgver=1.0.1
-pkgrel=12
+# pkgver 3rd octet should match pkgver in system/hollywood
+pkgver=1.0.64
+pkgrel=0
 pkgdesc="Meta package for Hollywood OS"
 url="https://originull.org"
 arch="noarch"
@@ -11,7 +12,7 @@ depends="filesystem  apk-tools logrotate coreutils vim nano
 	dash doas efibootmgr grep gawk diffutils sed findutils binutils cpio lsblk gzip tar acpid
 	plymouth plymouth-themes dracut ca-certificates lvm2 device-mapper tzdata kbd kbd-bkeymaps 
 	iptables nftables iproute2 less tmux hostname curl wget e2fsprogs which shadow
-	systemd util-linux hollywood-keys zsh btrfs-progs screen run-parts
+	systemd util-linux hollywood-keys zsh btrfs-progs screen run-parts psmisc dmidecode
 	adduser agetty connman procps dbus-broker sysklogd cronie sgdisk kmod zlib command-not-found bash-completion
 	shadow-login zip bzip2 bash iputils xz openssh openssh-server rsync polkit acl attr e2fsprogs-extra ncurses wpa_supplicant acpid"
 makedepends=""
@@ -20,6 +21,9 @@ subpackages=""
 replaces="filesystem"
 source=""
 
+if [ $CARCH == "x86_64" ]; then
+	depends="$depends intel-ucode amd-ucode"
+fi
 build() {
 	return 0
 }
