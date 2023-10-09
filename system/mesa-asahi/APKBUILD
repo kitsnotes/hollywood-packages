@@ -56,7 +56,7 @@ makedepends="
 source="
 	https://gitlab.freedesktop.org/asahi/mesa/-/archive/$_commit/mesa-$_commit.tar.gz
 	"
-replaces="mesa-dricore mesa"
+replaces="mesa-dricore mesa mesa-dev"
 provides="mesa"
 options="!check" # we skip tests intentionally
 provides="opengl"

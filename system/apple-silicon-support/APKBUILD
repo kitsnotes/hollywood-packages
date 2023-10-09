@@ -1,0 +1,26 @@
+# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=apple-silicon-support
+pkgver=1.0
+pkgrel=0
+pkgdesc="Support for Apple Macintosh with Apple Silicon CPUs"
+url="https://github.com/AsahiLinux/"
+arch="aarch64"
+license="GPL-2.0"
+depends="m1n1 linux-asahi mesa-asahi"
+checkdepends=""
+install=""
+source=""
+options="!check" # no test suite
+install=""
+
+build() {
+	return 0
+}
+
+package() {
+	mkdir -p "$pkgdir"
+}
+
+sha512sums="
+"
