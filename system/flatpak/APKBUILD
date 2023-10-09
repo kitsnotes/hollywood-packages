@@ -3,12 +3,12 @@
 pkgname=flatpak
 # Follows GNOME versioning, MINOR (the 2nd number) must be even.
 pkgver=1.14.4
-pkgrel=1
+pkgrel=2
 pkgdesc="Application deployment framework for desktop apps"
 url="https://flatpak.org/"
 arch="all"
 license="LGPL-2.1-or-later"
-depends="bubblewrap xdg-dbus-proxy"
+depends="bubblewrap xdg-dbus-proxy avahi-glib"
 makedepends="
 	appstream-dev
 	appstream-glib-dev
