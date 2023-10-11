@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
-# NOTE: If you rebuild this package remember to rebuild:
-# * apple-bce-stable
+# NOTE: If you rebuild this package with a newer version remember to rebuild:
+# * broadcom-wl
 # DO NOT RUN abuild checksum - IT WILL MESS THINGS UP
 # ADD CHECKSUMS MANUALLY!
 _flavor=stable
@@ -10,7 +10,7 @@ case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver-rc3;;
 esac
-pkgrel=0
+pkgrel=1
 pkgdesc="Linux stable kernel"
 url="https://www.kernel.org"
 depends="initramfs-generator"
@@ -27,28 +27,28 @@ source="https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$pkgver.tar.xz
 if [ $CARCH = "x86_64" ]
 then
 	source="$source
-	1001-Add-apple-bce-driver.patch
-	1002-Put-apple-bce-in-drivers-staging.patch
-	1003-add-modalias-to-apple-bce.patch
-	1005-Documentation-leds-standardise-keyboard-backlight-le.patch
-	1006-HID-hid-apple-magic-backlight-Add-driver-for-keyboar.patch
-	1007-HID-apple-ibridge-Add-Apple-iBridge-HID-driver-for-T.patch
-	1008-HID-apple-touchbar-Add-driver-for-the-Touch-Bar-on-M.patch
-	2008-i915-4-lane-quirk-for-mbp15-1.patch
-	2009-apple-gmux-allow-switching-to-igpu-at-probe.patch
-	2010-efi-libstub-add-support-for-the-apple_set_os-protoco.patch
-	3001-applesmc-convert-static-structures-to-drvdata.patch
-	3002-applesmc-make-io-port-base-addr-dynamic.patch
-	3003-applesmc-switch-to-acpi_device-from-platform.patch
-	3004-applesmc-key-interface-wrappers.patch
-	3005-applesmc-basic-mmio-interface-implementation.patch
-	3006-applesmc-fan-support-on-T2-Macs.patch
-	3007-applesmc-Add-iMacPro-to-applesmc_whitelist.patch
-	3008-applesmc-make-applesmc_remove-void.patch
-	3009-applesmc-battery-charge-limiter.patch
-	4001-Input-bcm5974-Add-support-for-the-T2-Macs.patch
-	7001-drm-i915-fbdev-Discard-BIOS-framebuffers-exceeding-h.patch
-	8004-brcmfmac-cfg80211-Use-WSEC-to-set-SAE-password.patch
+        1001-Add-apple-bce-driver.patch
+        1002-Put-apple-bce-in-drivers-staging.patch
+        1003-add-modalias-to-apple-bce.patch
+        1005-Documentation-leds-standardise-keyboard-backlight-le.patch
+        1006-HID-hid-apple-magic-backlight-Add-driver-for-keyboar.patch
+        1007-HID-apple-ibridge-Add-Apple-iBridge-HID-driver-for-T.patch
+        1008-HID-apple-touchbar-Add-driver-for-the-Touch-Bar-on-M.patch
+        2008-i915-4-lane-quirk-for-mbp15-1.patch
+        2009-apple-gmux-allow-switching-to-igpu-at-probe.patch
+        2010-efi-libstub-add-support-for-the-apple_set_os-protoco.patch
+        3001-applesmc-convert-static-structures-to-drvdata.patch
+        3002-applesmc-make-io-port-base-addr-dynamic.patch
+        3003-applesmc-switch-to-acpi_device-from-platform.patch
+        3004-applesmc-key-interface-wrappers.patch
+        3005-applesmc-basic-mmio-interface-implementation.patch
+        3006-applesmc-fan-support-on-T2-Macs.patch
+        3007-applesmc-Add-iMacPro-to-applesmc_whitelist.patch
+        3008-applesmc-make-applesmc_remove-void.patch
+        3009-applesmc-battery-charge-limiter.patch
+        4001-Input-bcm5974-Add-support-for-the-T2-Macs.patch
+        7001-drm-i915-fbdev-Discard-BIOS-framebuffers-exceeding-h.patch
+        8004-brcmfmac-cfg80211-Use-WSEC-to-set-SAE-password.patch
 "
 fi
 
@@ -312,8 +312,8 @@ then
         sha512sums="$sha512sums
 be7da02f4f4c3dff56b36c4462d0e9208c826a89717bd71876adaabc911e3fbf6b72592da6775d06c92f7ab832e27d5f82a0f8b69f244a764c72925607ef86c4  linux-6.5.6.tar.xz
 c07f1d5aea18822caba653ef91bc2e8927a1bcc185fbae4bfd9d3c240ead35865141bda56311d1a55d288c6f5fa610762fa873e888b8295926156c3b676f8d2d  stable.aarch64.config
-ae8b3f8c7da313a88bcfad6d65ccd524c2a9b4bc0fe9115162a66bc032f61c6fb4d992e09bdea80d95ae8b7a626b391f81100339770423048f434789d62f8322  stable.x86_64.config
-8c6594ceb26fc5fb13d3a002f8bd3d43e87ed87c9869cab20aaaacd2cb25ddff5628408c039f0431bbe901edfdf7de459a08375d3ac2170ff84dd5efff2478ca  1001-Add-apple-bce-driver.patch
+6af514efefa7f57929eac2e994e3c308f1cc0848e7cdc4585d678c2f4a29a97baee1cdb18d3e4a80e2517d020dddb8100c84bc8023462603e2078f81e6bd472f  stable.x86_64.config
+888f608ead484479d30ff7acb543d1f65c1286b2ddc6ef3ff2e4c601d4619c40f8b57f4f2505322b94792d7b15fda4b33065ae6375df38f3570349077450d0e1  1001-Add-apple-bce-driver.patch
 30a2a82c8793c6de03ea1e030f3086cb98ba1e2ebceb1dfe9679e304758ec8fd6adce92815fc09fc9d35722d572b1004c202eba6ac5e7f7b2e8e020fa6fb5c39  1002-Put-apple-bce-in-drivers-staging.patch
 15d63ff2510e749302560e4e5482bf3d2a08511db96eeaefa9ee57eb730071c77c5a453536fa0e38f6c7c7611a3c884d7f2c94239ab0c875f10a8a5470406af1  1003-add-modalias-to-apple-bce.patch
 a10134559efe4fa1a81de135f333982d81b30672dddcceb7b4633a2a294fa333a35ccddc8029ca2759ad7d4671c57c7caa68921e02d53af376be60c61e905318  1005-Documentation-leds-standardise-keyboard-backlight-le.patch
@@ -340,6 +340,6 @@ else
 sha512sums="
 be7da02f4f4c3dff56b36c4462d0e9208c826a89717bd71876adaabc911e3fbf6b72592da6775d06c92f7ab832e27d5f82a0f8b69f244a764c72925607ef86c4  linux-6.5.6.tar.xz
 c07f1d5aea18822caba653ef91bc2e8927a1bcc185fbae4bfd9d3c240ead35865141bda56311d1a55d288c6f5fa610762fa873e888b8295926156c3b676f8d2d  stable.aarch64.config
-ae8b3f8c7da313a88bcfad6d65ccd524c2a9b4bc0fe9115162a66bc032f61c6fb4d992e09bdea80d95ae8b7a626b391f81100339770423048f434789d62f8322  stable.x86_64.config
+6af514efefa7f57929eac2e994e3c308f1cc0848e7cdc4585d678c2f4a29a97baee1cdb18d3e4a80e2517d020dddb8100c84bc8023462603e2078f81e6bd472f  stable.x86_64.config
 "
 fi

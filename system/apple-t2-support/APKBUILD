@@ -2,12 +2,12 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=apple-t2-support
 pkgver=1.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Support for Apple Macintosh with T2 Security Chip"
 url="https://github.com/t2linux/"
 arch="x86_64"
 license="GPL-2.0"
-depends="dracut apple-bce-stable"
+depends="dracut"
 checkdepends=""
 install=""
 source="dracut.conf"
@@ -27,5 +27,5 @@ package() {
 }
 
 sha512sums="
-d19578c68dc21fbb4a25e3ae3f07cdbd114eb38f9178e698c1a57d7e4e2787ef517c3fb5e7bd746e217b4d9392e992a5192c95c5969dea3df5e6f97d0af7ce1e  dracut.conf
+ee7b61127479c6f549018ac0a0f790d46befd3bab2ea824c76676d68cc9c30f9cc6c6fe051b0deab16b6ede4814b8973083e730e96098f99a2cb55c750e490fa  dracut.conf
 "

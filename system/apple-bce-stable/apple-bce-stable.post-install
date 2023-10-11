@@ -1,5 +1,0 @@
-#!/bin/sh
-
-depmod -a
-
-exit 0
