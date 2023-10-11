@@ -1,0 +1,36 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=broadcom-wl-stable
+pkgver=6.5.6
+pkgrel=0
+pkgdesc="Broadcom hybrid wireless driver (proprietary)"
+url="https://www.broadcom.com/support/download-search?pg=Wireless+Embedded+Solutions+and+RF+Components&pf=Legacy+Wireless&pa=Driver&dk=BCM4312&l=true"
+arch="x86_64"
+license="custom"
+depends="dracut linux-stable"
+makedepends="linux-stable-dev"
+checkdepends=""
+install=""
+source="https://depot.originull.org/upstream/broadcom-wl.tar.gz"
+builddir="$srcdir/broadcom-wl"
+options="!check" # no test suite
+install="$pkgname.post-install $pkgname.post-upgrade"
+
+build() {
+	make
+}
+
+package() {
+	mkdir -p "$pkgdir"/lib/modules/`uname -r`/kernel/drivers/net/wireless
+	install -D -m 755 "$builddir"/wl.ko "$pkgdir"/lib/modules/`uname -r`/kernel/drivers/net/wireless
+	
+	mkdir -p "$pkgdir"/etc/modprobe.d/
+	mkdir -p "$pkgdir"/etc/modules-load.d/
+	echo "wl" >> "$pkgdir"/etc/modules-load.d/wl.conf
+	echo "blacklist brcmfmac
+blacklist brcmsmac
+blacklist b43" >> "$pkgdir"/etc/modprobe.d/broadcom.conf
+}
+
+sha512sums="
+93325e68312b227c44a7f19fff5bbf519d835bdca1b64645e14a7e53e89a7b85fd043d4889b2d4b3ea63fb9e6961759b21c1aec7442dd946ec90d750fb418fdf  broadcom-wl.tar.gz
+"
