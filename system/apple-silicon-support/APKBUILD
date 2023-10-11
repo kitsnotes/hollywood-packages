@@ -10,7 +10,12 @@ license="GPL-2.0"
 depends="m1n1 linux-asahi mesa-asahi"
 checkdepends=""
 install=""
-source=""
+source="dracut.conf
+load-asahi-firmware.sh
+install-asahi-firmware.sh
+module-setup.sh
+functions.sh
+"
 options="!check" # no test suite
 install=""
 
@@ -19,8 +24,20 @@ build() {
 }
 
 package() {
-	mkdir -p "$pkgdir"
+	mkdir -p "$pkgdir"/etc/dracut.conf.d/
+	mkdir -p "$pkgdir"/usr/share/asahi-scripts/
+	mkdir -p "$pkgdir"/usr/lib/dracut/modules.d/99asahi-firmware
+	install -m644 "$srcdir"/dracut.conf "$pkgdir"/etc/dracut.conf.d/20-asahi.conf
+	install -m755 "$srcdir"/functions.sh "$pkgdir"/usr/share/asahi-scripts/functions.sh
+	install -m755 "$srcdir"/load-asahi-firmware.sh "$pkgdir"/usr/lib/dracut/modules.d/99asahi-firmware/
+	install -m755 "$srcdir"/install-asahi-firmware.sh "$pkgdir"/usr/lib/dracut/modules.d/99asahi-firmware/
+	install -m755 "$srcdir"/module-setup.sh "$pkgdir"/usr/lib/dracut/modules.d/99asahi-firmware/
 }
 
 sha512sums="
+f6a7aacf71782410e992c2900b416f62d2c26c02f98acec875cb68d973ab1246c5a04029e0d2ab397f5de66b010aced32731c1bda08e0a47655e507bafad90aa  dracut.conf
+d3dd4303e067c8fec4482fca20b368584163f11a8fe70d4aa67de30f6054814b9b2309ddf2fc1c68ac37630a69a4406b0681d089b127f6b312ad9e567201cf79  load-asahi-firmware.sh
+0b6332b81e161b570fee33647e8c9c822d6c09e526021454a7f6eb46a7589ab4fcb7b9287f10c8d6fb1d922e3fe72698ebb214924271a1c2dcb27c9b363f47ca  install-asahi-firmware.sh
+e6a978be50f568fe450366d4c948f15a7240a53c36f2f536ba9448cc3fe268b689f0ea5641bf05098eced510583218fed8de874c9fb09fc5065c433cf7a459d1  module-setup.sh
+2fd3cabac16a0a7ddc424efd8944fcf347fb4942404f2b1db77eb73acd87dd53edcce2c6fe6b2017298996a5caf0f90e8f879da5b4dd5b7e88a5bcadc041cd7d  functions.sh
 "
