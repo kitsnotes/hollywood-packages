@@ -36,10 +36,13 @@ shadow:x:42:
 cdrw:x:80:
 www-data:x:82:
 usb:x:85:
+avahi:x:86:
 lpadmin:x:89:root
 users:x:100:games
 messagebus:x:101:messagebus
-openvpn:x:104:
+rtkit:x:103:
+flatpak:x:104:
+openvpn:x:105:
 ntp:x:123:
 nofiles:x:200:
 smmsp:x:209:smmsp
