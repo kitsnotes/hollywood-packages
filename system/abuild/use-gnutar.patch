@@ -1,0 +1,114 @@
+diff -Naur abuild-3.11.21-orig/abuild-sign.in abuild-3.11.21/abuild-sign.in
+--- abuild-3.11.21-orig/abuild-sign.in	2023-10-11 17:33:06.110000000 -0700
++++ abuild-3.11.21/abuild-sign.in	2023-10-11 17:33:32.790000000 -0700
+@@ -39,7 +39,7 @@
+ 		fi
+ 
+ 		tmptargz=$(mktemp)
+-		tar --owner=0 --group=0 --numeric-owner -f - -c "$sig" | abuild-tar --cut | $gzip -n -9 > "$tmptargz"
++		gnutar --owner=0 --group=0 --numeric-owner -f - -c "$sig" | abuild-tar --cut | $gzip -n -9 > "$tmptargz"
+ 		tmpsigned=$(mktemp)
+ 		cat "$tmptargz" "$i" > "$tmpsigned"
+ 		rm -f "$tmptargz" "$sig"
+diff -Naur abuild-3.11.21-orig/abuild.in abuild-3.11.21/abuild.in
+--- abuild-3.11.21-orig/abuild.in	2023-10-11 17:33:06.120000000 -0700
++++ abuild-3.11.21/abuild.in	2023-10-11 17:34:11.660000000 -0700
+@@ -519,19 +519,19 @@
+ 		case "$s" in
+ 			*.tar)
+ 				msg "Unpacking $s..."
+-				tar -C "$srcdir" -xf "$s" || return 1;;
++				gnutar -C "$srcdir" -xf "$s" || return 1;;
+ 			*.tar.gz|*.tgz)
+ 				msg "Unpacking $s..."
+-				$gunzip -c "$s" | tar -C "$srcdir" -x || return 1;;
++				$gunzip -c "$s" | gnutar -C "$srcdir" -x || return 1;;
+ 			*.tar.bz2)
+ 				msg "Unpacking $s..."
+-				tar -C "$srcdir" -jxf "$s" || return 1;;
++				gnutar -C "$srcdir" -jxf "$s" || return 1;;
+ 			*.tar.lz)
+ 				msg "Unpacking $s..."
+-				tar -C "$srcdir" --lzip -xf "$s" || return 1;;
++				gnutar -C "$srcdir" --lzip -xf "$s" || return 1;;
+ 			*.tar.lzma)
+ 				msg "Unpacking $s..."
+-				unlzma -T 0 -c "$s" | tar -C "$srcdir" -x  \
++				unlzma -T 0 -c "$s" | gnutar -C "$srcdir" -x  \
+ 					|| return 1;;
+ 			*.tar.xz)
+ 				msg "Unpacking $s..."
+@@ -539,10 +539,10 @@
+ 				if [ $(readlink -f $(command -v unxz)) != "/bin/busybox" ]; then
+ 					threads_opt="--threads=0"
+ 				fi
+-				unxz $threads_opt -c "$s" | tar -C "$srcdir" -x || return 1;;
++				unxz $threads_opt -c "$s" | gnutar -C "$srcdir" -x || return 1;;
+ 			*.tar.zst)
+ 				msg "Unpacking $s..."
+-				tar -C "$srcdir" --zstd -xf "$s" || return 1;;
++				gnutar -C "$srcdir" --zstd -xf "$s" || return 1;;
+ 			*.zip)
+ 				msg "Unpacking $s..."
+ 				unzip -n -q "$s" -d "$srcdir" || return 1;;
+@@ -764,7 +764,7 @@
+ targz() {
+ 	cd "$pkgdir" || return 1
+ 	mkdir -p "$REPODEST"/src
+-	tar -czf "$REPODEST"/src/$pkgname-$pkgver-r$pkgrel.tar.gz *
++	gnutar -czf "$REPODEST"/src/$pkgname-$pkgver-r$pkgrel.tar.gz *
+ }
+ 
+ postcheck() {
+@@ -1828,7 +1828,7 @@
+ 		find "$@" -exec touch -h -d "@$SOURCE_DATE_EPOCH" {} +
+ 
+ 		# explicitly sort package content
+-		find "$@" -print0 | LC_ALL=C sort -z | tar --xattrs \
++		find "$@" -print0 | LC_ALL=C sort -z | gnutar --xattrs \
+ 			--xattrs-exclude=security.selinux \
+ 			--format=posix \
+ 			--pax-option=exthdr.name=%d/PaxHeaders/%f,atime:=0,ctime:=0 \
+@@ -1844,7 +1844,7 @@
+ 
+ 		# control.tar.gz
+ 		cd "$dir"
+-		tar \
++		gnutar \
+ 			--format=posix \
+ 			--pax-option=exthdr.name=%d/PaxHeaders/%f,atime:=0,ctime:=0 \
+ 			--mtime="@${SOURCE_DATE_EPOCH}" \
+@@ -2273,7 +2273,7 @@
+ 
+ 	mkdir -p "$REPODEST/src"
+ 	msg "Creating source package $p.src.tar.gz..."
+-	(cd .. && tar -zcf "$REPODEST/src/$p.src.tar.gz" $files)
++	(cd .. && gnutar -zcf "$REPODEST/src/$p.src.tar.gz" $files)
+ }
+ 
+ # return true if arch is supported or noarch
+diff -Naur abuild-3.11.21-orig/checkapk.in abuild-3.11.21/checkapk.in
+--- abuild-3.11.21-orig/checkapk.in	2023-10-11 17:33:06.120000000 -0700
++++ abuild-3.11.21/checkapk.in	2023-10-11 17:34:44.970000000 -0700
+@@ -105,8 +105,8 @@
+ 	$gunzip -c 2>/dev/null < apks/old.apk > apks/old.tar &
+ 	$gunzip -c "$filepath" < "$filepath" > apks/new.tar &
+ 	wait
+-	tar -t -f apks/old.tar 2>/dev/null | grep -v '^\.SIGN\.' | sort > "filelist-$_pkgname-old" &
+-	tar -t -f apks/new.tar | grep -v '^\.SIGN\.' | sort > "filelist-$_pkgname-new" &
++	gnutar -t -f apks/old.tar 2>/dev/null | grep -v '^\.SIGN\.' | sort > "filelist-$_pkgname-old" &
++	gnutar -t -f apks/new.tar | grep -v '^\.SIGN\.' | sort > "filelist-$_pkgname-new" &
+ 	wait
+ 
+ 	diff -U3 "filelist-$_pkgname-old" "filelist-$_pkgname-new"
+@@ -115,8 +115,8 @@
+ 		echo "SODIFF:"
+ 
+ 		mkdir -p "$_pkgname-pkg-old" "$_pkgname-pkg-new"
+-		tar -C "$_pkgname-pkg-old" 2>/dev/null -x -f apks/old.tar > /dev/null &
+-		tar -C "$_pkgname-pkg-new" -x -f apks/new.tar > /dev/null &
++		gnutar -C "$_pkgname-pkg-old" 2>/dev/null -x -f apks/old.tar > /dev/null &
++		gnutar -C "$_pkgname-pkg-new" -x -f apks/new.tar > /dev/null &
+ 		wait
+ 
+ 		# filter to things that start with -+ but strip the header (---/+++)

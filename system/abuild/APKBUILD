@@ -2,13 +2,13 @@
 pkgname=abuild
 pkgver=3.11.21
 _ver=${pkgver%_git*}
-pkgrel=3
+pkgrel=4
 pkgdesc="Script to build Alpine Packages"
 url="https://git.alpinelinux.org/cgit/abuild/"
 arch="all"
 license="GPL-2.0-only"
 depends="fakeroot scanelf openssl apk-tools>=2.0.7-r1 
-	attr libarchive-tools pkgconf patch lzip"
+	attr gnutar pkgconf patch lzip"
 if [ "$CBUILD" = "$CHOST" ]; then
 	depends="$depends curl"
 fi
@@ -31,6 +31,7 @@ source="https://gitlab.alpinelinux.org/alpine/abuild/-/archive/$pkgver/abuild-$p
 	fix-aarch64-host-match.patch
 	abuild-use-bash-and-clang.patch
 	abuild-multilib.patch
+	use-gnutar.patch
 	"
 builddir="$srcdir"/abuild-$pkgver
 
@@ -84,4 +85,5 @@ sha512sums="
 848b1e1efbac73624f590ee28dadc154cd394adfabb11035afb48fcdbba67c81de939776d806cfb71c086af4bb05c283684bc15650df110d954904940d98b110  fix-aarch64-host-match.patch
 339791971f9e160baac44431567237926e0e165f2ff2ecdd3ce2f77f1713cb59d0da4746a53c14686af1e8cb80cb830a3305ad8e5cf4cdff9a0484804bfb175c  abuild-use-bash-and-clang.patch
 1693f16488456e6c3459dcbdd023c58dca0cf890c2c3b78042ff9086262b7e62f5693cbf946f2502a5e67345f3499fbb079c9c75b8fbedf1318064e590ee7679  abuild-multilib.patch
+ff1b7abdb842cf507214f9a5c6acbdc6be2f39e27b3e5d17483572735a790b4940569181be3548a0f6f07d1a2b32fee835a510f926e53736456ab7322cc5f64c  use-gnutar.patch
 "
