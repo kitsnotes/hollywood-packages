@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libarchive
-pkgver=3.6.1
-pkgrel=1
+pkgver=3.7.2
+pkgrel=0
 pkgdesc="library that can create and read several streaming archive formats"
 url="https://libarchive.org/"
 arch="all"
@@ -42,8 +42,10 @@ tools() {
 
 	mkdir -p "$subpkgdir"/usr/
 	mv "$pkgdir"/usr/bin "$subpkgdir"/usr/
+	ln -s /usr/bin/bsdtar "$subpkgdir"/usr/bin/tar
+	ln -s /usr/bin/bsdcpio "$subpkgdir"/usr/bin/cpio
 }
 
 sha512sums="
-2e5a72edc468080c0e8f29e07d9c33826ffb246fa040ec42399bedeecf698b7555f69ffd15057ad79c0f50cd4926d43174599d99632b1b99ec6cd159c43a70b8  libarchive-3.6.1.tar.xz
+a21bebb27b808cb7d2ed13a70739904a1b7b55661d8dea83c9897a0129cf71e20c962f13666c571782ff0f4f753ca885619c2097d9e7691c2dee4e6e4b9a2971  libarchive-3.7.2.tar.xz
 "
