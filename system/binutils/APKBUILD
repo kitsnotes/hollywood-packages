@@ -1,7 +1,7 @@
 # Contributor: Originull Software <packages@originull.org>
 pkgname=binutils
 pkgver=2.41
-pkgrel=0
+pkgrel=1
 pkgdesc="Tools necessary to build programs"
 url="https://www.gnu.org/software/binutils/"
 makedepends_build="bison flex texinfo"
@@ -9,7 +9,7 @@ makedepends_host="zlib-dev"
 makedepends="$makedepends_build $makedepends_host"
 arch="all"
 license="GPL-2.0 GPL-3.0-or-later LGPL-2.0 BSD"
-subpackages="$pkgname-dev $pkgname-doc"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-libs"
 source="https://ftp.gnu.org/gnu/binutils/binutils-$pkgver.tar.xz
 	"
 builddir="$srcdir/$pkgname-$pkgver"
