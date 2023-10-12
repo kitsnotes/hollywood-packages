@@ -1,14 +1,14 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=cups
-pkgver=2.4.6
-pkgrel=1
+pkgver=2.4.7
+pkgrel=0
 pkgdesc="The CUPS Printing System"
 url="https://www.cups.org/"
 arch="all"
 license="GPL-2.0-only"
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-doc $pkgname-libs ipptool $pkgname-client
 	$pkgname-lang"
-depends_dev="libgcrypt-dev openssl-dev>3 zlib-dev"
+depends_dev="libgcrypt-dev openssl-dev>3 zlib-dev libxcrypt-dev"
 makedepends="$depends_dev libpaper-dev dbus-dev libjpeg-turbo-dev 
 	linux-headers libusb-dev "
 depends="cups-client poppler-utils openssl>3 dbus"
@@ -35,7 +35,6 @@ build() {
 		--libdir=/usr/lib \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
-		--with-menudir=/usr/share/applications \
 		--with-icondir=/usr/share/icons \
 		--with-logdir=/var/log/cups \
 		--with-docdir=/usr/share/cups \
@@ -75,6 +74,8 @@ package() {
 			usr/share/applications/cups.desktop
 	fi
 	find usr/share/cups/model -name "*.ppd" | xargs gzip -n9f
+
+	rm -rf "$pkgdir"/usr/share/applications
 }
 
 libs() {
@@ -120,6 +121,6 @@ _mv() {
 }
 
 sha512sums="
-390b1a1afca4b6a2cacc42caca26b72888dfb049c663ea3ea1f2f8662c0becaa198ee27bd6ac13c7938c1a3c103ca206fdf2337a130294a1bd3b00f000ddfc35  cups-2.4.6.tar.gz
+27ca505a2868aa7bc248bac892aafe2a837633e73b6059d3ab4812264e3b0e786ef075751e8cc4300ce6bc43ef095e3d77dd3fce88ce8e72ca69b65093427bca  cups-2.4.7.tar.gz
 cf64211da59e79285f99d437c02fdd7db462855fb2920ec9563ba47bd8a9e5cbd10555094940ceedeb41ac805c4f0ddb9147481470112a11a76220d0298aef79  cups.logrotate
 "
