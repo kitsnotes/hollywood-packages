@@ -358,7 +358,7 @@ setup() {
 
 image() {
 	pkgdesc="Tools for generating images using HorizonScript"
-	depends="dracut mtools"
+	depends="dracut mtools squashfstools xorriso"
 	mkdir -p "$subpkgdir"/usr/bin
 	mkdir -p "$subpkgdir"/usr/lib
 	mkdir -p "$subpkgdir"/usr/share/horizon
