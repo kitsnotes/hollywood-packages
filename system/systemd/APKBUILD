@@ -2,13 +2,13 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=systemd
 pkgver=254
-pkgrel=3
+pkgrel=4
 pkgdesc="system init manager"
 url="https://systemd.io/"
 arch="all"
 license="GPL-2.0"
-depends="acl audit bash cryptsetup iptables kbd kmod util-linux openssl>=3 lz4 linux-pam xz gperf bpftool"
-makedepends="meson clang cryptsetup-libs dbus dbus-libs dbus-dev cryptsetup-dev linux-pam-dev libcap-dev util-linux-dev kmod-dev acl-dev audit-dev xz-dev lz4-dev libgcrypt-dev libidn2-dev libseccomp-dev xz-dev libbpf-dev pcre2-dev py3-jinja2 zstd-dev"
+depends="acl audit bash cryptsetup iptables kbd kmod util-linux openssl>=3 lz4 linux-pam gperf bpftool"
+makedepends="meson clang cryptsetup-libs dbus dbus-libs dbus-dev cryptsetup-dev linux-pam-dev libcap-dev util-linux-dev kmod-dev acl-dev audit-dev lz4-dev libgcrypt-dev libidn2-dev libseccomp-dev libbpf-dev pcre2-dev py3-jinja2 zstd-dev"
 checkdepends=""
 triggers="systemd.trigger=/usr/lib/systemd/*"
 install="$pkgname.post-install $pkgname.post-upgrade"
