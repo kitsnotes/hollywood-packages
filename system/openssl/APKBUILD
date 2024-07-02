@@ -1,7 +1,7 @@
 pkgname=openssl
-pkgver=3.0.7
+pkgver=3.3.1
 _abiver=${pkgver%.*.*}
-pkgrel=2
+pkgrel=0
 pkgdesc="Toolkit for Transport Layer Security (TLS)"
 url="https://www.openssl.org/"
 arch="all"
@@ -13,6 +13,9 @@ makedepends="$makedepends_host $makedepends_build"
 subpackages="$pkgname-dbg $pkgname-libs-static $pkgname-dev $pkgname-doc
 	libcrypto$_abiver:_libcrypto libssl$_abiver:_libssl"
 source="https://www.openssl.org/source/openssl-$pkgver.tar.gz
+	CVE-2024-5535.patch
+	fix-memleak.patch
+	fix-tserver.patch
 	man-section.patch
 	"
 builddir="$srcdir/openssl-$pkgver"
@@ -74,30 +77,13 @@ build() {
 	# determine target OS for openssl
 	case "$CARCH" in
 		aarch64*)	_target="linux-aarch64" ;;
-		arm*)		_target="linux-armv4" ;;
-		mips64*)	_target="linux64-mips64" ;;
-		# explicit _optflags is needed to prevent automatic -mips3 addition
-		mips*)		_target="linux-mips32"; _optflags="-mips32" ;;
-		ppc)		_target="linux-ppc" ;;
-		ppc64)		_target="linux-ppc64" ;;
-		ppc64le)	_target="linux-ppc64le" ;;
-		x86)		_target="linux-elf" ;;
 		x86_64)		_target="linux-x86_64"; _optflags="enable-ec_nistp_64_gcc_128" ;;
-		s390x)		_target="linux64-s390x";;
-		riscv64)	_target="linux-generic64";;
 		*)		msg "Unable to determine architecture from (CARCH=$CARCH)" ; return 1 ;;
 	esac
 
 	# Configure assumes --options are for it, so can't use
 	# gcc's --sysroot fake this by overriding CC
 	[ -n "$CBUILDROOT" ] && CC="$CC --sysroot=$CBUILDROOT"
-
-	# when cross building do not enable threads as libatomic is not avaiable
-	if [ "$CBUILD" != "$CHOST" ]; then
-		case $CARCH in
-			riscv64) _optflags="$_optflags no-threads";;
-		esac
-	fi
 
 	perl ./Configure \
 		$_target \
@@ -113,8 +99,6 @@ build() {
 		no-mdc2 \
 		no-rc5 \
 		no-ec2m \
-		no-sm2 \
-		no-sm4 \
 		no-ssl3 \
 		no-seed \
 		no-weak-ssl-ciphers \
@@ -165,6 +149,9 @@ _libssl() {
 }
 
 sha512sums="
-6c2bcd1cd4b499e074e006150dda906980df505679d8e9d988ae93aa61ee6f8c23c0fa369e2edc1e1a743d7bec133044af11d5ed57633b631ae479feb59e3424  openssl-3.0.7.tar.gz
+d3682a5ae0721748c6b9ec2f1b74d2b1ba61ee6e4c0d42387b5037a56ef34312833b6abb522d19400b45d807dd65cc834156f5e891cb07fbaf69fcf67e1c595d  openssl-3.3.1.tar.gz
+a208a2b43cb7a26367d380b4f68832392f38102fe811a3ec5772a2a69197c6441d48446db004aad891995f9b3cab7d1a96044b316e1c823596987fe1ca259d95  CVE-2024-5535.patch
+489f76eb9d96bee98182094dc10e8148f412876d9a6a3cbc230a0f1266c1f1972a401e10f7b4bad6cdfad02fbb9faffee457da3711b9e136b871f7e33aefb685  fix-memleak.patch
+8e3fc2f77294cc75e74b4210be37f2b277ac0612baee4cbc5e709b96af5cc37c09ceb3fa0103e3cff70e163bc3b67320a3331cd9309086f22c7cc2ca7a0dc985  fix-tserver.patch
 8c44e990fe8a820f649631b9f81cf28225b7516065169a7f68e2dd7c067b30df9b2c6cb88fa826afbc9fcdaf156360aabf7c498d2d9ed452968815b12b004809  man-section.patch
 "
