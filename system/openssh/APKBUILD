@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=openssh
-pkgver=9.1_p1
+pkgver=9.8_p1
 _myver=${pkgver%_*}${pkgver#*_}
-pkgrel=3
+pkgrel=0
 pkgdesc="Port of OpenBSD's free SSH release"
 url="https://www.openssh.com/portable.html"
 arch="all"
@@ -44,19 +44,19 @@ subpackages="$pkgname-dbg
 
 source="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-$_myver.tar.gz
 	fix-utmp.patch
-	sftp-interactive.patch
 	disable-forwarding-by-default.patch
 	fix-verify-dns-segfault.patch
 	avoid-redefined-warnings-when-building-with-utmps.patch
 	gss-serv.c.patch
 	default-internal-sftp.patch
-	fix-always-use-compat-getentropy.patch
 	sshdgenkeys.service
 	sshd.service
 	sshd.confd
 	"
 
 # secfixes:
+#   9.8_p1-r0:
+#     - CVE-2024-6387
 #   8.8_p1-r0:
 #     - CVE-2021-41617
 #   8.5_p1-r0:
@@ -272,15 +272,13 @@ _server_with_flavor() {
 }
 
 sha512sums="
-a1f02c407f6b621b1d0817d1a0c9a6839b67e416c84f3b76c63003b119035b24c19a1564b22691d1152e1d2d55f4dc7eb1af2d2318751e431a99c4efa77edc70  openssh-9.1p1.tar.gz
+95dec2f18e58eb47994f3de4430253e0665e185564b65088ca5f4108870e05feddef8cda8d3c0a4b75f18b98cc2c024df0e27de53b48c1a16da8da483cb8292a  openssh-9.8p1.tar.gz
 b10a9eb167cfbb23b144fdb03f30a0363be9a715ceb3c202c971ec4f36160e434cc6bbad91d0e49106189e07152067f7e227df28b5a1b82f3901cb36cba321b5  fix-utmp.patch
-c1d09c65dbc347f0904edc30f91aa9a24b0baee50309536182455b544f1e3f85a8cecfa959e32be8b101d8282ef06dde3febbbc3f315489339dcf04155c859a9  sftp-interactive.patch
 8df35d72224cd255eb0685d2c707b24e5eb24f0fdd67ca6cc0f615bdbd3eeeea2d18674a6af0c6dab74c2d8247e2370d0b755a84c99f766a431bc50c40b557de  disable-forwarding-by-default.patch
 b0d1fc89bd46ebfc8c7c00fd897732e67a6cda996811c14d99392685bb0b508b52c9dc3188b1a84c0ffa3f72f57189cc615a76b81796dd1b5f552542bd53f84d  fix-verify-dns-segfault.patch
 e85754b2b6c4c37b432d166e63d6293e58c9c8bb6ebd8d3527c83afa2337f14c06d6a4e008ffcc0afd7dc3409e960b89c1dde41d2543c4be7d4813d477ff3a5e  avoid-redefined-warnings-when-building-with-utmps.patch
 f659641b841981f78b03281b7a01add9fbf35b91c0f21c11335a56d7e389ddf965d83d18d73b724385311cdb597b6d6c46446cbc702cdd4d15e8f43591306cb3  gss-serv.c.patch
 1fb55aae445dfd9ededeba1f204a0c3e4a752128ad0a388f473ace074e68b040112f309192243621fd4f16b0d1cce4f083612b1639c3e18166abf92babe52c93  default-internal-sftp.patch
-6af82768322c848a769ccba97d3cc247384e783cb9f3985983c78b92af8a805937bc1334c58f58348d5638fcf36699476b51332e0c6482ec49471f117036525f  fix-always-use-compat-getentropy.patch
 919bd74c6e95bd3002731a6edaf4f2bc61b89076588afba07e382563cfb647c356d2de57a27eb6527d4407e3e3cd7e6220beeba02e75312ae142c11b7b9637a1  sshdgenkeys.service
 7875dbc858967161790f7482a4cba3d8166b9861f7ba563420e48253823a052950acf3ad4c3ed44173d2e2698b63f75684546a7f891878e6dd18599d284618c1  sshd.service
 be7dd5f6d319b2e03528525a66a58310d43444606713786b913a17a0fd9311869181d0fb7927a185d71d392674857dea3c97b6b8284886227d47b36193471a09  sshd.confd
