@@ -1,9 +1,9 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
-pkgver=1.0
-# pkgrel represents Hollywood "build number"
-pkgrel=66
+pkgver=1.0.67
+pkgrel=1
 # When bumping pkgrel, update pkgver in system/hollywood-base
+buildver=${pkgver#*.*.};
 pkgdesc="Hollywood Desktop"
 url="https://originull.org"
 arch="all"
@@ -61,7 +61,6 @@ source="https://depot.originull.org/upstream/hollywood-desktop-$pkgver.tar.gz
 	"
 builddir="$srcdir/hollywood-desktop-$pkgver/"
 subpackages="$pkgname-baselibs $pkgname-desktop $pkgname-setup $pkgname-image $pkgname-accessories $pkgname-dbg $pkgname-dev $pkgname-doc $pkgname-qt5-libs:qt5libs"
-buildver="$pkgrel"
 build() {
 	# Build the hollywood desktop
 	mkdir $builddir/desktop/build-qt6 || true
@@ -369,7 +368,7 @@ image() {
 }
 
 sha512sums="
-c5efc08e77dbac4cd7ea8c285c94a5cb8a12ec32eb34fd96897ed15a7593686197691fdddeffbe1fe190c0029e30facb2dc7eeb97c9e4e8baa605a795fb673f0  hollywood-desktop-1.0.tar.gz
+bafc336b89d8b8fe5eb9eadd44ff84ad97e588d96ccaf2beb7ecaf9a514142c403337c9c0cffa3070e342198841e258089219933db4dcceb09ad52bfa818ceea  hollywood-desktop-1.0.67.tar.gz
 472516ee32d38e9307f916f7eea03a225ccd7fd2658a04b55fc9495374021898314cf95a912966fe84d13e887ef6dd300177e859099b98e18d30863ad6a19855  hollywood.conf
 1db0ca5dbaffb35f230811741f18e11fd03c3b516728ee99ca82b6ef846b7929b16301c804cb1f184ba5aa1c629df3e855ae5ec6cb5abdc55e5d3b38d9736be8  fontconfig.conf
 "
