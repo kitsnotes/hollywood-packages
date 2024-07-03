@@ -1,13 +1,14 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=glibc
-pkgver=2.38
-pkgrel=3
+pkgver=2.39
+pkgrel=0
 pkgdesc="The GNU C Library (libc implementation)"
 url="https://www.gnu.org/software/libc"
 arch="all"
 license="LGPL2"
 options="lib64"
 depends="tzdata"
+makedepends="bison"
 _subpackages="
 	$pkgname-dbg
 	$pkgname-dev
@@ -38,6 +39,7 @@ build() {
 	--enable-kernel=3.2 
 	--enable-stack-protector=strong 
 	--disable-systemtap 
+	--disable-multi-arch
 	--disable-profile 
 	--disable-crypt 
 	--disable-werror
@@ -88,6 +90,16 @@ if [ "$CARCH" = "x86_64" ]; then
 fi
 }
 
+check() {
+	cd "$builddir/glibc-build"
+	make check
+
+	if [ "$CARCH" = "x86_64" ]; then
+	        cd "$builddir/lib32-glibc-build"
+        	make check
+	fi
+}
+
 package() {
 	mkdir -p "$pkgdir"
 	cd "$pkgdir"
@@ -131,7 +143,7 @@ lib32() {
 }
 
 sha512sums="
-ca799ef40129433791777c698b62142edf0f0e8a87552f324ee6a036a2fe747b867696863692bde45bdd4a263ac6c419a52f92c1b6072b8ff49a887ebaa45299  glibc-2.38.tar.gz
+ba07187610f660236ba4fbff06420f01ce5aa0138c9b5f0ee7ad6a8c2a178bf899a65a097a769d890813e50942c0c9f793ca8a63a2d13bfcef6e21a12486af3a  glibc-2.39.tar.gz
 5b24f292cc87a133f45d743a95a8e706884e05ccf68024a0a88c0605c437928e111498feebca0259581da12d1ddb8e24726a67428e590240a1cbae48f7c2cc35  glibc-2.35-fhs-1.patch
 f355659d989729911629ff12c10bafd005e21548be38ce741398244e4b7618bbef12704efc3a3972f2bcf35f5b793de4585dca15d07b59b348bb6b2fda533429  locale-gen
 143a90bd350f9bd42e023050b1b10f98cdeac94ccee8adc070a4a812d39e347415c989beaeccfa8f3fb186a417567ccbed40a5e841f0601f820a8419b435794a  locale.gen.txt
