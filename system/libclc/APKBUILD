@@ -1,38 +1,53 @@
-# Contributor:
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libclc
-pkgver=14.0.6
+# follow llvm versioning
+pkgver=16.0.6
 pkgrel=0
-pkgdesc="Library requirements of the OpenCL C programming language"
+_llvmver=${pkgver%%.*}
+pkgdesc="Open source implementation of the library requirements of the OpenCL C programming language"
 url="https://libclc.llvm.org/"
 arch="all"
-license="MIT"
-makedepends="python3 clang llvm cmake ninja spirv-llvm-translator llvm-dev"
-subpackages="$pkgname-dev $pkgname-doc"
-source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/libclc-$pkgver.src.tar.xz"
-builddir="$srcdir/$pkgname-$pkgver.src"
-options="!check" #no test suite
-
-prepare() {
-	default_prepare
-	mkdir $builddir/build
-}
+license="Apache-2.0 WITH LLVM-exception"
+depends_dev="$pkgname=$pkgver-r$pkgrel"
+makedepends="
+	clang$_llvmver
+	cmake
+	llvm$_llvmver-dev
+	llvm$_llvmver-static
+	samurai
+	spirv-llvm-translator-dev
+	"
+checkdepends="llvm-test-utils"
+subpackages="$pkgname-dev"
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/libclc-$pkgver.src.tar.xz
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/cmake-$pkgver.src.tar.xz
+	bindir.patch
+	"
+builddir="$srcdir/libclc-$pkgver.src"
+options="!check" # todo: they fail for some reason
 
 build() {
-	cd build
-	CC=/usr/bin/clang \
-	CXX=/usr/bin/clang++ \
-	cmake ../ -G Ninja \
+	CC=clang-$_llvmver \
+	CXX=clang++-$_llvmver \
+	cmake -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_INSTALL_PREFIX=/usr
-	ninja
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DLLVM_CONFIG="llvm-config-$_llvmver" \
+		-DLLVM_SPIRV=/usr/bin/llvm-spirv \
+		-DCMAKE_MODULE_PATH="$srcdir/cmake-$pkgver.src/Modules"
+	cmake --build build
+}
+
+check() {
+	cmake --build build --target test
 }
 
 package() {
-	cd build
-	DESTDIR="$pkgdir" ninja install
+	DESTDIR="$pkgdir" cmake --install build
 }
 
 sha512sums="
-1298bb9c809160ed1e7c804682850e3ef43beb6dd161265b4403fa2d7d41c16437d8a379410a2a773b6cfafe908bb20e98b032368d493854e8a1a74d14655f5b  libclc-14.0.6.src.tar.xz
+e0f116b5352f6c32929558b9ead9aabe96b8d578556e01503ccb4d6fa92710b08a11343976f5009679f3f18757846da14af213b789db13e729cde45b5c806580  libclc-16.0.6.src.tar.xz
+52ecd941d2d85a5b668caa5d0d40480cb6a97b3bf1174e634c2a93e9ef6d03670ca7e96abb0a60cb33ba537b93d5788754dab1f2f45c1f623f788162717d088b  cmake-16.0.6.src.tar.xz
+993a3ee7dad00658a836c74ca2e61e7af48e0213aebdaf88f7b7f5fd6831411d93ffdf8143eefb50728757219cfbf14fecd74deb0740f050cf72dd076aa2e3ae  bindir.patch
 "

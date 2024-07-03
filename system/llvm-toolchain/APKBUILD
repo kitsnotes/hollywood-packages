@@ -1,0 +1,27 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=llvm-toolchain
+pkgver=18.1.8
+pkgrel=0
+pkgdesc="LLVM/clang based C/C++ development toolchain"
+url="http://originull.org/hollywood/sdk"
+arch="all"
+license="Apache-2.0 WITH LLVM-exception"
+depends="clang llvm-binutils lld"
+install=""
+options="!check"
+source=""
+builddir="$srcdir/"
+
+build() {
+	:
+}
+
+check() {
+	# Replace with proper check command(s)
+	:
+}
+
+package() {
+	mkdir -p "$pkgdir"
+}
+

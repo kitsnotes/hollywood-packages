@@ -1,0 +1,25 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=clang-defaults
+pkgver=18
+pkgrel=0
+pkgdesc="Install clang as default cc/cpp/c++"
+pkgdesc="GNU binutils compatible symbolic links to LLVM binutils"
+url="http://originull.org/hollywood/sdk"
+arch="all"
+license="Apache-2.0 WITH LLVM-exception"
+depends="clang"
+options="!check"
+source=""
+builddir="$srcdir/"
+
+build() {
+	:
+}
+
+package() {
+	mkdir -p "$pkgdir"/usr/bin/
+	ln -s /usr/bin/clang "$pkgdir"/usr/bin/cc
+	ln -s /usr/bin/clang "$pkgdir"/usr/bin/cpp
+	ln -s /usr/bin/clang "$pkgdir"/usr/bin/c++
+}
+

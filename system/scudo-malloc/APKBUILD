@@ -1,0 +1,58 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=scudo-malloc
+# tied to llvm version
+pkgver=18.1.8
+pkgrel=0
+pkgdesc="Standalone scudo malloc from compiler-rt"
+url="https://llvm.org"
+arch="all"
+license="Apache-2.0 WITH LLVM-exception"
+depends_dev="$pkgname=$pkgver-r$pkgrel"
+makedepends="linux-headers"
+checkdepends="gtest-dev"
+subpackages="$pkgname-static $pkgname-dev"
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver//_/-}/compiler-rt-${pkgver//_/}.src.tar.xz
+	0001-Add-makefile.patch
+	"
+builddir="$srcdir/compiler-rt-${pkgver//_/}.src/lib/scudo/standalone"
+
+case "$CARCH" in
+ppc64le)
+	# tests/common_test.cpp:33: Failure
+	# Expected: (OnStart) > (0UL), actual: 0 vs 0
+	options="!check"
+	;;
+esac
+
+build() {
+	local cflags_crc32=
+	unset CXXFLAGS
+	case "$CARCH" in
+		aarch64)
+			# this has broken emulation in aarch64 qemu (incl qemu-user),
+			# which causes it to abort instantly
+			CXXFLAGS="-DSCUDO_DISABLE_TBI"
+			cflags_crc32="-march=armv8-a+crc"
+			;;
+		x86*)	cflags_crc32="-mcrc32"
+			;;
+	esac
+
+	msg "building libscudo"
+	make CXXFLAGS="$CXXFLAGS" CXXFLAGS_crc32="$cflags_crc32" TESTS="$(want_check && echo yes || echo no)"
+}
+
+check() {
+	make test
+}
+
+package() {
+	install -Dm755 libscudo.so -t "$pkgdir"/usr/lib/
+	install -Dm644 libscudo.a -t "$pkgdir"/usr/lib/
+	install -Dm644 include/scudo/interface.h -t "$pkgdir"/usr/include/scudo/
+}
+
+sha512sums="
+fb8795bd51c9b005c2ad1975591e9e2715740d6407ccad41379f136ef2e8d24ded8b97b01165a3ae4bd377119a6a1049ca05d3220404fc12bee86114ff2bff0d  compiler-rt-18.1.8.src.tar.xz
+1102a512adde2ef31aafa6011a4293d5fa361aa920f88ac20599aab84711e973315e6f6719631be11007aea869ae700e34ed57c7dc7724e8aacbc5b493632849  0001-Add-makefile.patch
+"

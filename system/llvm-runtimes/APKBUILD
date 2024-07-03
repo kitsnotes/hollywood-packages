@@ -1,0 +1,143 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=llvm-runtimes
+# Note: Update together with llvm.
+pkgver=18.1.8
+_llvmver=${pkgver%%.*}
+pkgrel=0
+pkgdesc="LLVM Runtimes"
+url="https://llvm.org/"
+arch="all"
+license="Apache-2.0"
+makedepends="
+	clang
+	cmake
+	linux-headers
+	llvm$_llvmver-dev
+	llvm$_llvmver-static
+	python3
+	samurai
+	"
+subpackages="
+	libc++:libcxx
+	libc++-static:libcxx_static
+	libc++-dev:libcxx_dev
+	compiler-rt:rt
+	llvm-libunwind:libunwind
+	llvm-libunwind-static:libunwind_static
+	llvm-libunwind-dev:libunwind_dev
+	"
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver//_/-}/llvm-project-${pkgver//_/}.src.tar.xz
+	compiler-rt-lsan-dtp-offset.patch
+	compiler-rt-sanitizer-supported-arch.patch
+	libunwind-link-libssp.patch
+	"
+builddir="$srcdir/llvm-project-${pkgver//_/}.src"
+options="!check"
+
+case "$CARCH" in
+# Sanitizers are broken on other arches.
+# Keep in sync with compiler-rt-sanitizer-supported-arch.patch.
+aarch64|ppc64le|x86_64|riscv64)
+	_build_sanitizers='ON'
+	;;
+*)
+	_build_sanitizers='OFF'
+	;;
+esac
+
+prepare() {
+	default_prepare
+
+	case "$CARCH" in
+	armhf)
+		patch -Np1 < "$srcdir"/armv6-arch.patch.noauto
+		;;
+	esac
+}
+
+build() {
+	if [ "$CBUILD" != "$CHOST" ]; then
+		local crossopts="
+			-DCMAKE_SYSTEM_NAME=Linux
+			-DCMAKE_HOST_SYSTEM_NAME=Linux
+			-DLIBUNWIND_SYSROOT=$CBUILDROOT
+			"
+	fi
+
+	CC=clang \
+	CXX=clang++ \
+	CFLAGS="$CFLAGS -DNDEBUG" \
+	CXXFLAGS="$CXXFLAGS -DNDEBUG" \
+	cmake -B build -G Ninja -Wno-dev -S runtimes \
+		-DLLVM_ENABLE_RUNTIMES="compiler-rt;libunwind;libcxx;libcxxabi" \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DLIBUNWIND_HAS_NODEFAULTLIBS_FLAG=OFF \
+		-DCOMPILER_RT_INCLUDE_TESTS="$(want_check && echo ON || echo OFF)" \
+		-DCOMPILER_RT_BUILD_SANITIZERS=$_build_sanitizers \
+		-DCOMPILER_RT_INSTALL_PATH="/usr/lib/llvm$_llvmver/lib/clang/$_llvmver" \
+		-DCOMPILER_RT_BUILD_GWP_ASAN=OFF \
+		-DCMAKE_VERBOSE_MAKEFILE=ON \
+		$crossopts
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+
+	mkdir -p "$pkgdir"/usr/include/mach-o
+	cp libunwind/include/*.h "$pkgdir"/usr/include/
+	cp libunwind/include/mach-o/*.h "$pkgdir"/usr/include/mach-o/
+}
+
+libunwind() {
+	pkgdesc="LLVM libunwind library"
+	depends="!libunwind-dev"
+
+	amove usr/lib/libunwind.so.*
+}
+
+libunwind_static() {
+	pkgdesc="LLVM libunwind library (static)"
+
+	amove usr/lib/libunwind.a
+}
+
+libunwind_dev() {
+	pkgdesc="LLVM libunwind library (development files)"
+
+	amove usr/lib/libunwind.so
+	amove usr/include
+}
+
+rt() {
+	pkgdesc="LLVM compiler-rt runtime libraries"
+
+	amove usr/lib/llvm$_llvmver/lib/clang/$_llvmver
+}
+
+libcxx() {
+	pkgdesc="LLVM libc++ library"
+
+	amove usr/lib/libc++*.so.*
+}
+
+libcxx_static() {
+	pkgdesc="LLVM libc++ library (static libs)"
+
+	amove usr/lib/libc++*.a
+}
+
+libcxx_dev() {
+	pkgdesc="LLVM libc++ library (development files)"
+
+	amove usr/lib/libc++*.so
+	amove usr/include/c++
+}
+
+sha512sums="
+25eeee9984c8b4d0fbc240df90f33cbb000d3b0414baff5c8982beafcc5e59e7ef18f6f85d95b3a5f60cb3d4cd4f877c80487b5768bc21bc833f107698ad93db  llvm-project-18.1.8.src.tar.xz
+268acc4b917ca3ed3397fbb54793d38778e26dd38e7a5dd3600e2f0257cd84da6ad7f5bf179eead4567951496150e6b7da0fadd2b94464cbbab91f86034460c4  compiler-rt-lsan-dtp-offset.patch
+2460aeeb2ddcc24686939e172189d5a05e78eb30a4dca03fd60f03ec3bab5d55223a5806e44305278da0c726e65411907a6074cf64697164e613f42c013e365e  compiler-rt-sanitizer-supported-arch.patch
+102d050172d1f20c273515b8ccf05ee7e756287f1d74529116ac061f0119da5ce4e5ea3d1a5d21c6395256b5d0538aa928302a6cf39ae59f41aa35929b265e2f  libunwind-link-libssp.patch
+"
