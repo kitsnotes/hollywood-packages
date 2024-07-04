@@ -3,7 +3,7 @@ pkgname=llvm-runtimes
 # Note: Update together with llvm.
 pkgver=18.1.8
 _llvmver=${pkgver%%.*}
-pkgrel=0
+pkgrel=2
 pkgdesc="LLVM Runtimes"
 url="https://llvm.org/"
 arch="all"
@@ -22,14 +22,12 @@ subpackages="
 	libc++-static:libcxx_static
 	libc++-dev:libcxx_dev
 	compiler-rt:rt
+	llvm-libgcc:libgcc
 	llvm-libunwind:libunwind
 	llvm-libunwind-static:libunwind_static
 	llvm-libunwind-dev:libunwind_dev
 	"
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver//_/-}/llvm-project-${pkgver//_/}.src.tar.xz
-	compiler-rt-lsan-dtp-offset.patch
-	compiler-rt-sanitizer-supported-arch.patch
-	libunwind-link-libssp.patch
 	"
 builddir="$srcdir/llvm-project-${pkgver//_/}.src"
 options="!check"
@@ -69,14 +67,16 @@ build() {
 	CFLAGS="$CFLAGS -DNDEBUG" \
 	CXXFLAGS="$CXXFLAGS -DNDEBUG" \
 	cmake -B build -G Ninja -Wno-dev -S runtimes \
-		-DLLVM_ENABLE_RUNTIMES="compiler-rt;libunwind;libcxx;libcxxabi" \
+		-DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;llvm-libgcc" \
 		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DLIBUNWIND_HAS_NODEFAULTLIBS_FLAG=OFF \
+		-DLLVM_LIBGCC_EXPLICIT_OPT_IN=Yes \
 		-DCOMPILER_RT_INCLUDE_TESTS="$(want_check && echo ON || echo OFF)" \
 		-DCOMPILER_RT_BUILD_SANITIZERS=$_build_sanitizers \
 		-DCOMPILER_RT_INSTALL_PATH="/usr/lib/llvm$_llvmver/lib/clang/$_llvmver" \
 		-DCOMPILER_RT_BUILD_GWP_ASAN=OFF \
+		-DLIBCXXABI_USE_LLVM_UNWINDER=OFF \
 		-DCMAKE_VERBOSE_MAKEFILE=ON \
 		$crossopts
 	cmake --build build
@@ -122,6 +122,14 @@ libcxx() {
 	amove usr/lib/libc++*.so.*
 }
 
+libgcc() {
+	pkgdesc="LLVM libgcc compatibility library"
+	replaces="libgcc"
+	amove usr/lib/libgcc*s*
+	amove usr/lib/libgcc_eh.a
+	ln -s /usr/lib/llvm18/lib/clang/18/lib/linux/libclang_rt.builtins-$CARCH.a "$subpkgdir"/usr/lib/libgcc.a
+}
+
 libcxx_static() {
 	pkgdesc="LLVM libc++ library (static libs)"
 
@@ -137,7 +145,4 @@ libcxx_dev() {
 
 sha512sums="
 25eeee9984c8b4d0fbc240df90f33cbb000d3b0414baff5c8982beafcc5e59e7ef18f6f85d95b3a5f60cb3d4cd4f877c80487b5768bc21bc833f107698ad93db  llvm-project-18.1.8.src.tar.xz
-268acc4b917ca3ed3397fbb54793d38778e26dd38e7a5dd3600e2f0257cd84da6ad7f5bf179eead4567951496150e6b7da0fadd2b94464cbbab91f86034460c4  compiler-rt-lsan-dtp-offset.patch
-2460aeeb2ddcc24686939e172189d5a05e78eb30a4dca03fd60f03ec3bab5d55223a5806e44305278da0c726e65411907a6074cf64697164e613f42c013e365e  compiler-rt-sanitizer-supported-arch.patch
-102d050172d1f20c273515b8ccf05ee7e756287f1d74529116ac061f0119da5ce4e5ea3d1a5d21c6395256b5d0538aa928302a6cf39ae59f41aa35929b265e2f  libunwind-link-libssp.patch
 "
