@@ -1,7 +1,7 @@
 # Contributor: Originull Software <packages@originull.org>
 pkgname=binutils
 pkgver=2.42
-pkgrel=0
+pkgrel=1
 pkgdesc="Tools necessary to build programs"
 url="https://www.gnu.org/software/binutils/"
 depends=""
@@ -17,7 +17,7 @@ source="https://ftp.gnu.org/gnu/binutils/binutils-$pkgver.tar.xz
 builddir="$srcdir/$pkgname-$pkgver"
 
 if [ "$CHOST" = "$CBUILD" ] && [ "$CBUILD" = "$CTARGET" ] && [ "$CTARGET_ARCH" != "riscv64" ]; then
-	subpackages="$subpackages $pkgname-gold"
+	subpackages="$subpackages"
 fi
 
 if [ "$CHOST" != "$CTARGET" ]; then
@@ -50,16 +50,8 @@ build() {
 		_plugin_configure="--disable-plugins"
 	fi
 
-	if [ "$CHOST" = "$CBUILD" ] && [ "$CBUILD" = "$CTARGET" ] && [ "$CTARGET_ARCH" != "riscv64" ]; then
-		_gold_configure="--enable-gold"
-	fi
-
 	if [ "$CTARGET_ARCH" = "x86_64" ]; then
 		_arch_configure="--enable-targets=x86_64-pep --enable-multilib"
-	fi
-
-	if [ "$CTARGET_ARCH" = "riscv64" ]; then
-		_gold_configure="--disable-gold"
 	fi
 
 	case "$CTARGET_ARCH" in
