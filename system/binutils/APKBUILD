@@ -1,13 +1,14 @@
 # Contributor: Originull Software <packages@originull.org>
 pkgname=binutils
 pkgver=2.42
-pkgrel=1
+pkgrel=2
 pkgdesc="Tools necessary to build programs"
 url="https://www.gnu.org/software/binutils/"
 depends=""
-makedepends_build="bison flex texinfo g++ gcc"
+makedepends_build="bison flex texinfo gcc g++"
 makedepends_host="zlib-dev"
 makedepends="$makedepends_build $makedepends_host"
+
 replaces="llvm-binutils"
 arch="all"
 license="GPL-2.0 GPL-3.0-or-later LGPL-2.0 BSD"
@@ -41,7 +42,7 @@ build() {
 	local _sysroot=/
 	local _cross_configure="--enable-install-libiberty --enable-shared"
 	local _arch_configure=""
-	local _gold_configure="--disable-gold"
+	local _gold_configure="--enable-gold"
 	local _plugin_configure="--enable-plugins"
 	local _mlib=""
 	if [ "$CHOST" != "$CTARGET" ]; then
