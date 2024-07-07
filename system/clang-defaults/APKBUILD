@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=clang-defaults
 pkgver=18
-pkgrel=0
+pkgrel=1
 pkgdesc="Install clang as default cc/cpp/c++"
 pkgdesc="GNU binutils compatible symbolic links to LLVM binutils"
 url="http://originull.org/hollywood/sdk"
@@ -9,7 +9,7 @@ arch="all"
 license="Apache-2.0 WITH LLVM-exception"
 depends="clang"
 options="!check"
-source=""
+source="90-use-clang.sh"
 builddir="$srcdir/"
 
 build() {
@@ -18,8 +18,13 @@ build() {
 
 package() {
 	mkdir -p "$pkgdir"/usr/bin/
+	mkdir -p "$pkgdir"/etc/profile.d/
 	ln -s /usr/bin/clang "$pkgdir"/usr/bin/cc
 	ln -s /usr/bin/clang "$pkgdir"/usr/bin/cpp
 	ln -s /usr/bin/clang "$pkgdir"/usr/bin/c++
+	cp "$srcdir"/90-use-clang.sh "$pkgdir"/etc/profile.d/90-use-clang.sh
 }
 
+sha512sums="
+8b10f206cdb2fe94931493c2fb81c73bb1c2365004be94a0daa283e750c3205deb2d171d0b603eaa81d4b73a4efeae7ee5481c360d73dd8e52369b5914be11ea  90-use-clang.sh
+"
