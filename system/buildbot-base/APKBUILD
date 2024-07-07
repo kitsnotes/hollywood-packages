@@ -2,7 +2,7 @@
 pkgname=buildbot-base
 # pkgver 3rd octet should match pkgver in system/hollywood
 pkgver=1.0.67
-pkgrel=0
+pkgrel=1
 pkgdesc="Metapackage for minimal compiler environment"
 url="https://originull.org"
 arch="noarch"
@@ -13,7 +13,7 @@ depends="!hollywood-base filesystem apk-tools logrotate coreutils vim nano efiva
 	iptables nftables iproute2 less tmux hostname curl wget e2fsprogs which shadow dosfstools 
 	systemd util-linux hollywood-keys zsh btrfs-progs screen run-parts psmisc neofetch
 	adduser agetty connman procps dbus-broker sysklogd cronie sgdisk kmod zlib bash bash-completion
-	shadow-login zip bzip2 iputils xz zstd openssh openssh-server rsync acl attr e2fsprogs-extra ncurses wpa_supplicant acpid build-base"
+	shadow-login zip bzip2 iputils xz zstd openssh openssh-server rsync acl attr e2fsprogs-extra ncurses wpa_supplicant acpid"
 makedepends=""
 install=""
 subpackages=""
