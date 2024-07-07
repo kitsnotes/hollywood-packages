@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=mesa
-pkgver=23.1.6
-pkgrel=3
+pkgver=24.1.2
+pkgrel=0
 pkgdesc="Mesa DRI OpenGL library"
 url="https://www.mesa3d.org"
 arch="all"
@@ -64,59 +64,66 @@ if [ "$CARCH" = x86 ]; then
 fi
 _dri_driverdir=/usr/lib/dri
 _gallium_drivers="r300,r600,radeonsi,nouveau,swrast,virgl,zink"
-_vulkan_drivers="amd"
+_vulkan_drivers="amd,swrast"
 _vulkan_layers="device-select,overlay"
+
+# extra gallium per arch
 case "$CARCH" in
 x86*)
-	_gallium_drivers="${_gallium_drivers},svga,iris,crocus"
-	_vulkan_drivers="${_vulkan_drivers},intel"
-	_vulkan_layers="$_vulkan_layers,intel-nullhw"
-	_arch_opts="-Ddri3=enabled"
-	case "$CARCH" in
-	x86)
-		_arch_opts="$_arch_opts -Dglx-read-only-text=true";;
-	esac
+	_gallium_drivers="$_gallium_drivers,svga,i915,iris,crocus"
 	;;
-armhf|armv7|aarch64)
-	_gallium_drivers="${_gallium_drivers},vc4,v3d,freedreno,kmsro,lima,panfrost,etnaviv,tegra,asahi"
-	case "$CARCH" in
-	aarch64)
-		_vulkan_drivers="${_vulkan_drivers},broadcom,freedreno,panfrost"
-		;;
-	esac
+aarch64)
+	_gallium_drivers="$_gallium_drivers,vc4,v3d,freedreno,kmsro,lima,panfrost,etnaviv,tegra,asahi"
+	;;
+esac
+
+# extra vulkan per arch
+case "$CARCH" in
+x86*)
+	_vulkan_drivers="$_vulkan_drivers,intel,intel_hasvk"
+	_vulkan_layers="$_vulkan_layers,intel-nullhw"
+	;;
+aarch64)
+	_vulkan_drivers="$_vulkan_drivers,broadcom,freedreno,panfrost"
 	;;
 esac
 
 builddir="$srcdir/$pkgname-$pkgver"
 build() {
-
+	# use -g1 to generate less debug info:
+	# 485 MiB -> ~80 MiB
+	export CFLAGS="$CFLAGS -O2 -g1"
+	export CXXFLAGS="$CXXFLAGS -O2 -g1"
+	export CPPFLAGS="$CPPFLAGS -O2 -g1"
 	abuild-meson \
+		-Db_ndebug=true \
+		-Db_lto=true \
+		-Dbackend_max_links=2 \
 		-Dgallium-drivers=$_gallium_drivers \
 		-Dvulkan-drivers=$_vulkan_drivers \
 		-Dvulkan-layers=$_vulkan_layers \
 		-Dplatforms=x11,wayland \
 		-Ddri-drivers-path=$_dri_driverdir \
-		    -D egl=enabled \
-		    -D gallium-extra-hud=true \
-    -D gallium-nine=true \
-    -D gallium-omx=bellagio \
-    -D gallium-va=enabled \
-    -D gallium-vdpau=enabled \
-    -D gallium-xa=enabled \
-    -D gbm=enabled \
-    -D gles1=disabled \
-    -D gles2=enabled \
-    -D glvnd=true \
-    -D glx=dri \
-    -D libunwind=enabled \
-    -D llvm=enabled \
-    -D lmsensors=disabled \
-    -D osmesa=true \
-    -D shared-glapi=enabled \
-    -D microsoft-clc=disabled \
+		-D egl=enabled \
+		-D gallium-extra-hud=true \
+		-D gallium-nine=true \
+		-D gallium-omx=bellagio \
+		-D gallium-va=enabled \
+		-D gallium-vdpau=enabled \
+		-D gallium-xa=enabled \
+		-D gbm=enabled \
+		-D gles1=disabled \
+		-D gles2=enabled \
+		-D glvnd=true \
+		-D glx=dri \
+		-D libunwind=enabled \
+		-D llvm=enabled \
+		-D lmsensors=disabled \
+		-D osmesa=true \
+		-D shared-glapi=enabled \
+		-D microsoft-clc=disabled \
 		-Drust_std=2021 \
 		-Dvideo-codecs=h264dec,h264enc,h265dec,h265enc \
-	$_arch_opts \
 	 output
 
 	# Print config
@@ -133,5 +140,5 @@ package() {
 }
 
 sha512sums="
-24f1c626fa05a82bcdfb24b67b8e5f96f94d5748309631b83e8d7a62142853cd3be90b92c56bac3bc4d223bf40b424d6d6a9977537b899107295b7d45d7e2575  mesa-23.1.6.tar.xz
+ea28540552f9f28200c22423afcf9d9bb961557eae0dc11416c5ef60788c3e7f6d2b841c6bdbe2827d1339ea9d854623c1a0e08d4f1fd79d304fcdd52f790637  mesa-24.1.2.tar.xz
 "
