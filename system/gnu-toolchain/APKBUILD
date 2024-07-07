@@ -1,12 +1,12 @@
 # Maintainer: Originull Software <packages@originull.org>
-pkgname=llvm-toolchain
-pkgver=18.1.8
-pkgrel=2
-pkgdesc="LLVM/clang based C/C++ development toolchain"
+pkgname=gnu-toolchain
+pkgver=13.1.1
+pkgrel=0
+pkgdesc="GNU based C/C++ development toolchain"
 url="http://originull.org/hollywood/sdk"
 arch="all"
-license="Apache-2.0 WITH LLVM-exception"
-depends="clang llvm-binutils lld llvm-libgcc libstdc++-dev glibc-dev clang-defaults !gnu-toolchain"
+license="GPL-3.0"
+depends="gcc g++ binutils libstdc++-dev glibc-dev !llvm-toolchain"
 install=""
 options="!check"
 source=""
