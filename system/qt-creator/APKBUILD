@@ -1,8 +1,9 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt-creator
-pkgver=11.0.0
-pkgrel=3
+pkgver=13.0.2
+pkgrel=0
+_llvmver=18
 pkgdesc="Lightweight and cross-platform C++ IDE"
 url="https://qt-project.org/wiki/Category:Tools::QtCreator"
 arch="x86_64 aarch64" # qt6-qtwebengine
@@ -19,8 +20,8 @@ makedepends="
 	clang-extra-tools
 	cmake
 	elfutils-dev
-	llvm16-dev
-	llvm16-static
+	llvm$_llvmver-dev
+	llvm$_llvmver-static
 	qt6-qt5compat-dev
 	qt6-qtdeclarative-dev
 	qt6-qtquick3d-dev
@@ -35,7 +36,7 @@ source="
 	llvm-include.patch
 "
 
-builddir="$srcdir"/qt-creator-opensource-src-$pkgver
+builddir="$srcdir/qt-creator-opensource-src-$pkgver"
 
 build() {
 	CC=clang CXX=clang++ \
@@ -55,6 +56,6 @@ package() {
 }
 
 sha512sums="
-340ca8c061d4c6d925709e26b40df06de726c3844a1186d52b48c81f2075c347b6a29cef27e09c9315014874a42da7ed1dae5b3ff5d55c2d0900f55dde5634b6  qt-creator-opensource-src-11.0.0.tar.xz
+0b065dfb5eed95d1c50c39b49ea555f49b323d150e001001ae7ce50ad2cc4c47a8476def6397c8b7c3e26750442afb9df7a93a0ebece79dc84a879a3552da2ac  qt-creator-opensource-src-13.0.2.tar.xz
 c02a11c00ce00a69006598aababacaf9e8cc6b7b95801e705a3176312073dbd0dfc44c47a14986bcd25823da1416c8d68e77dca33a43f994270384dee3a4b28b  llvm-include.patch
 "
