@@ -1,8 +1,7 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Maintainer: Simon Zeni <simon@bl4ckb0ne.ca>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=spirv-headers
 _pkgname=SPIRV-Headers
-pkgver=1.3.216.0
+pkgver=1.3.283.0
 pkgrel=0
 pkgdesc="Machine-readable files for the SPIR-V Registry"
 options="!check" # No testsuite
@@ -10,9 +9,8 @@ url="https://github.com/KhronosGroup/SPIRV-Headers"
 arch="noarch"
 license="GPL-3.0-or-later"
 makedepends="cmake samurai"
-source="$pkgname-$pkgver.tar.gz::https://github.com/KhronosGroup/SPIRV-Headers/archive/refs/tags/sdk-$pkgver.tar.gz"
-builddir="$srcdir/$_pkgname-sdk-$pkgver"
-
+source="$pkgname-$pkgver.tar.gz::https://github.com/KhronosGroup/SPIRV-Headers/archive/refs/tags/vulkan-sdk-$pkgver.tar.gz"
+builddir="$srcdir/SPIRV-Headers-vulkan-sdk-$pkgver"
 build() {
 	cmake -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
@@ -27,5 +25,5 @@ package() {
 }
 
 sha512sums="
-951715cf62a643bfce6a3854f2206b95dd65e60b27355a2f290e829da0f06e19877e9dfcbf53f455b8a0524fb851a851742f3e16bb29be2f470cd62d3a8fc8f0  spirv-headers-1.3.216.0.tar.gz
+2bb52f532a8a07d6eaf7e348fc79e798511740e3f6b3fb2d1de8834335598f57555c638e07e906935e94a26a1f71704f5ca1dd0dcc8d099b2d722d217f9591fa  spirv-headers-1.3.283.0.tar.gz
 "

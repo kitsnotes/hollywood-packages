@@ -10,7 +10,7 @@ subpackages="
 	$pkgname-dbg
 	$pkgname-dev
 	"
-_llvmver=16
+_llvmver=18
 depends_dev="
 	libdrm-dev
 	libxext-dev
@@ -40,12 +40,15 @@ makedepends="
 	llvm$_llvmver-dev
 	libglvnd-dev
 	meson
-	libunwind-dev
+	libclc-dev
 	py3-mako
 	python3
 	vulkan-headers
+	py3-cparser
+	spirv-llvm-translator-dev
 	vulkan-loader-dev
 	wayland-dev
+	spirv-tools-dev
 	libomxil-bellagio-dev
 	wayland-protocols
 	xorgproto
@@ -116,7 +119,7 @@ build() {
 		-D gles2=enabled \
 		-D glvnd=true \
 		-D glx=dri \
-		-D libunwind=enabled \
+		-D libunwind=disabled \
 		-D llvm=enabled \
 		-D lmsensors=disabled \
 		-D osmesa=true \

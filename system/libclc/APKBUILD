@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libclc
 # follow llvm versioning
-pkgver=16.0.6
+pkgver=18.1.8
 pkgrel=0
 _llvmver=${pkgver%%.*}
 pkgdesc="Open source implementation of the library requirements of the OpenCL C programming language"
@@ -10,10 +10,11 @@ arch="all"
 license="Apache-2.0 WITH LLVM-exception"
 depends_dev="$pkgname=$pkgver-r$pkgrel"
 makedepends="
-	clang$_llvmver
+	clang
 	cmake
 	llvm$_llvmver-dev
 	llvm$_llvmver-static
+	llvm$_llvmver-gtest
 	samurai
 	spirv-llvm-translator-dev
 	"
@@ -21,7 +22,6 @@ checkdepends="llvm-test-utils"
 subpackages="$pkgname-dev"
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/libclc-$pkgver.src.tar.xz
 	https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/cmake-$pkgver.src.tar.xz
-	bindir.patch
 	"
 builddir="$srcdir/libclc-$pkgver.src"
 options="!check" # todo: they fail for some reason
@@ -47,7 +47,6 @@ package() {
 }
 
 sha512sums="
-e0f116b5352f6c32929558b9ead9aabe96b8d578556e01503ccb4d6fa92710b08a11343976f5009679f3f18757846da14af213b789db13e729cde45b5c806580  libclc-16.0.6.src.tar.xz
-52ecd941d2d85a5b668caa5d0d40480cb6a97b3bf1174e634c2a93e9ef6d03670ca7e96abb0a60cb33ba537b93d5788754dab1f2f45c1f623f788162717d088b  cmake-16.0.6.src.tar.xz
-993a3ee7dad00658a836c74ca2e61e7af48e0213aebdaf88f7b7f5fd6831411d93ffdf8143eefb50728757219cfbf14fecd74deb0740f050cf72dd076aa2e3ae  bindir.patch
+532e990b164b0e45ad92b4ca80d53fc6ec79fd31406d239079615342866e7f70e7a9aa8bbe025b82ee61d9c52a286b280797e83f8ac69f96dbdbbe8591dad9f0  libclc-18.1.8.src.tar.xz
+e02243b491f9e688db28d7b53270fcf87debf09d3c95b136a7c7b96e26890de68712c60a1e85f5a448a95ad8c81f2d8ae77047780822443bbe39f1a9e6211007  cmake-18.1.8.src.tar.xz
 "

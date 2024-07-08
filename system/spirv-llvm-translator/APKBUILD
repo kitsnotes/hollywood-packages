@@ -1,14 +1,13 @@
-# Contributor: Dennis Krupenik <dennis@krupenik.com>
-# Maintainer: Dennis Krupenik <dennis@krupenik.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=spirv-llvm-translator
 _pkgname=SPIRV-LLVM-Translator
-pkgver=14.0.0
-pkgrel=5
+pkgver=18.1.2
+pkgrel=0
 pkgdesc="Library for bi-directional translation between SPIR-V and LLVM IR"
 url="https://github.com/KhronosGroup/SPIRV-LLVM-Translator"
 arch="all"
 license="NCSA"
-_llvmver=14
+_llvmver=18
 depends_dev="clang-dev llvm$_llvmver-dev spirv-tools-dev"
 makedepends="$depends_dev cmake llvm$_llvmver-static libxml2-dev samurai"
 checkdepends="llvm$_llvmver-test-utils"
@@ -31,8 +30,8 @@ build() {
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DBUILD_SHARED_LIBS=True \
 		-DLLVM_SPIRV_INCLUDE_TESTS=1 \
-		-DLLVM_EXTERNAL_LIT=/usr/bin/lit \
-		-DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=/usr/include/spirv/ \
+                -DLLVM_EXTERNAL_LIT=/usr/lib/llvm$_llvmver/bin/lit \
+                -DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=/usr/include/spirv \
 		$CMAKE_CROSSOPTS .
 	ninja -C build
 }
@@ -51,5 +50,5 @@ package() {
 }
 
 sha512sums="
-5659149a380ceef7acdcb274bcad9b23e4817bf88e795e0a8464dfe14fbd102dbf7199cbe67eb611a16d3a411c7a1b8afc6f0eef61fec5a2b8f9fba06748bcb1  SPIRV-LLVM-Translator-14.0.0.tar.gz
+889cdc0960f6029129dad62f7afe6f61b51bed9d8fb9fa6b743318e2243252dce62cbacf71a2b56decec24ce37746b4b4787dd426ad76e2feb74e1781cb070c8  SPIRV-LLVM-Translator-18.1.2.tar.gz
 "
