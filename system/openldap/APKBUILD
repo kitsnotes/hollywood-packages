@@ -237,18 +237,10 @@ package() {
 	chgrp ldap etc/openldap/slapd.*
 	chmod g+r etc/openldap/slapd.*
 
-	install -D -m 640 -g ldap "$srcdir"/lloadd.conf -t etc/openldap/
-
 	install -d -m 700 -o ldap -g ldap \
 		var/lib/openldap \
 		var/lib/openldap/openldap-data \
 		var/lib/openldap/openldap-lloadd
-
-	install -D -m 755 "$srcdir"/slapd.initd etc/init.d/slapd
-	install -D -m 644 "$srcdir"/slapd.confd etc/conf.d/slapd
-
-	install -D -m 755 "$srcdir"/lloadd.initd etc/init.d/lloadd
-	install -D -m 644 "$srcdir"/lloadd.confd etc/conf.d/lloadd
 }
 
 libldap() {
@@ -274,9 +266,6 @@ lloadd_openrc() {
 	depends="$depends_openrc"
 	provides=""
 	install_if="openrc $pkgname-lloadd=$pkgver-r$pkgrel"
-
-	amove etc/init.d/lloadd
-	amove etc/conf.d/lloadd
 }
 
 clients() {
