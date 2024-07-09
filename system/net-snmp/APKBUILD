@@ -15,7 +15,6 @@ subpackages="$pkgname-dbg $pkgname-doc $pkgname-dev $pkgname-libs $pkgname-agent
 source="https://downloads.sourceforge.net/net-snmp/net-snmp-$pkgver.tar.gz
 	netsnmp-swinst-crash.patch
 	fix-includes.patch
-	0001-snmpd-always-exit-after-displaying-usage.patch
 	"
 
 
