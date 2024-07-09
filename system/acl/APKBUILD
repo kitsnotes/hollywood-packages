@@ -1,9 +1,7 @@
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
-# Contributor: Natanael Copa <ncopa@alpinelinux.org>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=acl
-pkgver=2.2.53
-pkgrel=1
+pkgver=2.3.2
+pkgrel=0
 pkgdesc="Access control list utilities"
 url="https://savannah.nongnu.org/projects/acl"
 arch="all"
@@ -38,4 +36,6 @@ libacl() {
 	mv "$pkgdir"/usr/lib/libacl.so.* "$subpkgdir"/usr/lib/
 }
 
-sha512sums="176b7957fe0e7618e0b7bf2ac5071f7fa29417df718cce977661a576fa184e4af9d303b591c9d556b6ba8923e799457343afa401f5a9f7ecd9022185a4e06716  acl-2.2.53.tar.gz"
+sha512sums="
+31aeb39958d8af5d08933dd3a89333a41025c3eb49fc461fa3c291caca51dad575ec13faeb7deba9b3c2ebf7615be7d45e2b78e50d4f83d8ec933c95931a7682  acl-2.3.2.tar.gz
+"
