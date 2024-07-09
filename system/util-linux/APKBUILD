@@ -17,6 +17,7 @@ makedepends_host="
 	linux-headers
 	ncurses-dev
 	zlib-dev
+	sqlite-dev
 	"
 subpackages="
 	$pkgname-bash-completion
