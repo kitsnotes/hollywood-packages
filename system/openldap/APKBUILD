@@ -61,8 +61,6 @@ subpackages="
 	$pkgname-dev
 	$pkgname-doc
 	libldap
-	$pkgname-lloadd
-	$pkgname-lloadd-openrc:lloadd_openrc
 	$pkgname-clients
 	$pkgname-passwd-argon2:passwd_argon2
 	$pkgname-passwd-pbkdf2:passwd_pbkdf2
@@ -74,7 +72,6 @@ install="
 	$pkgname.pre-install
 	$pkgname.post-install
 	$pkgname.post-upgrade
-	$pkgname-lloadd.pre-install
 	"
 source="https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-$pkgver.tgz
 	"
@@ -84,7 +81,6 @@ _backends="
 	asyncmeta
 	dnssrv
 	ldap
-	lload
 	mdb
 	meta
 	null
@@ -174,15 +170,6 @@ build() {
 		msg "Building module $dir"
 		make -C contrib/slapd-modules/$dir prefix=/usr libexecdir=/usr/lib
 	done
-
-	cp -ar "$builddir" "$builddir-lloadd"
-	cd "$builddir-lloadd"
-
-	msg "Building standalone lloadd"
-	make -C servers clean
-	_configure \
-		--enable-balancer=yes
-	make
 }
 
 _configure() {
@@ -218,8 +205,6 @@ package() {
 			DESTDIR="$pkgdir" prefix=/usr libexecdir=/usr/lib install
 	done
 
-	make -C "$builddir-lloadd"/servers/lloadd DESTDIR="$pkgdir" install
-
 	cd "$pkgdir"
 
 	rmdir var/lib/openldap/run
@@ -228,7 +213,7 @@ package() {
 	find usr/sbin/ -type l -exec ln -sf slapd {} \;
 
 	# Move executables from lib to sbin.
-	mv usr/lib/slapd usr/lib/lloadd usr/sbin/
+	mv usr/lib/slapd usr/sbin/
 
 	# Move *.default configs to docs.
 	mkdir -p usr/share/doc/$pkgname
@@ -239,8 +224,7 @@ package() {
 
 	install -d -m 700 -o ldap -g ldap \
 		var/lib/openldap \
-		var/lib/openldap/openldap-data \
-		var/lib/openldap/openldap-lloadd
+		var/lib/openldap/openldap-data 
 }
 
 libldap() {
@@ -250,22 +234,6 @@ libldap() {
 
 	amove usr/lib/*.so*
 	amove etc/openldap/ldap.conf
-}
-
-lloadd() {
-	pkgdesc="Standalone LDAP Load Balancer Daemon"
-	provides=""
-
-	amove etc/openldap/lloadd.conf
-	amove usr/sbin/lloadd
-	amove var/lib/openldap/openldap-lloadd
-}
-
-lloadd_openrc() {
-	pkgdesc="Standalone LDAP Load Balancer Daemon (OpenRC init scripts)"
-	depends="$depends_openrc"
-	provides=""
-	install_if="openrc $pkgname-lloadd=$pkgver-r$pkgrel"
 }
 
 clients() {
@@ -319,11 +287,6 @@ _backend() {
 	backend_name="${subpkgname#openldap-back-}"
 	pkgdesc="OpenLDAP $backend_name backend"
 	provides=""
-
-	case "$backend_name" in
-		lload) pkgdesc="OpenLDAP load balancer backend (module)";;
-		*) backend_name="back_$backend_name";;
-	esac
 
 	amove usr/lib/openldap/$backend_name*
 }
