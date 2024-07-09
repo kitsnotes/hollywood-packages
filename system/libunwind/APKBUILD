@@ -12,7 +12,7 @@ makedepends_build="autoconf automake libtool"
 makedepends_host="$depends_dev linux-headers xz-dev"
 makedepends="$makedepends_build $makedepends_host"
 subpackages="$pkgname-dbg $pkgname-static $pkgname-dev $pkgname-doc"
-source="https://download.savannah.gnu.org/releases/libunwind/libunwind-$pkgver.tar.gz
+source="https://github.com/libunwind/libunwind/releases/download/v$pkgver/libunwind-$pkgver.tar.gz
 	force-enable-man.patch
 	fix-libunwind-pc-in.patch
 "
