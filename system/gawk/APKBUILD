@@ -1,9 +1,6 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
-# Contributor: Michael Mason <ms13sp@gmail.com>
-# Contributor: Bartłomiej Piotrowski <nospam@bpiotrowski.pl>
-# Contributor: TBK <alpine@jjtc.eu>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=gawk
-pkgver=5.1.1
+pkgver=5.3.0
 pkgrel=0
 pkgdesc="GNU awk pattern-matching language"
 url="https://www.gnu.org/software/gawk/gawk.html"
@@ -12,13 +9,8 @@ license="GPL-3.0-or-later"
 checkdepends="coreutils diffutils"
 subpackages="$pkgname-doc"
 source="https://ftp.gnu.org/gnu/gawk/gawk-$pkgver.tar.xz
-	echild-strerror.patch"
-
-case "$CARCH" in
-# TODO: sigpipe1 test fails
-# See: https://lists.gnu.org/archive/html/bug-gawk/2021-02/msg00005.html
-s390x) options="!check" ;; # sigpipe1 test fails
-esac
+	echild-strerror.patch
+	fix-str2wstr.patch"
 
 prepare() {
 	default_prepare
@@ -48,6 +40,7 @@ package() {
 }
 
 sha512sums="
-794538fff03fdb9a8527a6898b26383d01988e8f8456f8d48131676387669a8bb3e706fa1a17f6b6316ddba0ebe653c24ad5dd769f357de509d6ec25f3ff1a43  gawk-5.1.1.tar.xz
+c274a62c7420e7b7769b8ed94db40024bd5917ff49bd50a77ad6df1f16ecf116968aaf85da94015479466bf5570b370b6fdd197f95212ae0c3509dfcb7d9e35a  gawk-5.3.0.tar.xz
 5bbb175da2d93c9c1d422a4e5a2c2400486c0204929ac6771bf2c2effbee37b84ef9441821a47e1fdc4a337e3cb8ad92cb67d473822876ea790dd373822d4dbd  echild-strerror.patch
+5038182b65d4ae3224a96371e5aec5fa73dc863508c5ad7e2c569cea5b87a30ce401925845276d5ee827d4dda98732b7ce075e3cf900df6e91de3b995da87970  fix-str2wstr.patch
 "
