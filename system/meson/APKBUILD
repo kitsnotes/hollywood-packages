@@ -1,8 +1,7 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=meson
-pkgver=1.0.0
-pkgrel=1
+pkgver=1.4.1
+pkgrel=0
 pkgdesc="Fast and user friendly build system"
 url="https://mesonbuild.com"
 arch="noarch"
@@ -50,6 +49,6 @@ vim() {
 }
 
 sha512sums="
-9b1195cfe856c1aa51bc79f6eb4d0f94925bb02d0a9fbd68a6a6ced6e5c252b09b22d9aac812640687e49b8d64a313ce48d0a69a3bf83ea8ffb8c9dab559fc23  meson-1.0.0.tar.gz
+2616bcca70d5554407d4852aa3494e05e53aa8a33f58859ada42750221922fcb6ea7f3452844883f4800d77eed4a7289b061324871218f052219b3caa02dcc9e  meson-1.4.1.tar.gz
 1029e7a7af86ff4a5636f8cea4b5dbe970a58741d2f25dad50712664f1e387078e7583fafd4f7d1d420c9e116b0ea72b20cf22532cfece9a7d2d8cf60c9aadab  abuild-meson
 "
