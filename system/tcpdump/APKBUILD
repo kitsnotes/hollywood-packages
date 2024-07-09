@@ -1,12 +1,13 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=tcpdump
-pkgver=4.99.1
-pkgrel=3
+pkgver=4.99.4
+pkgrel=0
 pkgdesc="A tool for network monitoring and data acquisition"
 url="https://www.tcpdump.org/"
 arch="all"
 license="BSD-3-Clause"
-makedepends="libpcap-dev openssl1.1-compat-dev perl"
+makedepends="cmake samurai libpcap-dev openssl-dev>3"
+checkdepends="perl"
 subpackages="$pkgname-doc"
 source="https://www.tcpdump.org/release/tcpdump-$pkgver.tar.gz
 	"
@@ -87,28 +88,22 @@ source="https://www.tcpdump.org/release/tcpdump-$pkgver.tar.gz
 #   4.9.1-r0:
 #     - CVE-2017-11108
 
-
-
 build() {
-	./configure \
-		--build=$CBUILD \
-		--host=$CHOST \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		--mandir=/usr/share/man \
-		--localstatedir=/var
-	make
+	CFLAGS="$CFLAGS -flto=auto" \
+	cmake -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr
+	cmake --build build
 }
 
 check() {
-	make check
+	cmake --build build --target check
 }
 
 package() {
-	make DESTDIR="$pkgdir" install
-	rm -f "$pkgdir"/usr/bin/tcpdump.4*
+	DESTDIR="$pkgdir" cmake --install build
 }
 
 sha512sums="
-53d31355e1a6ef5a65bb3bf72454169fc80adf973a327a5768840e6ccf0550fbeb3c8a41f959635076d871df0619680321910a3a97879607f481cdaa8b7ceda7  tcpdump-4.99.1.tar.gz
+cb51e19574707d07c0de90dd4c301955897f2c9f2a69beb7162c08f59189f55625346d1602c8d66ab2b4c626ea4b0df1f08ed8734d2d7f536d0a7840c2d6d8df  tcpdump-4.99.4.tar.gz
 "
