@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=screen
-pkgver=4.8.0
-pkgrel=6
+pkgver=4.9.1
+pkgrel=0
 pkgdesc="Window manager that multiplexes a physical terminal"
 url="https://www.gnu.org/software/screen/"
 arch="all"
@@ -10,10 +10,11 @@ options="!check"  # No test suite.
 makedepends="ncurses-dev libutempter-dev ncurses"
 subpackages="$pkgname-doc"
 source="https://ftp.gnu.org/gnu/screen/screen-$pkgver.tar.gz
-	CVE-2021-26937.patch
 	"
 
 # secfixes:
+#   4.9.0-r3:
+#     - CVE-2023-24626
 #   4.8.0-r4:
 #     - CVE-2021-26937
 #   4.8.0-r0:
@@ -45,5 +46,4 @@ package() {
 	install -Dm644 etc/screenrc "$pkgdir"/etc/skel/.screenrc
 }
 
-sha512sums="770ebaf6ee9be711bcb8a6104b3294f2bf4523dae6683fdc5eac4b3aff7e511be2d922b6b2ad28ec241113c2e4fe0d80f9a482ae1658adc19c8c3a3680caa25c  screen-4.8.0.tar.gz
-21f296fa558ef5cdde378fcd8d47cf780f99702c3f798387f611260f29700397591f1757d1d3197a12650a4042af74176753e69bc19997c2bbfbb02b413a50a5  CVE-2021-26937.patch"
+sha512sums="1f278313528815f4246bb162ced611c5d77321d11055e8d853168dc804c75d5f78568056a23e46db0640e1605e5cad4a5ce05e95e50cf02bb322cb6f57e5a126  screen-4.9.1.tar.gz"
