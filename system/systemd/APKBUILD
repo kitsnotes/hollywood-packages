@@ -8,7 +8,7 @@ url="https://systemd.io/"
 arch="all"
 license="GPL-2.0"
 depends="acl audit bash cryptsetup iptables kbd kmod util-linux lz4 linux-pam gperf"
-makedepends="meson clang cryptsetup-libs dbus dbus-libs dbus-dev cryptsetup-dev linux-pam-dev libcap-dev util-linux-dev kmod-dev acl-dev audit-dev lz4-dev libgcrypt-dev libidn2-dev libseccomp-dev pcre2-dev py3-jinja2 zstd-dev openssl-dev>3"
+makedepends="meson clang cryptsetup-libs dbus dbus-libs dbus-dev cryptsetup-dev linux-pam-dev libcap-dev util-linux-dev kmod-dev acl-dev audit-dev lz4-dev libgcrypt-dev libidn2-dev libseccomp-dev pcre2-dev py3-jinja2 zstd-dev openssl-dev>3 libxslt-dev"
 checkdepends=""
 triggers="systemd.trigger=/usr/lib/systemd/*"
 install="$pkgname.post-install $pkgname.post-upgrade"
@@ -18,7 +18,8 @@ subpackages="$pkgname-dbg $pkgname-doc $pkgname-lang $pkgname-dev
         $pkgname-bash-completion
         $pkgname-zsh-completion
         "
-source="https://github.com/systemd/systemd/archive/refs/tags/v$pkgver/systemd-$pkgver.tar.gz"
+source="https://github.com/systemd/systemd/archive/refs/tags/v$pkgver/systemd-$pkgver.tar.gz
+	pidfs-magic.patch"
 builddir="$srcdir/systemd-$pkgver"
 
 build() {
@@ -87,4 +88,5 @@ package() {
 
 sha512sums="
 84b4d16980fe2e64d5c3c95b9b4fbaad1076f368f493fdd745cbafbe7ce825293384f5fa0b6360ba8188da23c4575e87402fb666a3b71f84ff8b323aba0c07ff  systemd-254.tar.gz
+fb2ccb2e57afb17563fb8a4260326c86a49170ea273caf2d4e2ca1e05e73d97266ac0fb7db4a4b3c258f3ef7eb8ec1a49249f2c1fc084ecda48c09d5d0831dab  pidfs-magic.patch
 "
