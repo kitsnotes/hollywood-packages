@@ -72,7 +72,6 @@ subpackages="
 install="
 	$pkgname.pre-install
 	$pkgname.post-install
-	$pkgname.pre-upgrade
 	$pkgname.post-upgrade
 	$pkgname-lloadd.pre-install
 	"
