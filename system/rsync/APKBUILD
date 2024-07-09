@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=rsync
-pkgver=3.2.7
+pkgver=3.3.0
 pkgrel=0
 pkgdesc="A file transfer program to keep remote files in sync"
 url="https://rsync.samba.org/"
@@ -33,9 +33,7 @@ prepare() {
 }
 
 build() {
-	# Force IPv6 enabled, upstream bug https://bugzilla.samba.org/show_bug.cgi?id=10715
-	CFLAGS="$CFLAGS -DINET6" \
-
+	CFLAGS="$CFLAGS -flto=auto" \
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
@@ -82,7 +80,7 @@ rrsync() {
 }
 
 sha512sums="
-c2afba11a352fd88133f9e96e19d6df80eb864450c83eced13a7faa23df947bccf2ef093f2101df6ee30abff4cbbd39ac802e9aa5f726e42c9caff274fad8377  rsync-3.2.7.tar.gz
+df5c53bc2f2b0e7e30f475903e5e4296dc2fbcf08e9ea6c3c61462d0e52b067c27e82deeb4be79102c86e9aa55a825182e126f22df44dabf5b7328acb2a01d10  rsync-3.3.0.tar.gz
 3db8a2b364fc89132af6143af90513deb6be3a78c8180d47c969e33cb5edde9db88aad27758a6911f93781e3c9846aeadc80fffc761c355d6a28358853156b62  rsyncd.conf
 e7ff164926785c4eff2ea641c7ce2d270b25f1c26d93a6108bb6ff2c0207a28ebfd93dca39596243446ce41aceaeae62fc2b34084eb9c9086fcdbc03a657eed8  rsyncd.logrotate
 "
