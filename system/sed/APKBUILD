@@ -1,7 +1,7 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=sed
-pkgver=4.8
-pkgrel=1
+pkgver=4.9
+pkgrel=0
 subpackages="$pkgname-doc"
 pkgdesc="GNU stream editor"
 url="https://www.gnu.org/software/sed"
@@ -11,10 +11,7 @@ makedepends="perl"
 checkdepends="diffutils"
 install="$pkgname.post-deinstall"
 # GNU's master site seems to be down. use a mirror for now
-#source="https://ftp.gnu.org/pub/gnu/$pkgname/$pkgname-$pkgver.tar.xz
-source="https://ftp.heanet.ie/mirrors/ftp.gnu.org/gnu/sed/sed-$pkgver.tar.xz
-	"
-# testsuite fails because busybox provides a /usr/bin/timeout
+source="https://ftp.gnu.org/pub/gnu/$pkgname/$pkgname-$pkgver.tar.xz"
 options="!check"
 
 build() {
@@ -40,4 +37,6 @@ package() {
 	rmdir -p "$pkgdir"/usr/lib 2>/dev/null || true
 }
 
-sha512sums="7de25d9bc2981c63321c2223f3fbcab61d7b0df4fcf7d4394b72400b91993e1288d8bf53948ed5fffcf5a98c75265726a68ad4fb98e1d571bf768603a108c1c8  sed-4.8.tar.xz"
+sha512sums="
+36157a4b4a2430cf421b7bd07f1675d680d9f1616be96cf6ad6ee74a9ec0fe695f8d0b1e1f0b008bbb33cc7fcde5e1c456359bbbc63f8aebdd4fedc3982cf6dc  sed-4.9.tar.xz
+"
