@@ -20,7 +20,7 @@ source="https://download.sourceforge.net/project/zsh/zsh/$pkgver/zsh-$pkgver.tar
 	zprofile
 	zshrc"
 
-subpackages="$pkgname-doc $pkgname-calendar::noarch $pkgname-vcs::noarch $pkgname-zftp"
+subpackages="$pkgname-doc $pkgname-calendar::noarch $pkgname-vcs::noarch"
 builddir="$srcdir/$pkgname-$pkgver"
 
 _libdir="usr/lib/zsh/$pkgver"
@@ -121,14 +121,6 @@ vcs() {
 	depends="$pkgname"
 
 	_submv $_sharedir/functions/VCS_Info
-}
-
-zftp() {
-	pkgdesc="Zftp Function System for ZSH"
-	depends="$pkgname"
-
-	_submv $_libdir/zsh/zftp.so
-	_submv $_sharedir/functions/Zftp
 }
 
 _completion() {
