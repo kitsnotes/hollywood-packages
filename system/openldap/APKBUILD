@@ -78,7 +78,6 @@ source="https://www.openldap.org/software/download/OpenLDAP/openldap-release/ope
 
 # SLAPD backends
 _backends="
-	asyncmeta
 	dnssrv
 	ldap
 	mdb
