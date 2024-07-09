@@ -1,15 +1,13 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
-# Maintainer: Daniel Sabogal <dsabogalcc@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libinput
-pkgver=1.21.0
-pkgrel=1
+pkgver=1.26.0
+pkgrel=0
 pkgdesc="Library for handling input devices"
 url="https://www.freedesktop.org/wiki/Software/libinput"
 arch="all"
 license="MIT"
 _depends_tools="python3 py3-libevdev py3-udev py3-yaml"
-makedepends="eudev-dev libevdev-dev meson mtdev-dev $_depends_tools"
+makedepends="systemd-dev libevdev-dev meson mtdev-dev $_depends_tools"
 checkdepends="diffutils bash"
 subpackages="
 	$pkgname-dev
@@ -18,9 +16,8 @@ subpackages="
 	$pkgname-tools
 	$pkgname-zsh-completion
 	"
-install="$pkgname.post-upgrade"
-source="https://gitlab.freedesktop.org/libinput/libinput/-/archive/$pkgver/libinput-$pkgver.tar.gz
-	0001-quirks-Add-Apple-MTP-touchpad-quirk.patch"
+install=""
+source="https://gitlab.freedesktop.org/libinput/libinput/-/archive/$pkgver/libinput-$pkgver.tar.gz"
 
 build() {
 	abuild-meson \
@@ -62,6 +59,5 @@ tools() {
 
 
 sha512sums="
-510273d68f2d4cfa61564a706b1f334f6bfca0d1c8faf0bb8aa656cf3fbd5e38d79d6fbaa01a20d38bc15777c9afc341e4ed08d35ef367ef3803ce788cbc4a0e  libinput-1.21.0.tar.gz
-6a2720bb9d22ddc611c37868dc3cbbd0efe2c5fc7f951af5f39964655b5fc3c99d5181f72e5c857632ee3e9ce82951298fc35635d467f7ac2f903d0780b7ea78  0001-quirks-Add-Apple-MTP-touchpad-quirk.patch
+57b2f48e1d88cee2d39c7d2c09ef6f38f8305caafc3442c93e89e1c208bc15d3525a66248b7ba4a4d86aede5ae6cb3fe5bb0b1607c99bf20ea6efbc3959039ca  libinput-1.26.1.tar.gz
 "
