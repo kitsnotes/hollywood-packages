@@ -6,7 +6,7 @@ pkgdesc="The basic file, shell and text manipulation utilities"
 url="https://www.gnu.org/software/coreutils/"
 arch="all"
 license="GPL-3.0-or-later"
-makedepends="bash acl-dev attr-dev utmps-dev perl automake autoconf"
+makedepends="bash acl-dev attr-dev perl automake autoconf"
 subpackages="$pkgname-doc"
 install="$pkgname.post-deinstall"
 source="https://ftp.gnu.org/gnu/coreutils/coreutils-$pkgver.tar.xz
@@ -20,7 +20,6 @@ options="!check"
 
 build() {
 	autoreconf
-	#CFLAGS="$CFLAGS -I/usr/include/utmps" LIBS="-lutmps -lskarnet -lrt" 
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \

@@ -9,12 +9,12 @@
 #
 pkgname=zsh
 pkgver=5.9
-pkgrel=1
+pkgrel=2
 pkgdesc="Very advanced and programmable command interpreter (shell)"
 url="https://www.zsh.org/"
 arch="all"
 license="custom"
-makedepends="ncurses-dev diffutils skalibs-dev utmps-dev"
+makedepends="ncurses-dev diffutils"
 source="https://download.sourceforge.net/project/zsh/zsh/$pkgver/zsh-$pkgver.tar.xz
 	skel
 	zprofile
@@ -63,7 +63,7 @@ prepare() {
 
 build() {
 	cd "$builddir"
-	LIBS="-lutmps -lskarnet" ./configure \
+	./configure \
 		--prefix=/usr \
 		--bindir=/bin \
 		--mandir=/usr/share/man \
