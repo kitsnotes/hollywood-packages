@@ -1,14 +1,14 @@
-# Maintainer:  Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-crypt-openssl-random
 _pkgname=Crypt-OpenSSL-Random
-pkgver=0.15
-pkgrel=9
+pkgver=0.17
+pkgrel=0
 pkgdesc="RSA encoding and decoding, using the openSSL libraries"
 url="https://metacpan.org/pod/Crypt::OpenSSL::Random"
 arch="all"
 license="Artistic-1.0 GPL+"
 depends="perl"
-makedepends="perl-dev openssl1.1-compat-dev perl-crypt-openssl-guess"
+makedepends="perl-dev openssl-dev>3 perl-crypt-openssl-guess"
 subpackages="$pkgname-doc"
 source="https://cpan.metacpan.org/authors/id/R/RU/RURBAN/$_pkgname-$pkgver.tar.gz"
 builddir="$srcdir"/$_pkgname-$pkgver
@@ -34,4 +34,6 @@ check() {
 	make test
 }
 
-sha512sums="bba8ce86b97ce2d6271be503efff6e6e0ff60a797282a2b7cb9c6c0592b69cc43344f9738b4790e5fc165a7273ff01e35ada481cf8c4dfde38cb7ad741d97530  Crypt-OpenSSL-Random-0.15.tar.gz"
+sha512sums="
+a73a9c5c7d361467dace1ea34169e211ba7a11e29c84e9a87568a3cccf28c4cf317c39ee9c4b697e06dac408bb4c2446dd948289da9a77daf8283f27abdc2887  Crypt-OpenSSL-Random-0.17.tar.gz
+"
