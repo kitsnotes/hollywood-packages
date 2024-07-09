@@ -13,8 +13,8 @@ makedepends_host="$depends_dev linux-headers xz-dev"
 makedepends="$makedepends_build $makedepends_host"
 subpackages="$pkgname-dbg $pkgname-static $pkgname-dev $pkgname-doc"
 source="https://github.com/libunwind/libunwind/releases/download/v$pkgver/libunwind-$pkgver.tar.gz
-	force-enable-man.patch
 	fix-libunwind-pc-in.patch
+	0001-Rework-inline-aarch64-as-for-setcontext.patch
 "
 
 prepare() {
@@ -45,6 +45,6 @@ package() {
 
 sha512sums="
 aba7b578c1b8cbe78f05b64e154f3530525f8a34668b2a9f1ee6acb4b22c857befe34ad4e9e8cca99dbb66689d41bc72060a8f191bd8be232725d342809431b3  libunwind-1.8.1.tar.gz
-de3cefd8a2fa9ae3eabf052cb94a1fdde4f9b7e85af839220592269f7a885470572f67ecf6d773129de8d82916fbcbdda44b541f4eeec84744c54f230c36b6a1  force-enable-man.patch
 52b568846db7adb50a181f17635e53c8a6d99d6d13c3d35fd8c9a5de5ec0a1ad18d8462c4ae4483d413d4b5aa7375017c36b5cb49805b6f67d96cffafbd02548  fix-libunwind-pc-in.patch
+faed06735a21ff787e536d96d2f9da2bd003bad79854398d4cf8267f0839ac2d8d23fd05e6c703ab75b36c0ea24a526f55fdfc6d9cb43da81f9af7deac273117  0001-Rework-inline-aarch64-as-for-setcontext.patch
 "
