@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=util-linux
-pkgver=2.38.1
-pkgrel=9
+pkgver=2.40.1
+pkgrel=0
 pkgdesc="Random collection of Linux utilities"
 url="https://git.kernel.org/cgit/utils/util-linux/util-linux.git"
 arch="all"
@@ -53,8 +53,6 @@ if [ -z "$BOOTSTRAP" ]; then
 	makedepends_host="$makedepends_host
 		linux-pam-dev
 		python3-dev
-		utmps-dev
-		utmps-static
 		"
 	subpackages="$subpackages
 		"
@@ -77,7 +75,6 @@ case $pkgver in
 	*.*) _v=$pkgver;;
 esac
 source="https://www.kernel.org/pub/linux/utils/util-linux/v$_v/util-linux-$pkgver.tar.xz
-	utmps.patch
 	ttydefaults.h
 	login.pamd
 	"
@@ -119,14 +116,6 @@ prepare() {
 }
 
 build() {
-	if [ -z "$BOOTSTRAP" ]; then
-		# Linking utmps statically is strongly preferred by the utmps author
-		# and also much more space efficient - adds 4 kiB to each binary, that's
-		# 20 kiB in total for util-linux-*, versus 196 kiB (libskarnet.so).
-		# TODO: Find a better way (libutmps.so w/o dependency on libskarnet.so)?
-		export UTMPX_CFLAGS=$(pkg-config --cflags --static utmps)
-		export UTMPX_LIBS=$(pkg-config --libs --static utmps)
-	fi
 	# --disable-chfn-chsh - chfn and chsh are provided by shadow package
 	./configure \
 		--prefix=/usr \
@@ -261,8 +250,7 @@ _py3() {
 }
 
 sha512sums="
-07f11147f67dfc6c8bc766dfc83266054e6ede776feada0566b447d13276b6882ee85c6fe53e8d94a17c03332106fc0549deca3cf5f2e92dda554e9bc0551957  util-linux-2.38.1.tar.xz
-88736b554b60f836357a29f537d51658bb487dd316c92cc5160ba06bed5f8cf8e34bbfb8eb7370c4e4a2e75997a6e4bd2058201d227e41f83a18abbf4a73bdbd  utmps.patch
+58ec6eb41d4b6bfc544a80e95c71b5f3798ab4d2a9435d3ee9e5edd56f9b3f09bcb154bdd70e002dc018938937e2e946ae731dcda0f86b362fc43423689e41fc  util-linux-2.40.1.tar.xz
 876bb9041eca1b2cca1e9aac898f282db576f7860aba690a95c0ac629d7c5b2cdeccba504dda87ff55c2a10b67165985ce16ca41a0694a267507e1e0cafd46d9  ttydefaults.h
 8d1c7043719af9ee1473fdb482e054ca0e0fa1ac673cb9c7db96a6aad00382456225dea05267dab96e19d5f444a00681e8dbaf7399100c75424fd388d48ad68b  login.pamd
 "
