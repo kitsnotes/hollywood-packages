@@ -98,9 +98,11 @@ build() {
 	export CFLAGS="$CFLAGS -O2 -g1"
 	export CXXFLAGS="$CXXFLAGS -O2 -g1"
 	export CPPFLAGS="$CPPFLAGS -O2 -g1"
+	export LDFLAGS="$LDFLAGS -Wl,--undefined-version"
 	abuild-meson \
 		-Db_ndebug=true \
 		-Db_lto=true \
+		-Db_lundef=false \
 		-Dbackend_max_links=2 \
 		-Dgallium-drivers=$_gallium_drivers \
 		-Dvulkan-drivers=$_vulkan_drivers \
