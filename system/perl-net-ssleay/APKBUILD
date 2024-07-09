@@ -1,15 +1,14 @@
-# Contributor: Natanael Copa <ncopa@alpinelinux.org>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-net-ssleay
 _realname=Net-SSLeay
-pkgver=1.90
-pkgrel=3
+pkgver=1.94
+pkgrel=0
 pkgdesc="Perl extension for using OpenSSL"
 url="https://metacpan.org/release/Net-SSLeay"
 arch="all"
 license="Artistic-2.0"
 depends="perl"
-makedepends="perl-dev openssl1.1-compat-dev zlib-dev"
+makedepends="perl-dev openssl-dev>3 zlib-dev"
 checkdepends="perl-test-exception perl-test-warn perl-test-nowarnings"
 subpackages="$pkgname-doc"
 source="https://cpan.metacpan.org/authors/id/C/CH/CHRISN/Net-SSLeay-$pkgver.tar.gz"
@@ -31,5 +30,6 @@ package() {
 	# creates file collision among perl modules
 	find "$pkgdir" -name perllocal.pod -delete
 }
-
-sha512sums="8a5f251b5ef1d8c2d619d984594a7a22ddeed2e5e726fe683a45f299d7878f4ca8ffab00480ebf5ef7a94ae1fcf6be05dfdaa68b8bfe2ad68443150765adb891  Net-SSLeay-1.90.tar.gz"
+sha512sums="
+f1461667269f3da56ff7e1724b5511b95c34582250f8336e9f93d30f3b30d4a5360eb27622b9730bba11df75e00d717c7f0cea2120d20206723db136a8509375  Net-SSLeay-1.94.tar.gz
+"
