@@ -62,11 +62,6 @@ subpackages="
 	$pkgname-doc
 	libldap
 	$pkgname-clients
-	$pkgname-passwd-argon2:passwd_argon2
-	$pkgname-passwd-pbkdf2:passwd_pbkdf2
-	$pkgname-passwd-sha2:passwd_sha2
-	$pkgname-backend-all:_backend_all:noarch
-	$pkgname-overlay-all:_overlay_all:noarch
 	"
 install="
 	$pkgname.pre-install
@@ -88,10 +83,6 @@ _backends="
 	sock
 	sql
 	"
-for _name in $_backends; do
-	subpackages="$subpackages $pkgname-back-$_name:_backend"
-	_backend_pkgs="$_backend_pkgs $pkgname-back-$_name"
-done
 
 # SLAPD overlays
 _overlays="
@@ -121,12 +112,7 @@ _overlays="
 	unique
 	valsort
 	"
-_overlay_pkgs=""
-for _name in $_overlays; do
-	subpackages="$subpackages $pkgname-overlay-$_name:_overlay"
-	_overlay_pkgs="$_overlay_pkgs $pkgname-overlay-$_name"
-done
-
+	
 # Extra modules from contrib/slapd-modules to build and install.
 _extra_modules="
 	passwd/pbkdf2
@@ -240,67 +226,6 @@ clients() {
 	provides=""
 
 	amove usr/bin
-}
-
-passwd_argon2() {
-	pkgdesc="Argon2 OpenLDAP support"
-	depends="$pkgname"
-	provides=""
-
-	amove usr/lib/openldap/argon2.*
-}
-
-passwd_pbkdf2() {
-	pkgdesc="PBKDF2 OpenLDAP support"
-	depends="$pkgname"
-	provides=""
-
-	amove usr/lib/openldap/pw-pbkdf2.*
-}
-
-passwd_sha2() {
-	pkgdesc="SHA2 OpenLDAP support"
-	depends="$pkgname"
-	provides=""
-
-	amove usr/lib/openldap/pw-sha2.*
-}
-
-_backend_all() {
-	pkgdesc="Virtual package that installs all OpenLDAP backends"
-	depends="$_backend_pkgs"
-	provides=""
-
-	mkdir -p "$subpkgdir"
-}
-
-_overlay_all() {
-	pkgdesc="Virtual package that installs all OpenLDAP overlays"
-	depends="$_overlay_pkgs"
-	provides=""
-
-	mkdir -p "$subpkgdir"
-}
-
-_backend() {
-	backend_name="${subpkgname#openldap-back-}"
-	pkgdesc="OpenLDAP $backend_name backend"
-	provides=""
-
-	amove usr/lib/openldap/$backend_name*
-}
-
-_overlay() {
-	overlay_name="${subpkgname#openldap-overlay-}"
-	pkgdesc="OpenLDAP $overlay_name overlay"
-	provides=""
-
-	case "$overlay_name" in
-		proxycache)
-			overlay_name=pcache
-		;;
-	esac
-	amove usr/lib/openldap/$overlay_name*
 }
 
 sha512sums="
