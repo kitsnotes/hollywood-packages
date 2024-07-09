@@ -1,24 +1,23 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=nfs-utils
-pkgver=2.6.2
-pkgrel=2
+pkgver=2.6.4
+pkgrel=0
 pkgdesc="kernel-mode NFS"
 url="https://linux-nfs.org/"
 arch="all"
 license="GPL-2.0-or-later BSD-3-Clause"
 depends="rpcbind python3"
 options="suid"
-makedepends="autoconf automake bsd-compat-headers keyutils-dev heimdal-dev
+makedepends="autoconf automake keyutils-dev 
 	libcap-dev libevent-dev libtirpc-dev libtool lvm2-dev
 	sqlite-dev util-linux-dev"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-dbg rpcgen
-	libnfsidmap libnfsidmap-ldap"
+	libnfsidmap"
 source="https://www.kernel.org/pub/linux/utils/nfs-utils/$pkgver/nfs-utils-$pkgver.tar.xz
-	nfs-utils-heimdal.patch
+	clang-warnings.patch
 	nfs.exports
 	"
-
+builddir="$srcdir/$pkgname-$pkgver"
 prepare() {
 	default_prepare
 	./autogen.sh
@@ -34,12 +33,14 @@ build() {
 		--infodir=/usr/share/info \
 		--without-tcp-wrappers \
 		--with-rpcgen=internal \
+		--without-gssglue \
 		--enable-ipv6 \
 		--enable-nfsv4 \
 		--enable-uuid \
-		--enable-gss \
+		--disable-gss \
 		--enable-svcgss \
 		--enable-libmount-mount \
+		--with-systemd \
 		--enable-static=no
 	make
 }
@@ -57,7 +58,7 @@ package() {
 }
 
 dev() {
-	replaces="libnfsidmap-dev libnfsidmap-ldap-dev"
+	replaces="libnfsidmap-dev"
 	default_dev
 }
 
@@ -81,14 +82,8 @@ libnfsidmap() {
 
 }
 
-ldap() {
-	pkgdesc="LDAP plugin for libnfsidmap"
-	mkdir -p "$subpkgdir"/usr/lib/libnfsidmap
-	mv "$pkgdir"/usr/lib/libnfsidmap/*ldap* "$subpkgdir"/usr/lib/libnfsidmap/
-}
-
 sha512sums="
-83e0214203caa88f5739b4ac63b7d2ad97e84f25ee6484d57c45e84f0c6524eaec064c488e4d5c0cd938f200e496ccdaa909c31e3edf991006ed9561cb73ae9a  nfs-utils-2.6.2.tar.xz
-689ae2dc6fd3d24cd29c43ed8c9b4895ad415bf2cf0592e8f345c4268f7720496bd29c817530e8521fc33ffac2049317aa1a8dc1e23d64bc92d933952e854696  nfs-utils-heimdal.patch
+3aa4c28780c2dd46aa2d57dffdb79a6146478359d449f636cef3c789e9b1f111cd7492b7b817b9600c9805f45ae0afdc1319c7746fac95963383b92f7bddc114  nfs-utils-2.6.4.tar.xz
+04a8ae68d4d4c7701a8cbf3c4b89710fd6e63656077e2359e157c64ebb690fa17239043d2336257a8224b02637e8e7e4ce6c878a302c6ce1be78ece81abf0021  clang-warnings.patch
 70f96bb3a465ee0fa857a6e511051ca3ced9f5a5d1e6b8b32eec843a2067f2475d8979c724a3661de0a2b078eef143f55d75ed184d823841d9de5038da91fb91  nfs.exports
 "

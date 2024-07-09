@@ -1,0 +1,34 @@
+diff -Naur nfs-utils-2.6.4/support/nfs/xcommon.c nfs-utils-2.6.4-clang/support/nfs/xcommon.c
+--- nfs-utils-2.6.4/support/nfs/xcommon.c	2023-11-17 17:32:39.000000000 +0000
++++ nfs-utils-2.6.4-clang/support/nfs/xcommon.c	2024-07-08 23:38:47.459899056 +0000
+@@ -98,6 +98,7 @@
+ 
+      fmt2 = xstrconcat2 (fmt, "\n");
+      va_start (args, fmt);
++#pragma clang diagnostic ignored "-Wformat-nonliteral"
+      vfprintf (stderr, fmt2, args);
+      va_end (args);
+      free (fmt2);
+diff -Naur nfs-utils-2.6.4/support/nfsidmap/libnfsidmap.c nfs-utils-2.6.4-clang/support/nfsidmap/libnfsidmap.c
+--- nfs-utils-2.6.4/support/nfsidmap/libnfsidmap.c	2023-11-17 17:32:39.000000000 +0000
++++ nfs-utils-2.6.4-clang/support/nfsidmap/libnfsidmap.c	2024-07-08 23:38:47.459899056 +0000
+@@ -99,6 +99,7 @@
+ 	va_list vp;
+ 
+ 	va_start(vp, fmt);
++#pragma clang diagnostic ignored "-Wformat-nonliteral"
+ 	vsyslog(LOG_WARNING, fmt, vp);
+ 	va_end(vp);
+ }
+diff -Naur nfs-utils-2.6.4/utils/gssd/err_util.c nfs-utils-2.6.4-clang/utils/gssd/err_util.c
+--- nfs-utils-2.6.4/utils/gssd/err_util.c	2023-11-17 17:32:39.000000000 +0000
++++ nfs-utils-2.6.4-clang/utils/gssd/err_util.c	2024-07-08 23:38:47.449899102 +0000
+@@ -57,7 +57,7 @@
+ 	/* Don't bother formatting a message we're never going to print! */
+ 	if (priority > verbosity)
+ 		return;
+-
++#pragma clang diagnostic ignored "-Wformat-nonliteral"
+ 	va_start(args, format);
+ 	if (fg)
+ 		vfprintf(stderr, format, args);
