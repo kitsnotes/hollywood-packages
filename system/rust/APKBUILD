@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=rust
-pkgver=1.64.0
-_llvmver=14
+pkgver=1.79.0
+_llvmver=18
 _bootver=1.63.0
 pkgrel=1
 pkgdesc="The Rust Programming Language"
@@ -12,7 +12,7 @@ license="Apache-2.0 AND MIT"
 # gcc is needed at runtime just for linking. Someday rustc might invoke
 # the linker directly, and then we'll only need binutils.
 # See: https://github.com/rust-lang/rust/issues/11937
-depends="$pkgname-stdlib=$pkgver-r$pkgrel gcc glibc-dev"
+depends="$pkgname-stdlib=$pkgver-r$pkgrel clang glibc-dev"
 
 # * Rust is self-hosted, so you need rustc (and cargo) to build rustc...
 #   The last revision of this abuild that does not depend on itself (uses
@@ -55,15 +55,6 @@ makedepends_host="
 provides="rust-bootstrap=$pkgver-r$pkgrel"
 # This is needed for -src that contains some testing binaries.
 options="!archcheck"
-
-case "$CARCH" in
-armhf|armv7)
-	# +crt-static still broken here.
-	options="$options !check"
-	;;
-*)
-	;;
-esac
 
 subpackages="
 	$pkgname-dbg
@@ -145,6 +136,7 @@ build() {
 
 	# for ARM64
 	export JEMALLOC_SYS_WITH_LG_PAGE=16
+	LDFLAGS="-fuse-ld=lld" \
 	./configure \
 		--prefix="/usr" \
 		--release-channel="stable" \
@@ -354,7 +346,7 @@ _mv() {
 }
 
 sha512sums="
-919f40acd8c6eaaef399aa3248503bea19feb96697ab221aaede9ee789ce340b47cb899d1e0e41a31e5d7756653968a10d2faaa4aee83294c9f1243949b43516  rustc-1.64.0-src.tar.xz
+99d7f276292e5c270648473ff73e9888413a3325ef3a4d7a45f8ce77a42ac87996905f1d875888ce084b621f642017bc9e31a00da1439108dbe19b85d0eab085  rustc-1.79.0-src.tar.xz
 6b83ae0a3a69cc38fbc3ac61622dc399c1b27d8b407e4e96c535f718274f5407042f4cdaec59bc042153ddf66455f8d607cd91b6bba8d9b8e94c31de51756220  hollywood-target.patch
 c31fdfe8a9b3411576c75da46645cf0465b9053000a2ab49cf9b2f2733f679d6d33acbf236d67a20e14935d094a685453b7f1840180249f39d610fd0902c3125  check-rustc
 "
