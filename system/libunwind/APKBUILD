@@ -7,11 +7,11 @@ url="https://www.nongnu.org/libunwind/"
 arch="all"
 license="MIT"
 options="!check" # v1.4.0 12 tests failing - https://github.com/libunwind/libunwind/issues/164
-depends_dev="libucontext-dev"
+depends_dev="libucontext-dev zlib-dev"
 makedepends_build="autoconf automake libtool"
 makedepends_host="$depends_dev linux-headers xz-dev"
 makedepends="$makedepends_build $makedepends_host"
-subpackages="$pkgname-dbg $pkgname-static $pkgname-dev $pkgname-doc"
+subpackages="$pkgname-dbg $pkgname-static $pkgname-dev"
 source="https://github.com/libunwind/libunwind/releases/download/v$pkgver/libunwind-$pkgver.tar.gz
 	fix-libunwind-pc-in.patch
 	0001-Rework-inline-aarch64-as-for-setcontext.patch
