@@ -118,7 +118,7 @@ prepare() {
 
 build() {
 	# --disable-chfn-chsh - chfn and chsh are provided by shadow package
-	./configure \
+	LDFLAGS="-Wl,--undefined-version" ./configure \
 		--prefix=/usr \
 		--libdir=/usr/lib \
 		--bindir=/usr/bin \
