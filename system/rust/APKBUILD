@@ -35,7 +35,6 @@ makedepends_build="
 	python3
 	rust-bootstrap=>$_bootver
 	tar
-	wasi-libc
 	xz-dev
 	zlib-dev
 "
