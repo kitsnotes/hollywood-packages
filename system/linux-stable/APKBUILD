@@ -10,7 +10,7 @@ case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver-rc3;;
 esac
-pkgrel=0
+pkgrel=1
 pkgdesc="Linux stable kernel"
 url="https://www.kernel.org"
 depends="initramfs-generator"
@@ -147,6 +147,7 @@ _prepareconfig() {
 	make -C "$srcdir"/linux-$pkgver \
 		O="$_builddir" \
 		ARCH="$(_kernelarch $_arch)" \
+		LLVM=1 \
 		olddefconfig
 }
 
@@ -196,6 +197,7 @@ updateconfigs() {
 		make -j1 -C "$srcdir"/linux-$pkgver \
 			O="$_builddir" \
 			ARCH="$(_kernelarch $_arch)" \
+			LLVM=1 \
 			$actions savedefconfig
 
 		cp "$_builddir"/defconfig "$startdir"/$_config
@@ -212,8 +214,7 @@ build() {
 		msg "Building $i kernel"
 		cd "$srcdir"/build-$i.$CARCH
 		make ARCH="$(_kernelarch $CARCH)" \
-			CC="${CC:-gcc}" \
-			AWK="${AWK:-mawk}" \
+			LLVM=1 \
 			KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-Originull"
 	done
 }
@@ -238,6 +239,7 @@ _package() {
 
 	make -j1 modules_install $_install \
 		ARCH="$(_kernelarch $CARCH)" \
+		LLVM=1 \
 		INSTALL_MOD_PATH="$_outdir" \
 		INSTALL_PATH="$_outdir"/boot \
 		INSTALL_DTBS_PATH="$_outdir/boot/dtbs-$_buildflavor"
@@ -289,6 +291,7 @@ _dev() {
 	make -j1 -C "$srcdir"/linux-$pkgver \
 		O="$dir" \
 		ARCH="$(_kernelarch $CARCH)" \
+		LLVM=1 \
 		prepare modules_prepare scripts
 
 	# remove the stuff that points to real sources. we want 3rd party
