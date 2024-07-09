@@ -45,6 +45,7 @@ depends_dev="
 	libsodium-dev
 	openssl-dev>3
 	util-linux-dev
+	libxcrypt-dev
 	"
 makedepends="
 	$depends_dev
@@ -197,7 +198,6 @@ _configure() {
 		--enable-crypt \
 		--enable-spasswd \
 		--with-tls=openssl \
-		--with-systemd \
 		--with-cyrus-sasl \
 		"$@"
 }
