@@ -2,7 +2,7 @@
 pkgname=rust
 pkgver=1.79.0
 _llvmver=18
-_bootver=1.63.0
+_bootver=1.79.0
 pkgrel=1
 pkgdesc="The Rust Programming Language"
 url="https://www.rust-lang.org/"
@@ -71,7 +71,6 @@ subpackages="
 	rustfmt
 	"
 source="https://static.rust-lang.org/dist/rustc-$pkgver-src.tar.xz
-	hollywood-target.patch
 	check-rustc
 	"
 builddir="$srcdir/rustc-$pkgver-src"
@@ -158,10 +157,6 @@ build() {
 		--set="rust.codegen-units-std=1" \
 		--set="rust.parallel-compiler=true" \
 		$profiler
-
-	# Allow warnings instead of just aborting the build
-	sed 's/#deny-warnings = .*/deny-warnings = false/' -i config.toml
-	sed 's|deny(warnings,|deny(|' -i src/bootstrap/lib.rs
 
 	python3 ./x.py dist --jobs ${JOBS:-2}
 }
@@ -298,7 +293,6 @@ cargo() {
 	provides="cargo-bootstrap=$pkgver-r$pkgrel"
 
 	amove usr/bin/cargo
-	amove usr/libexec/cargo-credential-1password
 }
 
 rustfmt() {
@@ -345,7 +339,6 @@ _mv() {
 }
 
 sha512sums="
-99d7f276292e5c270648473ff73e9888413a3325ef3a4d7a45f8ce77a42ac87996905f1d875888ce084b621f642017bc9e31a00da1439108dbe19b85d0eab085  rustc-1.79.0-src.tar.xz
-6b83ae0a3a69cc38fbc3ac61622dc399c1b27d8b407e4e96c535f718274f5407042f4cdaec59bc042153ddf66455f8d607cd91b6bba8d9b8e94c31de51756220  hollywood-target.patch
+2c93bafdd248563765a285add48ca77c1e4bad4d5431675ae6a5cdee4cfe7a41e6bcc880a489ca1069a307fd9a005f2d5f8e230dfc95b4a69152b4f9ca49ac44  rustc-1.71.0-src.tar.xz
 c31fdfe8a9b3411576c75da46645cf0465b9053000a2ab49cf9b2f2733f679d6d33acbf236d67a20e14935d094a685453b7f1840180249f39d610fd0902c3125  check-rustc
 "
