@@ -22,7 +22,6 @@ makedepends="
 	qt6-qtdeclarative-dev
 	qt6-qttools-dev
 	upower-dev
-	utmps-dev
 	"
 subpackages="$pkgname-doc $pkgname-lang"
 install="sddm.pre-install"
