@@ -1,7 +1,7 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=doxygen
-pkgver=1.9.2
-pkgrel=1
+pkgver=1.11.0
+pkgrel=0
 pkgdesc="A documentation system for C++, C, Java, IDL and PHP"
 url="https://www.doxygen.nl/"
 arch="all"
@@ -34,6 +34,6 @@ package() {
 }
 
 sha512sums="
-2729d013b0363a919bbf6babd300389b76e95dd9dbb16ac0f57fc5a0392d3e2076ea4fba958a236311513e68e4aa056a77bd22c9c92b410a17eed095e5adccc0  doxygen-1.9.2.src.tar.gz
+54f4a15e459d1d9cc3b4f021b5264191146bd8e0e780b57c4c31f4f9dcbfc7fe7a9db58e8cda4c6df1b4b354dd432dac0b3089fd547afe7cbe313771b2c6aaa4  doxygen-1.11.0.src.tar.gz
 ced906c1caccf478a217c05dfcf03f9c5b7854b88d461c6364d9857c5ad1fc96e983a1c30e16859a9aaa76da837626a0750d5ebc2c58e9ef703a3b31cf23f884  fix-segfault.patch
 "
