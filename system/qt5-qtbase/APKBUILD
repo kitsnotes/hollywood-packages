@@ -2,7 +2,9 @@
 pkgname=qt5-qtbase
 pkgver=5.15.10_git20230714
 pkgrel=0
-_commit="9815348dd2fdc8c0eac8abd6f6219a3c2e1978fa"
+_module="${pkgname#qt5-}"
+_pkgver=9815348dd2fdc8c0eac8abd6f6219a3c2e1978fa
+_fullname=$_module-$_pkgver
 pkgdesc="Qt5 - QtBase components"
 url="https://qt.io/developers/"
 arch="all"
@@ -58,7 +60,7 @@ makedepends="$depends_dev
 	"
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-doc $_sub"
 provides="qtbase=$pkgver-r$pkgrel"
-builddir="$srcdir/qtbase-$_commit"
+builddir="$srcdir/qtbase-$_pkgver"
 
 # temp allow textrels on riscv64
 [ "$CARCH" = "riscv64" ] && options="$options textrels"
