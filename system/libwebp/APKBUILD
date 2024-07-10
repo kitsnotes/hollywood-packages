@@ -34,7 +34,6 @@ check() {
 package() {
 	make DESTDIR="$pkgdir" install
 	mkdir -p "$pkgdir"/usr/share/doc/$pkgname
-	install -Dm644 PATENTS README "$pkgdir"/usr/share/doc/$pkgname
 }
 
 tools() {
