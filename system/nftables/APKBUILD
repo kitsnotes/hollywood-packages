@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=nftables
-pkgver=1.0.8
+pkgver=1.0.9
 pkgrel=0
 pkgdesc="Netfilter tables userspace tools"
 url="https://netfilter.org/projects/nftables"
@@ -54,7 +54,7 @@ package() {
 }
 
 sha512sums="
-06053c05a0d7c84a5cc4d22733836dadf9880c3552df3dace6d30aea95c7e1edb5528ea45df8576f282c15bf58f23407e26efb22257bd98a478849a8bdd4f8d5  nftables-1.0.8.tar.xz
+dc34099658e283d9fd4d06264b593710121074558305ea23ab298c5f6a6b564a826f186241b6e106fbaa4e11160cf77e68bb52b4ce401b28d8d2e403cd4b88e8  nftables-1.0.9.tar.xz
 a29acd4ac959c0d0cf68138a4895841cbe01983c87ab767e2c1cc840cb9079f180b93a4f9ff8268d4d81904f88a42923db3d73cc424218249a604499da219136  nftables.service
 8770185348e98c3fb7fb3106441bb89f31f9157f8fd475a238ea91f288f4babee7d867b229c5bb29fabca6fce6f3679f9f9c17fdbc077e3693d7c00ee2611446  nftables.nft
 "
