@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=kmod
-pkgver=30
-pkgrel=1
+pkgver=32
+pkgrel=0
 pkgdesc="Linux kernel module management utilities"
 url="http://git.kernel.org/?p=utils/kernel/kmod/kmod.git;a=summary"
 arch="all"
@@ -50,6 +50,6 @@ libs() {
 }
 
 sha512sums="
-e2cd34e600a72e44710760dfda9364b790b8352a99eafbd43e683e4a06f37e6b5c0b5d14e7c28070e30fc5fc6ceddedf7b97f3b6c2c5c2d91204fefd630b9a3e  kmod-30.tar.xz
+29162135aabd025dff178a4147a754b5da5964855dbeee65ca867dec3b84437f35c1c97f0f027e974a021d3ee9a4940309a716859cc3cfe93c7ed0aada338f24  kmod-32.tar.xz
 f2ea3527bfba182c5e15557c224a5bba8c7e2ea3d21cf604e6eb2277226dcf983c3aeb9ac44a322c7f2b4942b35135da999d63a5b946b829d3f3b09c050a0f17  strndupa.patch
 "
