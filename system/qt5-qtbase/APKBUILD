@@ -119,6 +119,7 @@ build() {
 		-libexecdir "$_qt5_prefix"/libexec \
 		-no-rpath \
 		-no-separate-debug-info \
+		-platform linux-clang \
 		-no-pch \
 		-nomake examples \
 		$_opengl \
@@ -133,7 +134,7 @@ build() {
 		-system-libpng \
 		-system-pcre \
 		-system-sqlite \
-		-qpa hollywood\;wayland\;xcb \
+		-qpa wayland\;xcb \
 		-system-zlib \
 		-translationdir "$_qt5_datadir"/translations \
 		-no-reduce-relocations \
