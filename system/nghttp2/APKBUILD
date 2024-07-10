@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=nghttp2
-pkgver=1.51.0
+pkgver=1.62.1
 pkgrel=0
 pkgdesc="Experimental HTTP/2 client, server and proxy"
 url="https://nghttp2.org"
@@ -66,5 +66,5 @@ static() {
 }
 
 sha512sums="
-0212680e57a15f9afca3b5226429edebd2fe8a52117480007d4472cd0c1bd3aa4d9f21269c637a11efd0f2146a3ee16c3c07ab35d9fb3d4566235d3a14268eeb  nghttp2-1.51.0.tar.xz
+d5d6b068712e9b467547b0e5380465b8540317134f3f26c2b0c60eb9c604be2f37b4517a98b371d5f5fb668ce2ee35603ddd944224f11e96382aa541a6a17b4c  nghttp2-1.62.1.tar.xz
 "
