@@ -24,7 +24,7 @@ prepare() {
 }
 
 build() {
-	abuild-meson \
+	LDFLAGS="-Wl,--undefined-version" abuild-meson \
 		-Dwith_glx=no \
 		-Dwith_wayland=yes \
 		builddir
