@@ -1,6 +1,6 @@
-# Maintainer: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=expat
-pkgver=2.4.8
+pkgver=2.6.2
 pkgrel=0
 pkgdesc="XML Parser library written in C"
 url="https://libexpat.github.io/"
@@ -55,5 +55,5 @@ package() {
 }
 
 sha512sums="
-46cc9d725f359b77681a2875bfefa15ceee50eb9513f6577607c0c5833dfa4241565c74f26b84b38d802c3cd8c32f00204fd74272bcecbd21229425764eef86c  expat-2.4.8.tar.bz2
+15811413e92a632272188781cc3f2a9e52ed62f6edfad9b2eeeca0946e53132b6c9ca6dc460eda766d6a4e68e5920128335d705f9556b5aa3f77593658780470  expat-2.6.2.tar.bz2
 "
