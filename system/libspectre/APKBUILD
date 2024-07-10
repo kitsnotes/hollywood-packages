@@ -1,9 +1,7 @@
-# Contributor: Andrew Hills <ahills@ednos.net>
-# Contributor: Jean-Louis Fuchs <jean-louis.fuchs@adfinis-sygroup.ch>
-# Maintainer: Jean-Louis Fuchs <jean-louis.fuchs@adfinis-sygroup.ch>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libspectre
-pkgver=0.2.10
-pkgrel=1
+pkgver=0.2.12
+pkgrel=0
 pkgdesc="A small library for rendering Postscript documents"
 url="http://www.freedesktop.org/wiki/Software/libspectre"
 arch="all"
@@ -52,6 +50,6 @@ check() {
 }
 
 sha512sums="
-01738f452f99878beaa528b15d8df463ca22d625306d636e1a6199ade9f068d284f1def3882e954a06e5f066937343f79d0c2197fbb19ab53ef1ab0540c72f2f  libspectre-0.2.10.tar.gz
+3a4045c1e94e7de23b437393389397dd2448363458023b5aa8e43fa0553a160216f038e157374cefc1d09fa74711ad4899aac1fc353c482bd5fe970d9a97461f  libspectre-0.2.12.tar.gz
 c5148d38da69ebd125f66bb92204f2c7c79797d60a137d431122792c4e4cdcdb3a6a20cfadadd2821536449b1d638258f4596e43154e1ad2307bffa97af4908b  test.ps
 "
