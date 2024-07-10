@@ -1,8 +1,7 @@
-# Contributor: Natanael Copa <ncopa@alpinelinux.org>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=vlan
-pkgver=2.2
-pkgrel=2
+pkgver=2.3
+pkgrel=0
 pkgdesc="Scripts for configuring VLAN network interfaces"
 url="https://wiki.alpinelinux.org/wiki/Vlan"
 arch="noarch"
