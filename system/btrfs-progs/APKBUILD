@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=btrfs-progs
-pkgver=6.5
+pkgver=6.9.2
 pkgrel=0
 pkgdesc="BTRFS filesystem utilities"
 url="https://btrfs.wiki.kernel.org"
@@ -23,7 +23,7 @@ makedepends="$depends_dev
 	xmlto
 	zlib-dev
 	zstd-dev
-	eudev-dev
+	systemd-dev
 	py3-sphinx"
 subpackages="$pkgname-doc
 	$pkgname-static
@@ -85,5 +85,5 @@ extra() {
 }
 
 sha512sums="
-7e1578b1f82549f77b55341c20a973da52018b1539da46f92e4a9d9804906ce5e00312c8a02a6047373e4435e661b2e5fc18f5dfbf2d0563cdf62c40de6a4436  btrfs-progs-v6.5.tar.xz
+1df9d5456d07a035c38c17795996a4fc621eeaa244ef54383d4387205826d2a6e971910e55031d20bb1baf23193efa7439e110312ffd8471f07aaf8c0baca20a  btrfs-progs-v6.9.2.tar.xz
 "
