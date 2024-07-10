@@ -1,6 +1,6 @@
-# Maintainer: Milan P. Stanić <mps@arvanta.net>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=liburing
-pkgver=2.2
+pkgver=2.6
 pkgrel=0
 pkgdesc="Linux kernel io_uring access library"
 url="https://git.kernel.dk/cgit/liburing/"
@@ -26,5 +26,5 @@ package() {
 }
 
 sha512sums="
-c401da53ee43badeaa149d3f11e6b3954639c7b7ea5f17ed7d57a439bce15c603e41005d8403942ecb64e01094ebbde1a718c16c5a5446c520bd8cc8bbbedca4  liburing-2.2.tar.gz
+5e4b0b347619b4f26218ee851026eb3e5b523be11d1c9a7dcca65d43f07442b03e1520f12cc2fc0d39ee3d1837e266a9ca4974b695900f600705fb8e24630a37  liburing-2.6.tar.gz
 "
