@@ -1,7 +1,6 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=sdl2_image
-pkgver=2.6.0
+pkgver=2.8.2
 pkgrel=0
 pkgdesc="A simple library to load images of various formats as SDL surfaces"
 url="http://www.libsdl.org/projects/SDL_image/"
@@ -48,5 +47,5 @@ package() {
 }
 
 sha512sums="
-79f2dfee35c7cbe5e31612e5404b6868518a4afb6927738745a117801e2c88c2c721b810319fe6db192c2f8166e554c6163e820af37ed0781cd3ea9aa913cc92  sdl2_image-2.6.0.tar.gz
+1ec6e7d08bbcd28bba6c972b2e4a11a1da841abef3ffb3d29669b0f5eb0839f39044b0b334c0707274dd51192e081f25bdab97c6710d632422c4ed0274a30f18  sdl2_image-2.8.2.tar.gz
 "
