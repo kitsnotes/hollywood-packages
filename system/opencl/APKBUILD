@@ -1,8 +1,7 @@
-# Contributor: Leon Marz <main@lmarz.org>
-# Maintainer: Leon Marz <main@lmarz.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=opencl
-pkgver=2022.05.18
-pkgrel=1
+pkgver=2024.05.08
+pkgrel=0
 _dirver=${pkgver//.0/.} # Why can't they be consistent? Just why?
 pkgdesc="OpenCL ICD Loader"
 url="https://khronos.org/opencl"
@@ -36,5 +35,5 @@ headers() {
 }
 
 sha512sums="
-6bc022db953ac7e094b4a9930cff7428bc47854bff3a21343d1ff88ec0f967f28232bb6e71d1d564b524789d99292f190cb433d6ba7a9955f176ac6693a13b8d  OpenCL-SDK-v2022.05.18-Source.tar.gz
+53d3a5f0086a192b20062ada9fdff9a49375dea954961fdb17fc7e8c174c3dc791a903b38fa9021eb680d854a9835fc1777dc5475974c37cb79ed07d722583ea  OpenCL-SDK-v2024.05.08-Source.tar.gz
 "
