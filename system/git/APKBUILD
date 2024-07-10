@@ -36,8 +36,8 @@
 #     - CVE-2021-46101
 
 pkgname=git
-pkgver=2.38.1
-pkgrel=1
+pkgver=2.45.2
+pkgrel=0
 pkgdesc="Distributed version control system"
 url="https://www.git-scm.com/"
 arch="all"
@@ -339,6 +339,6 @@ _perl_config() {
 }
 
 sha512sums="
-e62ca6f54f01d2e4ccffb5f94e8e5cd2f3e098b766d909c694a8daf4d00d5cdeb9cc5ff8e9bc55d888406f292ba99433d334d4da9689c0ce5d7299a3c67c90e0  git-2.38.1.tar.xz
+dce30d0d563f3f76ef49c8dc88105e0cf0941c8cd70303418d9d737f840ffba36bcc575c380c75080edf64af74487e1a680db146ec5f527a32104e887d4ceb73  git-2.45.2.tar.xz
 be5d568fc5b8b84c9afb97b31e471e41f32ccfe188eba0588ea0ef98b2d96c2ce4b2c1a3d70e88205aa4f6667f850b3f32c13bbb149ecddbf670344c162a4e25  fix-t4219-with-sticky-bit.patch
 "
