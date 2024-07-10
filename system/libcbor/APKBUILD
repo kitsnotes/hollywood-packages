@@ -1,8 +1,7 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Maintainer: Will Sinatra <wpsinatra@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libcbor
-pkgver=0.9.0
-pkgrel=1
+pkgver=0.11.0
+pkgrel=0
 pkgdesc="CBOR protocol implementation for C"
 url="https://github.com/PJK/libcbor"
 arch="all"
@@ -34,5 +33,5 @@ package() {
 }
 
 sha512sums="
-710239f69d770212a82e933e59df1aba0fb3ec516ef6666a366f30a950565a52981b0d46ca7e0eea739f5785d79cc21fc19acd857a4a0b135f4f6aa3ef5fd3b0  libcbor-0.9.0.tar.gz
+c14aaa55c0c82e09b9eb2cc6847951d1bac8a081a247776c507d5450367da5717b1056bad09fb0f0178311de8754e8f89c060e0fc0f400fafdc42de441421e66  libcbor-0.11.0.tar.gz
 "
