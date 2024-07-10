@@ -10,6 +10,7 @@ makedepends="
 	bzip2-dev
 	curl-dev
 	expat-dev
+	jsoncpp-dev
 	libarchive-dev
 	libuv-dev
 	linux-headers
