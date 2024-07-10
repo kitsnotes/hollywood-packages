@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=benchmark
-pkgver=1.7.0
+pkgver=1.8.4
 pkgrel=0
 pkgdesc="microbenchmark support library"
 url="https://github.com/google/benchmark"
@@ -39,5 +39,5 @@ package() {
 }
 
 sha512sums="
-25f81930ce210e298d9cc67c965cc8937f66c53427b18a672338b86424eef32df877ec6b7a7106417464b29c5048b014fcc82cfa773168ed701aa47d01f39f82  benchmark-1.7.0.tar.gz
+835d12b88fe52309ce6b2ffbc8b3c178ac594be7d249b5daca0373d1d03ec83ea3c7b94224f67f22d21919376985867eeff0d1c0721501cfd8a9e9b8a9c48882  benchmark-1.8.4.tar.gz
 "
