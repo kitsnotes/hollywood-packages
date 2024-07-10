@@ -1,7 +1,6 @@
-# Contributor: Timo Teräs <timo.teras@iki.fi>
-# Maintainer: Timo Teräs <timo.teras@iki.fi>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=bubblewrap
-pkgver=0.5.0
+pkgver=0.9.0
 pkgrel=0
 pkgdesc="Unprivileged sandboxing tool"
 url="https://github.com/containers/bubblewrap"
@@ -39,5 +38,5 @@ package() {
 }
 
 sha512sums="
-9d1faa02aaf78a8005d5f032cfc708d9823b5d110bd35f600a7d075122eeda785db72dd5c5e416a35ade437cd0ff9b176d24aea980971e304600e03c793d1865  bubblewrap-0.5.0.tar.gz
+5197eeae5a6364c19421dc956861f14777831bc5f651a5ccf461c60499fbb4ff965c24afc31063f028f817236734c08031bcc087e3146798627fa421d6b09591  bubblewrap-0.9.0.tar.gz
 "
