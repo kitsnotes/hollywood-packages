@@ -1,7 +1,6 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=help2man
-pkgver=1.48.5
+pkgver=1.49.3
 pkgrel=0
 pkgdesc="Create simple man pages from --help output"
 url="https://www.gnu.org/software/help2man"
@@ -29,5 +28,5 @@ package() {
 }
 
 sha512sums="
-800eb0daa9daef8e423d52ede55eee2960122ea0269865295afada4cf4fcc1c6791da8429c3a57c0fc1bf0a14c8a77953952325413a8faa5dd07b1bc5bc0edd1  help2man-1.48.5.tar.xz
+5f19fad1e38b0572b63ed8bfd146b717fc22dff3a26641e8b5c8431df13da9574679d9a3407da62790db8a29286694ea1bfd751cba168f475302ad31cce845cf  help2man-1.49.3.tar.xz
 "
