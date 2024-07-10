@@ -1,7 +1,7 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libavif
-pkgver=0.11.1
+pkgver=1.0.4
 pkgrel=0
 pkgdesc="Library for encoding and decoding .avif files"
 url="https://aomediacodec.github.io/av1-avif/"
@@ -55,5 +55,5 @@ apps() {
 }
 
 sha512sums="
-4a9e2711fccddf35c477db6e2fa2f76c0648aafaa98b4e3f34df62c0fbd02ddcd57762f1f8149822da4f1bc3757ee75ec1d9ced5e56a54dbe9d0b43265aacd4c  libavif-v0.11.1.tar.gz
+37f0de757180c6414778e688006940395960b316c25192d6beb97a07942aff4bd3b712dec2eff52cd26f5d72c352731442175dfeb90e2e1381133539760142b0  libavif-v1.0.4.tar.gz
 "
