@@ -1,7 +1,6 @@
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
-# Maintainer: Jakub Jirutka <jakub@jirutka.cz>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=pcre2
-pkgver=10.39
+pkgver=10.43
 pkgrel=0
 pkgdesc="Perl-compatible regular expression library"
 url="https://pcre.org/"
@@ -72,5 +71,5 @@ tools() {
 }
 
 sha512sums="
-b3d898198f4b5ffc3453d2ba56fe2a7298c01c52e5f67d45f1e046fc0dee62e16a4024fcb65839ac9c367beedb531647affd6f8599fbeb102f19423c150d80d4  pcre2-10.39.tar.bz2
+8ac1520c32e9e5672404aaf6104e23c9ee5c3c28ad28ff101435599d813cbb20e0491a3fd34e012b4411b3e0366a4c6dfa3f02d093acaa6ff0ab25478bb7ade9  pcre2-10.43.tar.bz2
 "
