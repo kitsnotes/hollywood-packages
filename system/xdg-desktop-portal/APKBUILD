@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=xdg-desktop-portal
-pkgver=1.16.0
-pkgrel=1
+pkgver=1.18.4
+pkgrel=0
 pkgdesc="Desktop integration portal"
 url="https://github.com/flatpak/xdg-desktop-portal"
 arch="all"
@@ -51,5 +51,5 @@ package() {
 }
 
 sha512sums="
-f7e7e96d3a6757901fbc4c0310aac0afbf37882c279a2859e06f63528049cd9b50dd2d55445d1386f03f62557c1a2ec81d4ee081200367d6269d2dffc75f0912  xdg-desktop-portal-1.16.0.tar.xz
+482676777e8180752e13ff485acab91de117f4ecf2aefd313a6f596df800f37d7004ee4ba1040009eb69a6efc780efc7dcd7e46b3f59c47bd9f21aef48d346de  xdg-desktop-portal-1.18.4.tar.xz
 "
