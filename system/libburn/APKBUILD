@@ -1,11 +1,11 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libburn
-pkgver=1.5.4
+pkgver=1.5.6
 _ver=${pkgver%_p*}
 if [ "$_ver" != "$pkgver" ]; then
 	_pver=".pl${pkgver##*_p}"
 fi
-pkgrel=1
+pkgrel=0
 pkgdesc="Library for reading, mastering and writing optical discs"
 url="https://libburnia-project.org/"
 arch="all"
@@ -36,5 +36,5 @@ package() {
 }
 
 sha512sums="
-dd7b14093e62e2c02011955c24e01d70ed78969b14faf7e5a63c0da97a80c438b628922532eb135af7dea8ee7c7b83554b3354160306dad852ce5bf6eb1d5ac9  libburn-1.5.4.tar.gz
+549cb25310aac5ce445639374d84f0c09fb1fdd70be97479588775e5afcc12dd0655c5bf51bd3f1bf8c06a66b318fd1e709dcfd72845e795ffaf353ea621accd  libburn-1.5.6.tar.gz
 "
