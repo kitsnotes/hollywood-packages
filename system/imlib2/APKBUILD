@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=imlib2
-pkgver=1.10.0
+pkgver=1.12.2
 pkgrel=0
 pkgdesc="Image manipulation library"
 url="https://sourceforge.net/projects/enlightenment"
@@ -52,5 +52,5 @@ package() {
 }
 
 sha512sums="
-1425cb5a5286c072d93889d54c83ed4741034d3214846fc3abf28793860574efe3fed7587a782682b3362b2f2a83c64399bd664ae426952092323a54d34ba9dd  imlib2-1.10.0.tar.gz
+5b7ce1fc2ca5d80674dcf06bc025da322789a52063dfc4c057073fbb4fedd2533c637bbc2b15cad30bc92c01ea19cbadd3b41cb0abb19a075afb09c1e390952c  imlib2-1.12.2.tar.gz
 "
