@@ -1,22 +1,34 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=extra-cmake-modules
-pkgver=5.239.0
+pkgver=6.3.0
 pkgrel=0
 pkgdesc="Extra CMake modules"
 url="https://projects.kde.org/projects/kdesupport/extra-cmake-modules"
 arch="noarch"
 license="BSD-3-Clause"
-depends="cmake"
-makedepends="py3-sphinx samurai qt6-qtbase-dev qt5-qtbase-dev"
-checkdepends="qt5-qtbase-dev qt5-qtquickcontrols2-dev"
-source="https://depot.originull.org/upstream/extra-cmake-modules-5.239.0.tar.gz"
+depends="
+	cmake
+	qt5-qttools-dev
+	qt6-qttools-dev
+	"
+makedepends="
+	py3-sphinx
+	samurai
+	"
+checkdepends="
+	qt5-qtdeclarative-dev
+	qt6-qtbase-dev
+	qt6-qtdeclarative-dev
+	"
+source="https://download.kde.org/stable/frameworks/${pkgver%.*}/extra-cmake-modules-$pkgver.tar.xz"
 subpackages="$pkgname-doc"
 
 build() {
 	cmake -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DSphinx_BUILD_EXECUTABLE=/usr/bin/sphinx-build
+		-DSphinx_BUILD_EXECUTABLE=/usr/bin/sphinx-build \
+		-DBUILD_QTHELP_DOCS=ON
 	cmake --build build
 }
 
@@ -31,5 +43,5 @@ package() {
 }
 
 sha512sums="
-d3ba3e2813e63bf6099fd975bee5e02d94ce96e2b8f161ecd753748b230ef4c58c7bece77ae6e93ee3cb8d55164490870f11edf1f24a0ddb82ce44b5160b4bec  extra-cmake-modules-5.239.0.tar.gz
+53a44ca9087825cefd0cb1c5e7bfa77c3668dd6d42fb09e4ef9f533314a40ae47e0e2d4e9949deb755754901815bb3f49fdc75afde2f6d90e691a3d1652d8898  extra-cmake-modules-6.3.0.tar.xz
 "
