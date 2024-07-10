@@ -34,7 +34,7 @@ makedepends="$depends_dev
 	at-spi2-core-dev
 	bison
 	cups-dev
-	eudev-dev
+	systemd-dev
 	flex
 	gawk
 	gperf
