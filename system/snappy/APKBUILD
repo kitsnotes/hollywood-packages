@@ -11,9 +11,6 @@ makedepends="cmake samurai"
 subpackages="$pkgname-dbg $pkgname-static $pkgname-dev $pkgname-doc"
 source="$pkgname-$pkgver.tar.gz::https://github.com/google/snappy/archive/$pkgver.tar.gz
 	googletest-$_googletest_commit.tar.gz::https://github.com/google/googletest/archive/$_googletest_commit.tar.gz
-	cmakelists.patch
-	fix-inline.patch
-	rtti.patch
 	"
 
 prepare() {
@@ -66,7 +63,4 @@ package() {
 sha512sums="
 3578597f1d4ec09104ce0296b825b013590351230dfe56c635081fd282ce7a13a34caf2c283ac77bd24065e2d27af6db068d1f84b98cec2fd39a0e37a0d77070  snappy-1.1.10.tar.gz
 f77c747218dc5ae4858b2b4c58a401eb895493adf470a331d6bac32cd20542533ff3a77081db653bbc18b9f55f6864be04e1739ef4afaed7db39d7c698abf880  googletest-18f8200e3079b0e54fa00cb7ac55d4c39dcf6da6.tar.gz
-8a891edf2f0b267b05c67d54945f11d723b058ddab5ac3f27b4f00678759d4a52b617d0c5724c7170a285eb068ffa4ffbbc5a9efa250964979b3969fc8730eb3  cmakelists.patch
-47aca85575dc53ed9cee127285e0545200d22c789a2bd8f03bb9a8cd93168b1b9b990c092d0b340122f800d2e4eafd0b718f04d09bc16ff4fe08cebb98daf741  fix-inline.patch
-ec6a83d5e58deffd23f4b47e899b6645145548a823c2e1542812f05848a844839580a1b27aefa9beadba6b43f472abc38c42ea379db91da938837f4e69ae9cc0  rtti.patch
 "
