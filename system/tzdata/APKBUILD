@@ -1,9 +1,9 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=tzdata
-pkgver=2021e
+pkgver=2024a
 _tzcodever=2021e
 _ptzver=0.5
-pkgrel=1
+pkgrel=0
 pkgdesc="Timezone data"
 url="https://www.iana.org/time-zones"
 arch="all"
@@ -33,6 +33,6 @@ package() {
 }
 
 sha512sums="
-87b0335129ea41c5f42f687f548712e5da892baa8494cecf5d34851beceecf6ae52f22104696ed187713cf9e502570eb2041e277dfd3c043c11d0253bfde685a  tzcode2021e.tar.gz
+46da8bfa762c7d109db93e5c060789097fc0e1e38bdad5bb8fec886ef47f138bd03b913a743cd5f7e23dc359a72bfd63e7ffc0de199d2b51e6a174361dbdc43c  tzcode2024a.tar.gz
 c1e8d04e049157ed5d4af0868855bbd75517e3d7e1db9c41d5283ff260109de46b6fac6be94828201d093e163d868044ac2a9db2bf0aeab800e264d0c73a9119  tzdata2021e.tar.gz
 "
