@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=svt-av1
-pkgver=1.4.1
-pkgrel=1
+pkgver=2.1.2
+pkgrel=0
 pkgdesc="Scalable Vector Technology for AV1 encoder (SVT-AV1 Encoder)"
 url="https://01.org/svt"
 # 32-bit is not supported upstream
@@ -34,5 +34,5 @@ package() {
 }
 
 sha512sums="
-8297ef131ff8e7e6cbb0d19d2ba98904455d2953cde3fb0cbae714d050980a558e4cbed911968b5075d7aca758ca939a5091b68df557903387e3f22ac4bda1a1  SVT-AV1-v1.4.1.tar.bz2
+5858ac456971dd2d41ab6bf0e181cc9dfd9d408fb7ec0ee20d51a62cb2b92ea60fc389aea6478b8cce679f731fbac21e2ae0343a33e8e5b35efffc84d51d41d6  SVT-AV1-v2.1.2.tar.bz2
 "
