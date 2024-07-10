@@ -1,7 +1,7 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libsrt
-pkgver=1.5.1
+pkgver=1.5.3
 pkgrel=0
 pkgdesc="Secure Reliable Transport (SRT)"
 options="!check" # TestMuxer.IPv4_and_IPv6 fail when setting up IPv6
@@ -47,5 +47,5 @@ progs() {
 }
 
 sha512sums="
-f3aa1f7773540e2dd31cd19b124eec3c3d830f59c08d953cae01e129a58db7e639bdf94c8a5a678435ae9a1d2402e2c77196fc9c4e75b42aa37d8eafcc16f436  libsrt-1.5.1.tar.gz
+5b576d6fd325515e05074e4568e3b65d1ae265e3e971db6e6242e5138243fc1594df1e3a7d90962385dac38abc34c4c4b0a567439050f8c0ff818b3b3d497efc  libsrt-1.5.3.tar.gz
 "
