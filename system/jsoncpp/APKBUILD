@@ -1,0 +1,30 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=jsoncpp
+pkgver=1.9.5
+pkgrel=2
+pkgdesc="JSON C++ library"
+url="https://github.com/open-source-parsers/jsoncpp"
+arch="all"
+license="Public-Domain"
+makedepends="meson"
+subpackages="$pkgname-static $pkgname-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/open-source-parsers/jsoncpp/archive/$pkgver.tar.gz"
+
+build() {
+	abuild-meson \
+		--default-library=both \
+		. output
+	meson compile -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="
+1d06e044759b1e1a4cc4960189dd7e001a0a4389d7239a6d59295af995a553518e4e0337b4b4b817e70da5d9731a4c98655af90791b6287870b5ff8d73ad8873  jsoncpp-1.9.5.tar.gz
+"
