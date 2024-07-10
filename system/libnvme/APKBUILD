@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libnvme
-pkgver=1.5
-pkgrel=2
+pkgver=1.9
+pkgrel=0
 pkgdesc="C Library for NVM Express on Linux"
 url="https://github.com/linux-nvme/libnvme/"
 arch="all"
@@ -52,6 +52,6 @@ mi() {
 }
 
 sha512sums="
-0a19eca2dd7c48c9da3123767c3c789dfb7528d6f5b2b2dfdc8af7cd64e1d724fb81c6002b9821ce916cc7adb6b5e5e28253f1d73131188b0559c6d276a7d07c  libnvme-v1.5.tar.gz
+39a3346805143f93a17d00cfcb6fb75f82154658db6079134c09dfa989995ac5de79b1ce1ac091b4e997523d3216829ce9eac44110c9f59f9fd21636529c8b25  libnvme-v1.9.tar.gz
 6ca036287d964db018a2ddfb5480b0b46e6f2edd9f0a7c39dbf5977ce58d8da4d619705e16a3f269bfa7c619d6da5aeff20d9b558c697f6d68e5d89a73ef586e  doc-test.patch
 "
