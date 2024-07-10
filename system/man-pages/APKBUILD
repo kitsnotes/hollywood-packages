@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=man-pages
-pkgver=5.13
-pkgrel=2
+pkgver=6.9.1
+pkgrel=0
 pkgdesc="Linux man pages"
 url="https://www.kernel.org/doc/man-pages/"
 arch="noarch"
@@ -31,5 +31,5 @@ package() {
 }
 
 sha512sums="
-a68c0bd5f078aff2f13f962060863e5d30734c1c562e8e9e3d5eda5a329b18ad3e9b4ebb883d31cacfc0a476f91fccb8dd4257598acd75d09dd21351893d3499  man-pages-5.13.tar.xz
+7ac05aa804135570a183ef9f00143a9ad3bfd33825ae851bffe216eff3b77cfc2b6b5992e11578f1a4b3ae3841c41b7ffff7d4bebb9abfa6348c414f5825187d  man-pages-6.9.1.tar.xz
 "
