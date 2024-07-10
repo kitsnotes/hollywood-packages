@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=cmake
-pkgver=3.24.3
-pkgrel=1
+pkgver=3.30.0
+pkgrel=0
 pkgdesc="Cross-platform, open-source make system"
 url="https://www.cmake.org/"
 arch="all"
@@ -62,5 +62,5 @@ package() {
 }
 
 sha512sums="
-57edf2a8c1c9edeed7fd11271083f333d940b31e0e909d9c71671465961559c505e4e22f36e68bfe1a40a01eb05fe94bc8d37b062f9be613f959f864207e3764  cmake-3.24.3.tar.gz
+1dd872a3f93cfadb7ac0f93177e7d4d7ded67cf09c71b1b776dc3bc8b7d4e44dd81533a8a4bf2c9eaaed56443060aa27a11250a5e47de316c89db7e146929782  cmake-3.30.0.tar.gz
 "
