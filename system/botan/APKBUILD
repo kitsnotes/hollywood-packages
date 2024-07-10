@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=botan
-pkgver=2.19.2
-pkgrel=2
+pkgver=2.19.4
+pkgrel=0
 pkgdesc="Crypto and TLS for C++11"
 url="https://botan.randombit.net/"
 arch="all"
@@ -58,5 +58,5 @@ package() {
 }
 
 sha512sums="
-52b9c80a240457e46a299480338472f7d0c0b56df7b1709fdef52c5be3afca5b474fe143801c9a332ae884eaf033e60461c9d3e0b2f7b069f4fe8b4c45932abf  Botan-2.19.2.tar.xz
+2fab4347367703dce8302b7710698ed228c6cc6dd609c39829ba17ad580407ed40d822862d467aa7aea4bfd633c1f1d1c0d437e86376f453845cc609596335d8  Botan-2.19.4.tar.xz
 "
