@@ -1,9 +1,7 @@
-# Contributor: Łukasz Jendrysik <scadu@yandex.com>
-# Contributor: Fabian Affolter <fabian@affolter-engineering.ch>
-# Maintainer: Fabian Affolter <fabian@affolter-engineering.ch>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=nettle
-pkgver=3.7.3
-pkgrel=11
+pkgver=3.10
+pkgrel=0
 pkgdesc="A low-level cryptographic library"
 url="https://www.lysator.liu.se/~nisse/nettle/"
 arch="all"
@@ -56,5 +54,5 @@ utils() {
 }
 
 sha512sums="
-9901eba305421adff6d551ac7f478dff3f68a339d444c776724ab0b977fe6be792b1d2950c8705acbe76bd924fd6d898a65eded546777884be3b436d0e052437  nettle-3.7.3.tar.gz
+18d5b904ce60514aa81b57bff2945e5f7f4366d4775e6a5ffc227b85be2def72b3d2159b983b75ac95a56d3167a2ef1a25b5dfc2fb6193f16a012935c36a7b34  nettle-3.10.tar.gz
 "
