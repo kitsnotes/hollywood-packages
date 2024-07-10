@@ -7,7 +7,7 @@ url="https://talloc.samba.org"
 arch="all"
 license="LGPL-3.0-or-later"
 replaces="samba-common"
-makedepends="docbook-xsl libxslt python3-dev"
+makedepends="docbook-xsl libxslt python3-dev libxcrypt-dev"
 subpackages="$pkgname-static $pkgname-dev py3-$pkgname:_py3 $pkgname-doc"
 source="https://samba.org/ftp/talloc/talloc-$pkgver.tar.gz
 	always-libs.patch
