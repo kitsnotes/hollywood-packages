@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libpsl
-pkgver=0.21.1
+pkgver=0.21.5
 pkgrel=0
 pkgdesc="C library for the Publix Suffix List"
 url="https://rockdaboot.github.io/libpsl"
@@ -41,4 +41,4 @@ static() {
 	mv "$pkgdir"/usr/lib/*.a "$subpkgdir"/usr/lib
 }
 
-sha512sums="a5084b9df4ff2a0b1f5074b20972efe0da846473396d27b57967c7f6aa190ab3c910b4bfc4f8f03802f08decbbad5820d850c36ad59610262ae37fe77de0c7f5  libpsl-0.21.1.tar.gz"
+sha512sums="c14d575cecc0f1693894dd79565b6b9220084ddfa43b908a1cefe16d147cdd5ec47796eb0c2135e2f829a951abaf39d8a371ab5c1352f57b36e610e25adf91f5  libpsl-0.21.5.tar.gz"
