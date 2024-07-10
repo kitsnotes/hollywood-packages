@@ -1,8 +1,7 @@
-# Contributor: Milan P. Stanić <mps@arvanta.net>
-# Maintainer: Milan P. Stanić <mps@arvanta.net>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=opensbi
 # XXX: Updates require rebuilds of main/u-boot.
-pkgver=0.9
+pkgver=1.4
 pkgrel=0
 pkgdesc="risc-v open source supervisor binary interface"
 url=" https://github.com/riscv/opensbi"
@@ -22,5 +21,5 @@ package() {
 }
 
 sha512sums="
-71badfad67956e2626d662f98c6e94026258e52bfee838578adb0f9ab34decc36d3308a1e3dc0238fa5aa557c9e1c0af5da77dfd6a5404d7ef9da3001260e3e2  opensbi-0.9.tar.gz
+11833ccca1f16ca5d19580862a0f25d303f7696214c47c30f78f221e16fc35f385f4388d96370c4aa8d43f7f7d5a804c8b55dc845bd316421d9d8ad9509b7ba4  opensbi-1.4.tar.gz
 "
