@@ -49,6 +49,7 @@ build() {
 		--sphinx-man \
 		--system-libs \
 		--no-system-jsoncpp \
+		--no-system-cppdap \
 		--generator=Ninja \
 		--parallel="${JOBS:-2}"
 	CC=clang CXX=clang++ ninja
