@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=iniparser
-pkgver=4.1
-pkgrel=3
+pkgver=4.2.1
+pkgrel=0
 pkgdesc="C library for parsing INI-style files"
 url="http://ndevilla.free.fr/iniparser/"
 arch="all"
@@ -33,6 +33,6 @@ package() {
 }
 
 sha512sums="
-a8125aaaead1f9dfde380fa1e45bae31ca2312be029f2c53b4072cb3b127d16578a95c7c0aee1e3dda5e7b8db7a865ba6dfe8a1d80eb673061b3babef744e968  iniparser-4.1.tar.gz
+5cc95e5f1541de9530d71704fba1a74fc5f764f9a92c991309c7f4659dd68a4f25bde3351356d5c8f2c664d2b91cfdafa81ebaef93a82205e099b0d1c745077d  iniparser-4.2.1.tar.gz
 d2becc2fdbe5a57c7bdd05c61ba4f5a199c43fac55cd98c9b54e11ca06d74d5c592e7fea86c634c91db92c74fa3ec95abad379ff4caa4c79449198528d5b6e48  CVE-2023-33461.patch
 "
