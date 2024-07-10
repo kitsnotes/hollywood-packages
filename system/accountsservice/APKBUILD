@@ -1,6 +1,6 @@
 pkgname=accountsservice
-pkgver=22.08.8
-pkgrel=2
+pkgver=23.13.9
+pkgrel=0
 pkgdesc="D-Bus interface for user account query and manipulation"
 url="https://www.freedesktop.org/software/accountsservice/"
 arch="all"
@@ -39,5 +39,5 @@ package() {
 }
 
 sha512sums="
-2ca3ceb1b44338d9924b86788256d4eef7ec10e0c2197bfb8cc6c31ae224fab3051f03cb406a526f90057684965bef4ba0f2cc01b26198ec1fc6baec36ad3ff8  accountsservice-22.08.8.tar.xz
+c6eb543ce2e07b61bbdfa454e388949bc688517be0536b14f30c66383ed105b15d3fab8b6c62b1eaa08f67d9bdc29b928729d9f7c704f47de4decf0de8e12f89  accountsservice-23.13.9.tar.xz
 "
