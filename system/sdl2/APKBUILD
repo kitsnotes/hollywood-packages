@@ -12,7 +12,6 @@ makedepends="
 	systemd-dev
 	libx11-dev
 	libxext-dev
-	libunwind-dev
 	libxi-dev
 	libxkbcommon-dev
 	libxrandr-dev
