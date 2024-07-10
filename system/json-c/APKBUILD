@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=json-c
-pkgver=0.15
-pkgrel=1
+pkgver=0.17
+pkgrel=0
 pkgdesc="A JSON implementation in C"
 url="https://github.com/json-c/json-c/wiki"
 arch="all"
@@ -39,4 +39,4 @@ package() {
 	mv doc/html "$pkgdir"/usr/share/doc/$pkgname
 }
 
-sha512sums="dc01298bcc78f0f31a34f5fcfe45c0feebfd88518e97fb4f96f1a652f71ccdd303415a4c7bf5b573bdcbcca80428281f0dfccefc6545ea3a7f18dbb819332f34  json-c-0.15.tar.gz"
+sha512sums="4cbedd559502bf9014cfcd1d0bb8bb80d2abac4e969d95d4170123cd9cbafb0756b913fdbb83f666d14f674d6539a60ed1c5d0eb03c36b8037a2e00dc1636e19  json-c-0.17.tar.gz"
