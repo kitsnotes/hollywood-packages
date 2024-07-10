@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=man-pages
 pkgver=5.13
-pkgrel=1
+pkgrel=2
 pkgdesc="Linux man pages"
 url="https://www.kernel.org/doc/man-pages/"
 arch="noarch"
@@ -28,8 +28,6 @@ package() {
 		"$pkgdir"/usr/share/man/man8/zic* \
 		"$pkgdir"/usr/share/man/man8/zdump*
 
-	# provided by libbsd
-	rm -f "$pkgdir"/usr/share/man/man3/explicit_bzero*
 }
 
 sha512sums="
