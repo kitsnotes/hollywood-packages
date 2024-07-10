@@ -1,7 +1,7 @@
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qtbase
-pkgver=5.15.5_git20220619
-pkgrel=5
+pkgver=5.15.10_git20230714
+pkgrel=0
 _commit="c772781e57db1da8ac2ed9036aee39137c216017"
 pkgdesc="Qt5 - QtBase components"
 url="https://qt.io/developers/"
@@ -68,7 +68,8 @@ case $pkgver in
 	*) _rel=official_releases;;
 esac
 
-source="https://invent.kde.org/qt/qt/qtbase/-/archive/$_commit/qtbase-$_commit.tar.gz
+source="https://dev.alpinelinux.org/archive/qt/$_fullname.tar.xz
+		fix-build-with-xkbcommon-160.patch
 	"
 
 _qt5_prefix=/usr/lib/qt5
@@ -238,5 +239,6 @@ gui() {
 }
 
 sha512sums="
-a37fefcfc8b8f55ea3ce713150223e559aa74e95b59ed1da53c93584a16606fbe7af224f5eacfe1f1074022206d504359f046d3dfdb611cf90c9f7fecb2a940d  qtbase-c772781e57db1da8ac2ed9036aee39137c216017.tar.gz
+7237f04e6b8c947cc87cbfff326f3b04c4dbd5de1799898849ba2ed0b5a2bb9f950facf3503109d9a2f62bbfa48945f7549c08730bb05a084b911d2ca16d1ed8  qtbase-9815348dd2fdc8c0eac8abd6f6219a3c2e1978fa.tar.xz
+1f97b8ac068df2169c114a44e277faec66e4b353a024c328dd506c6ca1270d124f84a61c0c5cf45f7458a6d702570bf7fcdd70e0ce2d040d0b4a8f4cf59d8776  fix-build-with-xkbcommon-160.patch
 "
