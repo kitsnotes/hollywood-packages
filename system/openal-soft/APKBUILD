@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=openal-soft
-pkgver=1.22.2
-pkgrel=2
+pkgver=1.23.1
+pkgrel=0
 pkgdesc="software implementation of OpenAL API"
 options="!check"
 url="https://openal-soft.org/"
@@ -45,5 +45,5 @@ package() {
 }
 
 sha512sums="
-2084c15254b047a7fb46f3e8e7cff92a71bbc702e2f356bb366b7ab3b7d03d917475ec5a6e50a88ac5204c6e9c12ab0d0370a88d563b4a5eb333365836489b7b  openal-soft-1.22.2.tar.gz
+21f768484978e4321b733004988cb5ecf43d908e7e08f2d421a338633fcfb2ade722d035de73742470ff135ab538d6b9b56df14020976adb1d1e081dfb095c6b  openal-soft-1.23.1.tar.gz
 "
