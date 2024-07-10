@@ -1,10 +1,8 @@
-# Contributor: Kaarle Ritvanen <kunkku@alpinelinux.org>
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
-# Maintainer: Kaarle Ritvanen <kunkku@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=ruby-augeas
 _gemname=$pkgname
 pkgver=0.5.0
-pkgrel=9
+pkgrel=10
 pkgdesc="Ruby bindings for Augeas"
 url="https://augeas.net/"
 arch="all"
