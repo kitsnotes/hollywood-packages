@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libass
-pkgver=0.17.0
-pkgrel=1
+pkgver=0.17.3
+pkgrel=0
 pkgdesc="Portable library for SSA/ASS subtitle rendering"
 url="https://github.com/libass/libass"
 arch="all"
@@ -46,5 +46,5 @@ package() {
 }
 
 sha512sums="
-ed8a9264b4ad9fe467ccd647eabe6c7c26fd589d9d579595b145de7abebcd18b49a5d093ce9941c08a82911e2bd3a79eef66119d9805ff7654e0340dc3d1e727  libass-0.17.0.tar.xz
+c8da55d38159d45838b359547ac1f83aa40665448b71e404ec8bdce68e0b3f46e80ab88c0194697bff0275d88ca86d58a0cf8a8cbc6dfc3ee1dc40d33d532dfc  libass-0.17.3.tar.xz
 "
