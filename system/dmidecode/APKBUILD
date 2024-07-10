@@ -1,4 +1,4 @@
-# Maintainer: Nathan Angelacos <nangel@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=dmidecode
 pkgver=3.4
 pkgrel=0

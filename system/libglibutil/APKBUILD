@@ -1,5 +1,4 @@
-# Contributor: Danct12 <danct12@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libglibutil
 pkgver=1.0.66
 pkgrel=0

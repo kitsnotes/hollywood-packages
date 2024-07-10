@@ -1,5 +1,4 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=fdk-aac
 pkgver=2.0.2
 pkgrel=1

@@ -1,4 +1,4 @@
-# Maintainer: Drew DeVault <sir@cmpwn.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libidn2
 pkgver=2.3.2
 pkgrel=0

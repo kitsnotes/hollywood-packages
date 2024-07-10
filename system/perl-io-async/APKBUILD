@@ -1,5 +1,4 @@
-# Contributor: Sheila Aman <sheila@vulpine.house>
-# Maintainer: Sheila Aman <sheila@vulpine.house>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-io-async
 _pkgreal=IO-Async
 pkgver=0.79

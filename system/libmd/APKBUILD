@@ -1,5 +1,4 @@
-# Contributor: omni <omni+alpine@hack.org>
-# Maintainer: omni <omni+alpine@hack.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libmd
 pkgver=1.0.3
 pkgrel=0

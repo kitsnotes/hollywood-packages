@@ -1,4 +1,4 @@
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qtgraphicaleffects
 pkgver=5.15.5_git20220516
 pkgrel=0

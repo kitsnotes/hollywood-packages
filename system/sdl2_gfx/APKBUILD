@@ -1,5 +1,4 @@
-# Contributor: Miles Alan <m@milesalan.com>
-# Maintainer: Miles Alan <m@milesalan.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=sdl2_gfx
 pkgver=1.0.4
 pkgrel=0

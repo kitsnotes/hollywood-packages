@@ -1,5 +1,4 @@
-# Contributor: Cameron Banta <cbanta@gmail.com>
-# Maintainer: Cameron Banta <cbanta@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=ghostscript
 pkgver=9.56.1
 pkgrel=0

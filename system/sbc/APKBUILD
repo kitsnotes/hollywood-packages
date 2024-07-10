@@ -1,5 +1,4 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Mark Riedesel <mark@klowner.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=sbc
 pkgver=2.0
 pkgrel=0

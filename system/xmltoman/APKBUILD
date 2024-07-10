@@ -1,5 +1,4 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=xmltoman
 pkgver=0.6
 pkgrel=0

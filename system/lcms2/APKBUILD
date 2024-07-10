@@ -1,5 +1,4 @@
-# Contributor: Sergei Lukin <sergej.lukin@gmail.com>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=lcms2
 pkgver=2.12
 pkgrel=1

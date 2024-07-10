@@ -1,5 +1,4 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libxml2
 pkgver=2.9.12
 pkgrel=5

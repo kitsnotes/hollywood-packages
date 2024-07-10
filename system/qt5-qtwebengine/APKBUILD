@@ -1,6 +1,4 @@
-# Contributor: omni <omni+alpine@hack.org>
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qtwebengine
 pkgver=5.15.11
 pkgrel=0

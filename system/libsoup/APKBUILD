@@ -1,5 +1,4 @@
-# Contributor: Natanael Copa <ncopa@alpinelinux.org>
-# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libsoup
 pkgver=2.99.7
 pkgrel=0

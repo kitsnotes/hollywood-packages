@@ -1,5 +1,4 @@
-# Contributor: Stuart Cardall <developer@it-offshore.co.uk>
-# Maintainer: Stuart Cardall <developer@it-offshore.co.uk>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=opencl-icd-loader
 pkgver=2.3.1
 pkgrel=0

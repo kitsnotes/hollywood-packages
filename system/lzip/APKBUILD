@@ -1,5 +1,4 @@
-# Contributor: ScrumpyJack <scrumpyjack@st.ilet.to>
-# Maintainer: ScrumpyJack <scrumpyjack@st.ilet.to>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=lzip
 pkgver=1.22
 pkgrel=1

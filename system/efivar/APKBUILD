@@ -1,5 +1,4 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Lucas Ramage <ramage.lucas@protonmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=efivar
 pkgver=38
 pkgrel=1

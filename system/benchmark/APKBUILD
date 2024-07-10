@@ -1,5 +1,4 @@
-# Contributor: Duncan Bellamy <dunk@denkimushi.com>
-# Maintainer: Duncan Bellamy <dunk@denkimushi.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=benchmark
 pkgver=1.7.0
 pkgrel=0
