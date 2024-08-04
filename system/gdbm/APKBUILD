@@ -1,7 +1,6 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=gdbm
-pkgver=1.22
+pkgver=1.24
 pkgrel=0
 pkgdesc="GNU dbm is a set of database routines that use extensible hashing"
 url="https://www.gnu.org/software/gdbm/"
@@ -46,5 +45,5 @@ tools() {
 }
 
 sha512sums="
-67461fc4f41e825d0134175ff99c913ccb4aa7ea3d0f64f32bdedbc7677b3ecabd2c525ac6b2ee47a9561e002e4224e492b72088d57bb4862a1f8c089521ec51  gdbm-1.22.tar.gz
+401ff8c707079f21da1ac1d6f4714a87f224b6f41943078487dc891be49f51fd1ac7a32fd599aae0fad185f2c6ba7432616d328fd6aaab068eb54db9562ff7fa  gdbm-1.24.tar.gz
 "
