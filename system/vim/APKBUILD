@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=vim
-pkgver=8.2.3779
-pkgrel=3
+pkgver=9.1.0652
+pkgrel=0
 pkgdesc="Improved vi-style text editor"
 url="https://www.vim.org/"
 arch="all"
@@ -10,10 +10,9 @@ options="!check"  # some tests are failing
 depends="xxd"
 makedepends="ncurses-dev python3-dev"
 subpackages="$pkgname-doc ${pkgname}diff::noarch $pkgname-tutor xxd"
-source="$pkgname-$pkgver.tar.gz::https://github.com/vim/vim/archive/v$pkgver.tar.gz
+source="$pkgname-$pkgver.tar.gz::https://github.com/vim/vim/archive/refs/tags/v$pkgver.tar.gz
 	vimrc
 	"
-replaces="gvim" # this can be removed after alpine 3.16
 
 # secfixes:
 #   8.2.3437-r0:
@@ -64,6 +63,12 @@ package() {
 	install -Dm644 runtime/doc/uganda.txt \
 		"$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 	install -Dm644 "$srcdir"/vimrc "$pkgdir"/etc/vim/vimrc
+	
+	ln -s /usr/bin/vim "$pkgdir"/usr/bin/vi
+
+        # only relevant to gvim
+        rm -r "$pkgdir"/usr/share/icons/
+        rm -r "$pkgdir"/usr/share/applications/
 }
 
 
@@ -97,6 +102,6 @@ xxd() {
 }
 
 sha512sums="
-000e9c69ae5241451aca2b0af64cb10a063adddd53ea32f4cb0df7b79ce4bebb96d67c4c25d82fc301dc2ae47a5f16944cee61c1202c318c31256387b2193ef2  vim-8.2.3779.tar.gz
+c318ad2148ed2201a438cb878606db06dabf838561af1678feb87f98dddf0608d612c59cbe342488f3b585968de87b337e2d6c766a52429e46c13c2f7328ccc0  vim-9.1.0652.tar.gz
 d9586b777881973cb5e48e18750336a522ed72c3127b2d6b6991e2b943468ca5b694476e7fa39ab469178c1375fc8f52627484e0fe377aea5811a513e35a7b02  vimrc
 "
