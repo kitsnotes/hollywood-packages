@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libidn2
-pkgver=2.3.2
+pkgver=2.3.7
 pkgrel=0
 pkgdesc="Encode/Decode library for internationalized domain names"
 url="https://www.gnu.org/software/libidn#libidn2"
@@ -41,5 +41,5 @@ package() {
 }
 
 sha512sums="
-958dbf49a47a84c7627ac182f4cc8ea452696cec3f0d1ff102a6c48e89893e772b2aa81f75da8223dfc6326515cca3ae085268fbf997828de9330c3a351152f1  libidn2-2.3.2.tar.gz
+eab5702bc0baed45492f8dde43a4d2ea3560ad80645e5f9e0cfa8d3b57bccd7fd782d04638e000ba07924a5d9f85e760095b55189188c4017b94705bef9b4a66  libidn2-2.3.7.tar.gz
 "
