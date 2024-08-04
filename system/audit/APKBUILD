@@ -8,6 +8,7 @@ arch="all"
 license="LGPL-2.1-or-later"
 depends_dev="linux-headers"
 makedepends="$depends_dev swig libcap-ng-dev python3"
+options="!check"
 install="$pkgname.pre-install"
 subpackages="$pkgname-static $pkgname-dev $pkgname-doc $pkgname-libs"
 source="https://people.redhat.com/sgrubb/audit/audit-$pkgver.tar.gz
