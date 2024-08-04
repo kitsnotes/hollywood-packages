@@ -10,7 +10,6 @@ makedepends="bash acl-dev attr-dev perl automake autoconf"
 subpackages="$pkgname-doc"
 install="$pkgname.post-deinstall"
 source="https://ftp.gnu.org/gnu/coreutils/coreutils-$pkgver.tar.xz
-	fix-chmod-exit-code.patch
 	"
 options="!check"
 
@@ -55,5 +54,4 @@ check() {
 
 sha512sums="
 2ca0deac4dc10a80fd0c6fd131252e99d457fd03b7bd626a6bc74fe5a0529c0a3d48ce1f5da1d3b3a7a150a1ce44f0fbb6b68a6ac543dfd5baa3e71f5d65401c  coreutils-9.5.tar.xz
-9f86dacb9c429bb0873e68f3e7b185ac8fa54f801dd00e532b01719a919e5c22ec706c58a4da4196f68f46fcd5589afc09028680ad34f89d1c16eae6e679aeca  fix-chmod-exit-code.patch
 "
