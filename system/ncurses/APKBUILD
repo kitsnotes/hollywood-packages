@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=ncurses
-pkgver=6.3_p20220625
+pkgver=6.5_p20240601
 _ver=${pkgver/_p/-}
 pkgrel=0
 pkgdesc="Console display library"
@@ -120,5 +120,5 @@ static() {
 }
 
 sha512sums="
-bb5e6a8f375cc5e0f61464888e30b8c086c4affb179494110d8e32460ca91fa5bf0316eb11842dcc14b6eaad991ae619423da34e5cfc1ce206573959737db602  ncurses-6.3-20220625.tgz
+9a0d841441f930e9cee5feda8f761ae2f600cad45b2526793baa10d2df6de50489f9ba067ac4e0b7036ed58b81fa88d9a29ff992280b37fe16b0b1797a161062  ncurses-6.5-20240601.tgz
 "
