@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=ghostscript
-pkgver=9.56.1
+pkgver=10.03.1
 pkgrel=0
 pkgdesc="An interpreter for the PostScript language and for PDF"
 url="https://ghostscript.com/"
@@ -154,7 +154,7 @@ gtk() {
 }
 
 sha512sums="
-f498384af80654c040635564b8bc9a64c4bb5b0769bb00aade4042bbe9117c482362dc1a1fac72db3ce9487dd5a5bb8fb81b35b360680fe598df33dfbbe79499  ghostscript-9.56.1.tar.gz
+c1eec6550ce2d9c8fe78c2e9c91eaa40e1ae3d8625b510e712c0e0ab39ad00d4fa493af5f798a06c21a4acd72a0b503758a0d8f79cc37d5cc1a23ac7f3ba41e2  ghostscript-10.03.1.tar.gz
 70721e3a335afa5e21d4e6cf919119010bd4544a03ab8f53f5325c173902221ad9b88c118b4bfeee80b3e1956bcdbaf4c53f64ae7fb81f5ba57dbc956750c482  ghostscript-system-zlib.patch
 beefcf395f7f828e1b81c088022c08a506e218f27535b9de01e0f0edf7979b435316c318fa676771630f6ad16ff1ab059cd68aa128ed97e5a9f2f3fa840200c4  fix-sprintf.patch
 "
