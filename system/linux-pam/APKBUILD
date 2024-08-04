@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=linux-pam
-pkgver=1.5.2
-pkgrel=3
+pkgver=1.6.0
+pkgrel=0
 pkgdesc="Linux PAM (Pluggable Authentication Modules for Linux)"
 url="https://www.kernel.org/pub/linux/libs/pam"
 arch="all"
@@ -10,10 +10,10 @@ license="BSD-3-Clause"
 depends_dev="gettext-dev"
 makedepends="$depends_dev bison flex-dev autoconf automake libtool linux-headers"
 options="suid !check"
-subpackages="$pkgname-dev $pkgname-doc"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-manual::noarch"
 source="
 	https://github.com/linux-pam/linux-pam/releases/download/v$pkgver/Linux-PAM-$pkgver.tar.xz
-
+	https://github.com/linux-pam/linux-pam/releases/download/v$pkgver/Linux-PAM-$pkgver-docs.tar.xz
 	base-auth.pamd
 	base-account.pamd
 	base-password.pamd
@@ -75,8 +75,14 @@ package() {
 
 }
 
+manual() {
+        pkgdesc="$pkgdesc (manual)"
+
+        amove usr/share/doc/Linux-PAM
+}
+
 sha512sums="
-fa16350c132d3e5fb82b60d991768fb596582639841b8ece645c684705467305ccf1302a0147ec222ab78c01b2c9114c5496dc1ca565d2b56bf315f29a815144  Linux-PAM-1.5.2.tar.xz
+7af07edb71a79275ad7f7f3bd82a4619b12a23a10f5fb2e5d810c6aadb718fd739ed17ca336c3420945d48d326e91874d8e45cfc5a4bf01a0cc5f9663bd2a0ad  Linux-PAM-1.6.0.tar.xz
 c5f00310b3c3a1dbb79e683d911fcbe2f505d038eec5c6400ea1f54674d71f9d4ca4aa125e9555088fca739d61421afa9044e5482d5f19bedefae6cf666e7384  base-auth.pamd
 1dfc274371c511d104171e0f1d0130f59dc8555cfa518c7be2154bf907cb7b83425b5e33063b2e948641d3fc45463605c1e8a24bb93a8c89cec985bb6eab94fb  base-account.pamd
 50313894177a1b40de4347f8ffe452f415df637914a70b9851227c64712ef78c9a2e46881b0aace1fe95fcf69cf37701a2d0e13251a707441ff52d57242e1285  base-password.pamd
