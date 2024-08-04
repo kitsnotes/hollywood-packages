@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=lzip
-pkgver=1.22
-pkgrel=1
+pkgver=1.24.1
+pkgrel=0
 pkgdesc="Lzip is a lossless data compressor"
 url="https://nongnu.org/lzip/"
 arch="all"
@@ -29,5 +29,5 @@ package() {
 }
 
 sha512sums="
-318de74effdbdfa79070d28919459a85bf1efe662b818b8af2a3daa964b6c24e3386c37de360c6d5b8b624d549b5c9ed777c6234561129c477e03d92ac2db206  lzip-1.22.tar.gz
+b67b3b8ab594306dd863b6f51525ab80e90cbff3af1faf190fd7a35eac895ef869e6a1f8f503d623c16ad5c1496816c8f851abf0be5983d53052bea80afc34bd  lzip-1.24.1.tar.gz
 "
