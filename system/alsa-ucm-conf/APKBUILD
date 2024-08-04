@@ -1,13 +1,12 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=alsa-ucm-conf
-pkgver=1.2.10
+pkgver=1.2.12
 pkgrel=0
 pkgdesc="ALSA Use Case Manager configuration"
 url="https://alsa-project.org"
 arch="noarch"
 license="BSD-3-Clause"
 source="https://alsa-project.org/files/pub/lib/alsa-ucm-conf-$pkgver.tar.bz2
-	splitpcm.patch
 	"
 options="!check" # no tests
 provider_priority=10
@@ -18,6 +17,5 @@ package() {
 }
 
 sha512sums="
-172956a2c127e9afa5be9c6ada43bfa9fda825823f8f6acbe252edef3381afe3adfa3299c1419f04375599be7721a551c6800be99db44b091611aeb824ffcd72  alsa-ucm-conf-1.2.10.tar.bz2
-6ab92caf3d3b487d1969273a42b88a6a7ff94f50b1dc0892ecf8b979347e6d27df304eafd8dd66851474c666083276ab66119bf3c4bf7ae3471396b79ac98d6a  splitpcm.patch
+391dde123271172d899c04865d1d6e21b4ad0060ee9b2256dfbc6fc89ad48edcaa43c861893ab0e5c70d972e20d15c528defc19c00308e7465f13f954cce25d7  alsa-ucm-conf-1.2.12.tar.bz2
 "
