@@ -8,8 +8,8 @@ pkgname=rng-tools
 # the same time and potentially upgrading rng-tools alone could break
 # the rngd jitter functionality).
 #
-pkgver=6.14
-pkgrel=4
+pkgver=6.17
+pkgrel=0
 pkgdesc="Random number generator daemon"
 url="https://github.com/nhorman/rng-tools"
 arch="all"
@@ -69,7 +69,7 @@ package() {
 }
 
 sha512sums="
-6a267257292697023cd349a5bda4998e39e874969f2b437eb2498f2d7d70a7ed293ca76b4c83aebf80955e33f6c8f8bbb65c6636cc0979e0e0d80d148380b8c7  rng-tools-6.14.tar.gz
+fe874e578c0d5916c271ed5a96b87ed8bb5ce4238cc158471d390ca32864959206b0657dd5910ebb0730a3987f3bf9656690759f5a910d1c4a5891a27678e60d  rng-tools-6.17.tar.gz
 b33e1608fc73ac14d01f0b555e4abf60be79a711f0e66555b63019843c30ea53eae24d6ee543ebdcbd186108870cf0f346983d50c088c7afeca0af5303b926cf  rngd.confd
 19b72997b4e981a1713e51b22bbf1974a49ea6eefbe3d69b32550041d9f8caed1ac494b448a406b609a23cc200fa9bf4e6d5833f06451ca6751889ffa834b915  rngd.confd-arm
 82ff334ac2954036e33cf106965afaca67dd061527890b79dc6f77df219455e6ad0c90c4ef44528748f3183fc1365053a87e986c2a7b0ce74144de2b7b5471b7  rngd.service
