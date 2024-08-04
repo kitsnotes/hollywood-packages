@@ -2,13 +2,21 @@
 pkgname=iputils
 pkgver=20240117
 pkgrel=0
-pkgdesc="IP Configuration Utilities (and Ping)"
-options="!check suid"
+pkgdesc="IP Configuration Utilities"
 url="https://github.com/iputils/iputils/"
 arch="all"
-license="BSD-3-Clause AND GPL-2.0-or-later AND MIT"
-makedepends="libcap-dev meson"
+license="BSD-3-Clause AND GPL-2.0-or-later"
 replaces="bbsuid"
+makedepends="
+	libcap-dev
+	meson
+	"
+subpackages="
+	iputils-arping
+	iputils-clockdiff
+	iputils-ping
+	iputils-tracepath
+	"
 source="iputils-$pkgver.tar.xz::https://github.com/iputils/iputils/releases/download/$pkgver/iputils-$pkgver.tar.xz"
 # checks need suid/setcap'd binaries
 # ping is suid
@@ -16,30 +24,55 @@ options="suid !check"
 
 build() {
 	abuild-meson \
-                -Db_lto=true \
-                -DNO_SETCAP_OR_SUID=true \
-                -DBUILD_MANS=false \
-                -DUSE_IDN=false \
-                -DUSE_GETTEXT=false \
-		"build"
-	ninja -C "build"
+		-Db_lto=true \
+		-DNO_SETCAP_OR_SUID=true \
+		-DBUILD_MANS=false \
+		-DUSE_IDN=false \
+		-DUSE_GETTEXT=false \
+		. output
+	meson compile -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
 }
 
 package() {
-	local name
-	cd "$builddir"/build
+	depends="
+		iputils-arping=$pkgver-r$pkgrel
+		iputils-clockdiff=$pkgver-r$pkgrel
+		iputils-ping=$pkgver-r$pkgrel
+		iputils-tracepath=$pkgver-r$pkgrel
+		"
 
-	for name in arping clockdiff rdisc tracepath; do
-		install -D -m755 $name "$pkgdir"/usr/sbin/${name##*/}
-	done
-	install -D -m755 ninfod/ninfod "$pkgdir"/usr/sbin/ninfod
+	install -Dm4755 output/ping/ping "$pkgdir"/bin/ping
 
-	for name in ping/ping traceroute6; do
-		install -D -m4755 $name "$pkgdir"/bin/${name##*/}
+	for name in arping clockdiff tracepath; do
+		install -Dm755 output/$name "$pkgdir"/usr/sbin/$name
 	done
 
 	ln -s tracepath "$pkgdir"/usr/sbin/tracepath6
 	ln -s ping "$pkgdir"/bin/ping6
+}
+
+arping() {
+	pkgdesc="$pkgdesc (arping utility)"
+	amove usr/sbin/arping
+}
+
+clockdiff() {
+	pkgdesc="$pkgdesc (clockdiff utility)"
+	amove usr/sbin/clockdiff
+}
+
+ping() {
+	pkgdesc="$pkgdesc (ping utility)"
+	amove bin/ping*
+}
+
+tracepath() {
+	pkgdesc="$pkgdesc (tracepath utility)"
+	amove usr/sbin/tracepath*
 }
 
 sha512sums="
