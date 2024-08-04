@@ -1,7 +1,6 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libeconf
-pkgver=0.4.2
+pkgver=0.6.3
 pkgrel=0
 pkgdesc="Enhanced Config File Parser"
 url="https://github.com/openSUSE/libeconf"
@@ -10,8 +9,7 @@ license="MIT"
 makedepends="meson"
 checkdepends="bash"
 subpackages="$pkgname-dev $pkgname-doc"
-source="$pkgname-$pkgver.tar.gz::https://github.com/openSUSE/libeconf/archive/refs/tags/$pkgver.tar.gz
-	musl-tests.patch
+source="$pkgname-$pkgver.tar.gz::https://github.com/openSUSE/libeconf/archive/refs/tags/v$pkgver.tar.gz
 	"
 
 build() {
@@ -28,6 +26,5 @@ package() {
 }
 
 sha512sums="
-d772bd90f1b3ee14c9b0ef14d80e33bcaf5527ae294a7a5612a7d8bd13441eeadbe617ed09292ec37be49c2e21f5fd805ef65c1afb55250422af2b9d6123b368  libeconf-0.4.2.tar.gz
-28431c1f80ee7815991584ef6307dabe593b4da58b9406e6f1a9cb30bfba3e925a48c83b0d3824427631bede5b1249b0c87e0d9fb55971d4ecf90805076b25dd  musl-tests.patch
+6a177474efa03d4933c1fff85eaf159837b9c803d3be8a8e8a23c271bbcd38f5513bc30df37592721c1d139c36a698fb224be012fa947595c0e90904e22fdadb  libeconf-0.6.3.tar.gz
 "
