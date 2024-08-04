@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=appstream
-pkgver=0.16.0
-pkgrel=1
+pkgver=1.0.2
+pkgrel=0
 pkgdesc="Provides a standard for creating app stores across distributions"
 url="https://distributions.freedesktop.org/wiki/AppStream"
 arch="all"
@@ -92,5 +92,5 @@ qt() {
 }
 
 sha512sums="
-5035d396548a82277b7248fca1a9bd5e10c24735e1d28115e05cfd6ba1a1cb71fa287a97923aaef4d986f432acbb541d8b22244f3499d5727c6b7d153e7008c2  AppStream-0.16.0.tar.xz
+e5c109c383e3bf3af3693bfb3146663767c2c61fac0bd421f2ce52242fe7b869effeacc4d207987321dfeb4ab0ba77ece6c1c6eea054a7365204cd955426517a  AppStream-1.0.2.tar.xz
 "
