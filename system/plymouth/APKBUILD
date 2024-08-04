@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=plymouth
-pkgver=22.02.122
-pkgrel=3
+pkgver=24.004.60
+pkgrel=0
 pkgdesc="graphical bootsplash on linux"
 url="http://www.freedesktop.org/wiki/Software/Plymouth"
 arch="all"
@@ -52,6 +52,6 @@ themes() {
 }
 
 sha512sums="
-9f2f5a7121b431f16561d6b5f31177ff06cf1e6bdffaa68c1fe08aa3c765a96dee745824aae8eaac9a0b4a08f0a17a9ae79a82bd0826fcc3fe14d8553635f817  plymouth-22.02.122.tar.xz
+6c66ae81498afea75a9cc1c19ec82b26210a3bd463f14b8ea7c1cd1e327069ef32f752f4ee5236070825ee42599cf05f14271000523bdbae656a200d2e60d341  plymouth-24.004.60.tar.xz
 ae500060533fef14a7a0d4295867435cbb528887682c7261c3c86736cfb944c084b9456e7ce750599080fdc9e0b8da51aeb4616e02e966020270a78334afab4e  plymouthd.defaults
 "
