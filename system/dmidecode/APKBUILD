@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=dmidecode
-pkgver=3.4
+pkgver=3.6
 pkgrel=0
 pkgdesc="A utility for reporting system hardware as described by BIOS"
 url="https://nongnu.org/dmidecode"
@@ -25,5 +25,5 @@ package() {
 }
 
 sha512sums="
-62990b6159e5a7c8688d37e44957e7948391d2c6afeabaa4514ba9dad2d08b020297676e2dbbfcb6471efc6fb6f3682750422931a953f78f358bb3dd3745e95b  dmidecode-3.4.tar.xz
+b1e47a2121062581876ba2daf3ce80b1c39612d078718609b8bc97d4e7a4b47427200502468b5d71f0d0dcb5ba299fb2e808791b62dc5b50e67acac60c51a461  dmidecode-3.6.tar.xz
 "
