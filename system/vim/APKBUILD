@@ -51,10 +51,6 @@ build() {
 	make
 }
 
-check() {
-	# make test
-}
-
 package() {
 	make -j1 DESTDIR="$pkgdir/" install
 
