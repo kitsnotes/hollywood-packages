@@ -16,14 +16,6 @@ source="https://kernel.org/pub/linux/utils/net/iproute2/iproute2-$pkgver.tar.xz"
 #   5.1.0-r0:
 #     - CVE-2019-20795
 
-prepare() {
-	default_prepare
-	sed -i '/^TARGETS=/s: arpd : :' misc/Makefile
-	sed -i 's:/usr/local:/usr:' tc/m_ipt.c include/iptables.h
-	sed -i -e 's:=/share:=/usr/share:' \
-		-e 's:-Werror::' Makefile
-}
-
 build() {
 	make config
 	make CCOPTS="-D_GNU_SOURCE $CFLAGS" V=1
