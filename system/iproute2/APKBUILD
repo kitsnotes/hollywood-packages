@@ -32,7 +32,6 @@ minimal() {
 	install -d -m755 "$subpkgdir"/sbin
 
 	mv "$pkgdir"/sbin/ip "$subpkgdir"/sbin/
-	mv "$pkgdir"/etc "$subpkgdir"/etc
 }
 
 tc() {
