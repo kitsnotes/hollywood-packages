@@ -1,7 +1,6 @@
-# Contributor: Valery Kartel <valery.kartel@gmail.com>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=xfsprogs
-pkgver=5.19.0
+pkgver=6.9.0
 pkgrel=0
 pkgdesc="XFS filesystem utilities"
 url="https://xfs.org/index.php/Main_Page"
@@ -19,9 +18,7 @@ makedepends="
 	"
 options="!check"  # no test suite
 subpackages="$pkgname-dev $pkgname-doc $pkgname-libs $pkgname-extra"
-source="https://www.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-$pkgver.tar.gz
-	fix-mmap.patch
-	missing-signal.h.patch
+source="https://mirrors.edge.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-$pkgver.tar.xz
 	"
 
 build() {
@@ -57,7 +54,5 @@ extra() {
 }
 
 sha512sums="
-636a2924e8b8e276a41951d36f678091b169df61b9557207d0512869e603292d709fdea757b83ee71aaf1b4440cfb90a94e29abfa9834a176df9012868959a0c  xfsprogs-5.19.0.tar.gz
-080161b211e20277e44f714961b36064536bb5cce72a6f93fef4996e296a3953d33c1a066ef371ccd5551622357105f9be9086ef917386f5d43f6a211b0bd7c9  fix-mmap.patch
-3dc132c45d93eeefe06ad3d53c39f325f4b003e3a230d5961599f7dac2026360ff57820be351b945385bfe1d6669cb182706696f59ae8d23f7c73dd7fe8d092a  missing-signal.h.patch
+c597453759c400690810971f0b2daf0e4e22c74270b0f9800e2235da5e5c1383b59bc1176c5bba0023f74b623020fb51c62f0e98a74885cf3a8336e0b81c9023  xfsprogs-6.9.0.tar.xz
 "
