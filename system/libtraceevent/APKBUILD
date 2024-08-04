@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libtraceevent
-pkgver=1.7.1
+pkgver=1.8.2
 pkgrel=0
 pkgdesc="Linux kernel trace event library"
 url="https://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git"
@@ -11,7 +11,6 @@ makedepends="$depends_dev"
 checkdepends="cunit-dev"
 subpackages="$pkgname-plugins $pkgname-dev"
 source="https://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git/snapshot/libtraceevent-$pkgver.tar.gz
-	big-endian-typo.patch
 	"
 
 build() {
@@ -39,6 +38,5 @@ plugins() {
 }
 
 sha512sums="
-412b93109ccd6e1bdece52f9a10989a58ff5693144fd460c7ebaef0ebc4649fac95eea20c5f88aa2f23bdc59bf359a65ab23ab41c3a5b7c92df6e52225477093  libtraceevent-1.7.1.tar.gz
-6b1298c3f31d76d4abb611542f9cf395753d155b7f04523365ab394a67bf41a34b4f7198339a03b823bb454c3cf82c95d46152ddd9d191e75a15c9d88760171b  big-endian-typo.patch
+52b7a23e8bf04feaa568199c99c98217fcb8df1b99d46197ef9edcea19b42e71ff9d2e6c45ebf5335ec782d636ad3d14be4acae5a9e5158650f5f62813081fa2  libtraceevent-1.8.2.tar.gz
 "
