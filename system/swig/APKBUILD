@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=swig
-pkgver=4.0.2
-pkgrel=4
+pkgver=4.2.1
+pkgrel=0
 pkgdesc="A compiler that makes it easy to integrate C and C++ code with scripting languages"
 url="http://www.swig.org/"
 arch="all"
@@ -37,5 +37,5 @@ package() {
 	install -D -m644 LICENSE-UNIVERSITIES "$pkgdir"/usr/share/licenses/$pkgname/LICENSE-UNIVERSITIES
 }
 
-sha512sums="05e7da70ce6d9a733b96c0bcfa3c1b82765bd859f48c74759bbf4bb1467acb1809caa310cba5e2b3280cd704fca249eaa0624821dffae1d2a75097c7f55d14ed  swig-4.0.2.tar.gz
+sha512sums="019dee5a46d57e1030eef47cd5d007ccaadbdcd4e53cd30d7c795f0118ecf4406a78185534502c81c5f6d7bac0713256e7e19b20b5a2d14e2c552219edbaf5cf  swig-4.2.1.tar.gz
 62d6eecba01abe8ddd5a3b8a5512b57e63182b49d957bb81903c29dfccfaa62e75555dabc2c7b163afb8432328dd10e23bec0e3bf1d1d7622ec1119f5dab0a64  fix-test-sed-PATH.patch"
