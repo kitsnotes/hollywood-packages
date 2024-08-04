@@ -29,7 +29,7 @@ package() {
 	local name
 	cd "$builddir"/build
 
-	for name in arping clockdiff rarpd rdisc tftpd/tftpd tracepath; do
+	for name in arping clockdiff rdisc tracepath; do
 		install -D -m755 $name "$pkgdir"/usr/sbin/${name##*/}
 	done
 	install -D -m755 ninfod/ninfod "$pkgdir"/usr/sbin/ninfod
