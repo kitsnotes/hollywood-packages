@@ -39,8 +39,7 @@ prepare() {
 }
 
 build() {
-	[ "$CLIBC" = "musl" ] && export ac_cv_search_crypt=no
-	./configure \
+	LDFLAGS="-Wl,--undefined-version" ./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
 		--prefix=/usr \
