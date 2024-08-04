@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=wireless-regdb
-pkgver=2023.05.03
+pkgver=2024.05.08
 pkgrel=0
 pkgdesc="Central Regulatory Domain Database"
 url="https://wireless.wiki.kernel.org/en/developers/regulatory/wireless-regdb"
@@ -19,5 +19,5 @@ package() {
 }
 
 sha512sums="
-9de4852a1d351c11399ca55ea2ad61be23f488c61595b5c5afa3498d76488adc8120c6c77644275c460efcd1bb5bb68fa25597e73bec22ae847321bb55f7af27  wireless-regdb-2023.05.03.tar.xz
+edb562d708be7119e80bb48d7520c11e409b81178168f9c6873ea97a2e4d9277d02d3b72b1af9f0302ba2e252d94d14c4468ee4cc1a6bb186a17d74c57d7594d  wireless-regdb-2024.05.08.tar.xz
 "
