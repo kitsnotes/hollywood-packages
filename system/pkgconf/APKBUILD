@@ -1,4 +1,4 @@
-# Maintainer: Originull Software <packages@originull.org>
+system/pkgconf/APKBUILD# Maintainer: Originull Software <packages@originull.org>
 pkgname=pkgconf
 pkgver=2.2.0
 pkgrel=0
@@ -11,11 +11,6 @@ provides="pkgconfig=1"
 subpackages="$pkgname-doc $pkgname-dev"
 source="https://distfiles.ariadne.space/pkgconf/pkgconf-$pkgver.tar.xz"
 checkdepends="kyua atf"
-
-prepare() {
-	default_prepare
-	update_config_sub
-}
 
 build() {
 	./configure \
