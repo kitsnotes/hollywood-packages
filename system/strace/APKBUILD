@@ -12,6 +12,7 @@ license="BSD-3-Clause"
 makedepends="autoconf automake binutils-dev elfutils-dev gawk linux-headers"
 subpackages="$pkgname-doc"
 source="https://github.com/strace/strace/releases/download/v$pkgver/strace-$pkgver.tar.xz
+	sigreturn.patch
 	"
 
 build() {
@@ -40,4 +41,5 @@ package() {
 
 sha512sums="
 aa80b9b6ec41082f1710f2327f7a22003cdce6d95ab0e5083ada9c5b7b40b8f7cbc7dc6c017878dc0e42c52e405e98ed1488c51d17bc3538989ff4be2c2411e1  strace-6.9.tar.xz
+92ffeece8fa30a117d5d59b6b1c2d8deff497902d3bf3d76112952c509415e6560083c48dd2a16e55a1e51a7376b173c5af5da791be88605d0170fc908446d42  sigreturn.patch
 "

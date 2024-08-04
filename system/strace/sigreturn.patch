@@ -1,0 +1,11 @@
+diff -Naur strace-6.9-orig/src/sigreturn.c strace-6.9/src/sigreturn.c
+--- strace-6.9-orig/src/sigreturn.c	2024-08-04 17:04:42.599257557 +0000
++++ strace-6.9/src/sigreturn.c	2024-08-04 17:09:06.711381198 +0000
+@@ -15,6 +15,7 @@
+ # include <asm/sigcontext.h>
+ #endif
+
++#pragma clang diagnostic ignored "-Wunused-function"
+ /* The following function might be unused, hence the inline qualifier.  */
+ static inline void
+ print_sigmask_addr_size(const void *const addr, const unsigned int size)
