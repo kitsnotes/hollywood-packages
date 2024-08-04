@@ -1,12 +1,10 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Contributor: Simon Zeni <simon@bl4ckb0ne.ca>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=vulkan-headers
 _pkgname=Vulkan-Headers
 # Please be VERY careful upgrading this - vulkan-headers breaks API even
 # on point releases. So please make sure everything using this still builds
 # after upgrades
-pkgver=1.3.216.0
+pkgver=1.3.261.1
 _pkgver=sdk-$pkgver
 pkgrel=0
 arch="noarch"
@@ -14,7 +12,7 @@ url="https://www.vulkan.org/"
 pkgdesc="Vulkan header files"
 license="Apache-2.0"
 makedepends="cmake"
-source="https://github.com/khronosgroup/vulkan-headers/archive/refs/tags/$_pkgver/vulkan-headers-$_pkgver.tar.gz"
+source="https://github.com/khronosgroup/vulkan-headers/archive/refs/tags/sdk-$pkgver/vulkan-headers-v$pkgver.tar.gz"
 builddir="$srcdir/$_pkgname-$_pkgver"
 options="!check" # No tests
 
@@ -31,5 +29,5 @@ package() {
 }
 
 sha512sums="
-cabce62c3e681c2f89f808a0838300f859d1ea046f0036f44c5191f5a9ebbc15058507cd5d07519c34b81ba602058a137f27142c58d4e6c84b2ad382431d675a  vulkan-headers-sdk-1.3.216.0.tar.gz
+ad896b76e229da538e5f1fd992fc2643daec5ca330e2ee42d3360ea855561773379302a9e666c502af0d10c7b2820ee48e4f17f78a1f1c1a614e3e0f10fc2c4f  vulkan-headers-v1.3.261.1.tar.gz
 "
