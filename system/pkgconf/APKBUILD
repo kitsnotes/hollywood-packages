@@ -1,4 +1,4 @@
-system/pkgconf/APKBUILD# Maintainer: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=pkgconf
 pkgver=2.2.0
 pkgrel=0
