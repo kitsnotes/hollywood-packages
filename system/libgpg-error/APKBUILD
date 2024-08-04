@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libgpg-error
-pkgver=1.46
-pkgrel=1
+pkgver=1.50
+pkgrel=0
 pkgdesc="Support library for libgcrypt"
 url="https://www.gnupg.org/"
 arch="all"
@@ -56,5 +56,5 @@ static() {
 }
 
 sha512sums="
-b06223bb2b0f67d3db5d0d9ab116361a0eda175d4667352b5c0941408d37f2b0ba8e507297e480ccebb88cbba9d0a133820b896914b07d264fb3edaac7b8c99d  libgpg-error-1.46.tar.bz2
+96e466d892a50843af6d7c08c0da602518bc6a28836bfc35f0a28cde74d368f57c5c70c65f0f41edb4fc1ca5ebd00f2ece531d8b3eb1bd6db566adbb29bc61ff  libgpg-error-1.50.tar.bz2
 "
