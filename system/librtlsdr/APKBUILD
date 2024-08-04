@@ -1,0 +1,46 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=librtlsdr
+_realpkgname=rtl-sdr
+pkgver=2.0.2
+pkgrel=0
+pkgdesc="Software defined radio receiver for Realtek RTL2832U"
+url="https://osmocom.org/projects/sdr/wiki/rtl-sdr"
+arch="all"
+license="GPL-2.0-or-later"
+options="!check" # no tests
+depends_dev="libusb-dev"
+makedepends="$depends_dev cmake samurai"
+subpackages="$pkgname-dev rtl-sdr:tools $pkgname-doc"
+source="$_realpkgname-$pkgver.tar.gz::https://gitea.osmocom.org/sdr/rtl-sdr/archive/v$pkgver.tar.gz
+	"
+builddir=$srcdir/$_realpkgname
+
+build() {
+	cmake -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=MinSizeRel \
+		-DCMAKE_INSTALL_PREFIX:PATH=/usr \
+		-DDETACH_KERNEL_DRIVER=ON \
+		-DINSTALL_UDEV_RULES=ON \
+		-Wno-dev
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+	mkdir -p $pkgdir/usr/share/man1/
+	cp $builddir/debian/*1 $pkgdir/usr/share/man1/
+}
+
+tools() {
+	pkgdesc="Software defined radio receiver for Realtek RTL2832U (tools)"
+	amove usr/bin
+}
+
+doc() {
+	pkgdesc="Software defined radio receiver for Realtek RTL2832U (doc)"
+	amove usr/share/
+}
+
+sha512sums="
+0c03665626e9d0f3b2db94af81e5d6a7e6c1497d76f86a261d6b260d837865686f93382f3d515f9a79e930295a51a748aeb64f59e5c1ddc207ce1c419def00c1  rtl-sdr-2.0.2.tar.gz
+"
