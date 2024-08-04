@@ -3,7 +3,7 @@ pkgname=llvm-runtimes
 # Note: Update together with llvm.
 pkgver=18.1.8
 _llvmver=${pkgver%%.*}
-pkgrel=6
+pkgrel=7
 pkgdesc="LLVM Runtimes"
 url="https://llvm.org/"
 arch="all"
@@ -14,6 +14,8 @@ makedepends="
 	linux-headers
 	llvm$_llvmver-dev
 	llvm$_llvmver-static
+	libc++-dev
+	libc++-static
 	python3
 	samurai
 	"
@@ -31,27 +33,6 @@ source="https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver/
 	"
 builddir="$srcdir/llvm-project-${pkgver//_/}.src"
 options="!check"
-
-case "$CARCH" in
-# Sanitizers are broken on other arches.
-# Keep in sync with compiler-rt-sanitizer-supported-arch.patch.
-aarch64|ppc64le|x86_64|riscv64)
-	_build_sanitizers='ON'
-	;;
-*)
-	_build_sanitizers='OFF'
-	;;
-esac
-
-prepare() {
-	default_prepare
-
-	case "$CARCH" in
-	armhf)
-		patch -Np1 < "$srcdir"/armv6-arch.patch.noauto
-		;;
-	esac
-}
 
 build() {
 	if [ "$CBUILD" != "$CHOST" ]; then
