@@ -1,6 +1,6 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=elfutils
-pkgver=0.185
+pkgver=0.191
 pkgrel=0
 pkgdesc="Utilities and DSOs to handle ELF files and DWARF data"
 url="http://elfutils.org/"
@@ -10,7 +10,6 @@ makedepends="bison flex-dev zlib-dev bzip2-dev xz-dev
 	bsd-compat-headers libtool linux-headers"
 subpackages="libelf libelf-static $pkgname-dev $pkgname-doc"
 source="https://sourceware.org/elfutils/ftp/$pkgver/elfutils-$pkgver.tar.bz2
-	error.h
 	fix-aarch64_fregs.patch
 	fix-uninitialized.patch
 	"
@@ -37,9 +36,6 @@ source="https://sourceware.org/elfutils/ftp/$pkgver/elfutils-$pkgver.tar.bz2
 
 prepare() {
 	default_prepare
-
-	cp "$srcdir"/error.h "$builddir"/lib
-	cp "$srcdir"/error.h "$builddir"/src
 
 	cat > lib/libintl.h <<-EOF
 		#ifndef LIBINTL_H
@@ -83,8 +79,7 @@ libelf() {
 }
 
 sha512sums="
-34de0de1355b11740e036e0fc64f2fc063587c8eb121b19216ee5548d3f0f268d8fc3995176c47190466b9d881007cfa11a9d01e9a50e38af6119492bf8bb47f  elfutils-0.185.tar.bz2
-8b650bc78cea66f30f0ff66357005890ac8a1b04a8dcc50209cb10a4b4c5ede849505cb68463beca8316ace0fbd53bbc484cfb597805b55616f3b3fc2b864e9a  error.h
+e22d85f25317a79b36d370347e50284c9120c86f9830f08791b7b6a7b4ad89b9bf4c7c71129133b8d193a0edffb2a2c17987b7e48428b9670aff5ce918777e04  elfutils-0.191.tar.bz2
 c3676b0b8b40d6e437f5d88c0d658dc0829ec97d1955e4bbf96f4cff9ee9001b8f2f06174450ae7aa5858b91c7905bdbd49073b561c346416132338a9c94731b  fix-aarch64_fregs.patch
 b9ba55e1b56a8abf694b6d02f022d9a3a0ae6ab53a8c4a71e49552e32411ef410d3a7512fbd1a729696bc2046ac11586829816f0fa3b8226ee77c9dc4b741e58  fix-uninitialized.patch
 "
