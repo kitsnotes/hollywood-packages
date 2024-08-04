@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=cronie
-pkgver=1.6.1
-pkgrel=1
+pkgver=1.7.2
+pkgrel=0
 pkgdesc="The standard UNIX daemon crond that runs specified programs at scheduled times"
 url="https://github.com/cronie-crond/cronie"
 arch="all"
@@ -10,8 +10,7 @@ license="ISC"
 makedepends="autoconf automake"
 options="suid !check" # No testsuite
 subpackages="$pkgname-doc"
-source="
-	https://github.com/cronie-crond/cronie/releases/download/cronie-$pkgver/cronie-$pkgver.tar.gz
+source="https://github.com/cronie-crond/cronie/releases/download/cronie-$pkgver/cronie-$pkgver.tar.gz
 	cronie.service
 	"
 
@@ -45,6 +44,6 @@ package() {
 }
 
 sha512sums="
-610fb21077fde08f2cf302e26c9b71aa711b8f4ac1e8a4e9f9f70d616d916965673e836f48b79c4b75de4a93ab893f62887263dce214d6e064fc41fcf0f4093d  cronie-1.6.1.tar.gz
+5b55c677a5b812dbfa70f6ee25e41907e99cc63a4883974c6bb8115ad65155d66665704808c338d2f7be6b0a57028c319f2d1115c69bb5f3efdda1efafd144de  cronie-1.7.2.tar.gz
 e4018e60cb2b400d3549df03f4756704d40c6af556ee229bb5f61afc0df3a18e11ee18ab181514e9b4a3a8bb4c120cdbab5b60fab3186cba42e2ccd9bd4eefc3  cronie.service
 "
