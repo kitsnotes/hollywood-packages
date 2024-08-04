@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=clang
 pkgver=18.1.8
-pkgrel=1
+pkgrel=2
 _sover=18.1
 _llvmver=${pkgver%%.*}
 pkgdesc="C language family front-end for LLVM"
@@ -68,6 +68,7 @@ build() {
 		-DCLANG_ENABLE_STATIC_ANALYZER=$extras \
 		-DCLANG_INCLUDE_TESTS="$(want_check && echo ON || echo OFF)" \
 		-DCLANG_LINK_CLANG_DYLIB=ON \
+		-DCLANG_DEFAULT_CXX_STDLIB=libc++ \
 		-DCLANG_PLUGIN_SUPPORT=ON \
 		-DCLANG_PYTHON_BINDINGS_VERSIONS="$python_version" \
 		-DCLANG_SYSTEMZ_DEFAULT_ARCH=z196 \
@@ -106,8 +107,8 @@ package() {
 	depends="
 		$pkgname-headers=$pkgver-r$pkgrel
 		$pkgname-libs=$pkgver-r$pkgrel
-		libstdc++-dev
-		libgcc
+		libc++-dev
+		llvm-libgcc
 		llvm$_llvmver-linker-tools
 		glibc-dev
 		"
