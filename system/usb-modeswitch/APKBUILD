@@ -1,4 +1,4 @@
-# Maintainer: Leonardo Arena <rnalrd@alpinelinux.org>
+system/usb-modeswitch/APKBUILD# Maintainer: Leonardo Arena <rnalrd@alpinelinux.org>
 pkgname=usb-modeswitch
 pkgver=2.6.1
 pkgrel=0
@@ -41,7 +41,7 @@ package() {
 
 udev() {
 	pkgdesc="udev support for usb-modeswitch"
-	depends="eudev tcl $pkgname=$pkgver-r$pkgrel"
+	depends="systemd tcl $pkgname=$pkgver-r$pkgrel"
 	mkdir -p "$subpkgdir"/usr/sbin
 	mv "$pkgdir"/lib "$subpkgdir"/
 	mv "$pkgdir"/usr/sbin/usb_modeswitch_dispatcher \

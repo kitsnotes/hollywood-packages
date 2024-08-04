@@ -13,7 +13,7 @@ replaces="udev"
 makedepends="
 	dbus-dev
 	ell-dev
-	eudev-dev
+	systemd-dev
 	glib-dev
 	json-c-dev
 	libical-dev

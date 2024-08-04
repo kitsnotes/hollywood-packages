@@ -8,7 +8,7 @@ url="https://github.com/Yubico/libfido2"
 arch="all"
 license="BSD-2-Clause"
 install="$pkgname.pre-install"
-makedepends="cmake libcbor-dev openssl-dev>3 zlib-dev eudev-dev linux-headers samurai"
+makedepends="cmake libcbor-dev openssl-dev>3 zlib-dev systemd-dev linux-headers samurai"
 subpackages="$pkgname-dev $pkgname-doc fido2:fido"
 source="$pkgname-$pkgver.tar.gz::https://github.com/Yubico/libfido2/archive/refs/tags/$pkgver.tar.gz"
 

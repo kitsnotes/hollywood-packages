@@ -9,7 +9,7 @@ url="https://doc.qt.io/qt-5/qtgamepad-index.html"
 license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
 arch="all !armhf" # armhf blocked by qt5-qtdeclarative
 depends_dev="
-	eudev-dev
+	systemd-dev
 	qt5-qtdeclarative-dev
 	sdl2-dev
 	"
