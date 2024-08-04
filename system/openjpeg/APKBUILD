@@ -1,7 +1,7 @@
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=openjpeg
-pkgver=2.4.0
-pkgrel=2
+pkgver=2.5.2
+pkgrel=0
 pkgdesc="Open-source implementation of JPEG2000 image codec"
 url="https://www.openjpeg.org/"
 arch="all"
@@ -12,8 +12,6 @@ depends_dev="$pkgname-tools"
 makedepends="libpng-dev tiff-dev lcms2-dev doxygen cmake"
 subpackages="$pkgname-dev $pkgname-tools"
 source="https://github.com/uclouvain/openjpeg/archive/v$pkgver/openjpeg-v$pkgver.tar.gz
-	fix-cmakelists.patch
-	CVE-2021-29338.patch::https://github.com/uclouvain/openjpeg/commit/b4700bc09d55ac17ff6bef9b0a867f6de527be17.patch
 	"
 
 # secfixes:
@@ -71,7 +69,5 @@ tools() {
 }
 
 sha512sums="
-55daab47d33823af94e32e5d345b52c251a5410f0c8e0a13b693f17899eedc8b2bb107489ddcba9ab78ef17dfd7cd80d3c5ec80c1e429189cb041124b67e07a8  openjpeg-v2.4.0.tar.gz
-b50cd382d08647db18f202769aae7df87613a18143a30e360e8f00aba1ec1b7fd0a153685dbea3950bc5623b06c314326777c4fb7aff56adfc6b17bc74c933e5  fix-cmakelists.patch
-94ca747f6655a9b927d50cceb82529c36e0d4ef3f883b76b7f1aacc0784dce5df3cc7ba21ff888077873e0c3029f0ac505f0c741cbe225edb3880790527f5d81  CVE-2021-29338.patch
+24c058b3e0710e689ba7fd6bce8a88353ce64e825b2e5bbf6b00ca3f2a2ec1e9c70a72e0252a5c89d10c537cf84d55af54bf2f16c58ca01db98c2018cf132e1a  openjpeg-v2.5.2.tar.gz
 "
