@@ -1,8 +1,6 @@
-# Contributor: Sergei Lukin <sergej.lukin@gmail.com>
-# Contributor: Leonardo Arena <rnalrd@alpinelinux.org>
-# Maintainer: Michael Mason <ms13sp@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=tiff
-pkgver=4.3.0
+pkgver=4.6.0t
 pkgrel=0
 pkgdesc="Provides support for the Tag Image File Format or TIFF"
 url="https://gitlab.com/libtiff/libtiff"
@@ -12,8 +10,7 @@ depends_dev="zlib-dev libjpeg-turbo-dev libwebp-dev xz-dev zstd-dev"
 makedepends="libtool autoconf automake $depends_dev"
 checkdepends="diffutils"
 subpackages="$pkgname-doc $pkgname-dev $pkgname-tools libtiffxx:_libtiffxx"
-source="https://gitlab.com/libtiff/libtiff/-/archive/v$pkgver/libtiff-v$pkgver.tar.gz
-	CVE-2018-12900.patch
+source="http://www.libtiff.org/downloads/tiff-$pkgver.tar.gz
 	"
 builddir="$srcdir/libtiff-v$pkgver"
 
@@ -106,6 +103,5 @@ tools() {
 }
 
 sha512sums="
-eaa2503dc1805283e0590b06e3e660a793fe849ae8b975b2d69369695d65a40640787c156574faaca856917be799eeb844e60f55555e1f219dd513cef66ea95d  libtiff-v4.3.0.tar.gz
-c321f1d4e5d334cdb3b0800299e8165055c040c0c030220769ccfdadcc7fd35a0f3231115f44dc86fe5e34f32eafe1074aa85495a744717f8fc10c0cab2ab085  CVE-2018-12900.patch
+bd877b4311d58692e46d77731bdc1cf701b7486b4dbc4d1e77c1e27fbe356bfaf2655cfc44020c92f6cfbc269ccd17722ee9f8785bf367624f227a85b6a298b0  tiff-4.6.0t.tar.gz
 "
