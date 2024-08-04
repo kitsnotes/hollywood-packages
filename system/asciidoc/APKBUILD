@@ -1,3 +1,4 @@
+system/asciidoc/APKBUILD
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=asciidoc
 pkgver=10.2.1
@@ -15,11 +16,6 @@ source="https://github.com/asciidoc-py/asciidoc-py/releases/download/$pkgver/asc
 builddir="$srcdir/asciidoc-py-$pkgver"
 
 replaces="$pkgname-vim"
-
-prepare() {
-	default_prepare
-	autoreconf -fi
-}
 
 build() {
 	./configure \
