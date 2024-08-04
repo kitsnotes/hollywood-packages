@@ -1,7 +1,7 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=wayland
-pkgver=1.22.0
+pkgver=1.23.0
 pkgrel=0
 pkgdesc="A computer display server protocol"
 url="https://wayland.freedesktop.org"
@@ -13,7 +13,6 @@ makedepends="$depends_dev libxml2-dev meson"
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-libs-client:_libs $pkgname-libs-egl:_libs
 	$pkgname-libs-cursor:_libs $pkgname-libs-server:_libs"
 source="https://gitlab.freedesktop.org/wayland/wayland/-/releases/$pkgver/downloads/wayland-$pkgver.tar.xz
-	tests-ignore-debugger.patch
 	"
 
 build() {
@@ -51,6 +50,5 @@ _libs() {
 }
 
 sha512sums="
-fb1974efc8433e97254eb83fe28974198f2b4d8246418eb3d34ce657055461e0c97bc06dd52e5066ae91bbe05bac611dc49a0937ba226ac6388d5a47241efb12  wayland-1.22.0.tar.xz
-0f65a55265e9134ab08cabf67f9d1919c85c4cb6b69129e78bc6c50057cafcaf143007716a0fa73b2eb43d6b605944c320a12a36dbb5f15fcd2f5e770248c480  tests-ignore-debugger.patch
+9c525231a7ea3e68d3178230d476285a960d23e38571ac96d885f86c0588c52ef01460bff6833db5adb9456ce8db7b996613611187aac972736748ba91b8fd81  wayland-1.23.0.tar.xz
 "
