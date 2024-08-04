@@ -1,8 +1,6 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Contributor: Christian Kampka <christian@kampka.net>
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=po4a
-pkgver=0.65
+pkgver=0.73
 pkgrel=0
 pkgdesc="Tools for helping translation of documentation"
 url="https://po4a.org"
@@ -12,7 +10,7 @@ options="!check" # test_requires missing: SGMLS and Unicode::GCString
 depends="gettext perl perl-pod-parser"
 makedepends="diffutils docbook-xsl perl-module-build"
 subpackages="$pkgname-doc"
-source="$pkgname-$pkgver.tar.gz::https://github.com/mquinson/po4a/archive/v$pkgver.tar.gz"
+source="https://github.com/mquinson/po4a/releases/download/v$pkgver/po4a-$pkgver.tar.gz"
 
 build() {
 	perl Build.PL installdirs=vendor create_packlist=0
@@ -30,5 +28,5 @@ package() {
 }
 
 sha512sums="
-dd47493f29f26199c4f66b6fa3f5f7adb9e1ef5a5b92d7883a1e15f6e0c61a15c8828467dbbc99b5b2bff2865b4ac23f425255ceb9da8a8d158be6cb438d7308  po4a-0.65.tar.gz
+5860af1da2a0ab1875a994b09ae2da481c12a6777655610e8c8ded4a6132048a33aeea10eaa756a73af1a7bf1e3e65f7ab5ded9d799904ae3240c6ec3b0a31d2  po4a-0.73.tar.gz
 "
