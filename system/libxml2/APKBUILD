@@ -7,7 +7,7 @@ url="https://gitlab.gnome.org/GNOME/libxml2"
 arch="all"
 license="MIT"
 depends_dev="zlib-dev xz-dev $pkgname-utils=$pkgver-r$pkgrel"
-checkdepends="perl tar"
+checkdepends="perl gnutar"
 makedepends_host="$depends_dev"
 subpackages="$pkgname-dbg $pkgname-doc $pkgname-static $pkgname-dev $pkgname-utils"
 if [ -z "$BOOTSTRAP" ]; then
