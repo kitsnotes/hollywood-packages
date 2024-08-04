@@ -9,7 +9,6 @@ license="MIT"
 makedepends="bash"
 subpackages="$pkgname-dev"
 source="$pkgname-$pkgver.tar.gz::https://github.com/ndevilla/iniparser/archive/v$pkgver.tar.gz
-	CVE-2023-33461.patch
 	"
 
 # secfixes:
@@ -34,5 +33,4 @@ package() {
 
 sha512sums="
 5cc95e5f1541de9530d71704fba1a74fc5f764f9a92c991309c7f4659dd68a4f25bde3351356d5c8f2c664d2b91cfdafa81ebaef93a82205e099b0d1c745077d  iniparser-4.2.1.tar.gz
-d2becc2fdbe5a57c7bdd05c61ba4f5a199c43fac55cd98c9b54e11ca06d74d5c592e7fea86c634c91db92c74fa3ec95abad379ff4caa4c79449198528d5b6e48  CVE-2023-33461.patch
 "
