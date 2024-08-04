@@ -1,6 +1,6 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=asciidoc
-pkgver=9.1.1
+pkgver=10.2.1
 pkgrel=0
 pkgdesc="Text based documentation"
 url="https://asciidoc.org/"
@@ -11,7 +11,7 @@ makedepends="autoconf automake"
 subpackages="$pkgname-doc"
 # There is a upstream-created tarball but it has depth=1 which unpacks
 # everything into $srcdir instead of $srcdir/$pkgname-$pkgver
-source="$pkgname-$pkgver.tar.gz::https://github.com/asciidoc/asciidoc-py3/archive/$pkgver.tar.gz"
+source="https://github.com/asciidoc-py/asciidoc-py/releases/download/$pkgver/asciidoc-$pkgver.tar.gz"
 builddir="$srcdir/asciidoc-py-$pkgver"
 
 replaces="$pkgname-vim"
@@ -41,5 +41,5 @@ package() {
 }
 
 sha512sums="
-444de69e3b87af984327873d5be1162157db5f7fb353e1fbbd24b4938ce0238fd474a67c9d3461fb7b069e7b029c63fbaf1ba8dd9cf7b91fbfa81e5429db404c  asciidoc-9.1.1.tar.gz
+02d064aab8dfb05af4ae49a7c7bd1381156c6c90f95b2494218c80f01c39987cb971d68c533b5519abade77be9832b3fab653d8ae2ca7bb682c5bb720612839f  asciidoc-10.2.1.tar.gz
 "
