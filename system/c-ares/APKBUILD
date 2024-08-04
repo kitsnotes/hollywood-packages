@@ -1,7 +1,6 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=c-ares
-pkgver=1.18.1
+pkgver=1.33.0
 pkgrel=0
 pkgdesc="An asynchronously DNS/names resolver library"
 url="https://c-ares.haxx.se/"
@@ -9,7 +8,7 @@ arch="all"
 options="!check"
 license="MIT"
 subpackages="$pkgname-doc $pkgname-static $pkgname-dev"
-source="https://c-ares.haxx.se/download/c-ares-$pkgver.tar.gz"
+source="https://github.com/c-ares/c-ares/releases/download/v$pkgver/c-ares-$pkgver.tar.gz"
 
 # secfixes:
 #   1.17.2-r0:
@@ -41,5 +40,5 @@ package() {
 }
 
 sha512sums="
-1276ec0799916019f8c0af6b55a139701bd15e0ca4a00811d07963893978bc96c107b980f0fd49f81aa70bc8b3b8cd671195ba357c390772d4c2c5643c50c5a5  c-ares-1.18.1.tar.gz
+3cf1b94d6e8e53742703a679d7e35d3f985320720f41fa58189a0bcad4aca80405c73c4689abe7879df292dbe8f3ddca34b2d48429af5afcc9d2933edb075788  c-ares-1.33.0.tar.gz
 "
