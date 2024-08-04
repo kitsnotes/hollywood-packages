@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=iso-codes
-pkgver=4.15.0
+pkgver=4.16.0
 pkgrel=0
 pkgdesc="ISO codes and their translations"
 url="https://salsa.debian.org/iso-codes-team/iso-codes"
@@ -28,5 +28,5 @@ package() {
 }
 
 sha512sums="
-fd1bf4bfec8e29786388cf81a81328e880431cf68a9d56733c231bc1ad81b3cf39464f0c43f6e171dc4d0dcf6303711fd67cae6a0f878e5eafebe0c202b3f651  iso-codes-v4.15.0.tar.bz2
+9d8b9243f13886809f0bbbde47a568f00e14c82ce8f0c79fdf656cdfbd45afa67aca23d501fa79a982d535b97bb32c6ad3d3e44343c13aae61c4917144690cb5  iso-codes-v4.16.0.tar.bz2
 "
