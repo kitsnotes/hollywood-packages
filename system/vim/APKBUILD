@@ -9,7 +9,7 @@ license="Vim"
 options="!check"  # some tests are failing
 depends="xxd"
 makedepends="ncurses-dev python3-dev"
-subpackages="$pkgname-doc ${pkgname}diff::noarch $pkgname-tutor xxd"
+subpackages="$pkgname-doc ${pkgname}diff::noarch xxd"
 source="$pkgname-$pkgver.tar.gz::https://github.com/vim/vim/archive/refs/tags/v$pkgver.tar.gz
 	vimrc
 	"
@@ -75,17 +75,6 @@ vimdiff() {
 
 	install -d "$subpkgdir"/usr/bin
 	mv "$pkgdir"/usr/bin/vimdiff "$subpkgdir"/usr/bin
-}
-
-tutor() {
-	pkgdesc="vim tutor and tutor files"
-	depends="vim"
-	options="!tracedeps"
-
-	install -d "$subpkgdir"/usr/bin
-	install -d "$subpkgdir"/usr/share/vim/vim82/tutor
-	mv "$pkgdir"/usr/bin/vimtutor "$subpkgdir"/usr/bin
-	mv "$pkgdir"/usr/share/vim/vim82/tutor "$subpkgdir"/usr/share/vim/vim82/
 }
 
 xxd() {
