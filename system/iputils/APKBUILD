@@ -16,13 +16,11 @@ options="suid !check"
 
 build() {
 	abuild-meson \
-		-DNO_SETCAP_OR_SUID=true \
-		-DBUILD_RARPD=true \
-		-DBUILD_TFTPD=true \
-		-DBUILD_TRACEROUTE6=true \
-		-DBUILD_MANS=false \
-		-DUSE_IDN=false \
-		-DUSE_GETTEXT=false \
+                -Db_lto=true \
+                -DNO_SETCAP_OR_SUID=true \
+                -DBUILD_MANS=false \
+                -DUSE_IDN=false \
+                -DUSE_GETTEXT=false \
 		"build"
 	ninja -C "build"
 }
