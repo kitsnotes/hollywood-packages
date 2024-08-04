@@ -1,9 +1,7 @@
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
-# Contributor: Valery Kartel <valery.kartel@gmail.com>
-# Maintainer: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=gettext
-pkgver=0.21
-pkgrel=7
+pkgver=0.22.5
+pkgrel=0
 pkgdesc="GNU locale utilities"
 url="https://www.gnu.org/software/gettext/gettext.html"
 arch="all"
@@ -69,5 +67,5 @@ asprintf() {
 }
 
 sha512sums="
-f7e2968651879f8444d43a176a149db9f9411f4a03132a7f3b37c2ed97e3978ae6888169c995c1953cb78943b6e3573811abcbb8661b6631edbbe067b2699ddf  gettext-0.21.tar.xz
+a60999bb9d09441f138214d87acb7e59aab81e765bb9253a77c54902681c5de164a5a04de2a9778dfb479dbdefaab2d5de1fbaf6095c555c43e7e9fd7a1c09bd  gettext-0.22.5.tar.xz
 "
