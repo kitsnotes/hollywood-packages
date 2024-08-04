@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=kbd
-pkgver=2.4.0
-pkgrel=2
+pkgver=2.6.4
+pkgrel=0
 pkgdesc="Tools for configuring the console (keyboard, virtual terminals, etc.)"
 url="http://kbd-project.org/"
 arch="all"
@@ -12,20 +12,13 @@ makedepends="linux-headers linux-pam-dev check-dev ckbcomp xkeyboard-config
 subpackages="$pkgname-bkeymaps::noarch $pkgname-legacy::noarch
 	$pkgname-misc::noarch $pkgname-doc $pkgname-vlock"
 source="https://www.kernel.org/pub/linux/utils/kbd/kbd-$pkgver.tar.gz
-
-	error.h
+	fix-double-kbdfile-open.patch
 	"
 
 _datadir=/usr/share
 _xmapdir="$_datadir"/keymaps/xkb
 _bmapdir="$_datadir"/bkeymaps
 _badmaps="pk-ara"
-
-prepare() {
-	default_prepare
-
-	cp "$srcdir"/error.h "$builddir"
-}
 
 build() {
 	./configure \
@@ -40,8 +33,6 @@ build() {
 }
 
 check() {
-	# dumpkeys-bkeymap fails
-	[ "$CARCH" = s390x ] && return 0
 	make check
 }
 
@@ -162,5 +153,6 @@ misc() {
 	done
 }
 
-sha512sums="7d63003d5d51c65863417f2f48f5298b6ab29715d477e04948973013809f42e89ce94bfc2ebf9590869e0fcde9fe47b45888f37ab0bbd7e9255d9721d91285b1  kbd-2.4.0.tar.gz
-c66f6b0d8c8b8d285c740bdbe7130dee272ac01cd5e73b35a58cedf1a77fe8d9e062631b804fb58014d8eb9861c8f28aed07bc022ef31662bcc61b5c85a21752  error.h"
+sha512sums="
+2bde7a271392f0ac81966af46c4b3568c9e777550fd0b0d1627db158f0b24b8a67f3c0cca84de9b33d43ac8cbb730c1610212c3da071add3559abe6c4397272f  kbd-2.6.4.tar.gz
+97bb96d9f943c0b1e6e8ec5f5d98db0c4e07a68127ca1acd4f1f2812a0a72fb7a8daa0d54d847e1359ecb22e9ca4e4148b0e4448504d840794b87e3b9d8c5310  fix-double-kbdfile-open.patch"
