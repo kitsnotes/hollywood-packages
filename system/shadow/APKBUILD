@@ -1,8 +1,7 @@
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
-# Maintainer: Stuart Cardall <developer@it-offshore.co.uk>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=shadow
-pkgver=4.10
-pkgrel=3
+pkgver=4.16.0
+pkgrel=0
 pkgdesc="PAM-using login and passwd utilities (usermod, useradd, ...)"
 url="https://github.com/shadow-maint/shadow"
 arch="all"
@@ -20,15 +19,7 @@ subpackages="
 	$pkgname-conv
 	$pkgname-subids
 	"
-source="https://github.com/shadow-maint/shadow/releases/download/v$pkgver/shadow-$pkgver.tar.xz
-	useradd-defaults.patch
-	chkname-allow-dots-in-username.patch
-
-	handle-null-time.patch
-	passwd-long-entry.patch
-	sysugid-min-limit.patch
-	usermod-move-home-errmsg.patch
-
+source="https://github.com/shadow-maint/shadow/releases/download/$pkgver/shadow-$pkgver.tar.xz
 	chpasswd.pamd
 	login.pamd
 	useradd.pamd
@@ -167,7 +158,7 @@ subids() {
 }
 
 sha512sums="
-39ffc1863d1f84aa39a2983c08e5adb93642b09e3e5e65c1c4e8a342207a79201b199e518e3701726014c7cb736977ef275d2dc1c659b5776183ae73978357da  shadow-4.10.tar.xz
+3986572c74cce013c733c592ef5a8113e69bba8fee74fb697fe8206bd616d29553e42822e663478db81b3e17b26b403bc69b3492dd981b87643b0e1c55035ecf  shadow-4.16.0.tar.xz
 fa2e639b558b504f664dfb55c9081ae51d5adfd512263a392ea0b21b5d4c7efe5456e9a13f8c4c27d32f3bbf68339f8a77ba6ad09f22e16681c144e1f6bb3034  useradd-defaults.patch
 ed9174e102594a74ab4399ae68a68a89393bfde6244f04852d382ad5a57d50f2b1a532ca3a51e6e0ce10499b29433811b6d79cdb46404e6d5f6cca7c663e1f11  chkname-allow-dots-in-username.patch
 4b76dac613ef36c227205bf628ea6809c4383c3e0316ecf75d678df727af6df6b59f62061722c9c840535826f67b7156e681eb00ac1deeb06d10f29dd42bbc14  handle-null-time.patch
