@@ -15,12 +15,6 @@ subpackages="$pkgname-dbg $pkgname-dev $pkgname-doc"
 source="https://github.com/libffi/libffi/releases/download/v$pkgver/libffi-$pkgver.tar.gz
 	"
 
-prepare() {
-	default_prepare
-	update_config_sub
-	./autogen.sh
-}
-
 build() {
 	./configure \
 		--build=$CBUILD \
