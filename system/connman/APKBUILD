@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=connman
-pkgver=1.41
-pkgrel=3
+pkgver=1.42
+pkgrel=0
 pkgdesc="Daemon for managing internet connections"
 url="https://git.kernel.org/pub/scm/network/connman/connman.git"
 arch="all"
@@ -151,6 +151,6 @@ wireguard() {
 }
 
 sha512sums="
-b7880d908635ab9350c12e207213d20b11c1a50afcb93ae92e1fc57d4345bf792afe1a5534650e18b8cd05a3766ce9993083b2d659e49f87b867e6f2c1a83b2d  connman-1.41.tar.xz
+d919080b91fb61806c0e948be14e26bfe5d2501865f76b2e2dddd4cef8c46c0f7aa26406ed938b347889e48adc726e53bbb415bf9c280f9310597045da784ace  connman-1.42.tar.xz
 0223dba51be67c131c297d0e865fe1276e4800be5eee25c4f142df8e651318bf5dae98c1d559bb70c002cdfc3ce3c24d12128ddca5656192f962d91af6906caa  dbus-rules.patch
 "
