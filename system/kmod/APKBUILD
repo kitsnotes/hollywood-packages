@@ -39,9 +39,6 @@ package() {
 	for i in lsmod rmmod insmod modinfo modprobe depmod; do
 		ln -sf /usr/bin/kmod "$pkgdir"/usr/sbin/$i
 	done
-	for i in lsmod modinfo; do
-		ln -s kmod "$pkgdir"/usr/bin/$i
-	done
 }
 
 libs() {
