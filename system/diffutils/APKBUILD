@@ -1,6 +1,6 @@
-# Maintainer: Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=diffutils
-pkgver=3.8
+pkgver=3.10
 pkgrel=0
 pkgdesc="Show differences among files"
 subpackages="$pkgname-doc"
@@ -12,7 +12,6 @@ checkdepends="coreutils perl"
 # m4 -> diffutils -> coreutils -> bash -> flex -> bison -> m4
 [ -n "$BOOTSTRAP" ] && options="$options !check"
 source="https://ftp.gnu.org/pub/gnu/$pkgname/$pkgname-$pkgver.tar.xz
-	skip-test-presue-output-tty.patch
 	"
 
 builddir=$srcdir/$pkgname-$pkgver
@@ -35,6 +34,5 @@ package() {
 }
 
 sha512sums="
-279441270987e70d5ecfaf84b6285a4866929c43ec877e50f154a788858d548a8a316f2fc26ad62f7348c8d289cb29a09d06dfadce1806e3d8b4ea88c8b1aa7c  diffutils-3.8.tar.xz
-5df0dc7a452180c361698ee502b4636a5e7277132e543136c205747fac64acc6276186ec8c884b17e9fe3e307f15e045ba327d44ac4662db88675c309c56367a  skip-test-presue-output-tty.patch
+219d2c815a120690c6589846271e43aee5c96c61a7ee4abbef97dfcdb3d6416652ed494b417de0ab6688c4322540d48be63b5e617beb6d20530b5d55d723ccbb  diffutils-3.10.tar.xz
 "
