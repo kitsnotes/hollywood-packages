@@ -1,7 +1,6 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libjpeg-turbo
-pkgver=2.1.2
+pkgver=3.0.3
 pkgrel=0
 pkgdesc="Accelerated baseline JPEG compression and decompression library"
 url="https://libjpeg-turbo.org/"
@@ -10,10 +9,7 @@ license="BSD-3-Clause IJG Zlib"
 makedepends="cmake nasm"
 replaces="libjpeg"
 subpackages="$pkgname-static $pkgname-doc $pkgname-dev $pkgname-utils"
-source="https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-$pkgver.tar.gz"
-
-# Some tests broken on mips64.
-[ "$CARCH" = "mips64" ] && options="!check"
+source="https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/$pkgver/libjpeg-turbo-$pkgver.tar.gz"
 
 # secfixes:
 #   2.1.0-r0:
@@ -80,5 +76,5 @@ dev() {
 }
 
 sha512sums="
-f0377b58d00310b2e644da31f807ac6c3425823f362ea88bcbed32991dddbea4e7a478676a7c1c4874a34bc578f262bf1d32c925e2f14fa517a50fd911ba8dd5  libjpeg-turbo-2.1.2.tar.gz
+7c3a6660e7a54527eaa40929f5cc3d519842ffb7e961c32630ae7232b71ecaa19e89dbf5600c61038f0c5db289b607c2316fe9b6b03d482d770bcac29288d129  libjpeg-turbo-3.0.3.tar.gz
 "
