@@ -1,6 +1,6 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=iputils
-pkgver=20210722
+pkgver=20240117
 pkgrel=0
 pkgdesc="IP Configuration Utilities (and Ping)"
 options="!check suid"
@@ -9,7 +9,10 @@ arch="all"
 license="BSD-3-Clause AND GPL-2.0-or-later AND MIT"
 makedepends="libcap-dev meson"
 replaces="bbsuid"
-source="$pkgname-$pkgver.tar.gz::https://github.com/iputils/iputils/archive/$pkgver.tar.gz"
+source="iputils-$pkgver.tar.xz::https://github.com/iputils/iputils/releases/download/$pkgver/iputils-$pkgver.tar.xz"
+# checks need suid/setcap'd binaries
+# ping is suid
+options="suid !check"
 
 build() {
 	abuild-meson \
@@ -42,5 +45,5 @@ package() {
 }
 
 sha512sums="
-8f85bf468f8ef1e2832e9bbf9009552df4a6d723dd130fa0d5b2aa3bae617c972f936143c2370c3b4ce2ba2499828c91a299ee42cf81fa81aabe10552db2b328  iputils-20210722.tar.gz
+c45822c5641f194dc07cba919c13a4b7a79d050bb53957a894ebb6ccc1f71bac1f26489e13d18ef1ce235982f5fa1824e677f95037a0f5cce6bcb94be4c2e2de  iputils-20240117.tar.xz
 "
