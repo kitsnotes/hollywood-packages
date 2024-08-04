@@ -7,7 +7,7 @@ url="http://www.freedesktop.org/wiki/Software/Plymouth"
 arch="all"
 license="GPL-2.0-or-later"
 depends_dev="
-	eudev-dev
+	systemd-dev
 	libdrm-dev
 	libpng-dev
 	pango-dev
