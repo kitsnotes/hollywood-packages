@@ -1,7 +1,6 @@
-# Contributor: Fernando Casas Schossow <casasfernando@outlook.com>
-# Maintainer: Fernando Casas Schossow <casasfernando@outlook.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=virglrenderer
-pkgver=0.9.1
+pkgver=1.0.1
 pkgrel=0
 pkgdesc="A virtual 3D GPU library, that allows the guest operating system to use the host GPU to accelerate 3D rendering"
 url="https://virgil3d.github.io/"
@@ -36,5 +35,5 @@ check() {
 }
 
 sha512sums="
-4edba82c83a6183871f74f365d55af88935edf9abad97c1617c569f21a16b008481364f50491dfbc7ed89832a6b618fce98d182f84cc1cbab9d2c7443a2ae936  virglrenderer-virglrenderer-0.9.1.tar.gz
+9f3b29f06c6359ac385c199fa186e004b2d32fbb50e9ad01ffd16aaf076ac6d6bf93cf5c938ad76505c80cda8b644342a9f6703e493860ee962d67f413966714  virglrenderer-virglrenderer-1.0.1.tar.gz
 "
