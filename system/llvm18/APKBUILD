@@ -4,12 +4,12 @@ pkgver=18.1.8
 _majorver=${pkgver%%.*}
 _prevmajorver=$((_majorver - 1))
 pkgname=$_pkgname$_majorver
-pkgrel=0
+pkgrel=1
 pkgdesc="Low Level Virtual Machine compiler system, version $_majorver"
 arch="all"
 url="https://llvm.org/"
 license="Apache-2.0"
-depends_dev="$pkgname=$pkgver-r$pkgrel libffi-dev zlib-dev zstd-dev"
+depends_dev="$pkgname=$pkgver-r$pkgrel libffi-dev zlib-dev zstd-dev libc++-dev"
 # See https://gitlab.alpinelinux.org/alpine/aports/-/commit/51d2fba931fb2ef0046dea19405a9290c8735051#note_234651
 [ -z "$BOOTSTRAP" ] && depends_dev="$depends_dev $pkgname-test-utils=$pkgver-r$pkgrel"
 makedepends_host="$depends_dev binutils-dev libxml2-dev"
@@ -136,7 +136,7 @@ build() {
 		-DLLVM_ENABLE_DUMP=ON \
 		-DLLVM_ENABLE_EH=ON \
 		-DLLVM_ENABLE_FFI=ON \
-		-DLLVM_ENABLE_LIBCXX=OFF \
+		-DLLVM_ENABLE_LIBCXX=ON \
 		-DLLVM_ENABLE_LIBEDIT=OFF \
 		-DLLVM_ENABLE_PIC=ON \
 		-DLLVM_ENABLE_RTTI=ON \
