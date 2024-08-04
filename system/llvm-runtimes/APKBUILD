@@ -3,7 +3,7 @@ pkgname=llvm-runtimes
 # Note: Update together with llvm.
 pkgver=18.1.8
 _llvmver=${pkgver%%.*}
-pkgrel=7
+pkgrel=8
 pkgdesc="LLVM Runtimes"
 url="https://llvm.org/"
 arch="all"
@@ -110,6 +110,12 @@ libgcc() {
 	amove usr/lib/libgcc*s*
 	amove usr/lib/libgcc_eh.a
 	ln -s /usr/lib/llvm18/lib/clang/18/lib/linux/libclang_rt.builtins-$CARCH.a "$subpkgdir"/usr/lib/libgcc.a
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbeginT.o
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbeginS.o
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbegin.o
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtendT.o
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtendS.o
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtend.o
 }
 
 libcxx_static() {
