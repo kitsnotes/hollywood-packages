@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=v4l-utils
-pkgver=1.22.1
-pkgrel=2
+pkgver=1.26.1
+pkgrel=0
 pkgdesc="Userspace tools and conversion library for Video 4 Linux"
 url="https://linuxtv.org/"
 arch="all"
@@ -9,7 +9,7 @@ license="LGPL-2.0-or-later"
 makedepends="qt5-qtbase-dev libjpeg-turbo-dev linux-headers
 	eudev-dev alsa-lib-dev"
 subpackages="$pkgname-dev $pkgname-doc qv4l2 $pkgname-dvbv5 $pkgname-libs"
-source="https://linuxtv.org/downloads/v4l-utils/v4l-utils-$pkgver.tar.bz2
+source="https://linuxtv.org/downloads/v4l-utils/v4l-utils-$pkgver.tar.xz
 	"
 
 case "$CARCH" in
@@ -78,5 +78,5 @@ libs() {
 }
 
 sha512sums="
-8a634d8995d13f453dfaf90ca5d0dfb26f2f4b10a0d200d76a949c46f77040d12fc0a5b35e05d7b1ba68bcfc85a445be5a5ab1d4a7d4eabfe3a254038ccc6170  v4l-utils-1.22.1.tar.bz2
+a3b12b311977afec410db8b430696e923a24e04f003a5891cc77ddeb667d0b98666a06d31a439c95ce57d9e9c9c2593c5e9dd9e7cf2be002adb95db5b8f00ac8  v4l-utils-1.26.1.tar.xz
 "
