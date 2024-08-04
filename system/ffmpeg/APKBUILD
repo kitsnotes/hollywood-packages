@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=ffmpeg
-pkgver=6.0
+pkgver=6.1.1
 pkgrel=0
 pkgdesc="Complete and free Internet live audio and video broadcasting solution for Linux/Unix"
 url="https://ffmpeg.org/"
@@ -230,5 +230,5 @@ libs() {
 }
 
 sha512sums="
-4d0e8f635d5a1633710f30cb3e0a854b6ca3bf85e33a289d1ec7aca2ad55dc4910010bc9cf3f13eee9f6decb9d50a0df6d7aa5a342f308c3868d2730f3a6b980  ffmpeg-6.0.tar.xz
+fca3f8635f29182e3ae0fe843a8a53614e4b47e22c11508df3ff7cdbafbb4b5ee0d82d9b3332871f7c1032033b1cad2f67557d7c5f7f7d85e2adadca122965d5  ffmpeg-6.1.1.tar.xz
 "
