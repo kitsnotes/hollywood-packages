@@ -58,6 +58,8 @@ build() {
 		-DCOMPILER_RT_BUILD_SANITIZERS=$_build_sanitizers \
 		-DCOMPILER_RT_INSTALL_PATH="/usr/lib/llvm$_llvmver/lib/clang/$_llvmver" \
 		-DCOMPILER_RT_BUILD_GWP_ASAN=OFF \
+		-DLLVM_ENABLE_LIBCXX=ON \
+		-DCLANG_DEFAULT_CXX_STDLIB=libc++ \
 		-DLIBCXXABI_USE_LLVM_UNWINDER=OFF \
 		-DCMAKE_VERBOSE_MAKEFILE=ON \
 		$crossopts

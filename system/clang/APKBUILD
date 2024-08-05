@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=clang
 pkgver=18.1.8
-pkgrel=2
+pkgrel=3
 _sover=18.1
 _llvmver=${pkgver%%.*}
 pkgdesc="C language family front-end for LLVM"
@@ -70,6 +70,7 @@ build() {
 		-DCLANG_LINK_CLANG_DYLIB=ON \
 		-DCLANG_DEFAULT_CXX_STDLIB=libc++ \
 		-DCLANG_PLUGIN_SUPPORT=ON \
+	        -DLLVM_HOST_TRIPLE=$CARCH-originull-linux-gnu \
 		-DCLANG_PYTHON_BINDINGS_VERSIONS="$python_version" \
 		-DCLANG_SYSTEMZ_DEFAULT_ARCH=z196 \
 		-DCLANG_VENDOR=Originull \
@@ -140,6 +141,7 @@ package() {
 
 	DESTDIR="$pkgdir" cmake --install build
 	mkdir -p "$pkgdir"/usr/bin
+	mkdir -p "$pkgdir"/usr/lib
 
 	install -Dm644 build/lib/libclang.a -t "$pkgdir"/usr/lib/llvm$_llvmver/lib/
 
@@ -218,6 +220,10 @@ package() {
 		ln -sfv ../lib/llvm$_llvmver/bin/clang-$_llvmver "$pkgdir"/usr/bin/clang++-$_llvmver
 
 		install -Dm644 "$builddir"/clang.1 -t "$pkgdir"/usr/share/man/man1/
+
+		ln -svf /usr/bin/clang "$pkgdir"/usr/bin/gcc
+		ln -svf /usr/bin/clang++ "$pkgdir"/usr/bin/g++
+		ln -svf /usr/bin/clang "$pkgdir"/usr/lib/cpp
 	else
 		ln -sfv ../lib/llvm$_llvmver/bin/clang-$_llvmver "$pkgdir"/usr/bin/clang-$_llvmver
 		ln -sfv ../lib/llvm$_llvmver/bin/clang-$_llvmver "$pkgdir"/usr/bin/clang++-$_llvmver

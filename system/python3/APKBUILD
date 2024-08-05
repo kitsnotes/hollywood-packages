@@ -4,7 +4,7 @@ pkgname=python3
 pkgver=3.11.6
 _bluez_ver=5.68
 _basever="${pkgver%.*}"
-pkgrel=1
+pkgrel=2
 pkgdesc="A high-level scripting language"
 url="https://www.python.org/"
 arch="all"
@@ -27,7 +27,6 @@ makedepends="
 	libffi-dev
 	libtool
 	linux-headers
-	mpdecimal-dev
 	ncurses-dev
 	openssl-dev>3
 	readline-dev
@@ -100,7 +99,6 @@ build() {
 		--with-dbmliborder=gdbm:ndbm \
 		--with-system-expat \
 		--with-system-ffi \
-		--with-system-libmpdec \
 		--without-ensurepip \
 		--with-bluetoothdir="$srcdir/bluez-$_bluez_ver"
 

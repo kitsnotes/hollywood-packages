@@ -1,7 +1,7 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=gperf
 pkgver=3.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Perfect hash function generator."
 url="https://www.gnu.org/software/gperf/"
 arch="all"
@@ -9,7 +9,8 @@ license="GPL-3.0+"
 subpackages="$pkgname-doc"
 depends=
 makedepends=
-source="https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz"
+source="https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz
+	no-register.patch"
 
 build ()
 {
@@ -30,4 +31,5 @@ package() {
 	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="855ebce5ff36753238a44f14c95be7afdc3990b085960345ca2caf1a2db884f7db74d406ce9eec2f4a52abb8a063d4ed000a36b317c9a353ef4e25e2cca9a3f4  gperf-3.1.tar.gz"
+sha512sums="855ebce5ff36753238a44f14c95be7afdc3990b085960345ca2caf1a2db884f7db74d406ce9eec2f4a52abb8a063d4ed000a36b317c9a353ef4e25e2cca9a3f4  gperf-3.1.tar.gz
+c6726c1930a76f11942433af1d556e2f75f860912050b8d5f53c7cc6f3165371a99a5cc093bd0ffcf3bf2322fcc6dccf84276cd41185dea88a98e126c980c856  no-register.patch"

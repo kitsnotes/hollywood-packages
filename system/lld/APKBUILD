@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=lld
 pkgver=18.1.8
-pkgrel=0
+pkgrel=1
 _llvmver=${pkgver%%.*}
 pkgdesc="The LLVM Linker"
 url="https://llvm.org/"
@@ -23,7 +23,6 @@ makedepends="
 	llvm-libunwind-dev
 	patchelf
 	samurai
-	scudo-malloc
 	zlib-dev
 	"
 checkdepends="gtest-dev bash llvm$_llvmver-test-utils"

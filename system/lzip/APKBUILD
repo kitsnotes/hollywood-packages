@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=lzip
 pkgver=1.24.1
-pkgrel=0
+pkgrel=1
 pkgdesc="Lzip is a lossless data compressor"
 url="https://nongnu.org/lzip/"
 arch="all"

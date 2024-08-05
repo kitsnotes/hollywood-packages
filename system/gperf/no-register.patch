@@ -1,0 +1,12 @@
+diff -Naur gperf-3.1-orig/lib/getline.cc gperf-3.1/lib/getline.cc
+--- gperf-3.1-orig/lib/getline.cc	2024-08-05 00:37:04.419600311 +0000
++++ gperf-3.1/lib/getline.cc	2024-08-05 00:37:28.059469453 +0000
+@@ -55,7 +55,7 @@
+ 
+   for (;;)
+     {
+-      register int c = getc (stream);
++      int c = getc (stream);
+ 
+       /* We always want at least one char left in the buffer, since we
+          always (unless we get an error while reading the first char)
