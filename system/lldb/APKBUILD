@@ -1,0 +1,107 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=lldb
+# Note: Update together with llvm.
+pkgver=18.1.8
+pkgrel=0
+_llvmver=${pkgver%%.*}
+pkgdesc="Next generation, high-performance debugger"
+arch="all"
+url="https://llvm.org/"
+license="Apache-2.0"
+depends_dev="$pkgname=$pkgver-r$pkgrel"
+makedepends="
+	clang$_llvmver-dev
+	clang$_llvmver-static
+	cmake
+	doxygen
+	gtest-dev
+	libedit-dev
+	libffi-dev
+	libxml2-dev
+	linux-headers
+	llvm$_llvmver-dev
+	llvm$_llvmver-gtest
+	llvm$_llvmver-static
+	ncurses-dev
+	py3-sphinx
+	python3-dev
+	samurai
+	swig
+	xz
+	"
+subpackages="$pkgname-dev $pkgname-doc py3-$pkgname-pyc py3-$pkgname:py3"
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver//_/-}/lldb-${pkgver//_/}.src.tar.xz
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver//_/-}/cmake-${pkgver//_/}.src.tar.xz
+	atomic.patch
+	fix-embedded_interpreter.patch
+	"
+builddir="$srcdir/$pkgname-${pkgver//_/}.src"
+options="!check"  # FIXME: enable tests
+
+prepare() {
+	default_prepare
+	mv "$srcdir"/cmake-${pkgver//_/}.src "$srcdir"/cmake
+}
+
+build() {
+	export CC=clang
+	export CXX=clang++
+
+	case "$CARCH" in
+	arm*)
+		# binutils bugs
+		;;
+	*)
+		export CFLAGS="$CFLAGS -flto"
+		export CXXFLAGS="$CXXFLAGS -flto"
+		;;
+	esac
+
+	cmake -B build -G Ninja -Wno-dev \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_SKIP_RPATH=ON \
+		-DLLDB_BUILT_STANDALONE=ON \
+		-DLLDB_INCLUDE_TESTS="$(want_check && echo ON || echo OFF)" \
+		-DLLVM_ENABLE_SPHINX=ON \
+		-DLLVM_LINK_LLVM_DYLIB=ON \
+		-DCMAKE_POSITION_INDEPENDENT_CODE=ON
+
+	cmake --build build --target all docs-lldb-man
+}
+
+check() {
+	ninja -C build check-lldb
+}
+
+package() {
+	# backtracing/debugging pretty much anything is going to need libc debug symbols
+	# not everything, but the common case needs this, and it's a small dep in comparison
+	depends="musl-dbg"
+
+	DESTDIR="$pkgdir" cmake --install build
+	install -Dm644 build/docs/man/lldb.1 -t "$pkgdir"/usr/share/man/man1
+	python3 -m compileall -fq "$pkgdir"/usr/lib/python3*
+}
+
+dev() {
+	default_dev
+
+	# move back main symlink, because py3-lldb links to it
+	mv "$subpkgdir"/usr/lib/liblldb.so "$pkgdir"/usr/lib/
+}
+
+py3() {
+	pkgdesc="Python3 module for LLDB"
+	depends="$pkgname=$pkgver-r$pkgrel python3"
+	replaces="py-lldb"
+
+	amove usr/lib/python3.*
+}
+
+sha512sums="
+f356a657d1aec860aeaaeb3aa3190652735160dd1e86dfbbae0441ace0a21cc774621198b0fc26c37d3e7c34d68d8a5f56806097f0c8d94718f5fc03495b1a3e  lldb-18.1.8.src.tar.xz
+e02243b491f9e688db28d7b53270fcf87debf09d3c95b136a7c7b96e26890de68712c60a1e85f5a448a95ad8c81f2d8ae77047780822443bbe39f1a9e6211007  cmake-18.1.8.src.tar.xz
+6493c9bbcaf3f99ffbb56967147716bc93aa13b6c525214abc22723162bf42d6c25663ed1e2e11f432a8c1b246a528149e240eae027ce752bc20cc928ed57272  atomic.patch
+7b063349bc7084d5da118c72a5bea63aa3102e83e1cbbc5a7e5277205cf63805f9b5fcf9f02762397d7e3e7b34bcaa701f40738c90ba446c28168ddd53a7314b  fix-embedded_interpreter.patch
+"
