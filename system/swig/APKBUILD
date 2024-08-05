@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=swig
 pkgver=4.2.1
-pkgrel=0
+pkgrel=1
 pkgdesc="A compiler that makes it easy to integrate C and C++ code with scripting languages"
 url="http://www.swig.org/"
 arch="all"
