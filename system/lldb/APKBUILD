@@ -10,8 +10,8 @@ url="https://llvm.org/"
 license="Apache-2.0"
 depends_dev="$pkgname=$pkgver-r$pkgrel"
 makedepends="
-	clang$_llvmver-dev
-	clang$_llvmver-static
+	clang-dev
+	clang-static
 	cmake
 	doxygen
 	gtest-dev

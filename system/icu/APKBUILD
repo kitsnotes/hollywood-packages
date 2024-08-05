@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=icu
 pkgver=74.2
-pkgrel=0
+pkgrel=1
 pkgdesc="International Components for Unicode library"
 url="https://icu.unicode.org/"
 arch="all"
