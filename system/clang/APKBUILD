@@ -37,6 +37,7 @@ source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/c
 	https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/cmake-$pkgver.src.tar.xz
 	https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/llvm-$pkgver.src.tar.xz
 	https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/third-party-$pkgver.src.tar.xz
+	hollywood-multiarch.patch
 	clang-003-as-needed.patch
 	"
 builddir="$srcdir/clang-$pkgver.src"
@@ -416,5 +417,6 @@ e6770875b1bfb3626de2e15133aa819669c889574134b7c22d30882717d0f400a73d2e0e881a2bd7
 e02243b491f9e688db28d7b53270fcf87debf09d3c95b136a7c7b96e26890de68712c60a1e85f5a448a95ad8c81f2d8ae77047780822443bbe39f1a9e6211007  cmake-18.1.8.src.tar.xz
 930814730bb2d80cf7f7b2968f0f1f1442009ca62a7ca29992b69d63823270584b059d16aa845bb381411da566e7e4f255fcfbc38acbdf865eb0419b4dfd7459  llvm-18.1.8.src.tar.xz
 bedaa5d29ebeaf0ee1c700eb8492d0fef185e7c16528202927c81117d94fadd568829aa0e1873e1217e8e72866f3876a9681bbdb2a6a0a5466fc911f7b3620d4  third-party-18.1.8.src.tar.xz
+7331a19f22b8e18f174a805e482dd869123980554fb1a6ad8965087370be535105f0da8ae365dd89f047f3f40428d893eb2adca675ed6de55d81c19b7d9427c9  hollywood-multiarch.patch
 5f98f147d7d66315e9a56ae6fee602a053d40e57a8b1ee4f2ef1764203bb6fdb9082c8e825c535a9388213a38b49d2702b1e936fcf56560c4a2a56b7e6dd232c  clang-003-as-needed.patch
 "
