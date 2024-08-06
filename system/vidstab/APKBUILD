@@ -1,4 +1,3 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=vidstab
 pkgver=1.1.1
@@ -30,6 +29,7 @@ check() {
 
 package() {
 	DESTDIR="$pkgdir" cmake --build build --target install
+	mv "$pkgdir"/usr/lib64 "$pkgdir"/usr/lib
 }
 
 sha512sums="
