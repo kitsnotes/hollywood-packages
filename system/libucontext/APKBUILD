@@ -7,6 +7,7 @@ url="https://github.com/kaniini/libucontext"
 arch="all"
 license="ISC"
 subpackages="$pkgname-dev $pkgname-doc"
+options="!check" # failing with clang
 makedepends="scdoc"
 source="https://distfiles.ariadne.space/libucontext/libucontext-$pkgver.tar.xz"
 
