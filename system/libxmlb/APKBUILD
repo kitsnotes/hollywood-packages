@@ -1,7 +1,7 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libxmlb
-pkgver=0.3.10
+pkgver=0.3.19
 pkgrel=0
 pkgdesc="Library to help create and query binary XML blobs"
 url="https://github.com/hughsie/libxmlb"
@@ -10,7 +10,7 @@ license="LGPL-2.1-or-later"
 makedepends="meson glib-dev gobject-introspection-dev xz-dev"
 checkdepends="shared-mime-info"
 subpackages="$pkgname-dev:_dev $pkgname-dbg $pkgname-doc"
-source="$pkgname-$pkgver.tar.gz::https://github.com/hughsie/libxmlb/archive/$pkgver.tar.gz"
+source="$pkgname-$pkgver.tar.gz::https://github.com/hughsie/libxmlb/archive/refs/tags/$pkgver.tar.gz"
 
 build() {
 	abuild-meson \
@@ -39,5 +39,5 @@ _dev() {
 }
 
 sha512sums="
-05907c3dd2fa2ab67580e40fb573f27d9d47053fef5e23eb11ed887163ae0194b0f9b590e758fa76501098a5f261a48d9cd94003af828f5a18c61d89a9ec05bb  libxmlb-0.3.10.tar.gz
+07db2e99b2f78f6e99cccbf5ca250978955d5a9bf18aaa675b2292d1df438fc3f98a5d0e8ddcfa41e686782f35947fe92b54b520b4e6e278d6e5c871e7491271  libxmlb-0.3.19.tar.gz
 "
