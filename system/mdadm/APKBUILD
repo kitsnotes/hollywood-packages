@@ -41,7 +41,7 @@ udev() {
 	install_if="udev $pkgname=$pkgver-r$pkgrel"
 
 	mkdir -p "$subpkgdir"
-	mv "$pkgdir"/lib "$subpkgdir"/
+	mv "$pkgdir"/usr/lib "$subpkgdir"/
 }
 
 misc() {
