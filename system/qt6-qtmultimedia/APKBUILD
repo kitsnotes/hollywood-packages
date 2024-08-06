@@ -9,8 +9,6 @@ arch="all"
 license="LGPL-2.1-only AND LGPL-3.0-only AND GPL-3.0-only AND Qt-GPL-exception-1.0"
 depends_dev="
 	alsa-lib-dev
-	gst-plugins-base-dev
-	gstreamer-dev
 	libxv-dev
 	pulseaudio-dev
 	ffmpeg-dev
@@ -18,6 +16,7 @@ depends_dev="
 	qt6-qtdeclarative-dev
 	qt6-qtshadertools-dev
 	qt6-qtsvg-dev
+	qt6-qtquick3d-dev
 	"
 makedepends="$depends_dev
 	cmake
