@@ -11,10 +11,6 @@ depends="libusb"
 makedepends="libusb-dev"
 source="https://github.com/libusb/libusb-compat-0.1/releases/download/v$pkgver/libusb-compat-$pkgver.tar.gz
 "
-prepare() {
-	default_prepare
-	update_config_sub
-}
 
 build() {
 	./configure \
