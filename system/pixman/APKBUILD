@@ -1,15 +1,14 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=pixman
-pkgver=0.40.0
-pkgrel=3
+pkgver=0.43.4
+pkgrel=0
 pkgdesc="Low-level pixel manipulation library"
 url="https://gitlab.freedesktop.org/pixman"
 arch="all"
 license="MIT"
 makedepends="meson libpng-dev linux-headers"
 subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
-source="https://gitlab.freedesktop.org/pixman/pixman/-/archive/pixman-$pkgver/pixman-pixman-$pkgver.tar.gz
-	https://gitlab.freedesktop.org/pixman/pixman/-/commit/04f662a3ee0dbab1b4755a6faf491751f6f29627.patch
+source="https://www.x.org/releases/individual/lib/pixman-$pkgver.tar.xz
 	"
 builddir="$srcdir/pixman-pixman-$pkgver"
 
@@ -38,6 +37,5 @@ package() {
 }
 
 sha512sums="
-18774e22add5c5442edede5467fa07234c2b9e57a79d88110f25424e4253c6ab0c2921e951c5686cefebf4724ff19ad053d0c28f4d2f8d642bbcf6fc71764ef6  pixman-pixman-0.40.0.tar.gz
-4c383bd629dfab9dc3b491a9b06c4192b0f4fb417d62dba494b0efa622fc557ab570d24ac1ef4a9cc0a8104d383dde4f687978c5456f39290a591e34e41e31a2  04f662a3ee0dbab1b4755a6faf491751f6f29627.patch
+b40fb05bd58dc78f4e4e9b19c86991ab0611b708657c9a7fb42bfe82d57820a0fde01a34b00a0848a41da6c3fb90c2213942a70f435a0e9467631695d3bc7e36  pixman-0.43.4.tar.xz
 "
