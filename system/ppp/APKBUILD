@@ -26,6 +26,7 @@ source="https://github.com/paulusmack/ppp/archive/ppp-$pkgver.tar.gz
         fix-paths.patch
         0001-Revert-lock-path-to-var-lock-435.patch
         ip-down
+	ip-up
 	"
 
 builddir="$srcdir"/$pkgname-$pkgname-$pkgver
