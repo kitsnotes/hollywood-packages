@@ -1,10 +1,8 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
-# Maintainer: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=font-noto
-pkgver=0_git20211101
+pkgver=24.7.1
 _gitrev=364fb14e20f82887280f103f638ff6450dbfc525
-pkgrel=6
+pkgrel=0
 pkgdesc="Noto font families for Latin, Cyrillic and Greek scripts"
 url="https://github.com/notofonts/noto-fonts"
 arch="noarch"
@@ -12,7 +10,7 @@ license="OFL-1.1"
 depends="fontconfig $pkgname-common=$pkgver-r$pkgrel"
 makedepends="ruby"
 checkdepends="cmd:xmllint"
-source="https://github.com/googlefonts/noto-fonts/archive/$_gitrev/noto-fonts-$_gitrev.tar.gz
+source="$pkgname-$pkgver.tar.gz::https://github.com/notofonts/notofonts.github.io/archive/refs/tags/noto-monthly-release-$pkgver.tar.gz
 	45-noto-math.conf
 	45-noto.xml.erb
 	58-noto-math.conf
@@ -249,7 +247,7 @@ noto_meta() {
 }
 
 sha512sums="
-cb484098015a6847c1b2538635f5bc92e7fc50d1ffd9fbd406ae086b4c0dd8ae9a504ac6cf65320cc96c13a5b7462463466e72799a7facd116bcb092b9142452  noto-fonts-364fb14e20f82887280f103f638ff6450dbfc525.tar.gz
+d9807011eef90b1ac21f56fc9518f3362e287fe3477534f66b370f897f95177d70b3e850bf76629d22a621aede61b6786e6cb0df1b8cabd6c18c70c4d06ef81c  font-noto-24.7.1.tar.gz
 bbe805d212b0d46d4ce2d0fbc5a91d1f276a34f920b56ff6cb9474fdb3e1497bf9615cacfb9b69c04280ac4087c6f02a4fcb015b03c1ec0dd2d8180870811692  45-noto-math.conf
 94c902aba178df855e388b1b2186866a0a28e6420f3f4ddbb798dfc7f551c13f93aa99c3ee7b112de218b817954b5f23c2cafdbd6a1828f2fec60ee61656e02a  45-noto.xml.erb
 117830984239d10ce09bb79b7140b23810404ac13d44d1b3456587e34441273d9d4f4860fcabc19e8aec3ba3b60582c6b5411b28910e618fa2434968f83bd154  58-noto-math.conf
