@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtvirtualkeyboard
-pkgver=6.5.2
+pkgver=6.7.2
 pkgrel=0
 pkgdesc="Virtual keyboard framework"
 url="https://qt.io/"
@@ -40,5 +40,5 @@ package() {
 }
 
 sha512sums="
-acb1f5de2f0d7f985f14d8f77a37698b7ecc7db15a9911148a5f3dafa26db68f2712f9d0f2c9babec9c20b672e350e0431faed2959d2b6eb43113304ab049470  qtvirtualkeyboard-everywhere-src-6.5.2.tar.xz
+016400a65e14a5ec960f20ecf6b2b7c32fa0c67d530c5046b423633b02efce200e0967642a072ff825c54c334dfe45be3e569c16d641a735f181d233fa414782  qtvirtualkeyboard-everywhere-src-6.7.2.tar.xz
 "
