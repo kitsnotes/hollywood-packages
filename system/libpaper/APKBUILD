@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libpaper
-pkgver=1.1.28
-pkgrel=1
+pkgver=2.2.5
+pkgrel=0
 pkgdesc="Library for handling paper characteristics"
 url="https://packages.debian.org/unstable/source/libpaper"
 arch="all"
@@ -9,7 +9,7 @@ options="!check"  # No test suite.
 license="GPL-2.0-only"
 makedepends="automake autoconf libtool"
 subpackages="$pkgname-dev $pkgname-doc"
-source="https://deb.debian.org/debian/pool/main/libp/libpaper/libpaper_$pkgver.tar.gz"
+source="https://github.com/rrthomas/libpaper/releases/download/v$pkgver/libpaper-$pkgver.tar.gz"
 
 prepare() {
 	cd "$builddir"
@@ -33,4 +33,4 @@ package() {
 	make prefix="$pkgdir"/usr install
 }
 
-sha512sums="3bf6ebb0af89931d2f72ea4a09a7fa958b2facda5f238983ec7bac39652e08614b33f0de3af74a03457b2a4203eee4950bf18a4b726e79aa64093ace6a1fb0bc  libpaper_1.1.28.tar.gz"
+sha512sums="db8da6f7c41a11458e917e4ecceab69c77ada54ac7de9ca13137f019ccca29d85f49573307327c05704697f8bdf7a044231c123b41e5033f78ad610202163808  libpaper-2.2.5.tar.gz"
