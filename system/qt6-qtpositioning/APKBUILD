@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtpositioning
-pkgver=6.5.2
+pkgver=6.7.2
 pkgrel=0
 pkgdesc="Provides access to position, satellite and area monitoring classes"
 url="https://qt.io/"
@@ -53,5 +53,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-8319e999de227d6ee999a4e7f84e3a12e2a8b070375fd7b86cef7a7962cce1d4d45f17a846df779561e1cedde80a80240bd2a03259c8a2ed5ebda6e209bdd991  qtpositioning-everywhere-src-6.5.2.tar.xz
+2983fde05cbccf86288cd989279551b5babeddcf9be2848870e59dbbfc2d91749465bf43c17e291d6df37ee746b5490c0bb1e6b3fd4298b4f0a22cc6d67db04e  qtpositioning-everywhere-src-6.7.2.tar.xz
 "
