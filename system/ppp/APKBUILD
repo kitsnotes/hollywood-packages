@@ -10,7 +10,7 @@ makedepends="bsd-compat-headers linux-headers openssl-dev libpcap-dev"
 subpackages="$pkgname-doc $pkgname-dev $pkgname-chat $pkgname-radius
 	    $pkgname-atm $pkgname-pppoe $pkgname-l2tp $pkgname-winbind
 	    $pkgname-passprompt $pkgname-passwordfd $pkgname-minconn
-	    $pkgname-openrc $pkgname-daemon
+	    $pkgname-daemon
 	    "
 
 # for compatibility reasons the 'ppp' package is an empty meta package
