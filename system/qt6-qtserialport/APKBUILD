@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtserialport
-pkgver=6.5.2
-pkgrel=1
+pkgver=6.7.2
+pkgrel=0
 pkgdesc="Provides access to hardware and virtual serial ports"
 url="https://qt.io/"
 arch="all"
@@ -46,5 +46,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-9c26fe572272c1dfc7ce795451f2e4a5976a55e13ac8c91ab2dd2f8d07f77f0a18de80dc7b77c31e7233dba962ea2f88495286263fe59ec7f5ac62802f96b2f7  qtserialport-everywhere-src-6.5.2.tar.xz
+faedff39212a98e6b3d96e0fb530c6b63c5fec519f5226b015771b8c5122528c8b087b6ccf74aed42ee87f61ffe324ac5c87152dad282395013a84e3f5cb2d3f  qtserialport-everywhere-src-6.7.2.tar.xz
 "
