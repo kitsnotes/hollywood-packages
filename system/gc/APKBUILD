@@ -11,12 +11,6 @@ subpackages="$pkgname-dbg $pkgname-dev $pkgname-doc libgc++:libgccpp"
 source="https://github.com/ivmai/bdwgc/releases/download/v$pkgver/gc-$pkgver.tar.gz
 	"
 
-prepare() {
-	default_prepare
-	update_config_guess
-	update_config_sub
-}
-
 build() {
 	export CFLAGS="$CFLAGS -D_GNU_SOURCE -DNO_GETCONTEXT -DUSE_MMAP -DHAVE_DL_ITERATE_PHDR"
 	./configure \
