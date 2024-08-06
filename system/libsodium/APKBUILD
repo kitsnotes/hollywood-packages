@@ -1,15 +1,13 @@
-# Contributor: Łukasz Jendrysik <scadu@yandex.com>
-# Contributor: Stuart Cardall <developer@it-offshore.co.uk>
-# Maintainer: Stuart Cardall <developer@it-offshore.co.uk>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libsodium
-pkgver=1.0.18
+pkgver=1.0.20
 pkgrel=0
 pkgdesc="P(ortable|ackageable) NaCl-based crypto library"
 url="https://github.com/jedisct1/libsodium"
 arch="all"
 license="ISC"
 subpackages="$pkgname-static $pkgname-dev"
-source="https://download.libsodium.org/$pkgname/releases/$pkgname-$pkgver.tar.gz"
+source="https://github.com/jedisct1/libsodium/releases/download/$pkgver-RELEASE/libsodium-$pkgver.tar.gz"
 
 build() {
 	./configure \
@@ -34,4 +32,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="17e8638e46d8f6f7d024fe5559eccf2b8baf23e143fadd472a7d29d228b186d86686a5e6920385fe2020729119a5f12f989c3a782afbd05a8db4819bb18666ef  libsodium-1.0.18.tar.gz"
+sha512sums="7ea165f3c1b1609790e30a16348b9dfdc5731302da00c07c65e125c8ab115c75419a5631876973600f8a4b560ca2c8267001770b68f2eb3eebc9ba095d312702  libsodium-1.0.20.tar.gz"
