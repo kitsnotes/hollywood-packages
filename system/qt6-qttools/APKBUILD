@@ -13,6 +13,8 @@ depends_dev="
 makedepends="$depends_dev
 	cmake
 	perl
+	clang-static
+        clang-extra-tools
 	samurai
 	"
 # clang-dev, clang-static, llvm12-dev and llvm12-static are required for qtdoc to be built
