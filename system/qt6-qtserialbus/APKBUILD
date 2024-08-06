@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtserialbus
-pkgver=6.5.2
+pkgver=6.7.2
 pkgrel=0
 pkgdesc="Qt module for general purpose serial bus access"
 url="https://qt.io/"
@@ -48,5 +48,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-5d072e05e643a5fef84a9b984fcbbc6516e29bf8c7675a4be18aa76cf10a5e4137deb36ef51b19a3e934babdea61ed7f07c4c3644b009e669f48f9735fe95a92  qtserialbus-everywhere-src-6.5.2.tar.xz
+ba4d8c698e68508080f851d96428908b83f3d2f5d36dbcb00586567beb3001a8ca3f1d79fd9895aefb32c7d1a8400024e43cee2cdd4f427e80d47949593a3055  qtserialbus-everywhere-src-6.7.2.tar.xz
 "
