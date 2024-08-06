@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtquicktimeline
-pkgver=6.5.2
+pkgver=6.7.2
 pkgrel=0
 pkgdesc="Qt module for keyframe-based timeline construction"
 url="https://qt.io/"
@@ -39,5 +39,5 @@ package() {
 }
 
 sha512sums="
-4447973fba264b4a412f7a29b5d32c6ad1c62a5dc72ced8a8f88d565655fec3bab3e5047d0f7323f5415f2c7e5782bf533a67a778f1daa55cda588ccabe0054c  qtquicktimeline-everywhere-src-6.5.2.tar.xz
+cb460db34b726216f539bcd305e257375b01250a4f2df546a9a27c53bf78287e2c9d1ecc81edc336e5d55b87006a271ddc435e5fb57a898947bcf93cf5ea1b90  qtquicktimeline-everywhere-src-6.7.2.tar.xz
 "
