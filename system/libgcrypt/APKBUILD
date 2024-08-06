@@ -28,6 +28,7 @@ build() {
 		_arch_configure="--disable-asm";;
 	esac
 
+	export LDFLAGS="-Wl,--undefined-version"
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
