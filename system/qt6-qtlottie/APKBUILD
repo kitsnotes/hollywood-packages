@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtlottie
-pkgver=6.5.2
+pkgver=6.7.2
 pkgrel=0
 pkgdesc="A family of player software for a certain json-based file format for describing 2d vector graphics animations"
 url="https://qt.io/"
@@ -38,5 +38,5 @@ package() {
 }
 
 sha512sums="
-9037488faa1525e2d2f5823685c81d65100862f2011cdb2014447b0c039fcff7eafbae667c130b3fefc5c7b8e76594d29d9ded175cbf45b2411e67c8a1b945e6  qtlottie-everywhere-src-6.5.2.tar.xz
+be021c8800fc797e1c17d2bd40b6a8c1fbabf14a3e31caaa270807041151eb8ccad315a42c26914085e878e9d9f3ba99f26f872d345ed5900545a94fe6586ce7  qtlottie-everywhere-src-6.7.2.tar.xz
 "
