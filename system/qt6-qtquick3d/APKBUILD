@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtquick3d
-pkgver=6.5.2
-pkgrel=1
+pkgver=6.7.2
+pkgrel=0
 pkgdesc="Qt module and API for defining 3D content in Qt Quick"
 url="https://qt.io/"
 arch="all"
@@ -39,5 +39,5 @@ package() {
 }
 
 sha512sums="
-2a26f4fa4e4d88b4205813a8bba1c83811354e5ad5e7aa832fd46c5956b46d15e690c359d83f85018c1430e15edd151207411a50227855de4fc8451db710ace2  qtquick3d-everywhere-src-6.5.2.tar.xz
+d5a4557a6f0ea73b43de9238b8cd42fc037c417e72443a8cae96e8be779f82d5fd9efe1a09258a4d5dd55c4791b84192cb72e31bb1d744b618951080fe6fa1e2  qtquick3d-everywhere-src-6.7.2.tar.xz
 "
