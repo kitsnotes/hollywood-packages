@@ -1,7 +1,7 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=ppp
-pkgver=2.4.9
-pkgrel=5
+pkgver=2.5.0
+pkgrel=0
 pkgdesc="A daemon which implements the PPP protocol for dial-up networking"
 url="https://ppp.samba.org/"
 arch="all"
@@ -22,13 +22,10 @@ depends="$pkgname-chat $pkgname-radius
 	    "
 
 source="https://github.com/paulusmack/ppp/archive/ppp-$pkgver.tar.gz
-	fix-paths.patch
-	0011-build-sys-don-t-put-connect-errors-log-to-etc-ppp.patch
-	fix-pppd-magic.h.patch
-	ip-down
-	ip-up
-	pppd.initd
-	fix-linux-5.15-include.patch
+        0011-build-sys-don-t-put-connect-errors-log-to-etc-ppp.patch
+        fix-paths.patch
+        0001-Revert-lock-path-to-var-lock-435.patch
+        ip-down
 	"
 
 builddir="$srcdir"/$pkgname-$pkgname-$pkgver
@@ -175,12 +172,10 @@ daemon() {
 }
 
 sha512sums="
-c309f8f69f534c05547cd2f66dade0e0f198ea4c2928a7e899e660280786b3e965437a67b8c5bb81c59d0fa1818b4eb7b701d2dce015a420d380422d2bca4e1a  ppp-2.4.9.tar.gz
-7b84e2085c5e399a8f9e0cb928a7b4d5077f42755efa8961c848e287a8b8b78f3a123b59fbac76610ce8fe1f81fa103188b2e3ad4ffd82d14cb82243e2edeb91  fix-paths.patch
-b490971d03fef4de66b61123f80a0087270bcb88466ae8ed98ea9a08b35d4c7c46b2dadd304e2970a4206bb5760a14370d7e3873de6240119d88e927ecef840c  0011-build-sys-don-t-put-connect-errors-log-to-etc-ppp.patch
-d1067defff79d6c9f67121a9214e41a1bcca1e3b8a345ad905d223fdb8835142bad7cc3b556a3eca509ddf51cf808741773f31f4dca74e834b612a15854a5e6b  fix-pppd-magic.h.patch
+cf62410a952053f9aa71c5179453831152e958fcad9e77df2ddac864e39aa71af0b746e54b91e8fa3ad6295d6d2b1bb736e36dc05521b495f573468679133324  ppp-2.5.0.tar.gz
+1e1962503ea7639b2683920c73a848d680d1daf444fb978a42639f1671b2c38282d181be120fbf035220bcfe8768229897b7e5a59e6ddf09d4edb3666ebf3399  0011-build-sys-don-t-put-connect-errors-log-to-etc-ppp.patch
+f8ad85423ccf19a6cea66e9debea81dc1842bf499b279b77c058cc2ff10aae7f48c3430a63050b97c4f535f5dcca449261fc7476f90cb2d30dfca9359490d6bd  fix-paths.patch
+218f5ae25f059f4ab614d6c613f8317dd136a59378f31e3b7c868f79869a17a79f1d88bf226828e7a21db07337f5c2328ce3f4579d747b9bfe1082b1023193f0  0001-Revert-lock-path-to-var-lock-435.patch
 160260bd2a788beaac395eadb38efbfd1e0e1a458fe151555acacf2c4f3a12381d644672c664f9793db6e3459a4f05a54e3ff6d407b0d37e8014b15bd0f11bcc  ip-down
 8258c95a6b6e8e94d6001b5cd3a99bd3270f29ba0f2e5050a26c8d5f1b67eead8d039e71ce86a784d45e620047b0a2bb14b258d80a9ea62084ba588a4c2e2d84  ip-up
-bd6f43588b037367ffdb57f5e331492dcaa5969003e219c2dc8b90e6be1aa407282ff6114b91d1379ebeff766983fa0622456520cc0ac592b4f0b1496acf21bf  pppd.initd
-c8e8a05c1857ae98aa712683d7af9cd2df5a229aed4ef1f55e430cbb5468db93103b5a772191d33d063882525769fca667d0ac3a6233fdd42e61a58ead896b6c  fix-linux-5.15-include.patch
 "
