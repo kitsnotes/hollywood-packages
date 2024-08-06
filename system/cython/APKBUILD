@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=cython
-pkgver=0.29.36
-pkgrel=1
+pkgver=3.0.10
+pkgrel=0
 pkgdesc="Cython is an optimising static compiler for both the Python & the extended Cython programming languages."
 url="https://cython.org/"
 arch="all"
@@ -31,5 +31,5 @@ package() {
 }
 
 sha512sums="
-a086fe1a11290cd3c870b891e61a0a0e2595bab9c26888024a758b6950c07059346d682fa9349e46c0af89805abbdd750059b3189960b8ce18007dfb5eb4391a  cython-0.29.36.tar.gz
+97aa831cea96c1f3c51653c51fadb0aea8bdfdb076a2c898862637f52b826bcb9162d1b7aade3304c5650d0b894cb1083052f036365d79cd3d390e0486b33ac5  cython-3.0.10.tar.gz
 "
