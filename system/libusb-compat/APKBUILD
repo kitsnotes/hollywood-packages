@@ -1,7 +1,7 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libusb-compat
-pkgver=0.1.7
-pkgrel=1
+pkgver=0.1.8
+pkgrel=0
 pkgdesc="Compatility for older libusb"
 url="https://libusb.info/"
 arch="all"
@@ -10,8 +10,7 @@ subpackages="$pkgname-dev"
 depends="libusb"
 makedepends="libusb-dev"
 source="https://github.com/libusb/libusb-compat-0.1/releases/download/v$pkgver/libusb-compat-$pkgver.tar.gz
-	fix-headers.patch"
-
+"
 prepare() {
 	default_prepare
 	update_config_sub
@@ -34,6 +33,5 @@ package() {
 }
 
 sha512sums="
-8f3b2f9a275987b13278215b28950f9bc4c4cd30d3dc08ff5141ed6486d484981d059588533857eb521a5362ce2eb74c9f9c98f3d0c59d9a288debf9fc95a882  libusb-compat-0.1.7.tar.gz
-3abb7e90299f6cdb397b4fcf1b7af0bfc20cc3b0937e0787716109608313bc988ce3532ed88ba4d05e7d57bdaca3de4b5ce704e0a3d4bf871c48ac03103a18d7  fix-headers.patch
+0f935b89d06a8ffd6c87b03d649b1136a0f84110874d1b8d071a0af922b9b2f911143670fc9297309053f29ba02e1714fa4f4bdd8b71c26dbaf32146699fcf34  libusb-compat-0.1.8.tar.gz
 "
