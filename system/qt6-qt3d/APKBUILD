@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qt3d
-pkgver=6.5.2
-pkgrel=1
+pkgver=6.7.2
+pkgrel=0
 pkgdesc="C++ and QML APIs for easy inclusion of 3D graphics"
 url="https://qt.io/"
 arch="all"
@@ -40,5 +40,5 @@ package() {
 }
 
 sha512sums="
-f7bcc09b5c6c01e58b68cb7af67cef5f0477ec3cdcd924fd365b7411b2e5d89c307f29d099289055fb1b04b8237cc87dc071734433fa4d0bbb21eec698ed731a  qt3d-everywhere-src-6.5.2.tar.xz
+d2b5ccf76f75db886acf4a73b1f2bc77e79a584f08f39915b7565179943c09a3ea90904af342a6d2d668b033161c41d6d4d20022e5e990ad55fa40fcb6746480  qt3d-everywhere-src-6.7.2.tar.xz
 "
