@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtnetworkauth
-pkgver=6.5.2
+pkgver=6.7.2
 pkgrel=0
 pkgdesc="Network authentication module"
 url="https://qt.io/"
@@ -37,5 +37,5 @@ package() {
 }
 
 sha512sums="
-f9374c2729f584532e90114a3bf8939eb27e90e31a2c76c414e8e5fb23a1feac96b23ec31ebfc59122f7d8431ef2ab285a8e840ffba143752e586a0a527d3436  qtnetworkauth-everywhere-src-6.5.2.tar.xz
+8357b2b833da9f652c88e706c7bf15b19b2c5b8f054914bfc16d33ea69dce86999b03fb7dd5b79e2a58d8d4e16af0fd2ff6dcf8e621ed251e63171fc8151f75b  qtnetworkauth-everywhere-src-6.7.2.tar.xz
 "
