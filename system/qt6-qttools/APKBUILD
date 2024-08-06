@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qttools
-pkgver=6.5.2
-pkgrel=1
+pkgver=6.7.2
+pkgrel=0
 pkgdesc="A cross-platform application and UI framework (Development Tools, QtHelp)"
 url="https://qt.io/"
 arch="all"
@@ -39,5 +39,5 @@ package() {
 }
 
 sha512sums="
-d5b858b5307b2abfda2786331034a2957afbaba6299955bc3a2489f15bc8c2613b613b0f6f1fdf2aabfa9929a44eeeae3faeb26e0ab176d347e8ddd47f0e8011  qttools-everywhere-src-6.5.2.tar.xz
+311467d0e6970711b4d984fe792d2b75609f38c04121073d5c3c34c682fcee89787f6982c886e62206a76b1f647de60e56510439b0288f8bd1ae21a2683a37cd  qttools-everywhere-src-6.7.2.tar.xz
 "
