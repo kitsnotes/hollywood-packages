@@ -45,6 +45,7 @@ makedepends="
 	python3
 	vulkan-headers
 	py3-cparser
+	py3-ply
 	spirv-llvm-translator-dev
 	vulkan-loader-dev
 	wayland-dev
