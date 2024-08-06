@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=cups
-pkgver=2.4.7
+pkgver=2.4.10
 pkgrel=0
 pkgdesc="The CUPS Printing System"
 url="https://www.cups.org/"
@@ -121,6 +121,6 @@ _mv() {
 }
 
 sha512sums="
-27ca505a2868aa7bc248bac892aafe2a837633e73b6059d3ab4812264e3b0e786ef075751e8cc4300ce6bc43ef095e3d77dd3fce88ce8e72ca69b65093427bca  cups-2.4.7.tar.gz
+1fb51c7b9ac610875a2f7f2e496d854a0350fa6e89d49b4e26fe649482088e39ca33b4bfcf10b8881422d1f95bfcb2dcc3c7d38c6740be11047122774af30b02  cups-2.4.10.tar.gz
 cf64211da59e79285f99d437c02fdd7db462855fb2920ec9563ba47bd8a9e5cbd10555094940ceedeb41ac805c4f0ddb9147481470112a11a76220d0298aef79  cups.logrotate
 "
