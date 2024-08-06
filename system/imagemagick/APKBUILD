@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=imagemagick
 _pkgname=ImageMagick
-pkgver=7.1.0.52
+pkgver=7.1.1.36
 pkgrel=0
 _pkgver=${pkgver%.*}-${pkgver##*.}
 _abiver=7
@@ -37,7 +37,7 @@ subpackages="
 	$pkgname-perlmagick:_perlmagick
 	$pkgname-perlmagick-doc:_perlmagick_doc
 	"
-source="https://imagemagick.org/archive/ImageMagick-$_pkgver.tar.xz"
+source="https://imagemagick.org/archive/releases/ImageMagick-$_pkgver.tar.xz"
 builddir="$srcdir/$_pkgname-$_pkgver"
 
 # secfixes:
@@ -212,5 +212,5 @@ _perlmagick_doc() {
 }
 
 sha512sums="
-8282befbf0bf165f01ffc6994e53d98b05a36a3c03dce81b9b4e4351c68bbfe3fb5a38e178058bb22d9e3bd85cf227c3a44eb43b38a25b9e7c69bf9ee4ba21e1  ImageMagick-7.1.0-52.tar.xz
+203d2079c5dfb7c85b352e3a3894ea07bd04b5972e5e74a3b4f963b87d7791c7b8ae799b5015201a1ffa759f706cc562545312367465bfdce393676937d13841  ImageMagick-7.1.1-36.tar.xz
 "
