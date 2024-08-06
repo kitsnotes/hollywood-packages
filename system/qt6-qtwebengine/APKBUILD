@@ -1,8 +1,9 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtwebengine
-pkgver=6.5.2
-pkgrel=2
+pkgver=6.7.2
+pkgrel=0
+# latest commit of 118-based branch of qtwebengine-chromium
+_chromium_commit="a08edbbf641285af44119d3172584d24e39dd22c"
 pkgdesc="Provides support for web applications using the Chromium browser project"
 url="https://qt.io/"
 arch="all"
@@ -11,7 +12,7 @@ depends_dev="
 	alsa-lib-dev
 	ffmpeg-dev
 	icu-dev
-	heimdal-dev
+	krb5-dev
 	lcms2-dev
 	libevent-dev
 	libvpx-dev>=1.10.0-r1
@@ -19,7 +20,6 @@ depends_dev="
 	libxml2-dev
 	libxslt-dev
 	minizip-dev
-	harfbuzz-dev
 	nss-dev
 	opus-dev
 	pciutils-dev
@@ -30,38 +30,117 @@ depends_dev="
 	qt6-qtpositioning-dev
 	qt6-qttools-dev
 	qt6-qtwebchannel-dev
-	re2-dev
+	snappy-dev
 	"
 makedepends="$depends_dev
 	bison
 	bsd-compat-headers
-	clang
 	cmake
 	flex
-	llvm
 	gperf
 	gzip
 	nodejs
 	perl
 	py3-html5lib
-	libepoxy-dev
 	python3
 	samurai
 	"
 subpackages="$pkgname-dev"
-builddir="$srcdir/qtwebengine-everywhere-src-${pkgver/_/-}"
+builddir="$srcdir/qtwebengine-${pkgver/_/-}"
 
-case $pkgver in
-	*_alpha*|*_beta*|*_rc*) _rel=development_releases;;
-	*) _rel=official_releases;;
-esac
+# secfixes:
+#   6.6.3-r5:
+#     - CVE-2024-5274
+#   6.6.3-r4:
+#     - CVE-2024-3840
+#     - CVE-2024-4558
+#     - CVE-2024-4671
+#   6.6.3-r3:
+#     - CVE-2024-3837
+#     - CVE-2024-3839
+#     - CVE-2024-3914
+#     - CVE-2024-4058
+#     - CVE-2024-4331
+#   6.6.3-r2:
+#     - CVE-2024-2625
+#     - CVE-2024-2626
+#     - CVE-2024-2887
+#     - CVE-2024-3157
+#     - CVE-2024-3159
+#     - CVE-2024-3516
+#   6.6.3-r1:
+#     - CVE-2023-7104
+#     - CVE-2024-25062
+#   6.6.2-r1:
+#     - CVE-2024-1670
+#     - CVE-2024-1671
+#     - CVE-2024-1672
+#     - CVE-2024-1676
+#   6.6.1-r8:
+#     - CVE-2024-1059
+#     - CVE-2024-1060
+#     - CVE-2024-1077
+#     - CVE-2024-1283
+#     - CVE-2024-1284
+#   6.6.1-r7:
+#     - CVE-2024-0807
+#     - CVE-2024-0808
+#     - CVE-2024-0810
+#   6.6.1-r5:
+#     - CVE-2024-0518
+#     - CVE-2024-0519
+#   6.6.1-r4:
+#     - CVE-2023-7024
+#     - CVE-2024-0222
+#     - CVE-2024-0223
+#     - CVE-2024-0224
+#     - CVE-2024-0225
+#     - CVE-2024-0333
+#   6.6.1-r3:
+#     - CVE-2023-6702
+#     - CVE-2023-6703
+#     - CVE-2023-6705
+#     - CVE-2023-6706
+#   6.6.1-r2:
+#     - CVE-2023-6510
+#   6.6.1-r1:
+#     - CVE-2023-6345
+#     - CVE-2023-6346
+#     - CVE-2023-6347
+#   6.6.0-r6:
+#     - CVE-2023-5997
+#     - CVE-2023-6112
+#   6.6.0-r5:
+#     - CVE-2023-5996
+#   6.6.0-r2:
+#     - CVE-2023-5482
+#     - CVE-2023-5849
+#   6.6.0-r1:
+#     - CVE-2023-5218
+#     - CVE-2023-5474
+#     - CVE-2023-5475
+#     - CVE-2023-5476
+#     - CVE-2023-5484
+#     - CVE-2023-5486
+#     - CVE-2023-5487
+#     - CVE-2023-45853
 
-source="https://download.qt.io/$_rel/qt/${pkgver%.*}/${pkgver/_/-}/submodules/qtwebengine-everywhere-src-${pkgver/_/-}.tar.xz
-	aarch64-skia.patch
+source="$pkgname-$pkgver.tar.gz::https://github.com/qt/qtwebengine/archive/refs/tags/v$pkgver.tar.gz
+	qtwebengine-chromium-$_chromium_commit.tar.gz::https://github.com/qt/qtwebengine-chromium/archive/$_chromium_commit.tar.gz
 	"
 
+prepare() {
+	rmdir "$builddir/src/3rdparty"
+	mv "$srcdir/qtwebengine-chromium-$_chromium_commit" "$builddir/src/3rdparty"
+	mkdir -p "$builddir"/.git "$builddir/src/3rdparty/chromium/.git"
+
+	default_prepare
+}
+
 build() {
-	CC=clang CXX=clang++ \
+	export CFLAGS="$CFLAGS -D_LARGEFILE64_SOURCE -Wno-builtin-macro-redefined -Wno-deprecated-declarations"
+	export CXXFLAGS="$CXXFLAGS -D_LARGEFILE64_SOURCE -Wno-builtin-macro-redefined -Wno-deprecated-declarations"
+
 	cmake -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
@@ -72,39 +151,33 @@ build() {
 		-DINSTALL_INCLUDEDIR=include/qt6 \
 		-DINSTALL_MKSPECSDIR=lib/qt6/mkspecs \
 		-DINSTALL_EXAMPLESDIR=share/doc/qt6/examples \
-		-DQT_FEATURE_qtwebengine_build=ON \
-		-DQT_FEATURE_qtwebengine_core_build=ON \
-		-DQT_FEATURE_qtwebengine_widgets_build=ON \
-		-DQT_FEATURE_qtwebengine_quick_build=ON \
 		-DQT_FEATURE_webengine_system_alsa=ON \
-		-DQT_FEATURE_webengine_system_ffmpeg=OFF \
+		-DQT_FEATURE_webengine_system_ffmpeg=ON \
 		-DQT_FEATURE_webengine_system_icu=ON \
 		-DQT_FEATURE_webengine_system_libevent=ON \
 		-DQT_FEATURE_webengine_system_libpci=ON \
 		-DQT_FEATURE_webengine_system_libpng=ON \
 		-DQT_FEATURE_webengine_system_libwebp=ON \
 		-DQT_FEATURE_webengine_system_libxml=ON \
-		-DQT_FEATURE_webengine_system_libxslt=ON \
 		-DQT_FEATURE_webengine_system_minizip=ON \
 		-DQT_FEATURE_webengine_system_opus=ON \
 		-DQT_FEATURE_webengine_system_pulseaudio=ON \
 		-DQT_FEATURE_webengine_system_zlib=ON \
 		-DQT_FEATURE_webengine_proprietary_codecs=ON \
-		-DQT_FEATURE_webengine_system_harfbuzz=ON \
 		-DQT_FEATURE_webengine_kerberos=ON \
 		-DQT_FEATURE_webengine_webrtc_pipewire=ON
 	cmake --build build
 }
 
 check() {
-	cd build
-	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+	ctest --test-dir build --output-on-failure
 }
 
 package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
+
 sha512sums="
-f5791002495ebfa9912477f39a96d28bd4f4329f636f6b2055f1b811503b3c394c3ddd7baed5643f78f1905b1e8f860b4202b5d8e4afe5791e5450b9f46eac12  qtwebengine-everywhere-src-6.5.2.tar.xz
-3b97486b0873a17b35c2187557b320069462e0d08ba88af4af7878628dbeeecfe2ab5bcfc7640c8c87c4c30dbac611d4170c25201c4e7971fbd58eed31e4d756  aarch64-skia.patch
+17cdf4330c4416b0282ca4b4a46cda1a40de9639c8856055af89d8ca720037f2cbdca78126ae971314815670d73d70205be7fb2924038139f75b5f158499817e  qt6-qtwebengine-6.7.2.tar.gz
+f87a9692f02d22cef86e4ea97c8083eb7163d7f2db2246eb894d9bae3769fc1985b52cee04cc390f879205bf982c58dd5f8564a73b3715a84397cb28f137e2af  qtwebengine-chromium-a08edbbf641285af44119d3172584d24e39dd22c.tar.gz
 "
