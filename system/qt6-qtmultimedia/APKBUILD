@@ -17,6 +17,7 @@ depends_dev="
 	qt6-qtshadertools-dev
 	qt6-qtsvg-dev
 	qt6-qtquick3d-dev
+	libxrandr-dev
 	"
 makedepends="$depends_dev
 	cmake
