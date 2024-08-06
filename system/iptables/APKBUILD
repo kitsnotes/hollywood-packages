@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=iptables
-pkgver=1.8.7
-pkgrel=3
+pkgver=1.8.10
+pkgrel=0
 pkgdesc="Linux kernel firewall, NAT and packet mangling tools"
 url="https://www.netfilter.org/projects/iptables/index.html"
 arch="all"
@@ -11,7 +11,7 @@ makedepends="$depends_dev libnftnl-dev bison flex autoconf automake"
 subpackages="ip6tables $pkgname-doc $pkgname-dev"
 provides="ebtables" # for backards compat
 replaces="ebtables"
-source="https://www.netfilter.org/projects/iptables/files/iptables-$pkgver.tar.bz2
+source="https://www.netfilter.org/projects/iptables/files/iptables-$pkgver.tar.xz
 	iptables.service
 	ip6tables.service
 	ebtables.service
@@ -69,7 +69,7 @@ ip6tables() {
 
 
 sha512sums="
-c0a33fafbf1139157a9f52860938ebedc282a1394a68dcbd58981159379eb525919f999b25925f2cb4d6b18089bd99a94b00b3e73cff5cb0a0e47bdff174ed75  iptables-1.8.7.tar.bz2
+71e6ed2260859157d61981a4fe5039dc9e8d7da885a626a4b5dae8164c509a9d9f874286b9468bb6a462d6e259d4d32d5967777ecefdd8a293011ae80c00f153  iptables-1.8.10.tar.xz
 c8cfdc87a19d8e757dca384afef993a1c1f3d0853d7ca240cc8e4f88dbce4fbbaad33f823626de4682e6711969a042b24b0a388f959626ddcd19f260cba62dd8  iptables.service
 9a4206a0b01d9d58e8dbd3ef2b651ccd5dbfd44c945d2b4da99c21469a35096f286fc641924d3eff29efab2b929d5147ca61526a2d9c3bf1d6ef3d65e828f664  ip6tables.service
 efa05d12dc6e52bbefc7b720694457b09a11feb5ff1a3c6dde7af4def4a718c8ce8a0f15fabeca08f5d52789b99e7e0a857b68e2669e05cdb6643d48c2938672  ebtables.service
