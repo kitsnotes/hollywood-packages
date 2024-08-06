@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtconnectivity
-pkgver=6.5.2
-pkgrel=1
+pkgver=6.7.2
+pkgrel=0
 pkgdesc="Provides access to Bluetooth hardware"
 url="https://qt.io/"
 arch="all"
@@ -49,5 +49,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-76d9569ecfbbb4355587779a9aa0abf20f7d08484a2634e6c3b49a71b057451c54fd5fd344b4c376206384e5f1e9264a6bbbcd85ee44f15637c116f411d4aa30  qtconnectivity-everywhere-src-6.5.2.tar.xz
+381098e406ac18d87d34eb9087d1655c16e604059d69b77c04df9d444cefc77630a212f52b0fc2a1573c524044aa1837379d70460e152cd353731e52c4bd0e67  qtconnectivity-everywhere-src-6.7.2.tar.xz
 "
