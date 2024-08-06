@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtshadertools
-pkgver=6.5.2
-pkgrel=1
+pkgver=6.7.2
+pkgrel=0
 pkgdesc="Experimental module providing APIs and a host tool to host tool to perform graphics and compute shader conditioning"
 url="https://qt.io/"
 arch="all"
@@ -39,5 +39,5 @@ package() {
 }
 
 sha512sums="
-95a697de1e0b415b700edc86c452847f37478951c547fad42c8373c592a1f474b824df7c2d1ae3b26fb9401df3c523431633e0293f5e472732964cb527def6be  qtshadertools-everywhere-src-6.5.2.tar.xz
+b33e55f81d6878518dfe05db8ea3b319614dda10e215784496a61daaf8415fdeed1a3d802efc3cddc4fbca6c9894faf13475b35b3bb7d9a215b91238f9b38233  qtshadertools-everywhere-src-6.7.2.tar.xz
 "
