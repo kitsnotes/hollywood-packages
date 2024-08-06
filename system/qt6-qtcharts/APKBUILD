@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtcharts
-pkgver=6.5.2
-pkgrel=1
+pkgver=6.7.2
+pkgrel=0
 pkgdesc="Provides a set of easy to use chart components"
 url="https://qt.io/"
 arch="all"
@@ -38,5 +38,5 @@ package() {
 }
 
 sha512sums="
-913362f21668a81b82eff5125991b0b53ff9eeaf93dc6bf17539d4cffdc60e639a4e3490edec793d02ff942174ea3036854cdc8801382f4b8af341f8cbc3a1f1  qtcharts-everywhere-src-6.5.2.tar.xz
+8e142bb3a925e802ab482890363ec1b7ed8c7b1d1bbbf6b30361afc8571ddef75d82f10b7d44bc29e6d87b752f235171f282080591f1ca252b2e47ad0b58b5ef  qtcharts-everywhere-src-6.7.2.tar.xz
 "
