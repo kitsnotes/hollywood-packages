@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qttranslations
-pkgver=6.5.2
-pkgrel=1
+pkgver=6.7.2
+pkgrel=0
 pkgdesc="A cross-platform application and UI framework (Translations)"
 url="https://qt.io/"
 arch="noarch"
@@ -36,5 +36,5 @@ package() {
 }
 
 sha512sums="
-2930153207a6ba7bb6720171f2be1c845e84edef87abd5ec6a4464c4386fb58fbdd59740c210727eb6b058ceffcaaf0aaea99e968215b68b121eb35d6e4f05c2  qttranslations-everywhere-src-6.5.2.tar.xz
+a1937f117af71a6896ebaf89f05bcb9c61c34711105609ac80a0f85d96cd427786e902ae4e2dccc38060c4fd9161f42a0cfdd7e39e618e3996fbe1c7f05c84d9  qttranslations-everywhere-src-6.7.2.tar.xz
 "
