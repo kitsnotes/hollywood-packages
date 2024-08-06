@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtsvg
-pkgver=6.5.2
-pkgrel=1
+pkgver=6.7.2
+pkgrel=0
 pkgdesc="Classes for displaying the contents of SVG files"
 url="https://qt.io/"
 arch="all"
@@ -38,5 +38,5 @@ package() {
 }
 
 sha512sums="
-34f572eceb27021d2b55d67ed2de84f9d41c0cb2463c5c8e9c9e270b52782d32f707b83fdc95c67f306bb82a3ea44a5d48921e6bc979197ce6bc94eaf89ccb20  qtsvg-everywhere-src-6.5.2.tar.xz
+5a4209134afd3265d4b4b02a388a3078f2f915613c83e8a4aafd292e6b49d77019597f820468c8a9fe6c046c64e6890ac94ebc52e6b321a9b57a5ef3b51552e4  qtsvg-everywhere-src-6.7.2.tar.xz
 "
