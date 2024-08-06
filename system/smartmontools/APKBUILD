@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=smartmontools
-pkgver=7.3
-pkgrel=1
+pkgver=7.4
+pkgrel=0
 pkgdesc="Control and monitor S.M.A.R.T. enabled hard drives"
 url="https://www.smartmontools.org/"
 arch="all"
@@ -32,5 +32,5 @@ package() {
 }
 
 sha512sums="
-08afe8b0a6a39e742160cd4e4c03fc7aff7b1ae8681b906360f0932277dc99e361b7606b2373bdf42425cf9453480a5f4344bc040ebc2fa26a03bd52f02a6ac0  smartmontools-7.3.tar.gz
+439fbf8d0e77fbe1d5a9fb100e655a7e47a82382ce8e1a4e942541a4dfbdff3391caa635e8d354d0e87c10ae79cb97aa6d24915f9f193620d763b384baf2e753  smartmontools-7.4.tar.gz
 "
