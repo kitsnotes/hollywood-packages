@@ -22,10 +22,20 @@ subpackages="
 	$pkgname-static
 	$pkgname-libs
 	$pkgname-linker-tools:linktools
+	"
+if [ "$CARCH" = "x86_64" ]; then
+subpackages="$subpackages
+	lib32-$pkgname-static:_static32
+	lib32-$pkgname-libs:_libs32
+	lib32-$pkgname-dev:_llvm32
+"
+fi
+subpackages="$subpackages
 	$pkgname-dev
 	$pkgname-test-utils-pyc
 	$pkgname-test-utils:_test_utils
 	"
+
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/llvm-project-$pkgver.src.tar.xz
 	allocscore.patch
 	fix-memory-mf_exec-on-aarch64.patch
@@ -79,6 +89,7 @@ replaces="llvm16"
 # BTW, Fedora and Debian do the same thing.
 #
 _prefix="usr/lib/llvm$_majorver"
+_prefix32="usr/lib32/llvm$_majorver"
 
 prepare() {
 	default_prepare
@@ -120,16 +131,14 @@ build() {
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/$_prefix \
 		-DCMAKE_INSTALL_RPATH=/$_prefix \
-		\
 		-DLLVM_DEFAULT_TARGET_TRIPLE="$CBUILD" \
 		-DLLVM_HOST_TRIPLE="$CHOST" \
-		\
 		-DFFI_INCLUDE_DIR="$ffi_include_dir" \
 		-DLLVM_APPEND_VC_REV=OFF \
 		-DLLVM_BINUTILS_INCDIR=/usr/include \
 		-DLLVM_BUILD_DOCS=OFF \
 		-DLLVM_HOST_TRIPLE=$CARCH-originull-linux-gnu \
-	        -DLLVM_DEFAULT_TARGET_TRIPLE=$CARCH-originull-linux-gnu \
+		-DLLVM_DEFAULT_TARGET_TRIPLE=$CARCH-originull-linux-gnu \
 		-DLLVM_BUILD_EXAMPLES=OFF \
 		-DLLVM_BUILD_EXTERNAL_COMPILER_RT=ON \
 		-DLLVM_BUILD_LLVM_DYLIB=ON \
@@ -158,6 +167,48 @@ build() {
 	cmake --build build
 
 	python3 llvm/utils/lit/setup.py build
+
+	if [ "$CARCH" = "x86_64" ]; then
+		export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+		cmake -B build32 -G Ninja -Wno-dev -S llvm \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DCMAKE_INSTALL_PREFIX=/$_prefix32 \
+			-DCMAKE_INSTALL_RPATH=/$_prefix32 \
+			-DLLVM_APPEND_VC_REV=OFF \
+			-DLLVM_BINUTILS_INCDIR=/usr/include \
+			-DLLVM_BUILD_DOCS=OFF \
+			-DLLVM_DEFAULT_TARGET_TRIPLE=i686-originull-linux-gnu \
+			-DLLVM_BUILD_EXAMPLES=OFF \
+			-DLLVM_BUILD_EXTERNAL_COMPILER_RT=ON \
+			-DLLVM_BUILD_LLVM_DYLIB=ON \
+			-DLLVM_BUILD_TESTS=OFF \
+			-DLLVM_ENABLE_ASSERTIONS=OFF \
+			-DLLVM_ENABLE_DUMP=ON \
+			-DLLVM_ENABLE_EH=ON \
+			-DLLVM_ENABLE_FFI=OFF \
+			-DLLVM_ENABLE_LIBCXX=ON \
+			-DLLVM_ENABLE_LIBEDIT=OFF \
+			-DLLVM_ENABLE_PIC=ON \
+			-DLLVM_ENABLE_RTTI=ON \
+			-DLLVM_ENABLE_SPHINX=OFF \
+			-DLLVM_ENABLE_TERMINFO=OFF \
+			-DLLVM_ENABLE_ZLIB=OFF \
+			-DLLVM_ENABLE_ZSTD=OFF \
+			-DLLVM_INCLUDE_BENCHMARKS=OFF \
+			-DLLVM_INCLUDE_EXAMPLES=OFF \
+			-DLLVM_INSTALL_GTEST=OFF \
+			-DLLVM_INSTALL_UTILS=ON \
+			-DLLVM_LINK_LLVM_DYLIB=ON \
+			-DLLVM_USE_PERF=ON \
+			-DLLVM_LIBDIR_SUFFIX=32 \
+			-DLLVM_TARGET_ARCH:STRING=i686 \
+			-DCMAKE_CXX_FLAGS:STRING=-m32 \
+			-DCMAKE_C_FLAGS:STRING=-m32 \
+			-DLLVM_TARGETS_TO_BUILD=X86 
+
+		cmake --build build32
+	fi
+
 }
 
 check() {
@@ -166,6 +217,10 @@ check() {
 }
 
 package() {
+	if [ "$CARCH" = "x86_64" ]; then
+		DESTDIR="$pkgdir" cmake --install build32
+	fi
+
 	depends="$pkgname-linker-tools=$pkgver-r$pkgrel"
 	DESTDIR="$pkgdir" cmake --install build
 	python3 llvm/utils/lit/setup.py install --root="$pkgdir"
@@ -219,6 +274,13 @@ static() {
 	amove "$_prefix"/lib/*.a
 }
 
+_static32() {
+	pkgdesc="LLVM $_majorver static libraries (32-bit)"
+	depends=""
+	_common_subpkg
+	amove "$_prefix32"/lib32/*.a
+}
+
 libs() {
 	pkgdesc="LLVM $_majorver runtime library"
 	depends=""
@@ -238,6 +300,35 @@ libs() {
 	mkdir -p $_prefix/lib
 	ln -s ../../$soname $_prefix/lib/$soname
 	ln -s ../../$soname $_prefix/lib/$soname2
+}
+
+_llvm32() {
+	pkgdesc="Low Level Virtual Machine compiler system, version $_majorver (32-bit)"
+	_common_subpkg
+	amove usr/lib32/
+	mkdir -p "$subpkgdir"/usr/bin
+	ln -sf /usr/lib32/llvm18/usr/bin/llvm-config "$subpkgdir"/usr/bin/llvm-config32
+}
+
+_libs32() {
+	pkgdesc="LLVM $_majorver runtime library (32 bit)"
+	depends=""
+	local soname="libLLVM.so.${pkgver%.*}"
+	local soname2="libLLVM-$_majorver.so"
+
+	mkdir -p "$subpkgdir"
+	cd "$subpkgdir"
+
+	# libLLVM should be in /usr/lib. This is needed for binaries that are
+	# dynamically linked with libLLVM, so they can find it on default path.
+	mkdir -p "$subpkgdir"/usr/lib32
+	mv "$pkgdir"/$_prefix32/lib32/$soname "$subpkgdir"/usr/lib32/
+	ln -s $soname usr/lib32/$soname2
+
+	# And also symlink it back to the LLVM prefix.
+	mkdir -p $_prefix32/lib32
+	ln -s ../../$soname $_prefix32/lib32/$soname
+	ln -s ../../$soname $_prefix32/lib32/$soname2
 }
 
 linktools() {
