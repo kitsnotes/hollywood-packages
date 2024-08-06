@@ -7,7 +7,7 @@ url="https://neil.brown.name/blog/mdadm"
 arch="all"
 license="GPL-2.0-only"
 depends="lsblk"
-makedepends="groff linux-headers"
+makedepends="groff linux-headers systemd-dev"
 checkdepends="bash systemd e2fsprogs"
 subpackages="$pkgname-doc $pkgname-udev::noarch $pkgname-misc::noarch"
 source="https://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-$pkgver.tar.gz
@@ -15,6 +15,7 @@ source="https://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-$pkgver.tar.gz
 options="!check"
 
 build() {
+	export CWFLAGS="-Wall -Wstrict-prototypes -Wextra -Wno-unused-parameter -Wformat -Wformat-security -Werror=format-security -fstack-protector-strong -fPIE -Warray-bounds" 
 	make
 	make raid6check
 }
