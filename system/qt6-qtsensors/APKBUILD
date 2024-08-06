@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtsensors
-pkgver=6.5.2
+pkgver=6.7.2
 pkgrel=0
 pkgdesc="Provides access to sensor hardware and motion gesture recognition"
 url="https://qt.io/"
@@ -49,5 +49,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-5014ba0bb2ebecd23b26c7eabe5aa1dde2a18f31e1448f2e86411593772cb1fda74520460d7be97c4f612ff6d25d1135fb551d2407660754611a83e8b35aaa7b  qtsensors-everywhere-src-6.5.2.tar.xz
+fcc437407191ea8d56f54bdbef07d0c25f15e1eefa74f5bb2c3a49af4418fb75cd8f7a16a9afc9efcba7e14ed842ca6bddeff6225949e1d193bb6e8ff55fe565  qtsensors-everywhere-src-6.7.2.tar.xz
 "
