@@ -1,8 +1,7 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-polkit-qt-1
 pkgver=0.114.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Qt6 wrapper around polkit-1 client libraries"
 # s390x and riscv64 blocked by polkit-elogind
 arch="all !s390x !riscv64"
