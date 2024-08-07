@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=flac
 pkgver=1.4.3
-pkgrel=0
+pkgrel=1
 pkgdesc="Free Lossless Audio Codec"
 url="https://xiph.org/flac/"
 arch="all"
