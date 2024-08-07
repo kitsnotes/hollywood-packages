@@ -11,7 +11,7 @@ options="!check" # No test suite.
 license="GPL-2.0-or-later"
 depends_dev="cairo-dev glib-dev"
 makedepends="$depends_dev cmake fontconfig-dev
-	lcms2-dev libjpeg-turbo-dev qt6-qtbase-dev nss-dev
+	lcms2-dev libjpeg-turbo-dev qt6-qtbase-dev nss-dev gpgme-dev
 	libpng-dev libxml2-dev openjpeg-dev openjpeg-tools
 	tiff-dev zlib-dev"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-utils"
