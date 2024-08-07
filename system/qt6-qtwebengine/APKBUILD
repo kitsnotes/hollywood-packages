@@ -21,6 +21,7 @@ depends_dev="
 	libepoxy-dev
 	minizip-dev
 	nss-dev
+	libatomic-chimera
 	opus-dev
 	pciutils-dev
 	pipewire-dev
