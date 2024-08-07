@@ -1,0 +1,11 @@
+diff -Naur qtwebengine-6.7.2-orig/src/gn/CMakeLists.txt qtwebengine-6.7.2/src/gn/CMakeLists.txt
+--- qtwebengine-6.7.2-orig/src/gn/CMakeLists.txt	2024-08-07 18:04:01.736232617 +0000
++++ qtwebengine-6.7.2/src/gn/CMakeLists.txt	2024-08-07 18:04:35.776373837 +0000
+@@ -64,6 +64,7 @@
+         --cc ${CMAKE_C_COMPILER}
+         --cxx ${CMAKE_CXX_COMPILER}
+         --ld ${GN_LINKER}
++	--no-static-libstdc++
+         --platform ${platform}
+         --ar ${CMAKE_AR}
+         --qt-version "${QT_REPO_MODULE_VERSION}.qtwebengine.qt.io"

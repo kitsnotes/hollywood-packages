@@ -18,6 +18,7 @@ depends_dev="
 	libxkbfile-dev
 	libxml2-dev
 	libxslt-dev
+	libepoxy-dev
 	minizip-dev
 	nss-dev
 	opus-dev
@@ -126,6 +127,7 @@ builddir="$srcdir/qtwebengine-${pkgver/_/-}"
 
 source="$pkgname-$pkgver.tar.gz::https://github.com/qt/qtwebengine/archive/refs/tags/v$pkgver.tar.gz
 	qtwebengine-chromium-$_chromium_commit.tar.gz::https://github.com/qt/qtwebengine-chromium/archive/$_chromium_commit.tar.gz
+	gn-no-static-libcpp.patch
 	"
 
 prepare() {
@@ -179,4 +181,5 @@ package() {
 sha512sums="
 17cdf4330c4416b0282ca4b4a46cda1a40de9639c8856055af89d8ca720037f2cbdca78126ae971314815670d73d70205be7fb2924038139f75b5f158499817e  qt6-qtwebengine-6.7.2.tar.gz
 f87a9692f02d22cef86e4ea97c8083eb7163d7f2db2246eb894d9bae3769fc1985b52cee04cc390f879205bf982c58dd5f8564a73b3715a84397cb28f137e2af  qtwebengine-chromium-a08edbbf641285af44119d3172584d24e39dd22c.tar.gz
+f724152310dd841febfdc4aacf6395096f7cfcbd75395ef4069773fe2d49aaaf90886d89df9b7c44772439731e41e90bc8fdf5a9da9b1abec1fcd67815fe4b8c  gn-no-static-libcpp.patch
 "
