@@ -132,6 +132,7 @@ makedepends="
 	linux-headers
 	nghttp2-dev
 	openssl-dev
+	libatomic-chimera-dev
 	py3-jinja2
 	python3
 	samurai
