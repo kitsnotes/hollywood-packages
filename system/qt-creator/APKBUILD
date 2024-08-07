@@ -1,8 +1,7 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt-creator
 pkgver=13.0.2
-pkgrel=2
+pkgrel=3
 _llvmver=18
 pkgdesc="Lightweight and cross-platform C++ IDE"
 url="https://qt-project.org/wiki/Category:Tools::QtCreator"
