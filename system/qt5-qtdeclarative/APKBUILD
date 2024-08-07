@@ -1,8 +1,10 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qtdeclarative
-pkgver=5.15.5_git20220617
-pkgrel=2
-_commit="c47f3d7b227c9bc86ca1702ae3291a62c2116cfa"
+pkgver=5.15.10_git20230629
+pkgrel=0
+_module="${pkgname#qt5-}"
+_pkgver=3e98cdb2780d052fce3d7a3694596a690cd76aca
+_fullname=$_module-$_pkgver
 pkgdesc="Qt5 - QtDeclarative component"
 # Broken on armhf, upstream bug report https://bugreports.qt.io/browse/QTBUG-65246
 arch="all"
@@ -14,12 +16,23 @@ makedepends="
 	vulkan-headers
 	"
 subpackages="$pkgname-dbg $pkgname-dev"
-source="https://invent.kde.org/qt/qt/qtdeclarative/-/archive/$_commit/qtdeclarative-$_commit.tar.gz
-	link-libatomic-on-rv64.patch
+source="https://dev.alpinelinux.org/archive/qt/$_fullname.tar.xz
 	"
-builddir="$srcdir/qtdeclarative-$_commit"
 
 _qt5_prefix=/usr/lib/qt5
+
+builddir="$srcdir/$_fullname"
+
+_disturl="dev.alpinelinux.org:/archive/qt/"
+snapshot() {
+	clean
+	makedepends="git xz rsync tar" deps
+	mkdir -p "$srcdir" && cd "$srcdir"
+	git clone --filter=tree:0 https://invent.kde.org/qt/qt/$_module.git .
+	git archive --format tar --prefix=$_fullname/ $_pkgver > "$SRCDEST"/$_fullname.tar
+	xz -vv -T0 -9 -e "$SRCDEST"/$_fullname.tar
+	rsync --progress -La "$SRCDEST"/$_fullname.tar.xz $_disturl
+}
 
 prepare() {
 	default_prepare
@@ -29,15 +42,15 @@ prepare() {
 	mkdir .git
 }
 
-# Compiling with -Os generates segfaults
-export CFLAGS="${CFLAGS/-Os/-O2}"
-export CPPFLAGS=${CPPFLAGS/-Os/-O2}
-export CXXFLAGS="${CXXFLAGS/-Os/-O2}"
-
 build() {
-	# HACK so calls to "python" get what we want
-	ln -s /usr/bin/python3 python
-	export PATH="$(pwd):$PATH"
+	# Compiling with -Os generates segfaults
+	export CFLAGS="${CFLAGS/-Os/-O2}"
+	export CPPFLAGS=${CPPFLAGS/-Os/-O2}
+	export CXXFLAGS="${CXXFLAGS/-Os/-O2}"
+
+	# significantly reduce debug symbol size
+	export CFLAGS="$CFLAGS -g1"
+	export CXXFLAGS="$CXXFLAGS -g1"
 
 	qmake-qt5
 	make
@@ -71,6 +84,5 @@ dev() {
 }
 
 sha512sums="
-2953539b14a7ccb069797e87d1b2de28a1a1c88db59250bc0ebe2ed3615690ee8b6d11999d6854f6995f6b0d42157510dfa0140ef2a5a2537c8366d3458ff90a  qtdeclarative-c47f3d7b227c9bc86ca1702ae3291a62c2116cfa.tar.gz
-d048e8d04837ebab8439cc3d499a9a74114ae65357bad54123006d8b772b96ed907b20d781b95a6d71dd2efdb6e4e5a044a1205491df6e28d991989476bf0e55  link-libatomic-on-rv64.patch
+c5239058e0032fb7536aab6b90b7c72f2a6a9cd1ea48d0e06c1123dacd55513356fe905eb199db9c9defdad8e2a7cc40c22d10d6af767fd4d3297c907796b461  qtdeclarative-3e98cdb2780d052fce3d7a3694596a690cd76aca.tar.xz
 "
