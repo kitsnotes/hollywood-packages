@@ -1,7 +1,7 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=poppler
-pkgver=21.12.0
-pkgrel=1
+pkgver=24.02.0
+pkgrel=0
 pkgdesc="PDF rendering library based on xpdf 3.0"
 url="https://poppler.freedesktop.org/"
 arch="all"
@@ -16,7 +16,6 @@ makedepends="$depends_dev cmake fontconfig-dev
 	tiff-dev zlib-dev"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-utils"
 source="https://poppler.freedesktop.org/poppler-$pkgver.tar.xz
-	dont-enforce-build-type.patch
 	"
 
 # secfixes:
@@ -24,21 +23,6 @@ source="https://poppler.freedesktop.org/poppler-$pkgver.tar.xz
 #     - CVE-2019-9959
 #   0.76.0-r0:
 #     - CVE-2020-27778
-
-prepare() {
-	default_prepare
-
-	local _linked_pkg=poppler-qt5
-	local _linked_apkbuild="$startdir"/../../community/$_linked_pkg/APKBUILD
-	mkdir -p "$builddir"
-	if  [ -f "$_linked_apkbuild" ]; then
-		local _linked_ver=$( . "$_linked_apkbuild"; echo "$pkgver")
-		if [ "$_linked_ver" != "$pkgver" ]; then
-			error "pkgver needs to be identical with $_linked_pkg ($_linked_ver)"
-			return 1
-		fi
-	fi
-}
 
 build() {
 	if [ "$CBUILD" != "$CHOST" ]; then
@@ -77,6 +61,5 @@ _cpp() {
 }
 
 sha512sums="
-86856e33479a357deb671b4fdd6336a7581b5ac14b9715ffc2482d8dba7a455aab07317b1fc0c33f479f11de38012958fffa619105c255de51929e61a6b63e33  poppler-21.12.0.tar.xz
-b4141912e73e9a0baaf7b69d0901db24b4aba854c6aff8e01389ac760e4d23606ff29c37626747f24184f1bfc97e25d53a0f99b24eef7661ac9805ea3311802a  dont-enforce-build-type.patch
+95a208d21ac4d2d308a7ab3da43b95092ef78cd55ebe873c97e0d6c12d8b9d5c4614f83087616c35e1ed9d67ca606a5e008a98698bd12a332a8206ed4cf55500  poppler-24.02.0.tar.xz
 "
