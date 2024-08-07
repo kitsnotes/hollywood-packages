@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=x265
 pkgver=3.6
-pkgrel=0
+pkgrel=1
 pkgdesc="Open Source H265/HEVC video encoder"
 url="https://www.videolan.org/developers/x265.html"
 arch="all"
