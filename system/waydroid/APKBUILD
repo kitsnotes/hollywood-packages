@@ -1,5 +1,4 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=waydroid
 pkgver=1.3.1
 pkgrel=0
@@ -17,11 +16,9 @@ depends="
 	"
 makedepends="coreutils"
 triggers="$pkgname.trigger=/usr/share/waydroid-extra/images"
-subpackages="$pkgname-openrc $pkgname-nftables"
+subpackages="$pkgname-nftables"
 source="https://github.com/waydroid/waydroid/archive/$pkgver/waydroid-$pkgver.tar.gz
 	gbinder.conf
-	waydroid-container.initd
-	waydroid-container.confd
 	51_waydroid.nft
 	waydroid-session.desktop
 	"
@@ -33,8 +30,6 @@ package() {
 	install -Dm644 -t "$pkgdir"/etc "$srcdir"/gbinder.conf
 	install -Dm644 -t "$pkgdir"/etc/xdg/autostart "$srcdir"/waydroid-session.desktop
 
-	install -Dm755 "$srcdir"/waydroid-container.initd "$pkgdir"/etc/init.d/waydroid-container
-	install -Dm644 "$srcdir"/waydroid-container.confd "$pkgdir"/etc/conf.d/waydroid-container
 }
 
 nftables() {
@@ -47,8 +42,6 @@ nftables() {
 sha512sums="
 5458ff12b350336592588d6c8fb201b323da666b4fcd94ba184fec4a63c7511a50162c793c964928fc468fd63170f8b76fea21e9891744bec96ff7a690b65cf2  waydroid-1.3.1.tar.gz
 5619d1196144cb9eb02ae3cff44b910ff7f040657b262ddd25060e7c5e6834937b6593b7e9cacd43e1c19e47990d61b6a88fc8f668113815fe95da6a7445c3f4  gbinder.conf
-38a5d0c32efd2fc5a7c6d0c0950dd693986c61a49e47b2a59a176c02276d25800f1a5e733a03157d5216924542552a16f9ce5bd6f23a67caf531fb43f0c00944  waydroid-container.initd
-b841282b96110ec59a7aa539db0737327b09549d55c78dc4b2c3b28b4a6ad1facf015b3175cb6d3a38f13e47aa6314ef3dc1514a4e60dd653a97409ec54ba706  waydroid-container.confd
 27cec579cfda197ff70d6328043755fc3d1719347bf4987edb86a07341bc4f02b99b65a6ef1fcde58b48a925176e6d770ed7cef304edff6a860bf4d408a62e06  51_waydroid.nft
 56dc332d66c3eb3af08887eb2f4b8235419ff87a4e4632108cdde39cf274bc88b9e95c650a7d407d05a72f1ce2edf5d465a06b7e526113d9c9ae3817a6ed1f78  waydroid-session.desktop
 "
