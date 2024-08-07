@@ -44,7 +44,6 @@ makedepends="qt6-qtwayland-dev
 	libarchive-dev
 	linux-headers
 	parted-dev
-	skalibs-dev
 	util-linux-dev
 	dosfstools
 	btrfs-progs-libs
