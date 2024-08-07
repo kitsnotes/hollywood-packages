@@ -6,11 +6,22 @@ pkgdesc="Library handling all the details of proxy configuration"
 url="https://github.com/libproxy/libproxy"
 arch="all"
 license="LGPL-2.0-or-later"
-depends_dev="zlib-dev"
-makedepends="cmake python3-dev $depends_dev"
-subpackages="$pkgname-dev $pkgname-bin py3-$pkgname:_py:noarch"
-source="$pkgname-$pkgver.tar.gz::https://github.com/libproxy/libproxy/archive/refs/tags/$pkgver.tar.gz
+makedepends="
+	curl-dev
+	duktape-dev
+	glib-dev
+	gobject-introspection-dev
+	gsettings-desktop-schemas-dev
+	meson
+	python3
+	vala
 	"
+subpackages="
+	$pkgname-dev
+	$pkgname-doc
+	$pkgname-bin
+	"
+source="$pkgname-$pkgver.tar.gz::https://github.com/libproxy/libproxy/archive/refs/tags/$pkgver.tar.gz"
 
 # secfixes:
 #   0.4.15-r9:
@@ -19,39 +30,29 @@ source="$pkgname-$pkgver.tar.gz::https://github.com/libproxy/libproxy/archive/re
 #     - CVE-2020-25219
 
 build() {
-	cmake -B build . \
-		-DCMAKE_BUILD_TYPE=None \
-		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DLIBEXEC_INSTALL_DIR=lib \
-		-DMODULE_INSTALL_DIR=/usr/lib/libproxy/$pkgver/modules \
-		-DWITH_PERL=OFF \
-		-DWITH_PYTHON3=ON \
-		-DPYTHON3_EXECUTABLE=/usr/bin/python3
-	make -C build
+	abuild-meson \
+		-Db_lto=true \
+		-Dtests="$(want_check && echo true || echo false)" \
+		-Ddocs=false \
+		-Drelease=true \
+		. output
+	meson compile -C output
 }
 
 check() {
-	cd build
-	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+	meson test --no-rebuild --print-errorlogs -C output
 }
 
 package() {
-	make -C build DESTDIR="$pkgdir" install
-
-	mkdir -p "$pkgdir"/usr/lib
-	mv "$pkgdir"/usr/share/cmake "$pkgdir"/usr/lib
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 }
 
 bin() {
 	pkgdesc="Binary to test libproxy"
-	mkdir -p "$subpkgdir"/usr
-	mv "$pkgdir"/usr/bin "$subpkgdir"/usr/
+
+	amove usr/bin/proxy
 }
 
-_py() {
-	pkgdesc="Binding for libproxy and python 3"
-	mkdir -p "$subpkgdir"/usr/lib
-	mv "$pkgdir"/usr/lib/python* "$subpkgdir"/usr/lib/
-}
-
-sha512sums="d074db7b0c9be96e90fe631f0e2ab3abf175dab2ca79f931a8eaba188ee70e38765a8d4139d7f451d725dd8ab276abf5834e540327a86339c33284a13e73be97  libproxy-0.5.8.tar.gz"
+sha512sums="
+d074db7b0c9be96e90fe631f0e2ab3abf175dab2ca79f931a8eaba188ee70e38765a8d4139d7f451d725dd8ab276abf5834e540327a86339c33284a13e73be97  libproxy-0.5.8.tar.gz
+"
