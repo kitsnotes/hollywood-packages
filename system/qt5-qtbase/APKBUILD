@@ -18,11 +18,15 @@ depends_dev="$_sub
 	fontconfig-dev
 	freetype-dev
 	glib-dev
+	krb5-dev
+	harfbuzz-dev
 	libice-dev
+	libproxy-dev
 	libpng-dev
 	libsm-dev
 	libx11-dev
 	libxext-dev
+	tslib-dev
 	libglvnd-dev
 	openssl-dev>3
 	perl
@@ -121,6 +125,7 @@ build() {
 		-importdir "$_qt5_prefix"/imports \
 		-libexecdir "$_qt5_prefix"/libexec \
 		-no-rpath \
+		-platform linux-clang-libc++ \
 		-no-separate-debug-info \
 		-platform linux-clang \
 		-no-pch \
