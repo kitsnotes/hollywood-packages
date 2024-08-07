@@ -24,7 +24,6 @@ subpackages="
 	$pkgname-doc
 	$pkgname-dnssec
 	$pkgname-dnssec-dbus
-	$pkgname-openrc
 	$pkgname-common::noarch
 	"
 source="https://www.thekelleys.org.uk/dnsmasq/dnsmasq-$pkgver.tar.xz
@@ -32,8 +31,6 @@ source="https://www.thekelleys.org.uk/dnsmasq/dnsmasq-$pkgver.tar.xz
 
 	config.h.patch
 	dnsmasq.conf.patch
-	$pkgname.initd
-	$pkgname.confd
 	"
 
 # secfixes:
@@ -83,8 +80,6 @@ package() {
 
 	make PREFIX=/usr DESTDIR="$pkgdir" install
 
-	install -D -m755 "$srcdir"/$pkgname.initd "$pkgdir"/etc/init.d/$pkgname
-	install -D -m644 "$srcdir"/$pkgname.confd "$pkgdir"/etc/conf.d/$pkgname
 }
 
 dnssec() {
@@ -121,16 +116,9 @@ common() {
 		"$subpkgdir"/usr/share/$pkgname/trust-anchors.conf
 }
 
-openrc() {
-	default_openrc
-	install_if="openrc $pkgname-common=$pkgver-r$pkgrel"
-}
-
 sha512sums="
 965071ff35aed558a661e7f57ff82de170f4ad7fcdd6a4070ce7915c9f5e41450d8d86b2a0c2c30bf52ddc3aaeb22af18bb6da71a1cccb3c409429ef0ef308f3  dnsmasq-2.87.tar.xz
 d1c47feb2a2788f8b986109f824d2e300d98458d99b97b6b229481163614925246f3a86c26bcde55b9db4009acc9017a1c09e4c8414c9b38caf9cb4206f94152  0000-underflow.patch
 d0274417019af84911f3f4a850e785797bdc77732fd93504fe21db7317a874d2ab54bf7a211d000a751cdc43e225a30be4c1a315ab2383fc3fcc619e436aed97  config.h.patch
 41679e0e889607896dcf7fdeb179b9b7a79095c9f86aebda131ac09c12e3ef2a94cece0018ab33ea08d3e6f6bbae44379e9d6fb8987fae29e68ecad952ccdd45  dnsmasq.conf.patch
-0c609a55ca0140d8f31f8f6eb4cb96eca7bc76385d48739998bea926b409f3d72cbfdffc30ad3f9e3a62db4ea3280f7fe6a60a12fc091164814a7cdf6a14b307  dnsmasq.initd
-c6ecec498f07916cd3c5ff183ff2a2ec478cf95ee43c0082d164b548d72b13fc9ba7cfbca9fb50e919e146708b5ce7f3b3a6565b36223c4efe1481172214ad93  dnsmasq.confd
 "
