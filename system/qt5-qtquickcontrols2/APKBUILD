@@ -1,9 +1,10 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qtquickcontrols2
-pkgver=5.15.5_git20220617
+pkgver=5.15.10_git20230612
 pkgrel=0
-_commit="59cc1cc5b3719713598a1f426d82a9d895b5dccb"
+_module="${pkgname#qt5-}"
+_pkgver=0472a07a8f39587052216d85a7ed235c531eba2c
+_fullname=$_module-$_pkgver
 pkgdesc="Qt5 - module with set of QtQuick controls for embedded"
 url="https://www.qt.io/developers/"
 arch="all"
@@ -15,14 +16,19 @@ makedepends="
 	"
 subpackages="$pkgname-dev"
 options="!check" # No tests
-builddir="$srcdir/qtquickcontrols2-$_commit"
+source="https://dev.alpinelinux.org/archive/qt/$_fullname.tar.xz"
+builddir="$srcdir/$_fullname"
 
-case $pkgver in
-	*_beta*|*_rc*) _rel=development_releases;;
-	*) _rel=official_releases;;
-esac
-
-source="https://invent.kde.org/qt/qt/qtquickcontrols2/-/archive/$_commit/qtquickcontrols2-$_commit.tar.gz"
+_disturl="dev.alpinelinux.org:/archive/qt/"
+snapshot() {
+	clean
+	makedepends="git xz rsync tar" deps
+	mkdir -p "$srcdir" && cd "$srcdir"
+	git clone --filter=tree:0 https://invent.kde.org/qt/qt/$_module.git .
+	git archive --format tar --prefix=$_fullname/ $_pkgver > "$SRCDEST"/$_fullname.tar
+	xz -vv -T0 -9 -e "$SRCDEST"/$_fullname.tar
+	rsync --progress -La "$SRCDEST"/$_fullname.tar.xz $_disturl
+}
 
 prepare() {
 	default_prepare
@@ -43,10 +49,8 @@ package() {
 	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
 	find "$pkgdir/usr/lib" -type f -name '*.prl' \
 		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
-
-	install -d "$pkgdir"/usr/share/licenses
-	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
 }
+
 sha512sums="
-5582497a5b121a9fbf26f75b0fac19bf20a4e9c20129fd03e3fe56aea95943684f5e7719e8995ad0a8e819d700eba8e9991d646f355deb37f280f495ee6d0101  qtquickcontrols2-59cc1cc5b3719713598a1f426d82a9d895b5dccb.tar.gz
+ed61518760af5a66d945c4a42b925c99271d0afef2016cb8bdfb974f1970946bab8a5c549835fa200b179b866ebc2ab3e018f2e1403a1502202dd36a6b5e93b7  qtquickcontrols2-0472a07a8f39587052216d85a7ed235c531eba2c.tar.xz
 "
