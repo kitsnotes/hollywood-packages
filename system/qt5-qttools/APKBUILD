@@ -1,34 +1,51 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qttools
-pkgver=5.15.5_git20220619
-pkgrel=0
-_commit="672ba9d902be3634a9fef80be65227aece9e0aed"
+pkgver=5.15.10_git20230612
+pkgrel=1
+_module="${pkgname#qt5-}"
+_pkgver=9f7af2d08eea7c2a2a2bfe7e6a9b73d1b99f5123
+_fullname=$_module-$_pkgver
 pkgdesc="Qt5 - QtTool components"
 url="https://www.qt.io/developers/"
 arch="all"
-license="(LGPL-2.0-or-later OR GPL-3.0-only OR GPL-2.0-or-later) AND Qt-GPL-exception-1.0 AND GFDL-1.3-or-later"
-# adding llvm-dev breaks the qdoc plugin, because it uses llvm-config to find
-# the wrong clang include directory.
+license="( LGPL-2.0-or-later OR GPL-3.0-only OR GPL-2.0-or-later ) AND Qt-GPL-exception-1.0 AND GFDL-1.3-or-later"
+depends_dev="$pkgname=$pkgver-r$pkgrel"
+_llvmver=17
 makedepends="
-	clang-dev
+	clang$_llvmver-dev
+	llvm$_llvmver-dev
 	qt5-qtbase-dev
 	qt5-qtdeclarative-dev
 	vulkan-headers
 	"
-subpackages="$pkgname-dev qt5-assistant:_assistant qt5-qdbusviewer:_dbusviewer"
-builddir="$srcdir/qttools-$_commit"
+subpackages="
+	$pkgname-dev
+	qt5-assistant:_assistant
+	qt5-qdbusviewer:_dbusviewer
+	libqt5help
+	libqt5designer
+	libqt5designercomponents
+	"
+replaces="qtchooser"
 
-case $pkgver in
-	*_beta*|*_rc*) _rel=development_releases;;
-	*) _rel=official_releases;;
-esac
-
-source="https://invent.kde.org/qt/qt/qttools/-/archive/$_commit/qttools-$_commit.tar.gz
+source="https://dev.alpinelinux.org/archive/qt/$_fullname.tar.xz
 	assistant-qt5.desktop
 	designer-qt5.desktop
 	linguist-qt5.desktop
 	qdbusviewer-qt5.desktop
 	"
+builddir="$srcdir/$_fullname"
+
+_disturl="dev.alpinelinux.org:/archive/qt/"
+snapshot() {
+	clean
+	makedepends="git xz rsync tar" deps
+	mkdir -p "$srcdir" && cd "$srcdir"
+	git clone --filter=tree:0 https://invent.kde.org/qt/qt/$_module.git .
+	git archive --format tar --prefix=$_fullname/ $_pkgver > "$SRCDEST"/$_fullname.tar
+	xz -vv -T0 -9 -e "$SRCDEST"/$_fullname.tar
+	rsync --progress -La "$SRCDEST"/$_fullname.tar.xz $_disturl
+}
 
 _qt5_prefix=/usr/lib/qt5
 
@@ -52,6 +69,7 @@ package() {
 	mkdir -p "$pkgdir"/usr/bin/
 	for i in "$pkgdir"/"$_qt5_prefix"/bin/*; do
 		ln -s ../lib/qt5/bin/${i##*/} "$pkgdir"/usr/bin/${i##*/}-qt5
+		ln -s ../lib/qt5/bin/${i##*/} "$pkgdir"/usr/bin/${i##*/}
 	done
 
 	for i in $source; do
@@ -84,23 +102,17 @@ package() {
 		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 }
 
-_mv_files() {
-	local i
-	for i in "$@"; do
-		mkdir -p "$subpkgdir"/${i%/*}
-		mv "$pkgdir"/$i "$subpkgdir"/$i
-	done
-}
-
 dev() {
 	default_dev
+
 	cd "$pkgdir"
 	for i in designer lconvert linguist lrelease lupdate pixeltool \
-		qhelpgenerator; do
+		qhelpgenerator lprodump lrelease-pro lupdate-pro qcollectiongenerator \
+		qdoc; do
 
-		_mv_files $_qt5_prefix/bin/$i usr/bin/$i-qt5
+		amove $_qt5_prefix/bin/$i usr/bin/$i usr/bin/$i-qt5
 	done
-	_mv_files \
+	amove \
 		usr/share/applications/designer* \
 		usr/share/applications/linguist* \
 		usr/share/icons/hicolor/*/apps/designer* \
@@ -110,7 +122,7 @@ dev() {
 _assistant() {
 	pkgdesc="Documentation browser for Qt5"
 	cd "$pkgdir"
-	_mv_files usr/bin/assistant* \
+	amove usr/bin/assistant* \
 		$_qt5_prefix/bin/assistant \
 		usr/share/applications/*assistant* \
 		usr/share/icons/hicolor/*/apps/assistant*
@@ -119,14 +131,29 @@ _assistant() {
 _dbusviewer() {
 	pkgdesc="D-Bus debugger and viewer"
 	cd "$pkgdir"
-	_mv_files usr/bin/qdbusviewer* \
+	amove usr/bin/qdbusviewer* \
 		$_qt5_prefix/bin/qdbusviewer \
 		usr/share/applications/qdbusviewer* \
 		usr/share/icons/hicolor/*/apps/qdbusviewer*
 }
 
+libqt5help() {
+	pkgdesc="Qt5 - $subpkgname"
+	amove usr/lib/libQt5Help.so.*
+}
+
+libqt5designer() {
+	pkgdesc="Qt5 - $subpkgname"
+	amove usr/lib/libQt5Designer.so.*
+}
+
+libqt5designercomponents() {
+	pkgdesc="Qt5 - $subpkgname"
+	amove usr/lib/libQt5DesignerComponents.so.*
+}
+
 sha512sums="
-ef40d432e6c900fca994980210a99fb882763e4c87b00f7d06c99fe19dcdac94d22175dc9438c19f547bb509be0bcf7a5ec55087e6b5ac55f1c757f22fcf724d  qttools-672ba9d902be3634a9fef80be65227aece9e0aed.tar.gz
+fb29502c1c25ac0f6a0b97114c757a43413d08be0aa86413ececf908e4dbf7134181e452e95592b9d81709d74e27374c5af77e220b59ed2055b0a86f4dbd417d  qttools-9f7af2d08eea7c2a2a2bfe7e6a9b73d1b99f5123.tar.xz
 d566c5284854855541df7177b23f491d96f5064b571e899a44f1d4fcf8bbf1223590b05b1954278dc6f3f56341c917f5b846594c5bd2215b6a859224038d8ad2  assistant-qt5.desktop
 72d9a2235a60c4ae05ba8395d473fe0b42c12e584da619dadb112eb67ba33a85fe0dab6c185d98112d7b25d3eeacaf02f7ef4731742e50c17eacc54c383661b3  designer-qt5.desktop
 b6d8a672d19eed39ab868ff6fc880f255da94acb9e1e84f5905c0f3b9b6055547e8a706492973692c06dc23d35ce77622fc13efc11adf21b62c3baf4ef5ab2ad  linguist-qt5.desktop
