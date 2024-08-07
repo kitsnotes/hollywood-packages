@@ -1,8 +1,7 @@
-# Contributor: Clayton Craft <clayton@craftyguy.net>
-# Maintainer: Clayton Craft <clayton@craftyguy.net>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=webrtc-audio-processing
 pkgver=0.3.1
-pkgrel=5
+pkgrel=6
 pkgdesc="AudioProcessing module from the WebRTC project"
 url="https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/"
 # unsupported in the code
