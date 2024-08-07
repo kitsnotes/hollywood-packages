@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0.67
-pkgrel=2
+pkgrel=3
 # When bumping pkgrel, update pkgver in system/hollywood-base
 buildver=${pkgver#*.*.};
 pkgdesc="Hollywood Desktop"
@@ -13,7 +13,6 @@ makedepends="qt6-qtwayland-dev
 	qt6-qttools-dev
 	qt6-qtmultimedia-dev
 	qt5-qtbase-dev
-	qt5-qtmultimedia-dev
 	qt5-qtwayland-dev
 	qt6-qtwebengine-dev
 	qt6-qtaccountsservice-dev	
@@ -323,7 +322,6 @@ qt5libs() {
         depends="hollywood-baselibs
         qt5-qtbase
         qt5-qtwayland
-	qt5-qtmultimedia
 	"
 
 	amove usr/lib/qt5/* \
