@@ -1,0 +1,11 @@
+diff -Naur qtbase-9815348dd2fdc8c0eac8abd6f6219a3c2e1978fa/mkspecs/linux-clang-libc++/qmake.conf qtbase-9815348dd2fdc8c0eac8abd6f6219a3c2e1978fa-chg/mkspecs/linux-clang-libc++/qmake.conf
+--- qtbase-9815348dd2fdc8c0eac8abd6f6219a3c2e1978fa/mkspecs/linux-clang-libc++/qmake.conf	2023-07-13 16:06:53.000000000 +0000
++++ qtbase-9815348dd2fdc8c0eac8abd6f6219a3c2e1978fa-chg/mkspecs/linux-clang-libc++/qmake.conf	2024-08-07 01:34:38.528757571 +0000
+@@ -5,6 +5,6 @@
+ include(../linux-clang/qmake.conf)
+ 
+ QMAKE_CXXFLAGS    += -stdlib=libc++
+-QMAKE_LFLAGS      += -stdlib=libc++
++QMAKE_LFLAGS      += -stdlib=libc++ -Wl,--undefined-version
+ 
+ load(qt_config)

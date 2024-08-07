@@ -71,6 +71,7 @@ case $pkgver in
 esac
 
 source="https://dev.alpinelinux.org/archive/qt/$_fullname.tar.xz
+		mkspecs.patch
 		fix-build-with-xkbcommon-160.patch
 	"
 
@@ -105,6 +106,7 @@ prepare() {
 }
 
 build() {
+	QMAKE_LFLAGS="-Wl,--undefined-version" \
 	LDFLAGS="-Wl,--undefined-version" \
 	./configure -confirm-license -opensource \
 		-archdatadir "$_qt5_prefix" \
@@ -244,5 +246,6 @@ gui() {
 
 sha512sums="
 7237f04e6b8c947cc87cbfff326f3b04c4dbd5de1799898849ba2ed0b5a2bb9f950facf3503109d9a2f62bbfa48945f7549c08730bb05a084b911d2ca16d1ed8  qtbase-9815348dd2fdc8c0eac8abd6f6219a3c2e1978fa.tar.xz
+a51b0204ed143989ae2d00a4d795ca160060c613d28d04ea426c852a1eb0bff683f295757661668240d57a6ac4ab12004e4e0699cc2cea5759621c4b077d4b78  mkspecs.patch
 1f97b8ac068df2169c114a44e277faec66e4b353a024c328dd506c6ca1270d124f84a61c0c5cf45f7458a6d702570bf7fcdd70e0ce2d040d0b4a8f4cf59d8776  fix-build-with-xkbcommon-160.patch
 "
