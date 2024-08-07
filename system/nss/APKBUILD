@@ -7,23 +7,29 @@ url="https://developer.mozilla.org/docs/Mozilla/Projects/NSS"
 arch="all"
 license="MPL-2.0"
 depends_dev="nspr-dev"
-makedepends="nspr-dev sqlite-dev zlib-dev perl linux-headers gyp"
-checkdepends="bash"
+makedepends="
+	$depends_dev
+	bash
+	linux-headers
+	gyp
+	perl
+	sqlite-dev
+	zlib-dev
+	"
 subpackages="$pkgname-dev $pkgname-tools"
 source="https://ftp.mozilla.org/pub/security/nss/releases/NSS_${pkgver//./_}_RTM/src/nss-$pkgver.tar.gz
+	gyp-config.patch
 	no-werror.patch
 	nss.pc.in
 	nss-util.pc.in
 	nss-softokn.pc.in
 	nss-config.in
 	"
-# FIPS mode requires a signed cryptographic module.  Stripping the binaries
-# invalidates the signatures generated during the build process.  In reality,
-# we should probably just drop FIPS support because we're not FIPS-certified,
-# but we can debate that later.
-options="!strip"
+builddir="$srcdir/$pkgname-$pkgver/nss"
 
 # secfixes:
+#   3.98-r0:
+#     - CVE-2023-5388
 #   3.76.1-r0:
 #     - CVE-2022-1097
 #   3.73-r0:
@@ -47,107 +53,109 @@ options="!strip"
 #     - CVE-2018-12384
 
 build() {
-	cd nss
 	CFLAGS="$CFLAGS -O2 -flto=auto" \
-        CXXFLAGS="$CXXFLAGS -O2 -flto=auto" \
-        ./build.sh \
-                --opt \
-                --system-nspr \
-                --system-sqlite \
-                --enable-libpkix
+	CXXFLAGS="$CXXFLAGS -O2 -flto=auto" \
+	./build.sh \
+		--opt \
+		--system-nspr \
+		--system-sqlite \
+		--enable-libpkix
 }
 
 check() {
-	cd nss/tests
-	# other tests are failing with NSS_DISABLE_DEPRECATED_SEED=1 and NSS_DISABLE_GTESTS=1
-	export NSS_TESTS="cipher libpkix"
+	cd tests
+	# other tests are failing for some reason and prompt an interactive password
+	export NSS_TESTS="cipher lowhash libpkix"
 	export NSS_CYCLES=standard
 	HOST=localhost DOMSUF=localdomain bash ./all.sh
 }
 
 package() {
-        replaces="nss-dev libnss"
+	replaces="nss-dev libnss"
 
-        local nss_vmajor=$(awk '/#define.*NSS_VMAJOR/ {print $3}' nss/lib/nss/nss.h)
-        local nss_vminor=$(awk '/#define.*NSS_VMINOR/ {print $3}' nss/lib/nss/nss.h)
-        local nss_vpatch=$(awk '/#define.*NSS_VPATCH/ {print $3}' nss/lib/nss/nss.h)
-        local nspr_version="$(pkg-config --modversion nspr)"
+	local nss_vmajor=$(awk '/#define.*NSS_VMAJOR/ {print $3}' lib/nss/nss.h)
+	local nss_vminor=$(awk '/#define.*NSS_VMINOR/ {print $3}' lib/nss/nss.h)
+	local nss_vpatch=$(awk '/#define.*NSS_VPATCH/ {print $3}' lib/nss/nss.h)
+	local nspr_version="$(pkg-config --modversion nspr)"
 
-        # pkgconfig files
-        mkdir -p "$pkgdir"/usr/lib/pkgconfig
-        local _pc; for _pc in nss.pc nss-util.pc nss-softokn.pc; do
-                sed "$srcdir"/$_pc.in \
-                        -e "s,%libdir%,/usr/lib,g" \
-                        -e "s,%prefix%,/usr,g" \
-                        -e "s,%exec_prefix%,/usr/bin,g" \
-                        -e "s,%includedir%,/usr/include/nss,g" \
-                        -e "s,%SOFTOKEN_VERSION%,$pkgver,g" \
-                        -e "s,%NSPR_VERSION%,$nspr_version,g" \
-                        -e "s,%NSS_VERSION%,$pkgver,g" \
-                        -e "s,%NSSUTIL_VERSION%,$pkgver,g" \
-                        > "$pkgdir"/usr/lib/pkgconfig/$_pc
-        done
-        ln -sf nss.pc "$pkgdir"/usr/lib/pkgconfig/mozilla-nss.pc
-        chmod 644 "$pkgdir"/usr/lib/pkgconfig/*.pc
+	# pkgconfig files
+	mkdir -p "$pkgdir"/usr/lib/pkgconfig
+	local _pc; for _pc in nss.pc nss-util.pc nss-softokn.pc; do
+		sed "$srcdir"/$_pc.in \
+			-e "s,%libdir%,/usr/lib,g" \
+			-e "s,%prefix%,/usr,g" \
+			-e "s,%exec_prefix%,/usr/bin,g" \
+			-e "s,%includedir%,/usr/include/nss,g" \
+			-e "s,%SOFTOKEN_VERSION%,$pkgver,g" \
+			-e "s,%NSPR_VERSION%,$nspr_version,g" \
+			-e "s,%NSS_VERSION%,$pkgver,g" \
+			-e "s,%NSSUTIL_VERSION%,$pkgver,g" \
+			> "$pkgdir"/usr/lib/pkgconfig/$_pc
+	done
+	ln -sf nss.pc "$pkgdir"/usr/lib/pkgconfig/mozilla-nss.pc
+	chmod 644 "$pkgdir"/usr/lib/pkgconfig/*.pc
 
-        # nss-config
-        mkdir -p "$pkgdir"/usr/bin
-        sed "$srcdir"/nss-config.in \
-                -e "s,@libdir@,/usr/lib,g" \
-                -e "s,@prefix@,/usr/bin,g" \
-                -e "s,@exec_prefix@,/usr/bin,g" \
-                -e "s,@includedir@,/usr/include/nss,g" \
-                -e "s,@MOD_MAJOR_VERSION@,${nss_vmajor},g" \
-                -e "s,@MOD_MINOR_VERSION@,${nss_vminor},g" \
-                -e "s,@MOD_PATCH_VERSION@,${nss_vpatch},g" \
-                > "$pkgdir"/usr/bin/nss-config
-        chmod 755 "$pkgdir"/usr/bin/nss-config
+	# nss-config
+	mkdir -p "$pkgdir"/usr/bin
+	sed "$srcdir"/nss-config.in \
+		-e "s,@libdir@,/usr/lib,g" \
+		-e "s,@prefix@,/usr/bin,g" \
+		-e "s,@exec_prefix@,/usr/bin,g" \
+		-e "s,@includedir@,/usr/include/nss,g" \
+		-e "s,@MOD_MAJOR_VERSION@,${nss_vmajor},g" \
+		-e "s,@MOD_MINOR_VERSION@,${nss_vminor},g" \
+		-e "s,@MOD_PATCH_VERSION@,${nss_vpatch},g" \
+		> "$pkgdir"/usr/bin/nss-config
+	chmod 755 "$pkgdir"/usr/bin/nss-config
 
-        local minor=${pkgver#*.}
-        minor=${minor%.*}
-        find dist/Release/lib -name "*.so" | while IFS= read -r file; do
-                install -Dm755 $file \
-                        "$pkgdir"/usr/lib/${file##*/}.$minor
-                ln -s ${file##*/}.$minor "$pkgdir"/usr/lib/${file##*/}
-        done
+	cd ..
 
-        for file in certutil cmsutil crlutil modutil pk12util shlibsign \
-                        signtool signver ssltap; do
-                install -Dm755 dist/Release/bin/$file -t "$pkgdir"/usr/bin/
-        done
+	local minor=${pkgver#*.}
+	minor=${minor%.*}
+	find dist/Release/lib -name "*.so" | while IFS= read -r file; do
+		install -Dm755 $file \
+			"$pkgdir"/usr/lib/${file##*/}.$minor
+		ln -s ${file##*/}.$minor "$pkgdir"/usr/lib/${file##*/}
+	done
 
-        install -Dm644 dist/public/nss/*.h -t "$pkgdir"/usr/include/nss/
-        install -Dm644 dist/private/nss/blapi.h dist/private/nss/alghmac.h -t "$pkgdir"/usr/include/nss/private/
+	for file in certutil cmsutil crlutil modutil pk12util shlibsign \
+			signtool signver ssltap; do
+		install -Dm755 dist/Release/bin/$file -t "$pkgdir"/usr/bin/
+	done
+
+	install -Dm644 dist/public/nss/*.h -t "$pkgdir"/usr/include/nss/
+	install -Dm644 dist/private/nss/blapi.h dist/private/nss/alghmac.h -t "$pkgdir"/usr/include/nss/private/
 }
 
 dev() {
-        # we cannot use default_dev because we need the .so symlinks in main package
-        local i
-        pkgdesc="Development files for nss"
-        depends="$pkgname=$pkgver-r$pkgrel $depends_dev"
+	# we cannot use default_dev because we need the .so symlinks in main package
+	local i
+	pkgdesc="Development files for nss"
+	depends="$pkgname=$pkgver-r$pkgrel $depends_dev"
 
-        amove usr/bin/nss-config
+	amove usr/bin/nss-config
 
-        cd "$pkgdir"
-        for i in usr/include usr/lib/pkgconfig; do
-                if [ -e "$pkgdir/$i" ] || [ -L "$pkgdir/$i" ]; then
-                        d="$subpkgdir/${i%/*}"  # dirname $i
-                        mkdir -p "$d"
-                        mv "$pkgdir/$i" "$d"
-                        rmdir "$pkgdir/${i%/*}" 2>/dev/null || true
-                fi
-        done
+	cd "$pkgdir"
+	for i in usr/include usr/lib/pkgconfig; do
+		if [ -e "$pkgdir/$i" ] || [ -L "$pkgdir/$i" ]; then
+			d="$subpkgdir/${i%/*}"  # dirname $i
+			mkdir -p "$d"
+			mv "$pkgdir/$i" "$d"
+			rmdir "$pkgdir/${i%/*}" 2>/dev/null || true
+		fi
+	done
 }
 
 tools() {
 	pkgdesc="Tools for the Network Security Services"
 	replaces="nss"
-	mkdir -p "$subpkgdir"/usr/
-	mv "$pkgdir"/usr/bin "$subpkgdir"/usr/
+
+	amove usr/bin
 }
 
 sha512sums="
 bc7680fc34d84de7953b27f1a220681f3f5c5a501a82be210ec6134894313f6a2c9bfcc350f4802152a5e3a1fc2defc74d700445ade338d6c86a923ac8b4dc75  nss-3.103.tar.gz
+c00696182fb0b977e04b2ba2bf050b2d64f8db958b52ebe0fca834482652b57d9a0c7f1cec7b74407d59b9b699d6d5dc79ebe32fcbaa0f36c33ad4cd86a3089c  gyp-config.patch
 6c432488b5b2cdfc89928ea512f396dfa8b383766ad7edb6f051ff16e6e2f2bfe6f3d11e95e7183d271ad29dcd03e46ba67775db8052b100bc39b3d798d2fe55  no-werror.patch
 75dbd648a461940647ff373389cc73bc8ec609139cd46c91bcce866af02be6bcbb0524eb3dfb721fbd5b0bc68c20081ed6f7debf6b24317f2a7ba823e8d3c531  nss.pc.in
 0f2efa8563b11da68669d281b4459289a56f5a3a906eb60382126f3adcfe47420cdcedc6ab57727a3afeeffa2bbb4c750b43bef8b5f343a75c968411dfa30e09  nss-util.pc.in
