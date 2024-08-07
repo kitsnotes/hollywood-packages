@@ -10,7 +10,7 @@ options="!check" # No test suite.
 [ "$CARCH" = "riscv64" ] && options="$options textrels"
 license="GPL-2.0-or-later"
 depends_dev="cairo-dev glib-dev"
-makedepends="$depends_dev cmake fontconfig-dev
+makedepends="$depends_dev cmake fontconfig-dev curl-dev
 	lcms2-dev libjpeg-turbo-dev qt6-qtbase-dev nss-dev gpgme-dev
 	libpng-dev libxml2-dev openjpeg-dev openjpeg-tools
 	tiff-dev zlib-dev"
