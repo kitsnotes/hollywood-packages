@@ -127,7 +127,6 @@ build() {
 		-no-rpath \
 		-platform linux-clang-libc++ \
 		-no-separate-debug-info \
-		-platform linux-clang \
 		-no-pch \
 		-nomake examples \
 		$_opengl \
