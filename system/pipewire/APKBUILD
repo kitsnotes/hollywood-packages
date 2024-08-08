@@ -132,7 +132,7 @@ pulse() {
 	pkgdesc="Pulseaudio support for pipewire"
 	depends="
 		pipewire-session-manager
-		pulseaudio-utils
+		pulseaudio-client
 		"
 	provides="pulseaudio=$pkgver-r$pkgrel pulseaudio-bluez=$pkgver-r$pkgrel"
 	provider_priority=1
