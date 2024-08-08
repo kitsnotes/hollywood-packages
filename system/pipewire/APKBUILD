@@ -2,60 +2,67 @@
 pkgname=pipewire
 pkgver=1.2.2
 pkgrel=0
+_so_ver=0.3
 pkgdesc="Multimedia processing graphs"
 url="https://pipewire.org/"
 arch="all"
 license="LGPL-2.1-or-later"
+pkggroups="pipewire"
 makedepends="
 	alsa-lib-dev
+	avahi-dev
 	bash
 	bluez-dev
 	dbus-dev
 	doxygen
-	systemd-dev
+	eudev-dev
 	fdk-aac-dev
 	glib-dev
 	graphviz
-	libdrm-dev
 	gst-plugins-base-dev
 	gstreamer-dev
+	jack-dev
+	libcamera-dev
 	libfreeaptx-dev
+	liblc3-dev
 	libusb-dev
 	libx11-dev
-	ffmpeg-dev
+	lilv-dev
 	meson
+	modemmanager-dev
 	ncurses-dev
+	pulseaudio-dev
 	py3-docutils
 	readline-dev
+	roc-toolkit-dev
 	sbc-dev
-	pulseaudio-dev
 	vulkan-loader-dev
 	xmltoman
 	"
+# move regular -dev after -jackdev, to steal files
 subpackages="
-	$pkgname-dev
+	$pkgname-dbg
 	$pkgname-doc
 	$pkgname-alsa
 	$pkgname-pulse
+	$pkgname-jack
+	$pkgname-jack-dev:jackdev
+	$pkgname-dev
 	gst-plugin-pipewire:gst_plugin
+	$pkgname-zeroconf
 	$pkgname-spa-bluez
 	$pkgname-spa-vulkan
 	$pkgname-tools
 	$pkgname-spa-tools:spa_tools
-	$pkgname-libs
 	$pkgname-lang
 	"
-install="$pkgname.post-upgrade"
+install="$pkgname.post-upgrade $pkgname.post-install"
 source="https://gitlab.freedesktop.org/PipeWire/pipewire/-/archive/$pkgver/pipewire-$pkgver.tar.gz
+	pipewire.desktop
 	pipewire-launcher.sh
 	"
 
 case "$CARCH" in
-	# Limited by webrtc-audio-processing-dev
-	x86 | x86_64 | aarch64)
-		makedepends="$makedepends webrtc-audio-processing-dev libldac-dev"
-		subpackages="$subpackages $pkgname-echo-cancel:echo_cancel"
-		;;
 	s390x)
 		# libldac not available for big endian
 		;;
@@ -64,63 +71,85 @@ case "$CARCH" in
 		;;
 esac
 
+case "$CARCH" in
+	ppc64le|s390x|riscv64)
+		# no webrtc-audio-processing
+		;;
+	*)
+		makedepends="$makedepends webrtc-audio-processing-1-dev"
+		subpackages="$subpackages $pkgname-echo-cancel:echo_cancel"
+		;;
+esac
+
+# put libs last to steal residual files taken by some prior extras
+subpackages="$subpackages $pkgname-libs"
+
 build() {
+	CFLAGS="$CFLAGS -O2" \
+	CXXFLAGS="$CXXFLAGS -O2" \
+	CPPFLAGS="$CPPFLAGS -O2" \
 	abuild-meson \
+		-Db_lto=true \
+		-Dlibjack-path=/usr/lib \
+		-Dlibv4l2-path=/usr/lib \
 		-Ddocs=disabled \
 		-Dman=enabled \
 		-Dgstreamer=enabled \
 		-Dexamples=enabled \
-		-Dffmpeg=enabled \
-		-Dsystemd=enabled \
+		-Dffmpeg=disabled \
+		-Djack-devel=true \
+		-Dsystemd=disabled \
 		-Dvulkan=enabled \
 		-Dsdl2=disabled \
+		-Dlv2=enabled \
+		-Dlibcamera=enabled \
+		-Droc=enabled \
+		-Dbluez5-codec-lc3=enabled \
+		-Dbluez5-backend-native-mm=enabled \
 		-Dsession-managers=[] \
 		. output
-	meson compile ${JOBS:+-j ${JOBS}} -C output
+	meson compile -C output
 }
 
 check() {
-	meson test --no-rebuild -v -C output
+	meson test --no-rebuild --print-errorlogs -C output
 }
 
 package() {
 	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 
+	install -Dm644 "$srcdir"/pipewire.desktop -t "$pkgdir"/etc/xdg/autostart/
 	install -Dm755 "$srcdir"/pipewire-launcher.sh "$pkgdir"/usr/libexec/pipewire-launcher
-}
-
-dev() {
-	default_dev
-
-
-	#mv "$subpkgdir"/usr/lib/libjack* "$pkgdir"/usr/lib/
 }
 
 alsa() {
 	pkgdesc="ALSA support for pipewire"
-	provides="pulseaudio-alsa=$pkgver-r$pkgrel"
-	provider_priority=1
 	replaces="$pkgname"  # for backward compatibility
 
 	amove usr/lib/alsa-lib
 	amove usr/share/alsa/alsa.conf.d
 
-	mkdir -p "$subpkgdir"/etc/alsa/conf.d
-	cp -r \
-		"$subpkgdir"/usr/share/alsa/alsa.conf.d/*.conf \
-		"$subpkgdir"/etc/alsa/conf.d/
+	install -d "$subpkgdir"/etc/alsa/conf.d
+	for i in "$subpkgdir"/usr/share/alsa/alsa.conf.d/*.conf; do
+		ln -s -- "${i#"$subpkgdir"}" "$subpkgdir"/etc/alsa/conf.d/
+	done
 }
 
 pulse() {
 	pkgdesc="Pulseaudio support for pipewire"
-	depends="pipewire-session-manager"
+	depends="
+		pipewire-session-manager
+		pulseaudio-utils
+		"
 	provides="pulseaudio=$pkgver-r$pkgrel pulseaudio-bluez=$pkgver-r$pkgrel"
 	provider_priority=1
 
 	amove usr/bin/pipewire-pulse
-	amove usr/lib/pipewire-${pkgver%.*}/libpipewire-module-protocol-pulse.so
-	amove usr/lib/pipewire-${pkgver%.*}/libpipewire-module-pulse-tunnel.so
+	amove usr/lib/pipewire-$_so_ver/libpipewire-module-protocol-pulse.so
+	amove usr/lib/pipewire-$_so_ver/libpipewire-module-pulse-tunnel.so
+	amove usr/lib/pipewire-$_so_ver/libpipewire-module-filter-chain-lv2.so
 	amove usr/share/pipewire/pipewire-pulse.conf
+	amove usr/share/pipewire/pipewire-pulse.conf.avail
 
 }
 
@@ -130,7 +159,7 @@ jack() {
 	provides="jack=$pkgver-r$pkgrel"
 	replaces="jack"
 
-	amove usr/lib/libjack*
+	amove usr/lib/libjack*.so.*
 	amove usr/bin/pw-jack
 	amove usr/lib/spa-*/jack/libspa-jack.so
 	amove usr/share/pipewire/jack.conf
@@ -139,6 +168,7 @@ jack() {
 gst_plugin() {
 	pkgdesc="Multimedia graph framework - PipeWire plugin"
 	depends="pipewire-session-manager gst-plugins-base"
+	install_if="$pkgname=$pkgver-r$pkgrel gstreamer"
 
 	amove usr/lib/gstreamer-1.0
 }
@@ -147,7 +177,7 @@ echo_cancel() {
 	pkgdesc="WebRTC-based echo canceller module for PipeWire"
 	depends="$pkgname=$pkgver-r$pkgrel"
 
-	amove usr/lib/pipewire-${pkgver%.*}/libpipewire-module-echo-cancel.so
+	amove usr/lib/pipewire-$_so_ver/libpipewire-module-echo-cancel.so
 }
 
 zeroconf() {
@@ -156,7 +186,8 @@ zeroconf() {
 	provides="pulseaudio-zeroconf=$pkgver-r$pkgrel"
 	provider_priority=1
 
-	amove usr/lib/pipewire-${pkgver%.*}/libpipewire-module-zeroconf-discover.so
+	amove usr/lib/pipewire-$_so_ver/libpipewire-module-zeroconf-discover.so
+	amove usr/lib/pipewire-$_so_ver/libpipewire-module-raop-*.so
 }
 
 bluez() {
@@ -190,7 +221,30 @@ spa_tools() {
 	amove usr/bin/spa-*
 }
 
+jackdev() {
+	pkgdesc="JACK development files (from pipewire)"
+	provides="jack-dev=$pkgver-r$pkgrel"
+
+	amove usr/lib/libjack*.so
+	amove usr/include/jack
+	amove usr/lib/pkgconfig/jack.pc
+}
+
+libs() {
+	default_libs
+
+	# the libraries must be paired with the client config and the plugins,
+	# see:
+	# https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/3296
+	# https://bugs.archlinux.org/task/78813
+	amove \
+		usr/share/pipewire/client*.conf* \
+		usr/lib/pipewire-*/ \
+		usr/lib/spa-*/
+}
+
 sha512sums="
 21a596ef55b1fe194588f4e9ca925702108089c0a880c862247948cf8a0acebe0b45a74b2707d62872e0591300dbb76b42fd0d74ce24fcb9ce2aa84e5802c2d0  pipewire-1.2.2.tar.gz
-be2bd1520fae27ccca6af4c98e8ebe63541260af55eb085839235a8441a7bce434ba8bf23a5d1ca8b5f361229f5482d5b63504b9a5cbbe9d39bc051207cd7dac  pipewire-launcher.sh
+b70b05151bcf4b7f13d68b2731d789b9c062fadfcb91f4ed6bdb0d495390b0010f57034fb115a053e1459c7d9ea27523ca1c0c69639aeeb96c17ebac8dfc5b57  pipewire.desktop
+6f4322d306bef346187778fc0975d608fdd37d4c8e08815a0aed28ef7e07c3f21d6a80b70743d0f867bdc237f5e1dc28131c778e7a45e363e5677668ce7acdb1  pipewire-launcher.sh
 "
