@@ -1,4 +1,3 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=pipewire
 pkgver=1.2.2
@@ -17,6 +16,7 @@ makedepends="
 	fdk-aac-dev
 	glib-dev
 	graphviz
+	libdrm-dev
 	gst-plugins-base-dev
 	gstreamer-dev
 	libfreeaptx-dev
