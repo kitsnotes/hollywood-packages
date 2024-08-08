@@ -15,7 +15,9 @@ source="https://downloads.sourceforge.net/djvu/djvulibre-$pkgver.tar.gz
 	djvulibre-3.5.27-export-file.patch
 	djvulibre-3.5.27-integer-overflow.patch
 	djvulibre-3.5.27-out-of-bound-write-2.patch
-	djvulibre-3.5.27-unsigned-short-overflow.patch"
+	djvulibre-3.5.27-unsigned-short-overflow.patch
+	remove-register.patch
+"
 
 # secfixes:
 #   3.5.28-r1:
@@ -64,4 +66,5 @@ b7a05df01060376079a0c59df2ecf20efddbd1b08e42c99e18ed94e89481c1850393488de39421bd
 9c1bdfcfcc003076cf9effd5a2d4df04e5ab9b9f891ab0ee7f0f5d7fcd5c83f605bd1e3e0be51132c18fa91900f49c2f7165b8426490c522a5a8f59e9d9e09e3  djvulibre-3.5.27-integer-overflow.patch
 69ad8be81c20bf02bec3426a42c90ff9aafba38ed216f8563434aa7921fbd45973981c07076208374f637fb9e6e4a9b58e8639337288b6b34b2dbee77ff6eac1  djvulibre-3.5.27-out-of-bound-write-2.patch
 ff08cc6e21053c42454e3855095d6fbea6a7e99924b2e977dd723df6e63f09d3375c4db88bd678a576d635b34a5e19358f766af59eeedfbdb7c62cde2d6962bf  djvulibre-3.5.27-unsigned-short-overflow.patch
+762035912e61dd71f1e46f6e6649c2c34cdc92e9aeea124a16f58ee5f72864185ba683ac2435b4a75d7a84bd85286f9d561acd41942dd0caffceb5c16a62f95a  remove-register.patch
 "

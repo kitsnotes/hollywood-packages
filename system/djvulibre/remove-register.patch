@@ -1,0 +1,36 @@
+diff -Naur djvulibre-3.5.28-orig/libdjvu/GBitmap.h djvulibre-3.5.28/libdjvu/GBitmap.h
+--- djvulibre-3.5.28-orig/libdjvu/GBitmap.h	2024-08-08 02:59:11.499947814 +0000
++++ djvulibre-3.5.28/libdjvu/GBitmap.h	2024-08-08 02:59:26.420143643 +0000
+@@ -620,7 +620,7 @@
+ inline int
+ GBitmap::read_run(unsigned char *&data)
+ {
+-  register int z=*data++;
++  int z=*data++;
+   return (z>=RUNOVERFLOWVALUE)?
+     ((z&~RUNOVERFLOWVALUE)<<8)|(*data++):z;
+ }
+@@ -628,7 +628,7 @@
+ inline int
+ GBitmap::read_run(const unsigned char *&data)
+ {
+-  register int z=*data++;
++  int z=*data++;
+   return (z>=RUNOVERFLOWVALUE)?
+     ((z&~RUNOVERFLOWVALUE)<<8)|(*data++):z;
+ }
+diff -Naur djvulibre-3.5.28-orig/libdjvu/MMX.h djvulibre-3.5.28/libdjvu/MMX.h
+--- djvulibre-3.5.28-orig/libdjvu/MMX.h	2024-08-08 02:59:11.499947814 +0000
++++ djvulibre-3.5.28/libdjvu/MMX.h	2024-08-08 02:59:51.820489582 +0000
+@@ -172,9 +172,9 @@
+ #define MMXir(op,imm,dst) \
+   __asm { op dst,imm }
+ #define MMXar(op,addr,dst) \
+-  { register __int64 var=*(__int64*)(addr); __asm { op dst,var } }
++  { __int64 var=*(__int64*)(addr); __asm { op dst,var } }
+ #define MMXra(op,src,addr) \
+-  { register __int64 var; __asm { op [var],src };  *(__int64*)addr = var; } 
++  { __int64 var; __asm { op [var],src };  *(__int64*)addr = var; } 
+ // Probably not as efficient as GCC macros
+ #define MMX 1
+ #endif
