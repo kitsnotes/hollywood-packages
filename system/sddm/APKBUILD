@@ -1,7 +1,7 @@
 #Maintainer: Originull Software <packages@originull.org>
 pkgname=sddm
 pkgver=0.20.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Simple Desktop Display Manager"
 url="https://github.com/sddm/sddm/"
 arch="all"
