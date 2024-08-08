@@ -99,7 +99,6 @@ prepare() {
 
 	cd $builddir/ijs
 	libtoolize --force && aclocal && autoconf && automake --add-missing
-	update_config_sub
 }
 
 build() {
@@ -122,7 +121,8 @@ build() {
 		--mandir=/usr/share/man \
 		--infodir=/usr/share/info \
 		--docdir=/usr/share/doc/"$pkgname" \
-		--enable-dynamic \
+		--disable-dynamic \
+		--disable-neon \
 		--with-system-libtiff \
 		--with-ijs \
 		--with-jbig2dec \
