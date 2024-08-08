@@ -1,7 +1,7 @@
 #Maintainer: Originull Software <packages@originull.org>
 pkgname=sddm
-pkgver=0.20.0
-pkgrel=4
+pkgver=0.21.0
+pkgrel=0
 pkgdesc="Simple Desktop Display Manager"
 url="https://github.com/sddm/sddm/"
 arch="all"
@@ -28,8 +28,7 @@ install="sddm.pre-install"
 langdir="/usr/share/sddm/translations"
 pkgusers="sddm"
 pkggroups="sddm"
-source="
-	$pkgname-$pkgver.tar.gz::https://github.com/$pkgname/$pkgname/archive/refs/tags/v$pkgver.tar.gz
+source="https://github.com/sddm/sddm/archive/v$pkgver/sddm-v$pkgver.tar.gz
 	hollywood-env.patch
 	10-hollywood.conf
 	"
@@ -65,7 +64,7 @@ package() {
 }
 
 sha512sums="
-0f64b405f1451873a01a2210530feb6f4cbbdea17be9d039c105088963a48322968db7b60c0d20ac5d97c8ec2a19e5130f0a74c0f9de58c61453d8ce8bb6272a  sddm-0.20.0.tar.gz
+2e8e460e7f318f20a406dcbb1a9fa1dc78b6a5b8d888bfbbaae22b9c642dbc49cf2ac682b4ea9ed847bbafa9bdc361ba08795e59cad970088b370caaaa70f458  sddm-v0.21.0.tar.gz
 d1109091062e169f9b8a2b1f55a48b45225cc8c93039c462894b4a594dc3ba95496ce90195a485447573bf89f9377003f8d91c05144183304666e0406ba0fcd0  hollywood-env.patch
 4693a227d844d6d688db2ce8f166d9594ef43c36e422d164f9c5fe4869e6218c9c11a873a5b8f93fd3ccf3fbb54d9783fe88477395844a853715323ab3ad657a  10-hollywood.conf
 "
