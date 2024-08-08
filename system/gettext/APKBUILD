@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=gettext
 pkgver=0.22.5
-pkgrel=0
+pkgrel=1
 pkgdesc="GNU locale utilities"
 url="https://www.gnu.org/software/gettext/gettext.html"
 arch="all"
