@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=wget
 pkgver=1.24.5
-pkgrel=0
+pkgrel=1
 pkgdesc="Network utility to retrieve files from the Web"
 url="https://www.gnu.org/software/wget/wget.html"
 arch="all"
