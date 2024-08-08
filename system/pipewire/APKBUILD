@@ -19,22 +19,18 @@ makedepends="
 	fdk-aac-dev
 	glib-dev
 	graphviz
+	ffmpeg-dev
 	gst-plugins-base-dev
 	gstreamer-dev
-	jack-dev
-	libcamera-dev
 	libfreeaptx-dev
-	liblc3-dev
 	libusb-dev
 	libx11-dev
-	lilv-dev
 	meson
 	modemmanager-dev
 	ncurses-dev
 	pulseaudio-dev
 	py3-docutils
 	readline-dev
-	roc-toolkit-dev
 	sbc-dev
 	vulkan-loader-dev
 	xmltoman
@@ -76,7 +72,7 @@ case "$CARCH" in
 		# no webrtc-audio-processing
 		;;
 	*)
-		makedepends="$makedepends webrtc-audio-processing-1-dev"
+		makedepends="$makedepends webrtc-audio-processing-dev"
 		subpackages="$subpackages $pkgname-echo-cancel:echo_cancel"
 		;;
 esac
@@ -90,20 +86,18 @@ build() {
 	CPPFLAGS="$CPPFLAGS -O2" \
 	abuild-meson \
 		-Db_lto=true \
-		-Dlibjack-path=/usr/lib \
-		-Dlibv4l2-path=/usr/lib \
 		-Ddocs=disabled \
 		-Dman=enabled \
 		-Dgstreamer=enabled \
 		-Dexamples=enabled \
-		-Dffmpeg=disabled \
-		-Djack-devel=true \
-		-Dsystemd=disabled \
+		-Dffmpeg=enabled \
+		-Djack-devel=false \
+		-Dsystemd=enabled \
 		-Dvulkan=enabled \
 		-Dsdl2=disabled \
-		-Dlv2=enabled \
-		-Dlibcamera=enabled \
-		-Droc=enabled \
+		-Dlv2=disabled \
+		-Dlibcamera=disabled \
+		-Droc=disabled \
 		-Dbluez5-codec-lc3=enabled \
 		-Dbluez5-backend-native-mm=enabled \
 		-Dsession-managers=[] \
