@@ -1,8 +1,7 @@
-# Contributor: Sergey Fukanchik <fukanchik@gmail.com>
-# Maintainer: Leon Bottou <leonb@bottou.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=djvulibre
 pkgver=3.5.28
-pkgrel=2
+pkgrel=3
 pkgdesc="Utilities and Libraries for the DjVu image format"
 url="https://djvu.sourceforge.net/"
 arch="all"
