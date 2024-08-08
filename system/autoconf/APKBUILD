@@ -1,6 +1,6 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=autoconf
-pkgver=2.71
+pkgver=2.72
 pkgrel=0
 pkgdesc="GNU tool for automatically configuring source code"
 arch="noarch"
@@ -30,4 +30,4 @@ package() {
 	rm -f "$pkgdir"/usr/share/info/standards.info
 }
 
-sha512sums="2bc5331f9807da8754b2ee623a30299cc0d103d6f98068a4c22263aab67ff148b7ad3a1646bd274e604bc08a8ef0ac2601e6422e641ad0cfab2222d60a58c5a8  autoconf-2.71.tar.gz"
+sha512sums="3f71d459e2127ef2c98b37f11f5284f0c92318ad8d31c5b6034bed370adfe9f3d0f7a12f87e2efced06c11e2a159de4d4a292b751104e83daf11342f25ba9721  autoconf-2.72.tar.gz"
