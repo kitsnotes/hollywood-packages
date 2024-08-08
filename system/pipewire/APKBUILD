@@ -23,6 +23,7 @@ makedepends="
 	gst-plugins-base-dev
 	gstreamer-dev
 	libfreeaptx-dev
+	liblc3-dev
 	libusb-dev
 	libx11-dev
 	meson
