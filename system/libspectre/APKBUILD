@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libspectre
 pkgver=0.2.12
-pkgrel=0
+pkgrel=1
 pkgdesc="A small library for rendering Postscript documents"
 url="http://www.freedesktop.org/wiki/Software/libspectre"
 arch="all"
