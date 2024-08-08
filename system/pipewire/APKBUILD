@@ -42,8 +42,6 @@ subpackages="
 	$pkgname-doc
 	$pkgname-alsa
 	$pkgname-pulse
-	$pkgname-jack
-	$pkgname-jack-dev:jackdev
 	$pkgname-dev
 	gst-plugin-pipewire:gst_plugin
 	$pkgname-zeroconf
@@ -142,22 +140,10 @@ pulse() {
 	amove usr/bin/pipewire-pulse
 	amove usr/lib/pipewire-$_so_ver/libpipewire-module-protocol-pulse.so
 	amove usr/lib/pipewire-$_so_ver/libpipewire-module-pulse-tunnel.so
-	amove usr/lib/pipewire-$_so_ver/libpipewire-module-filter-chain-lv2.so
+	#amove usr/lib/pipewire-$_so_ver/libpipewire-module-filter-chain-lv2.so
 	amove usr/share/pipewire/pipewire-pulse.conf
 	amove usr/share/pipewire/pipewire-pulse.conf.avail
 
-}
-
-jack() {
-	pkgdesc="JACK support for pipewire"
-	depends="pipewire-session-manager"
-	provides="jack=$pkgver-r$pkgrel"
-	replaces="jack"
-
-	amove usr/lib/libjack*.so.*
-	amove usr/bin/pw-jack
-	amove usr/lib/spa-*/jack/libspa-jack.so
-	amove usr/share/pipewire/jack.conf
 }
 
 gst_plugin() {
@@ -214,15 +200,6 @@ spa_tools() {
 	replaces="$pkgname"  # for backward compatibility
 
 	amove usr/bin/spa-*
-}
-
-jackdev() {
-	pkgdesc="JACK development files (from pipewire)"
-	provides="jack-dev=$pkgver-r$pkgrel"
-
-	amove usr/lib/libjack*.so
-	amove usr/include/jack
-	amove usr/lib/pkgconfig/jack.pc
 }
 
 libs() {
