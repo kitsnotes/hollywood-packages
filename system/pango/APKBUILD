@@ -1,8 +1,6 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Contributor: Natanael Copa <ncopa@alpinelinux.org>
-# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=pango
-pkgver=1.50.7
+pkgver=1.54.0
 pkgrel=0
 pkgdesc="library for layout and rendering of text"
 url="https://www.pango.org/"
@@ -47,6 +45,6 @@ tools() {
 }
 
 sha512sums="
-4d754ed753fc34074c2a8751459406af7eb1eccb227c6158287f7e2921614d918cae47d078d4a2b4c098b641e40274e81bf1ec6b6a1b147efd550626665767d3  pango-1.50.7.tar.xz
+b08792a811e033b2dc9ae78278ea522fad1064de3a4d33460271eb0502613ee21d2c82349f8e7d8f59d59e0c020b7a3a8efa194572e16e2e78db422956fd97ea  pango-1.54.0.tar.xz
 3623ef34e08427c70b4f2f89eefe13258646a935c450d9ad703c30018343aef245749e6a3708f299fd696d9f1ec0eeab116131e51918fc1765f61545202aaab0  disable-broken-test.patch
 "
