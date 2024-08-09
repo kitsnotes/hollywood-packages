@@ -7,7 +7,7 @@ url="https://www.lysator.liu.se/~nisse/nettle/"
 arch="all"
 license="LGPL-2.0-or-later"
 depends_dev="gmp-dev"
-makedepends="$depends_dev m4"
+makedepends="$depends_dev m4 texinfo"
 subpackages="$pkgname-static $pkgname-dev $pkgname-utils"
 source="https://ftp.gnu.org/gnu/nettle/nettle-$pkgver.tar.gz"
 
