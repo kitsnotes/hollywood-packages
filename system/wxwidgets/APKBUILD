@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=wxwidgets
-pkgver=3.2.1
-pkgrel=2
+pkgver=3.2.5
+pkgrel=0
 pkgdesc="wxWidgets GUI library"
 url="https://www.wxwidgets.org/"
 arch="all"
@@ -35,9 +35,6 @@ subpackages="
 	$pkgname-dev
 	"
 source="https://github.com/wxWidgets/wxWidgets/releases/download/v$pkgver/wxWidgets-$pkgver.tar.bz2
-	invalid-header-syntax.patch
-	largefile.patch
-	no-langinfo-h.patch
 	"
 builddir="$srcdir/wxWidgets-$pkgver"
 # tests test meaningless locale stuff that fails on musl
@@ -84,8 +81,5 @@ dev() {
 }
 
 sha512sums="
-d0294788891014672d8eb4501ae257598972407b53f38471e4f11dd20f517d0145d510c5bce006b09c5d63113fed844bdf6124b3c80453c1d37b402abc89202b  wxWidgets-3.2.1.tar.bz2
-90efa1007b6f4aa7a80a8e78a767ba953cd3f260f36111e507fc4b1ce7ef702682bda0c92dcd4e07d54aaf719f9b1ff380f5a4a2d7532a8cf79bf25eb257c7ab  invalid-header-syntax.patch
-f41162f574ddce14c64b0c052c181dd490d0e5464e03e800d08e04ca0699392820ce7e01c70d59c9eb2ffdc75af9abf0c75e59b680abee7d06571840480321e7  largefile.patch
-2a6f6e51d973039a58510ca52466c680b2c7f68dc4893b64534cabc5d16363994fa5322e350b5e06b8ec09f974f437813f92ed0ac26e7f5d156325029c2e4d5f  no-langinfo-h.patch
+b5bd8e4b53b7c44f79b76a39de0071d14e1f0325e66b7a9f2c7f1934a4146be3c78332f610119f7ba46ca4cd1055272a3d8937ad46665ce5abd867a803f22c86  wxWidgets-3.2.5.tar.bz2
 "
