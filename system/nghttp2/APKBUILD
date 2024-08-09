@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=nghttp2
 pkgver=1.62.1
-pkgrel=0
+pkgrel=1
 pkgdesc="Experimental HTTP/2 client, server and proxy"
 url="https://nghttp2.org"
 arch="all"
