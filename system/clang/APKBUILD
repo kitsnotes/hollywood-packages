@@ -110,7 +110,7 @@ package() {
 		$pkgname-headers=$pkgver-r$pkgrel
 		$pkgname-libs=$pkgver-r$pkgrel
 		libc++-dev
-		llvm-libgcc
+		llvm-libgcc-dev
 		llvm$_llvmver-linker-tools
 		glibc-dev
 		"
