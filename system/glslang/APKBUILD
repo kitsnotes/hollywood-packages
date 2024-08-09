@@ -1,7 +1,6 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=glslang
-pkgver=11.6.0
+pkgver=14.3.0
 pkgrel=0
 pkgdesc="Khronos reference front-end for GLSL, ESSL, and sample SPIR-V generator"
 url="https://github.com/KhronosGroup/glslang"
@@ -11,7 +10,7 @@ depends_dev="$pkgname"
 makedepends="cmake samurai python3 bison spirv-tools-dev"
 checkdepends="bash"
 subpackages="$pkgname-static $pkgname-dev"
-source="$pkgname-$pkgver.tar.gz::https://github.com/KhronosGroup/glslang/archive/$pkgver.tar.gz
+source="$pkgname-$pkgver.tar.gz::https://github.com/KhronosGroup/glslang/archive/refs/tags/$pkgver.tar.gz
 	"
 
 build() {
@@ -62,5 +61,5 @@ package() {
 }
 
 sha512sums="
-f7c1affdb4923758f9ff5cae894c40ca86e723850a6265d9c13f996311451bd84c70a178d8d6c0961dcee39c19d724f02d19a21ee6f67f1bb4cdbc618fdc12cf  glslang-11.6.0.tar.gz
+ce6d09cc4d98b01d162ec5a196eec017c4a5f25eaf98c6612695d911f8d136c2f7193ff8f2c07931b2e94182d2c654833adc3b645f0c225e1d07c4e6e7abfd76  glslang-14.3.0.tar.gz
 "
