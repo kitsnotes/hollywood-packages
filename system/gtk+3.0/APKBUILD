@@ -59,19 +59,21 @@ checkdepends="
 	xvfb-run
 	"
 source="https://download.gnome.org/sources/gtk+/${pkgver%.*}/gtk+-$pkgver.tar.xz"
-builddir="$srcdir/gtk-$pkgver"
+builddir="$srcdir/gtk+-$pkgver"
 
 build() {
+	CFLAGS="$CFLAGS -O2" \
+	CXXFLAGS="$CXXFLAGS -O2" \
 	abuild-meson \
 		-Db_lto=true \
 		-Dman=true \
 		-Dgtk_doc=false \
-		-Dx11_backend=false \
-		-Dwayland_backend=true \
-		-Dbroadway_backend=false \
+                -Dx11_backend=false \
+                -Dwayland_backend=true \
+                -Dbroadway_backend=false \
 		-Dtests="$(want_check && echo true || echo false)" \
 		output
-	meson compile ${JOBS:+-j ${JOBS}} -C output
+	meson compile -C output
 }
 
 check() {
