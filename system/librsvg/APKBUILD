@@ -1,7 +1,6 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=librsvg
-pkgver=2.55.1
+pkgver=2.58.2
 pkgrel=0
 pkgdesc="SAX-based renderer for SVG files into a GdkPixbuf"
 url="https://wiki.gnome.org/Projects/LibRsvg"
@@ -34,14 +33,9 @@ subpackages="
 # target triples, and panics othewise (? why) but patching rust crates is
 # impossible, so we have to make our own prevendored tarballs (or make entire
 # infrastructure, rehost repos, etc..)
-source="https://dev.alpinelinux.org/archive/librsvg/librsvg-$pkgver.tar.xz"
+source="https://download.gnome.org/sources/librsvg/${pkgver%.*}/librsvg-$pkgver.tar.xz"
 # tests are very dependent on versions of pango/cairo/freetype
 options="!check"
-
-if [ "$CARCH" = "riscv64" ]; then
-	# binutils thinks there are fake textrels
-	options="$options textrels"
-fi
 
 # secfixes:
 #   2.50.4-r0:
@@ -95,5 +89,5 @@ _convert_doc() {
 }
 
 sha512sums="
-205473cbec1ae071743f78e45ffc16a4a5c454064c1c0e326a2583566a9998ee34558129abf6c790b11461ad01d0665461b2a711d2bba4ffb1ad72af3357fd7c  librsvg-2.55.1.tar.xz
+4aaa04b6a488895344232487cee7945c4feedf29f756252e05656d9362c7d799dfa8157b57f1299646eec438c3d712f01ab873e9f9b4efe540a817802c70c668  librsvg-2.58.2.tar.xz
 "
