@@ -42,7 +42,6 @@ subpackages="
 install="flatpak.pre-install flatpak.pre-upgrade flatpak.post-install"
 source="https://github.com/flatpak/flatpak/releases/download/$pkgver/flatpak-$pkgver.tar.xz
 	modules-load.conf
-	fusermount3.patch
 	"
 options="!check" # test environment setup requires glibc layout (locales..)
 
@@ -103,5 +102,4 @@ fishcomp() {
 sha512sums="
 a34d539f4ed0682459a22afa282de36da964a3545abd78138d3d86d9464d67cb57479f93bf84d1a9d811b80e72e0ea11f64293cb09a559fd5ec2c957be1729a1  flatpak-1.14.8.tar.xz
 57d23d2778556eafc3035e6be575bf95b4032f123b35f2b1657eff5e7496de253173edc657f90531ee58e25673f4f27a5cd1cc76b14a038edb244f104a231771  modules-load.conf
-665dc6003360ea65ce391fe2283344d47c1dafc8f860a5ba410641c7ef54d0c68a63c41963843aeb0364b95df567a83cb80007db282bd284a0744aacced8f1d3  fusermount3.patch
 "
