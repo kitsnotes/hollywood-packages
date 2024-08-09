@@ -16,6 +16,7 @@ makedepends="
 	fontconfig-dev
 	freetype-dev
 	lcms2-dev
+	libxcrypt-dev
 	libjpeg-turbo-dev
 	libpng-dev
 	libtool
@@ -140,10 +141,6 @@ builddir="$srcdir/$_pkgname-$_pkgver"
 #     - CVE-2019-10649
 
 build() {
-	# fix doc dir, Gentoo bug 91911
-	sed -i -e \
-		's:DOCUMENTATION_PATH="$DATA_DIR/doc/$DOCUMENTATION_RELATIVE_PATH":DOCUMENTATION_PATH="/usr/share/doc/imagemagick":g' \
-		configure
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
@@ -164,7 +161,7 @@ build() {
 		--with-modules \
 		--with-xml \
 		--with-perl \
-		--with-perl-options="PREFIX=/usr INSTALLDIRS=vendor" \
+		--with-perl-options="INSTALLDIRS=vendor INSTALLVENDORARCH=/usr/lib/perl5/vendor_perl NO_PACKLIST=1 NO_PERLLOCAL=1" \
 		--without-rsvg
 	make
 }
@@ -196,12 +193,9 @@ _cxx() {
 
 _perlmagick() {
 	pkgdesc="PerlMagick Perl Modules for ImageMagick"
-	mkdir -p "$subpkgdir"/usr/lib
-	mv "$pkgdir"/usr/lib/perl5 "$subpkgdir"/usr/lib/
-	# Strip all the rpath that include /home
-	scanelf --recursive --rpath "$subpkgdir" | awk '/home/{print $3;}' | xargs chrpath -d
-#	chrpath -d "$subpkgdir"/usr/lib/perl5/vendor_perl/auto/Image/Magick/Q16HDRI/Q16HDRI.so
-#	chrpath -d "$subpkgdir"/usr/lib/perl5/vendor_perl/auto/Image/Magick/Magick.so
+        amove usr/lib/perl5
+        # Strip all the rpath that include /home
+        scanelf --recursive --rpath "$subpkgdir" | awk '/home/{print $3;}' | xargs chrpath -d
 }
 
 _perlmagick_doc() {
