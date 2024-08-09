@@ -1,26 +1,33 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qtsvg
-pkgver=5.15.5_git20220617
+pkgver=5.15.10_git20230612
 pkgrel=0
-_commit="68de925ddc20dfb8900be4fa47fa5a5916836cc8"
+_module="${pkgname#qt5-}"
+_pkgver=37b2c764fb599c96fc415049208e871c729217c8
+_fullname=$_module-$_pkgver
 pkgdesc="Qt5 - Support for rendering and displaying SVG"
 url="https://www.qt.io/developers/"
 arch="all"
-license="(LGPL-2.0-or-later OR GPL-3.0-only OR GPL-2.0-or-later) AND Qt-GPL-exception-1.0"
+license="( LGPL-2.0-or-later OR GPL-3.0-only OR GPL-2.0-or-later ) AND Qt-GPL-exception-1.0"
 makedepends="
 	qt5-qtbase-dev
 	zlib-dev
 	"
 subpackages="$pkgname-dev"
-builddir="$srcdir/qtsvg-$_commit"
+source="https://dev.alpinelinux.org/archive/qt/$_fullname.tar.xz"
+builddir="$srcdir/$_fullname"
 
-case $pkgver in
-	*_beta*|*_rc*) _rel=development_releases;;
-	*) _rel=official_releases;;
-esac
+_disturl="dev.alpinelinux.org:/archive/qt/"
+snapshot() {
+	clean
+	makedepends="git xz rsync tar" deps
+	mkdir -p "$srcdir" && cd "$srcdir"
+	git clone --filter=tree:0 https://invent.kde.org/qt/qt/$_module.git .
+	git archive --format tar --prefix=$_fullname/ $_pkgver > "$SRCDEST"/$_fullname.tar
+	xz -vv -T0 -9 -e "$SRCDEST"/$_fullname.tar
+	rsync --progress -La "$SRCDEST"/$_fullname.tar.xz $_disturl
+}
 
-source="https://invent.kde.org/qt/qt/qtsvg/-/archive/$_commit/qtsvg-$_commit.tar.gz"
 
 prepare() {
 	default_prepare
@@ -45,11 +52,8 @@ package() {
 	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
 	find "$pkgdir/usr/lib" -type f -name '*.prl' \
 		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
-
-	install -d "$pkgdir"/usr/share/licenses
-	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
 }
 
 sha512sums="
-d4965cb2f8ed7bd0bd1f2d88a203d6704539604ee4190169eebd6fd5afd822332ea88e539f0cc4ed558f810532e8591590bd38c7d8e432525b815fe1a15e684b  qtsvg-68de925ddc20dfb8900be4fa47fa5a5916836cc8.tar.gz
+48513dec1c93deefb40ce5171aba2fbf33b7d26243ad33ff3381b286f920ae5d664acb8dd42ecd0e0bfd2bfec50465e7f229f5c8369236a7cd94f242d8274922  qtsvg-37b2c764fb599c96fc415049208e871c729217c8.tar.xz
 "
