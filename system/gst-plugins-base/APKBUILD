@@ -1,6 +1,6 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=gst-plugins-base
-pkgver=1.22.0
+pkgver=1.24.5
 pkgrel=0
 pkgdesc="GStreamer streaming media framework base plug-ins"
 url="https://gstreamer.freedesktop.org"
@@ -48,5 +48,5 @@ doc() {
 }
 
 sha512sums="
-4b986569c4a7675e120203024bca2bc2a0e94b9138c9a3a18d14b36f4fe59865ffeea0231b3abfde9266e1fe75a2e7167b5c0ee896bd529c8e278af0dd161239  gst-plugins-base-1.22.0.tar.xz
+d78956ae15fe87710d65eb3759ed9ac92e6ec1cdcd969421619fbff5700baf473322a52245303fd3665962a1ecf6330885e91a76423abaa435fef1a4b00cb6d3  gst-plugins-base-1.24.5.tar.xz
 "
