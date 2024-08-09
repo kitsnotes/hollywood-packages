@@ -11,13 +11,7 @@ makedepends="$depends_dev gperf cython python3 python3-dev"
 checkdepends="bash"
 subpackages="$pkgname-static $pkgname-dev $pkgname-doc py3-$pkgname:py3"
 source="https://github.com/seccomp/libseccomp/releases/download/v$pkgver/libseccomp-$pkgver.tar.gz
-	remove-redefinition-prctl.patch
-	tests-11-basic-errors-support-older-kernels.patch
 	"
-
-case "$CARCH" in
-	mips*) options="$options !check";;
-esac
 
 # secfixes:
 #   2.4.0-r0:
@@ -38,12 +32,6 @@ build() {
 }
 
 check() {
-	# commit be65b26b67099be2b2b4890d736dbd1ad15adf36 adapted to new kernel 5.x syscalls
-	# as long as we are at 4.19 kernel, we need this change
-	case "$CARCH" in
-		ppc64le|s390x) rm -f tests/36-sim-ipc_syscalls.tests \
-			             tests/37-sim-ipc_syscalls_be.tests;;
-	esac
 	# fix python shebang
 	sed -i -e 's@cmd /usr/bin/env python @cmd /usr/bin/env python3 @' tests/regression
 	sed -i -e 's@^#!/usr/bin/env python$@#!/usr/bin/env python3@' tests/*.py
@@ -63,6 +51,4 @@ py3() {
 
 sha512sums="
 f630e7a7e53a21b7ccb4d3e7b37616b89aeceba916677c8e3032830411d77a14c2d74dcf594cd193b1acc11f52595072e28316dc44300e54083d5d7b314a38da  libseccomp-2.5.5.tar.gz
-f2c31dcafdc9a1ad78e32e76b75e1c1603071eaa3f979e1f2483b879a34ad07e0a4ef3642196a695415cdf81e1ed2bf325175872fb4e203ef9d0e668c287493f  remove-redefinition-prctl.patch
-1b80fe8db16aead6f00ac30687b496b01cab16b60b2177f5992df7ed86bef6578de3ead74f2860b1ba951f62d6ba83aefd377d8ec2bc2f771e71ddafbe4a4b56  tests-11-basic-errors-support-older-kernels.patch
 "
