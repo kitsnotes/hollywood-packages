@@ -161,17 +161,25 @@ desktop() {
 	dbus-broker
 	udisks2
         accountsservice
-	bolt
+	appstream
 	bluez
+	bolt
+	bridge-utils
+	btrfs-progs
+	dbus-broker
+	device-mapper
+	dosfstools
+	e2fsprogs
+	e2fsprogs-extra
+	hdparm
+	rtkit
 	cups
 	geoclue
 	hollywood-qt5-libs
-        efibootmgr
         sddm
         wireplumber
         pipewire
         pipewire-pulse
-        rtkit
         pulseaudio-client
 	qt6-qtwebengine
 	smartmontools xdg-dbus-proxy xdg-desktop-portal flatpak

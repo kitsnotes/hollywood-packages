@@ -11,13 +11,9 @@ depends="acl
 	adduser
 	agetty
 	apk-tools
-	appstream
 	attr
 	bash
 	bash-completion
-	bluez
-	bolt
-	bridge-utils
 	btrfs-progs
 	bzip2
 	ca-certificates
@@ -27,16 +23,10 @@ depends="acl
 	cronie
 	curl
 	dash
-	dbus-broker
-	device-mapper
 	diffutils
 	dmidecode
 	doas
-	dosfstools
 	dracut
-	e2fsprogs
-	e2fsprogs-extra
-	efibootmgr
 	efibootmgr
 	efivar
 	file
@@ -45,11 +35,9 @@ depends="acl
 	gawk
 	grep
 	gzip
-	hdparm
 	hollywood-keys
 	hostname
 	iproute2
-	iptables
 	iputils
 	kbd
 	kbd-bkeymaps
@@ -61,7 +49,6 @@ depends="acl
 	lvm2
 	nano
 	ncurses
-	neofetch
 	nftables
 	openssh
 	openssh-server
@@ -72,14 +59,12 @@ depends="acl
 	procps
 	psmisc
 	rsync
-	rtkit
 	run-parts
 	screen
 	sed
 	sgdisk
 	shadow
 	shadow-login
-	smartmontools
 	sysklogd
 	systemd
 	tmux
