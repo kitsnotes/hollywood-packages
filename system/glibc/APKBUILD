@@ -7,7 +7,7 @@ url="https://www.gnu.org/software/libc"
 arch="all"
 license="LGPL2"
 options="lib64"
-depends="tzdata !llvm-toolchain"
+depends="tzdata"
 makedepends="bison gnu-toolchain gcc"
 _subpackages="
 	$pkgname-dbg
