@@ -25,6 +25,7 @@ build() {
 			-DCMAKE_INSTALL_LIBDIR=lib \
 			-DCMAKE_BUILD_TYPE=None \
 			-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+			-DENABLE_OPT=0 \
 			-DBUILD_SHARED_LIBS=ON \
 			$CMAKE_CROSSOPTS ..
 		ninja
@@ -39,6 +40,7 @@ build() {
 			-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
 			-DCMAKE_C_FLAGS="$CFLAGS" \
 			-DBUILD_SHARED_LIBS=OFF \
+			-DENABLE_OPT=0 \
 			$CMAKE_CROSSOPTS ..
 		ninja
 	)
