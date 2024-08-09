@@ -2,7 +2,7 @@
 pkgname=lldb
 # Note: Update together with llvm.
 pkgver=18.1.8
-pkgrel=0
+pkgrel=1
 _llvmver=${pkgver%%.*}
 pkgdesc="Next generation, high-performance debugger"
 arch="all"
@@ -77,7 +77,7 @@ check() {
 package() {
 	# backtracing/debugging pretty much anything is going to need libc debug symbols
 	# not everything, but the common case needs this, and it's a small dep in comparison
-	depends="musl-dbg"
+	depends="glibc-dbg"
 
 	DESTDIR="$pkgdir" cmake --install build
 	install -Dm644 build/docs/man/lldb.1 -t "$pkgdir"/usr/share/man/man1
