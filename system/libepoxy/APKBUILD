@@ -8,7 +8,7 @@ arch="all"
 license="MIT"
 options="!check"  # Requires dlvsym
 depends_dev="libx11-dev"
-makedepends="$depends_dev mesa-dev meson"
+makedepends="$depends_dev mesa-dev meson libglvnd-dev"
 subpackages="$pkgname-dev"
 source="$pkgname-pkgver.tar.gz::https://github.com/anholt/libepoxy/archive/refs/tags/$pkgver.tar.gz"
 
