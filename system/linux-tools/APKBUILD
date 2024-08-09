@@ -1,7 +1,6 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=linux-tools
-pkgver=6.5.5
+pkgver=6.9.7
 case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
@@ -39,7 +38,6 @@ makedepends="
 	ncurses-dev
 	numactl-dev
 	sysfsutils-dev
-	libunwind-dev
 	xmlto
 	zlib-dev
 	zstd-dev
@@ -237,7 +235,7 @@ bpftool_bashcomp() {
 }
 
 sha512sums="
-1b59dc5e65d4922c3217a8c8f19022dfd6595ae89747861d825bfeb51a4ae6c85449d05db69635a712bef7b355b80318195665582d8933b1fed6ba582f6ff257  linux-6.5.tar.xz
+fed3b4cd1fbfb4d94618587c1934273d2ecc8b6e42a3d586ff8a5f24980be930f2ef803aa2923ca3bfa5e4e619f967f3af315368f24fa76f610b10443624a579  linux-6.9.tar.xz
 2a039c73eebb62f3b736b8b4eae47369eb6ba34861d384239869e0af9a71a66b3d787d90bd33b6851a27e4e3b458fedd2a3c08ee94ba241f560110b907da5692  cpupower.systemd
 62b1e6831f7bd8f0c81ceeb9b1c1e04df0576c65bc03b98b33ed289530a1eebfd5f2368d185b837c0755f7fa5d5c14983417ad48ba034dfee16d9ef4eef3c918  cpupower.service
 1f4e55bddfa3fdf91eeffe48c6482cf02467b0c12edce28b4b9d4be30b95f3151be896b7608e4802fe7779735e33ce93efc7a3038d89455ea6b8fe3bcd19b2f8  cpupower.default
@@ -245,5 +243,5 @@ sha512sums="
 05242070aa44a1af6719997ec8f6d7c1ad753650e56d1089c3961b064d6afdc91f8aa86ae8ceb57c93238904141804cf51b14481754e89908831ef425408596d  hv_fcopy_daemon.service
 3f96a2918ef3cdfe78d128d8688eb3480a6e99840d6884e78fc246468c9cc1e60d42c1c55fe5bff467ddd114e6578e7d748b31b92c3686efe61e09e35f869e11  hv_kvp_daemon.service
 5a16d46ee1c2c758ee0425bd5f47db210cef996782fc3d2403691259ee26af55cc24e862990df9744eefe1a0b6a82433911b8add3b309bf7ffe32af91dff7d0e  usbip.service
-753af5890352b68a471fa3d7660c517e2845008589a304db7a7da3fbb57b327e3a786446ca2aeddcf0ffa069b41ba82be435990156aa1ba377c377f6da612c5a  patch-6.5.5.xz
+cfc4b17ca5e0cd2d2d11c48e38b2fc18366fb24e2d46ddf52044f2436ae65e5886e238e75dfec172adaf2b368ebd246abd9dec4f6f828ab5f81b6b32c7a143e7  patch-6.9.7.xz
 "
