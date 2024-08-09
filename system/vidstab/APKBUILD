@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=vidstab
 pkgver=1.1.1
-pkgrel=0
+pkgrel=1
 arch="all"
 url="http://public.hronopik.de/vid.stab/"
 pkgdesc="Video stabilization library"

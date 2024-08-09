@@ -1,8 +1,7 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=soxr
 pkgver=0.1.3
-pkgrel=2
+pkgrel=3
 pkgdesc="High quality, one-dimensional sample-rate conversion library"
 url="https://sourceforge.net/projects/soxr"
 arch="all"
