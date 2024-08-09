@@ -1,8 +1,6 @@
-# Contributor: Natanael Copa <ncopa@alpinelinux.org>
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
-# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=gsettings-desktop-schemas
-pkgver=41.0
+pkgver=46.0
 pkgrel=0
 pkgdesc="A collection of GSettings schemas"
 url="https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas"
@@ -26,5 +24,5 @@ package() {
 }
 
 sha512sums="
-58f9f60d818f0ddce20ad70e6ca64d3e1fb5a5dfd45b737cc055901f7dd5f1625902451e765a26969bdd72e3b37300dacbd3555a4bc3f33c6667dbf9b1869739  gsettings-desktop-schemas-41.0.tar.xz
+04d43ce3885741afdda2d971ef61332474a114e2b7f82d28e5fb7c831992f95359e3edb1bf60f39d29b5ad509a77d65b76d482c9659cbdd1f7bb1e07c86da912  gsettings-desktop-schemas-46.0.tar.xz
 "
