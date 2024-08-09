@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=inih
 pkgver=58
-pkgrel=0
+pkgrel=1
 pkgdesc="Simple .INI file parser for embedded systems"
 options="!check" # No testsuite in Meson, unittests always return 0
 url="https://github.com/benhoyt/inih"
