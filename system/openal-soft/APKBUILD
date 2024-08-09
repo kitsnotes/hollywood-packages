@@ -1,47 +1,47 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=openal-soft
 pkgver=1.23.1
-pkgrel=0
+pkgrel=1
 pkgdesc="software implementation of OpenAL API"
-options="!check"
 url="https://openal-soft.org/"
 arch="all"
 license="LGPL-2.0-or-later"
 depends_dev="
 	alsa-lib-dev
+	jack-dev
+	libsndfile-dev
 	portaudio-dev
+	pipewire-dev
 	pulseaudio-dev
 	"
 makedepends="
 	$depends_dev
 	cmake
 	linux-headers
-	qt5-qtbase-dev
 	samurai
 	zlib-dev
 	"
-subpackages="$pkgname-dev"
+subpackages="$pkgname-libs $pkgname-dev"
 source="$pkgname-$pkgver.tar.gz::https://github.com/kcat/openal-soft/archive/$pkgver.tar.gz"
+options="!check" # no tests
 
 build() {
-	local _cpuext_neon=
 	case "$CARCH" in
-		armhf) _cpuext_neon=-DALSOFT_CPUEXT_NEON=OFF;;
+	armhf)
+		local cpuext_neon=-DALSOFT_CPUEXT_NEON=OFF
+	;;
 	esac
 	cmake -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=MinSizeRel \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
-		$_cpuext_neon
-	ninja -C build
-}
-
-check() {
-	ninja -C build test
+		-DALSOFT_UPDATE_BUILD_VERSION=OFF \
+		$cpuext_neon
+	cmake --build build
 }
 
 package() {
-	DESTDIR="$pkgdir" ninja -C build install
+	DESTDIR="$pkgdir" cmake --install build
 }
 
 sha512sums="
