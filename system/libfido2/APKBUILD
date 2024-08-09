@@ -1,7 +1,6 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Maintainer: Will Sinatra <wpsinatra@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libfido2
-pkgver=1.12.0
+pkgver=1.15.0
 pkgrel=0
 pkgdesc="library for FIDO 2.0 functionality"
 url="https://github.com/Yubico/libfido2"
@@ -41,5 +40,5 @@ fido() {
 }
 
 sha512sums="
-ae8c716fe9b2fa52f191c4b3fe61442ba0b7a364a23c6c3a29afdba4f47c5eff89cb1d6c9fcacaefd7d4ebce641d35600527ee33934786c2096ac97f78e9418f  libfido2-1.12.0.tar.gz
+97932ca1a9f8d1bb3cb4b4a8d56ef70085d19ad2bd27c67944fa17ed033bfa45d28d7ad3fa318723e79b17ef5a882ac4f999ad8a6b9965c58665d99c4da7b5ee  libfido2-1.15.0.tar.gz
 "
