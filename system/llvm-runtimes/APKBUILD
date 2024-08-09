@@ -3,7 +3,7 @@ pkgname=llvm-runtimes
 # Note: Update together with llvm.
 pkgver=18.1.8
 _llvmver=${pkgver%%.*}
-pkgrel=8
+pkgrel=10
 pkgdesc="LLVM Runtimes"
 url="https://llvm.org/"
 arch="all"
@@ -24,7 +24,7 @@ subpackages="
 	libc++-static:libcxx_static
 	libc++-dev:libcxx_dev
 	compiler-rt:rt
-	llvm-libgcc:libgcc
+	llvm-libgcc-dev:libgcc_dev
 	llvm-libunwind:libunwind
 	llvm-libunwind-static:libunwind_static
 	llvm-libunwind-dev:libunwind_dev
@@ -72,13 +72,17 @@ package() {
 	mkdir -p "$pkgdir"/usr/include/mach-o
 	cp libunwind/include/*.h "$pkgdir"/usr/include/
 	cp libunwind/include/mach-o/*.h "$pkgdir"/usr/include/mach-o/
+	rm "$pkgdir"/usr/lib/libgcc_s*
 }
 
 libunwind() {
 	pkgdesc="LLVM libunwind library"
 	depends="!libunwind-dev"
+	replaces="libgcc llvm-libgcc"
 
 	amove usr/lib/libunwind.so.*
+	ln -sf /usr/lib/libunwind.so.1.0 "$subpkgdir"/usr/lib/libgcc_s.so.1.0
+	ln -sf /usr/lib/libgcc_s.so.1.0 "$subpkgdir"/usr/lib/libgcc_s.so.1
 }
 
 libunwind_static() {
@@ -106,18 +110,19 @@ libcxx() {
 	amove usr/lib/libc++*.so.*
 }
 
-libgcc() {
-	pkgdesc="LLVM libgcc compatibility library"
-	replaces="libgcc"
-	amove usr/lib/libgcc*s*
+libgcc_dev() {
+	pkgdesc="LLVM libgcc compatibility library (development files)"
+	mkdir -p "$subpkgdir"/usr/lib/
+	ln -sf /usr/lib/libgcc_s.so.1 "$subpkgdir"/usr/lib/libgcc_s.so
+
 	amove usr/lib/libgcc_eh.a
-	ln -s /usr/lib/llvm18/lib/clang/18/lib/linux/libclang_rt.builtins-$CARCH.a "$subpkgdir"/usr/lib/libgcc.a
-	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbeginT.o
-	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbeginS.o
-	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbegin.o
-	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtendT.o
-	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtendS.o
-	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtend.o
+        ln -s /usr/lib/llvm18/lib/clang/18/lib/linux/libclang_rt.builtins-$CARCH.a "$subpkgdir"/usr/lib/libgcc.a
+        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbeginT.o
+        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbeginS.o
+        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbegin.o
+        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtendT.o
+        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtendS.o
+        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtend.o
 }
 
 libcxx_static() {
