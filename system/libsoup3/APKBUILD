@@ -1,8 +1,6 @@
-# Contributor: Natanael Copa <ncopa@alpinelinux.org>
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
-# Maintainer: Patrycja Rosa <alpine@ptrcnull.me>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libsoup3
-pkgver=3.0.7
+pkgver=3.4.4
 pkgrel=0
 pkgdesc="Gnome HTTP client/server Library"
 url="https://wiki.gnome.org/Projects/libsoup"
@@ -45,5 +43,5 @@ package() {
 }
 
 sha512sums="
-bb48b2475ec4b073de144ad91459843946ba902fc0849b88c548ccb774fc3854451239267dd097a3da4e40f025ae746609b669ec0caffdb15e7b07118e881cfd  libsoup-3.0.7.tar.xz
+dc16b5ea7d4c25b14f674abd2ccc563d1389ed677fab49cbd556935319bdc6c245acd4a912dc5225ad2e268e5bfbf8956b8cb2f9a585cc4770c2be33c0adac28  libsoup-3.4.4.tar.xz
 "
