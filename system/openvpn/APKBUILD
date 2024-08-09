@@ -9,7 +9,7 @@ license="custom"
 subpackages="$pkgname-doc $pkgname-dev $pkgname-auth-pam:pam"
 depends="iproute2"
 depends_dev="openssl-dev>3" # openvpn-plugin.h includes openssl/x509.h
-makedepends="$depends_dev lzo-dev linux-pam-dev linux-headers"
+makedepends="$depends_dev lzo-dev linux-pam-dev linux-headers libcap-ng-dev"
 install="$pkgname.pre-install"
 source="https://build.openvpn.net/downloads/releases/openvpn-$pkgver.tar.gz
 	openvpn.up

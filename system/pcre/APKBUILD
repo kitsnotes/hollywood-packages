@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=pcre
 pkgver=8.45
-pkgrel=2
+pkgrel=3
 pkgdesc="Perl-compatible regular expression library"
 url="http://pcre.sourceforge.net"
 arch="all"
