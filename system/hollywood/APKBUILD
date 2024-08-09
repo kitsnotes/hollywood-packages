@@ -35,7 +35,6 @@ makedepends="qt6-qtwayland-dev
 	qt5-qtsvg-dev
 	qt6-qt5compat-dev
 	qt6-qtcharts-dev
-	bcnm-dev
 	boost-dev
 	cmake
 	curl-dev
