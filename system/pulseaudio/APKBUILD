@@ -65,6 +65,7 @@ prepare() {
 }
 
 build() {
+	export LDFLAGS="-Wl,--undefined-version"
 	abuild-meson \
 		-Db_lto=true \
 		-Dgcov=false \
