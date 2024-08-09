@@ -6,12 +6,18 @@ pkgdesc="Generic lossless compressor"
 url="https://github.com/google/brotli"
 arch="all"
 license="MIT"
-makedepends_build="automake autoconf libtool"
+depends_dev="$pkgname=$pkgver-r$pkgrel"
+makedepends_build="cmake samurai"
+subpackages="
+	$pkgname-doc
+	$pkgname-static
+	$pkgname-dev
+	$pkgname-libs
+	"
 if [ -z "$BOOTSTRAP" ]; then
-	makedepends_host="python3-dev"
-	python="py3-$pkgname:py3"
+	makedepends_host="python3-dev py3-gpep517 py3-setuptools py3-wheel"
+	subpackages="$subpackages py3-$pkgname-pyc py3-$pkgname:py3"
 fi
-subpackages="$pkgname-doc $pkgname-static $pkgname-dev $pkgname-libs $python"
 source="$pkgname-$pkgver.tar.gz::https://github.com/google/brotli/archive/refs/tags/v$pkgver.tar.gz
 	"
 
@@ -19,41 +25,70 @@ source="$pkgname-$pkgver.tar.gz::https://github.com/google/brotli/archive/refs/t
 #   1.0.9-r0:
 #     - CVE-2020-8927
 
-# use sysroot when cross compiling to avoid libtool pulling in host libs
-[ "$CBUILD"  != "$CHOST" ] && _cross_configure="--with-sysroot=$CBUILDROOT"
-
 prepare() {
 	default_prepare
 	sed -i 's,/usr/bin/env bash,/bin/sh,' tests/*.sh
-	sh ./bootstrap
 }
 
 build() {
-	./configure \
-		--build=$CBUILD \
-		--host=$CHOST \
-		--target=$CTARGET \
-		--prefix=/usr \
-		$_cross_configure \
-	make
+	# -flto=auto does not work when cross-compiling
+	if [ "$CBUILD"  != "$CHOST" ]; then
+		export CFLAGS="$CFLAGS -O2"
+	else
+		export CFLAGS="$CFLAGS -flto=auto -O2"
+	fi
+
+	# static libs, see https://github.com/google/brotli/issues/795
+	cmake -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBUILD_SHARED_LIBS=OFF
+	cmake --build build
+
+	cmake -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBUILD_SHARED_LIBS=ON
+	cmake --build build
+
+	if [ -z "$BOOTSTRAP" ]; then
+		gpep517 build-wheel \
+			--wheel-dir .dist \
+			--output-fd 3 3>&1 >&2
+	fi
 }
 
 check() {
-	make check
+	ctest --output-on-failure --test-dir build
+
+	python3 -m venv --clear --without-pip --system-site-packages .testenv
+	.testenv/bin/python3 -m installer .dist/*.whl
+	cd python; ../.testenv/bin/python3 -m unittest discover -v -p '*_test.py'
 }
 
 package() {
-	make DESTDIR="$pkgdir" install
+	DESTDIR="$pkgdir" cmake --install build
+
+	local file; for file in common dec enc; do
+		install -D -m 755 "$builddir"/build/libbrotli$file.a \
+			"$pkgdir"/usr/lib/
+	done
 
 	local man; for man in docs/*.?; do
 		install -D -m644 $man "$pkgdir"/usr/share/man/man${man##*.}/${man##*/}
 	done
+
+	if [ -z "$BOOTSTRAP" ]; then
+		python3 -m installer -d "$pkgdir" .dist/*.whl
+	fi
 }
 
 py3() {
-	cd "$builddir"
-	python3 setup.py install --prefix=/usr --root="$subpkgdir"
+	pkgdesc="$pkgdesc (python bindings)"
+
+	amove usr/lib/python3*
 }
 
-sha512sums="6eb280d10d8e1b43d22d00fa535435923c22ce8448709419d676ff47d4a644102ea04f488fc65a179c6c09fee12380992e9335bad8dfebd5d1f20908d10849d9  brotli-1.1.0.tar.gz
+sha512sums="
+6eb280d10d8e1b43d22d00fa535435923c22ce8448709419d676ff47d4a644102ea04f488fc65a179c6c09fee12380992e9335bad8dfebd5d1f20908d10849d9  brotli-1.1.0.tar.gz
 "
