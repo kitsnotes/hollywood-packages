@@ -25,7 +25,6 @@ depends_dev="
 	libepoxy-dev
 	libxext-dev
 	libxi-dev
-	atk-dev
 	libxkbcommon-dev
 	wayland-libs-client
 	wayland-libs-cursor
