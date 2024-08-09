@@ -43,6 +43,7 @@ prepare() {
 }
 
 build() {
+	export LDFLAGS="-Wl,--undefined-version"
 	_build SONAME_SUFFIX=''
 
 	cd "$builddir-nokrb"
