@@ -58,7 +58,7 @@ install="$pkgname.pre-install $pkgname.post-install $pkgname.pre-upgrade"
 # suid needed for qemu-bridge-helper
 # strip fails on .img files
 # some tests does not run on our builders
-options="suid !strip !check"
+options="suid !strip !check textrels"
 [ "$CARCH" = "riscv64" ] && options="$options textrels"
 
 subpackages="$pkgname-doc  $pkgname-guest-agent:guest
@@ -67,7 +67,6 @@ subpackages="$pkgname-doc  $pkgname-guest-agent:guest
 	$pkgname-ppc-firmware:_ppc_firmware
 	$pkgname-s390x-firmware:_s390x_firmware
 	$pkgname-pr-helper:_pr_helper
-	$pkgname-virtiofsd:_virtiofsd
 	"
 
 _subsystems="
@@ -144,6 +143,7 @@ done
 
 _modules="
 	audio-alsa
+	audio-dbus
 	audio-oss
 	audio-pa
 	audio-sdl
@@ -164,6 +164,9 @@ _modules="
 	hw-usb-host
 	hw-usb-redirect
 	ui-curses
+	ui-dbus
+	ui-egl-headless
+	ui-opengl
 	ui-sdl
 	ui-spice-app
 	ui-spice-core
@@ -444,12 +447,6 @@ _ppc_firmware() {
 	amove /usr/share/qemu/openbios-ppc
 }
 
-
-_virtiofsd() {
-	pkgdesc="QEMU virtio-fs shared file system daemon"
-	amove /usr/lib/qemu/virtiofsd \
-		/usr/share/qemu/vhost-user/50-qemu-virtiofsd.json
-}
 
 _pr_helper() {
 	pkgdesc="QEMU pr helper utility"
