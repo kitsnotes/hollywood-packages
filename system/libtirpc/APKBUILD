@@ -10,8 +10,7 @@ license="BSD-3-Clause"
 options="!check"
 depends="$pkgname-conf"
 depends_dev="
-	bsd-compat-headers
-	heimdal-dev
+	krb5-dev
 	"
 makedepends="
 	$depends_dev
