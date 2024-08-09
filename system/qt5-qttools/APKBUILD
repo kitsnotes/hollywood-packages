@@ -12,7 +12,7 @@ license="( LGPL-2.0-or-later OR GPL-3.0-only OR GPL-2.0-or-later ) AND Qt-GPL-ex
 depends_dev="$pkgname=$pkgver-r$pkgrel"
 _llvmver=18
 makedepends="
-	clang$_llvmver-dev
+	clang-dev
 	llvm$_llvmver-dev
 	qt5-qtbase-dev
 	qt5-qtdeclarative-dev
