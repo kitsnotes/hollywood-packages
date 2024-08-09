@@ -1,8 +1,7 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=appstream
 pkgver=1.0.2
-pkgrel=0
+pkgrel=1
 pkgdesc="Provides a standard for creating app stores across distributions"
 url="https://distributions.freedesktop.org/wiki/AppStream"
 arch="all"
