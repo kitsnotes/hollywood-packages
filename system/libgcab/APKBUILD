@@ -9,7 +9,6 @@ license="LGPL-2.0-or-later"
 makedepends="meson gobject-introspection-dev glib-dev vala gtk-doc"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 source="https://download.gnome.org/sources/gcab/$pkgver/gcab-$pkgver.tar.xz
-	no-git.patch
 	"
 builddir="$srcdir"/gcab-$pkgver
 
@@ -30,5 +29,4 @@ package() {
 
 sha512sums="
 26b8dcf47ba98e7cc073a551d1c965c13a72d298c8a4e124823bdbb20fe314c8f687232df9ae824a54d81f96fe7d9ac1a40aed24e51f8706595079cec2c61fc9  gcab-1.6.tar.xz
-0c717b13dbb46c392f772a6184209ac625472e058b886d6a57cc37a0fe0f0973066f521ba03594bb107e66f1c39a3a8843ee3320404aa69decfb9d52c2ce0db4  no-git.patch
 "
