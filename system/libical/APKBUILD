@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libical
 pkgver=3.0.18
-pkgrel=0
+pkgrel=1
 pkgdesc="Reference implementation of the iCalendar format"
 url="https://libical.github.io/libical/"
 arch="all"

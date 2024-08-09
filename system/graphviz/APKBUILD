@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=graphviz
 pkgver=12.0.0
-pkgrel=0
+pkgrel=1
 pkgdesc="Graph Visualization Tools"
 url="https://www.graphviz.org/"
 arch="all"
