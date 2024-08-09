@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=pipewire
 pkgver=1.2.2
-pkgrel=0
+pkgrel=1
 _so_ver=0.3
 pkgdesc="Multimedia processing graphs"
 url="https://pipewire.org/"
@@ -52,7 +52,7 @@ subpackages="
 	$pkgname-spa-tools:spa_tools
 	$pkgname-lang
 	"
-install="$pkgname.post-upgrade $pkgname.post-install"
+install="$pkgname.post-install"
 source="https://gitlab.freedesktop.org/PipeWire/pipewire/-/archive/$pkgver/pipewire-$pkgver.tar.gz
 	pipewire.desktop
 	pipewire-launcher.sh
