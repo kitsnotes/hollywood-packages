@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=glib-networking
-pkgver=2.70.0
-pkgrel=2
+pkgver=2.80.0
+pkgrel=0
 pkgdesc="Networking support for GLib"
 url="https://gitlab.gnome.org/GNOME/glib-networking"
 arch="all"
@@ -40,5 +40,5 @@ package() {
 }
 
 sha512sums="
-c9f8126e3466470ad8e1d588d56b843a4fa4738619a795e6772d95282c54a8356a916a3b0a0b6994606d8a6841ecb0637230f14575ed95ea68bff8f3f81aea71  glib-networking-2.70.0.tar.xz
+9707bd47a7f613bc24ac3212737b6b67c57fb6c5dc20e8659a6276750cb07d2af7d42277e4c7294644e8e833eb5aea28320f3d517073e1316860a1dee2e3dc2b  glib-networking-2.80.0.tar.xz
 "
