@@ -1,4 +1,4 @@
-system/gstreamer/APKBUILD# Maintainer: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=gstreamer
 pkgver=1.24.5
 pkgrel=0
