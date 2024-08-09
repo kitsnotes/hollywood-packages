@@ -1,10 +1,8 @@
-# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
-# Contributor: Leonardo Arena <rnalrd@alpinelinux.org>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=opensp
 _realname=OpenSP
 pkgver=1.5.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Implementation of the DSSSL style language"
 url="http://openjade.sourceforge.net"
 arch="all"
