@@ -1,12 +1,6 @@
 #!/bin/sh
 
-addgroup -S plugdev 2>/dev/null
+addgroup --system plugdev 2>/dev/null
 
-cat <<EOF
-*
-* To use U2F USB tokens (such as YubiKey), regular users must be members of
-* 'plugdev' group.
-*
-EOF
 
 exit 0
