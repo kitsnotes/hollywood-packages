@@ -36,6 +36,8 @@ build() {
 
 package() {
 	make -j1 DIST_ROOT="$pkgdir" install install-dev
+        mv "$pkgdir"/lib64 "$pkgdir"/lib
+        mv "$pkgdir"/usr/lib64 "$pkgdir"/usr/lib
 	find "$pkgdir" -name *.la -delete
 	mv "$pkgdir"/sbin "$pkgdir"/usr
 	mkdir -p "$pkgdir"/sbin
