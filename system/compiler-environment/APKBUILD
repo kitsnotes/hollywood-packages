@@ -1,9 +1,10 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=compiler-environment
-pkgver=1.0
-pkgrel=1
+pkgver=1.0.67
+pkgrel=2
 url="https://originull.org/hollywood/"
 pkgdesc="Minimal compiler environment for building Hollywood packages (for desktop use install hollywood-sdk)"
+provides="buildbot-base"
 depends="abuild
 	autoconf
 	automake
