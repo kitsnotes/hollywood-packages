@@ -1,10 +1,51 @@
-# Maintainer: The Cat <the.cat@arionos.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood-sdk
-pkgver=1.0
+pkgver=1.0.67
 pkgrel=1
-url="https://git.originull.org/"
-pkgdesc="Hollywood Software Development Kit meta package"
-depends="abuild build-base git cmake"
+url="https://originull.org/hollywood/"
+pkgdesc="Qt6 based Hollywood Software Development Kit"
+depends="abuild
+	autoconf
+	automake
+	cmake
+	make
+	git
+	hollywood-base
+	llvm-toolchain
+	lldb
+	python3
+	py3-lldb
+	py3-lldb-pyc
+	qt-creator
+	qt6-qt5compat-dev
+	qt6-qtbase-dev
+	qt6-qtcharts-dev
+	qt6-qtconnectivity-dev
+	qt6-qtdatavis3d-dev
+	qt6-qtdeclarative-dev
+	qt6-qtimageformats-dev
+	qt6-qtlottie-dev
+	qt6-qtmultimedia-dev
+	qt6-qtnetworkauth-dev
+	qt6-qtpositioning-dev
+	qt6-qtquick3d-dev
+	qt6-qtquicktimeline-dev
+	qt6-qtremoteobjects-dev
+	qt6-qtscxml-dev
+	qt6-qtsensors-dev
+	qt6-qtserialbus-dev
+	qt6-qtserialport-dev
+	qt6-qtsvg-dev
+	qt6-qtshadertools-dev
+	qt6-qttools-dev
+	qt6-qtwayland-dev
+	qt6-qtwebchannel-dev
+	qt6-qtwebengine-dev
+	qt6-qtwebsockets-dev
+	qt6-qtwebview-dev
+	samurai
+	!compiler-environment
+	"
 arch="noarch"
 license="GPL-2.0"
 
