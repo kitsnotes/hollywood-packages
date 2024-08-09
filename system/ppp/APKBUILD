@@ -55,6 +55,12 @@ options="!check"
 #   2.4.8-r1:
 #     - CVE-2020-8597
 
+prepare() {
+        default_prepare
+
+        autoreconf -fvi
+}
+
 build() {
 	# fix CFLAGS
 	# -D_GNU_SOURCE is needed for IPv6 to work apparently
