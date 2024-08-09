@@ -1,8 +1,7 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=woff2
 pkgver=1.0.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Web Open Font Format 2 reference implementation"
 options="!check" # No testsuite
 url="https://github.com/google/woff2"
