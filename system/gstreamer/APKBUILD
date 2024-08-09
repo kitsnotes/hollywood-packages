@@ -1,7 +1,7 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=gstreamer
-pkgver=1.22.0
+pkgver=1.24.5
 pkgrel=0
 pkgdesc="GStreamer streaming media framework"
 url="https://gstreamer.freedesktop.org"
@@ -48,5 +48,5 @@ doc() {
 }
 
 sha512sums="
-cb1f6d9d81c35cef7a688978142e69b9897ff1dad75853db74c2b3a528b8e83485801997106118f9dca4e608cab07b5963b9e2d6f2a43ee9dea6ca3a36af72d7  gstreamer-1.22.0.tar.xz
+3a236914dd549647cf34cab30f2dcadf4495653350e19baafeed06a0f989fd77877dac8ddb46170ab65ac052a9515734acfb28e48704baae9e694f1d3b1d35e7  gstreamer-1.24.5.tar.xz
 "
