@@ -1,9 +1,9 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=rust
-pkgver=1.79.0
+pkgver=1.80.1
 _llvmver=18
 _bootver=1.79.0
-pkgrel=1
+pkgrel=0
 pkgdesc="The Rust Programming Language"
 url="https://www.rust-lang.org/"
 arch="all"
@@ -339,6 +339,6 @@ _mv() {
 }
 
 sha512sums="
-2c93bafdd248563765a285add48ca77c1e4bad4d5431675ae6a5cdee4cfe7a41e6bcc880a489ca1069a307fd9a005f2d5f8e230dfc95b4a69152b4f9ca49ac44  rustc-1.71.0-src.tar.xz
+3c746108a86eeb734c1a8c8f63ba1a45e2cb03a8cb553395a167d07dc3ce5d8d9ea365ddd95533b6952d915069b86cad7ad218d27861e0889f8e878136bd32ab  rustc-1.80.1-src.tar.xz
 c31fdfe8a9b3411576c75da46645cf0465b9053000a2ab49cf9b2f2733f679d6d33acbf236d67a20e14935d094a685453b7f1840180249f39d610fd0902c3125  check-rustc
 "
