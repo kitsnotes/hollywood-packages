@@ -2,18 +2,101 @@
 pkgname=hollywood-base
 # pkgver 3rd octet should match pkgver in system/hollywood
 pkgver=1.0.67
-pkgrel=0
+pkgrel=1
 pkgdesc="Meta package for Hollywood OS"
 url="https://originull.org"
 arch="noarch"
 license="MIT"
-depends="filesystem apk-tools logrotate coreutils vim nano bolt bluez rtkit efivar smartmontools efibootmgr
-	dash doas efibootmgr grep gawk diffutils sed findutils lsblk gzip libarchive-tools acpid file bridge-utils 
-	plymouth plymouth-themes dracut ca-certificates lvm2 device-mapper tzdata kbd kbd-bkeymaps hdparm usbutils
-	iptables nftables iproute2 less tmux hostname curl wget e2fsprogs which shadow dosfstools appstream
-	systemd util-linux hollywood-keys zsh btrfs-progs screen run-parts psmisc dmidecode pciutils neofetch
-	adduser agetty connman procps dbus-broker sysklogd cronie sgdisk kmod zlib command-not-found bash bash-completion
-	shadow-login zip bzip2 iputils xz zstd openssh openssh-server rsync polkit acl attr e2fsprogs-extra ncurses wpa_supplicant acpid"
+depends="acl
+	adduser
+	agetty
+	apk-tools
+	appstream
+	attr
+	bash
+	bash-completion
+	bluez
+	bolt
+	bridge-utils
+	btrfs-progs
+	bzip2
+	ca-certificates
+	command-not-found
+	connman
+	coreutils
+	cronie
+	curl
+	dash
+	dbus-broker
+	device-mapper
+	diffutils
+	dmidecode
+	doas
+	dosfstools
+	dracut
+	e2fsprogs
+	e2fsprogs-extra
+	efibootmgr
+	efibootmgr
+	efivar
+	file
+	filesystem
+	findutils
+	gawk
+	grep
+	gzip
+	hdparm
+	hollywood-keys
+	hostname
+	iproute2
+	iptables
+	iputils
+	kbd
+	kbd-bkeymaps
+	kmod
+	less
+	libarchive-tools
+	logrotate
+	lsblk
+	lvm2
+	nano
+	ncurses
+	neofetch
+	nftables
+	openssh
+	openssh-server
+	pciutils
+	plymouth
+	plymouth-themes
+	polkit
+	procps
+	psmisc
+	rsync
+	rtkit
+	run-parts
+	screen
+	sed
+	sgdisk
+	shadow
+	shadow-login
+	smartmontools
+	sysklogd
+	systemd
+	tmux
+	tzdata
+	usbutils
+	util-linux
+	vim
+	wget
+	which
+	wpa_supplicant
+	xz
+	zip
+	zlib
+	zsh
+	zstd
+"
+
 makedepends=""
 install=""
 subpackages=""
@@ -42,7 +125,7 @@ package() {
 
 	# create /etc/issue
 	cat >"$pkgdir"/etc/issue<<EOF
-Welcome to Hollywood $_ver \\r on \\m (\\l)
+Welcome to Hollywood $pkgver \\r on \\m (\\l)
 
 If you are unintentionally seeing this instead of the GUI,
 you may need to login as an administrative user and run:
