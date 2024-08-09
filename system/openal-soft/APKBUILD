@@ -8,7 +8,6 @@ arch="all"
 license="LGPL-2.0-or-later"
 depends_dev="
 	alsa-lib-dev
-	jack-dev
 	libsndfile-dev
 	portaudio-dev
 	pipewire-dev
