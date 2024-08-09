@@ -68,6 +68,7 @@ check() {
 
 package() {
 	DESTDIR="$pkgdir" cmake --install build
+	mv "$pkgdir"/usr/lib64 "$pkgdir"/usr/lib
 
 	local file; for file in common dec enc; do
 		install -D -m 755 "$builddir"/build/libbrotli$file.a \
