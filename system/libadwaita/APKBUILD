@@ -1,0 +1,58 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=libadwaita
+pkgver=1.5.0
+pkgrel=0
+pkgdesc="Building blocks for modern GNOME applications"
+url="https://gitlab.gnome.org/GNOME/libadwaita"
+arch="all"
+license="LGPL-2.1-or-later"
+makedepends="
+	appstream-dev
+	fribidi-dev
+	glib-dev
+	gobject-introspection-dev
+	gtk4.0-dev
+	meson
+	sassc
+	vala
+	"
+# Tests need any font
+checkdepends="
+	dbus
+	font-dejavu
+	mesa-dri-gallium
+	xvfb-run
+	"
+subpackages="$pkgname-dbg $pkgname-dev $pkgname-lang $pkgname-demo"
+source="https://gitlab.gnome.org/GNOME/libadwaita/-/archive/$pkgver/libadwaita-$pkgver.tar.gz"
+
+build() {
+	CFLAGS="$CFLAGS -g1" \
+	CPPFLAGS="$CPPFLAGS -g1" \
+	abuild-meson \
+		-Db_lto=true \
+		-Dexamples=true \
+		-Dgtk_doc=false \
+		. output
+	meson compile -C output
+}
+
+check() {
+	XDG_RUNTIME_DIR="$(mktemp -d -p "$builddir")" \
+	dbus-run-session -- \
+	xvfb-run -a \
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+demo() {
+	pkgdesc="$pkgdesc (libadwaita demo)"
+	amove usr/share usr/bin
+}
+
+sha512sums="
+ea90b42d48683ffd928fc155da53d65adb9d30a653edd9b9341bcafcc0b9f600b869fa72d95cebb45e95299011245f83a4bfee782a23d83853fee70718acd7bc  libadwaita-1.5.0.tar.gz
+"
