@@ -13,6 +13,7 @@ source="$pkgname-$pkgver.tar.gz::https://github.com/openSUSE/libeconf/archive/re
 	"
 
 build() {
+	export LDFLAGS="-Wl,--undefined-version"
 	abuild-meson . output
 	meson compile ${JOBS:+-j ${JOBS}} -C output
 }
