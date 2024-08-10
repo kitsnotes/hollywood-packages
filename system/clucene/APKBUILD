@@ -19,6 +19,7 @@ source="https://downloads.sourceforge.net/clucene/clucene-core-$pkgver.tar.gz
 builddir="$srcdir/$pkgname-core-$pkgver"
 
 build() {
+	export CFLAGS="$CFLAGS -Wno-c++11-narrowing"
 	cmake -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=MinSizeRel \
 		-DCMAKE_INSTALL_PREFIX=/usr \
