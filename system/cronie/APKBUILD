@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=cronie
 pkgver=1.7.2
-pkgrel=0
+pkgrel=1
 pkgdesc="The standard UNIX daemon crond that runs specified programs at scheduled times"
 url="https://github.com/cronie-crond/cronie"
 arch="all"
@@ -45,5 +45,5 @@ package() {
 
 sha512sums="
 5b55c677a5b812dbfa70f6ee25e41907e99cc63a4883974c6bb8115ad65155d66665704808c338d2f7be6b0a57028c319f2d1115c69bb5f3efdda1efafd144de  cronie-1.7.2.tar.gz
-e4018e60cb2b400d3549df03f4756704d40c6af556ee229bb5f61afc0df3a18e11ee18ab181514e9b4a3a8bb4c120cdbab5b60fab3186cba42e2ccd9bd4eefc3  cronie.service
+55633d2435ff94d9368d6f5cf3c56ef84e000ca52437f01776f9754be4b1c6332a59de06207104ceee15b231efd4b2961f7a7bfae6e37ad15686befadb2a2c52  cronie.service
 "
