@@ -14,7 +14,8 @@ options="!check"
 build() {
 
 	# reduce size of debug syms
-	CFLAGS="$CFLAGS -g1" CXXFLAGS="$CXXFLAGS -g1" \
+	CFLAGS="$CFLAGS -g1" CXXFLAGS="$CXXFLAGS -g1 -D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR" \
+	
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
