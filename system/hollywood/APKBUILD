@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0.67
-pkgrel=4
+pkgrel=5
 # When bumping pkgrel, update pkgver in system/hollywood-base
 buildver=${pkgver#*.*.};
 pkgdesc="Hollywood Desktop"
@@ -361,7 +361,7 @@ setup() {
 
 image() {
 	pkgdesc="Tools for generating images using HorizonScript"
-	depends="dracut mtools squashfstools xorriso"
+	depends="dracut mtools squashfs-tools xorriso"
 	mkdir -p "$subpkgdir"/usr/bin
 	mkdir -p "$subpkgdir"/usr/lib
 	mkdir -p "$subpkgdir"/usr/share/horizon
