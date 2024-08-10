@@ -37,7 +37,6 @@ subpackages="
 	$pkgname-zftp
 	"
 source="https://sourceforge.net/projects/zsh/files/zsh/$pkgver/zsh-$pkgver.tar.xz
-	implicit.patch
 	zprofile
 	zshenv
 	zshrc
@@ -69,7 +68,6 @@ done
 
 prepare() {
 	default_prepare
-	update_config_sub
 
 	# Remove completions for other systems.
 	cd "$builddir/Completion"
@@ -203,7 +201,6 @@ _completion() {
 
 sha512sums="
 d9138b7f379ad942a5f46819d2dd52d31f3a1129f2a0d1b53d4c5cd43c318b60396da6d37c57c477b8e958fb750209aca0ae93f8c9dd42ac958de006a0ff067e  zsh-5.9.tar.xz
-0fd193a92c24dfd3b97f6294469cad8c799c91c27bb1f298bb64dcd10982543e80ab9e63517915ff648096e85105044c9d2d4368977266f7e3f6b34e69277768  implicit.patch
 66a6bdf8d915c818a2c31c35c90c2a19f91d15e2d8547d050e980ef63080f27033ef1f59da5befb30dbf46050ce907690a680e48db11711d40930420f7ec1c2b  zprofile
 e1c40649c940b91fb6dbcf9e7878e3c96d3729c8eee7b97cfe007d14d19add500863cef588ea4818ab83921fef9f9b4384c2003b26e9d753a8d59e9aca837d43  zshenv
 a7f4f5267cf0a9d1e0c480e89ede0811435803e4822b522dfc0326a9015a44af5e3163160b5595dc055acfca28f56811521c728e020389c7a5e4e0e4b3811d38  zshrc
