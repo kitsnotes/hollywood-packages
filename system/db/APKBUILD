@@ -1,21 +1,21 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=db
-pkgver=5.3.28
+pkgver=6.0.35
 _ver=${pkgver}
-pkgrel=2
+pkgrel=0
 pkgdesc="The Berkeley DB embedded database system"
 url="https://www.oracle.com/technology/software/products/berkeley-db/index.html"
 arch="all"
-license="custom"
+license="AGPL-3.0"
 options="!check"  # "check target not available"
 depends=
 makedepends=
 subpackages="$pkgname-dev $pkgname-doc $pkgname-utils $pkgname-c++:cxx"
-source="https://download.oracle.com/berkeley-db/db-$pkgver.tar.gz
+source="https://depot.originull.org/upstream/db-$pkgver.tar.gz
 	atomic.patch
 	"
 
-builddir="$srcdir/db-$_ver"
+builddir="$srcdir/db-$pkgver"
 prepare() {
 	cd "$builddir"
 	default_prepare
@@ -25,6 +25,8 @@ prepare() {
 build () {
 	cd "$builddir"
 	cd build_unix
+	CFLAGS="$CFLAGS -Wdeprecated-non-prototype" \
+	CXXFLAGS="$CXXFLAGS -Wdeprecated-non-prototype" \
 	../dist/configure \
 		--build=$CBUILD \
 		--host=$CHOST \
@@ -61,5 +63,7 @@ cxx() {
 	mv "$pkgdir"/usr/lib/libdb_cxx*.so "$subpkgdir"/usr/lib/
 }
 
-sha512sums="e91bbe550fc147a8be7e69ade86fdb7066453814971b2b0223f7d17712bd029a8eff5b2b6b238042ff6ec1ffa6879d44cb95c5645a922fee305c26c3eeaee090  db-5.3.28.tar.gz
-e9fedc5b870b95fe772a8121fca8b3642327d960441fe40a1090375efd37eec397a508e6e9100c2817c02bb4380421eb8ea400aeb060fe46a8bdac83a1abfbeb  atomic.patch"
+sha512sums="
+002db1553def44efa715095b04b2bac2de7450cdc7142586d1d8b5d8ce79ee5e98f824b3bd276cd586ca932dc51ed35a9ffbed95b2b9847264f262cfa092479d  db-6.0.35.tar.gz
+cd2f8848c08b81187f78b248e236b7d35c54ed246502692be437e2edc554b08d3b524d9293c7ed125bb802016bebe9a3a2180f54ceb433b56932f9eb935434f6  atomic.patch
+"
