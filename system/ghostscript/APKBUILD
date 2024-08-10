@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=ghostscript
 pkgver=10.03.1
-pkgrel=0
+pkgrel=1
 pkgdesc="An interpreter for the PostScript language and for PDF"
 url="https://ghostscript.com/"
 arch="all"
