@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=djvulibre
 pkgver=3.5.28
-pkgrel=4
+pkgrel=5
 pkgdesc="Utilities and Libraries for the DjVu image format"
 url="https://djvu.sourceforge.net/"
 arch="all"
