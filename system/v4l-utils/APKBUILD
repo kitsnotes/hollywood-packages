@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=v4l-utils
 pkgver=1.26.1
-pkgrel=1
+pkgrel=0
 pkgdesc="Userspace tools and conversion library for Video 4 Linux"
 url="https://linuxtv.org/"
 arch="all"
@@ -23,25 +23,25 @@ esac
 
 build() {
 	export CFLAGS="$CFLAGS -D__off_t=off_t"
-	./configure \
-		--build=$CBUILD \
-		--host=$CHOST \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		--mandir=/usr/share/man \
-		--infodir=/usr/share/info \
-		--localstatedir=/var \
-		--enable-libdvbv5 \
-		--disable-static
-	make
+	meson setup \
+                --buildtype=plain \
+                --prefix="/usr" \
+                --sysconfdir=/etc \
+                --mandir=/usr/share/man \
+                --infodir=/usr/share/info \
+                --localstatedir=/var \
+                -Ddefault_library="both" \
+        "build"
+
+        meson compile -C "build"
 }
 
 check() {
-	make check
+        meson test -C "build"
 }
 
 package() {
-	make -j1 DESTDIR="$pkgdir" install
+        DESTDIR="$pkgdir" ninja -C build/ install
 	install -Dm644 "$builddir"/utils/qv4l2/qv4l2.desktop \
 		"$pkgdir"/usr/share/applications/qv4l2.desktop
 	install -Dm644 "$builddir"/utils/qv4l2/qv4l2.svg \
