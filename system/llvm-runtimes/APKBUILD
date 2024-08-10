@@ -3,7 +3,7 @@ pkgname=llvm-runtimes
 # Note: Update together with llvm.
 pkgver=18.1.8
 _llvmver=${pkgver%%.*}
-pkgrel=10
+pkgrel=11
 pkgdesc="LLVM Runtimes"
 url="https://llvm.org/"
 arch="all"
@@ -29,6 +29,20 @@ subpackages="
 	llvm-libunwind-static:libunwind_static
 	llvm-libunwind-dev:libunwind_dev
 	"
+
+if [ "$CARCH" = "x86_64" ]; then
+subpackages="$subpackages
+	lib32-libc++:libcxx32
+	lib32-libc++-static:libcxx_static32
+	lib32-libc++-dev:libcxx_dev32
+	lib32-compiler-rt:rt32
+	lib32-llvm-libgcc-dev:libgcc_dev32
+	lib32-llvm-libunwind:libunwind32
+	lib32-llvm-libunwind-static:libunwind_static32
+	lib32-llvm-libunwind-dev:libunwind_dev32
+"
+fi
+
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver//_/-}/llvm-project-${pkgver//_/}.src.tar.xz
 	"
 builddir="$srcdir/llvm-project-${pkgver//_/}.src"
@@ -43,6 +57,7 @@ build() {
 			"
 	fi
 
+	# Standard 64-bit build
 	CC=clang \
 	CXX=clang++ \
 	CFLAGS="$CFLAGS -DNDEBUG" \
@@ -64,15 +79,61 @@ build() {
 		-DCMAKE_VERBOSE_MAKEFILE=ON \
 		$crossopts
 	cmake --build build
+
+	# 32-bit multilib libraries
+	if [ "$CARCH" = "x86_64" ]; then
+		LDFLAGS="-Wl,--undefined-version" \
+		cmake -B build32 -G Ninja -Wno-dev -S runtimes \
+			-DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;llvm-libgcc" \
+			-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+			-DCMAKE_INSTALL_PREFIX=/usr \
+			-DLIBUNWIND_HAS_NODEFAULTLIBS_FLAG=OFF \
+			-DLLVM_LIBGCC_EXPLICIT_OPT_IN=Yes \
+			-DLLVM_DEFAULT_TARGET_TRIPLE=i686-originull-linux-gnu \
+			-DLIBUNWIND_TARGET_TRIPLE=i686-originull-linux-gnu \
+			-DLLVM_TARGET_TRIPLE=i686-originull-linux-gnu \
+			-DLLVM_CONFIG="/usr/bin/llvm-config32" \
+			-DCOMPILER_RT_BUILD_CRT=Yes \
+			-DCOMPILER_RT_INCLUDE_TESTS=OFF \
+			-DCOMPILER_RT_BUILD_SANITIZERS=OFF \
+			-DCOMPILER_RT_DEFAULT_TARGET_TRIPLE=i686-originull-linux-gnu \
+			-DCOMPILER_RT_BUILD_LIBFUZZER=OFF \
+			-DCOMPILER_RT_INSTALL_PATH="/usr/lib32/llvm$_llvmver/lib32/clang/$_llvmver" \
+			-DCOMPILER_RT_BUILD_GWP_ASAN=OFF \
+			-DLLVM_ENABLE_LIBCXX=ON \
+			-DCLANG_DEFAULT_CXX_STDLIB=libc++ \
+			-DLIBCXXABI_USE_LLVM_UNWINDER=OFF \
+			-DCMAKE_VERBOSE_MAKEFILE=ON \
+			-DLLVM_LIBDIR_SUFFIX=32 \
+			-DLLVM_TARGET_ARCH:STRING=i686 \
+			-DCMAKE_ASM_COMPILER_TARGET="i686-pc-linux-gnu" \
+			-DCMAKE_CXX_FLAGS:STRING="-m32 -fPIC -DNDEBUG" \
+			-DCMAKE_C_FLAGS:STRING="-m32 -fPIC -DNDEBUG" \
+			-DLLVM_TARGETS_TO_BUILD=X86
+
+		cmake --build build32
+	fi
 }
 
 package() {
+	# If we have a multilib 32 bit version do the install first
+	# It may stomp on /lib
+	if [ "$CARCH" = "x86_64" ]; then
+		DESTDIR="$pkgdir" cmake --install build32
+		mv "$pkgdir"/usr/usr/lib32/llvm18/lib32/clang/18/lib/linux/libclang_rt.builtins-i386.a \
+			"$pkgdir"/usr/lib32/llvm18/lib32/clang/18/lib/linux/
+		rm -rf "$pkgdir"/usr/usr/
+		rm -rf "$pkgdir"/usr/lib
+		rm -rf "$pkgdir"/usr/include
+	fi
+
 	DESTDIR="$pkgdir" cmake --install build
 
 	mkdir -p "$pkgdir"/usr/include/mach-o
 	cp libunwind/include/*.h "$pkgdir"/usr/include/
 	cp libunwind/include/mach-o/*.h "$pkgdir"/usr/include/mach-o/
 	rm "$pkgdir"/usr/lib/libgcc_s*
+	rm -rf "$pkgdir"/usr/usr
 }
 
 libunwind() {
@@ -85,10 +146,26 @@ libunwind() {
 	ln -sf /usr/lib/libgcc_s.so.1.0 "$subpkgdir"/usr/lib/libgcc_s.so.1
 }
 
+libunwind32() {
+	pkgdesc="LLVM libunwind library (32-bit)"
+	depends="!lib32-libunwind-dev"
+	replaces="lib32-libgcc"
+
+	amove usr/lib32/libunwind.so.*
+	ln -sf /usr/lib32/libunwind.so.1.0 "$subpkgdir"/usr/lib32libgcc_s.so.1.0
+	ln -sf /usr/lib32/libgcc_s.so.1.0 "$subpkgdir"/usr/lib32/libgcc_s.so.1
+}
+
 libunwind_static() {
 	pkgdesc="LLVM libunwind library (static)"
 
 	amove usr/lib/libunwind.a
+}
+
+libunwind_static32() {
+	pkgdesc="LLVM libunwind library (static 32-bit)"
+
+	amove usr/lib32/libunwind.a
 }
 
 libunwind_dev() {
@@ -98,10 +175,22 @@ libunwind_dev() {
 	amove usr/include
 }
 
+libunwind_dev32() {
+	pkgdesc="LLVM libunwind library (development files 32-bit)"
+
+	amove usr/lib32/libunwind.so
+}
+
 rt() {
 	pkgdesc="LLVM compiler-rt runtime libraries"
 
 	amove usr/lib/llvm$_llvmver/lib/clang/$_llvmver
+}
+
+rt32() {
+	pkgdesc="LLVM compiler-rt runtime libraries (32-bit)"
+
+	amove usr/lib32/llvm$_llvmver/lib32/clang/$_llvmver
 }
 
 libcxx() {
@@ -110,19 +199,40 @@ libcxx() {
 	amove usr/lib/libc++*.so.*
 }
 
+libcxx32() {
+	pkgdesc="LLVM libc++ library (32-bit)"
+
+	amove usr/lib32/libc++*.so.*
+}
+
 libgcc_dev() {
 	pkgdesc="LLVM libgcc compatibility library (development files)"
 	mkdir -p "$subpkgdir"/usr/lib/
 	ln -sf /usr/lib/libgcc_s.so.1 "$subpkgdir"/usr/lib/libgcc_s.so
 
 	amove usr/lib/libgcc_eh.a
-        ln -s /usr/lib/llvm18/lib/clang/18/lib/linux/libclang_rt.builtins-$CARCH.a "$subpkgdir"/usr/lib/libgcc.a
-        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbeginT.o
-        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbeginS.o
-        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbegin.o
-        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtendT.o
-        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtendS.o
-        ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtend.o
+	ln -s /usr/lib/llvm18/lib/clang/18/lib/linux/libclang_rt.builtins-$CARCH.a "$subpkgdir"/usr/lib/libgcc.a
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbeginT.o
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbeginS.o
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtbegin-$CARCH.o "$subpkgdir"/usr/lib/crtbegin.o
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtendT.o
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtendS.o
+	ln -s /usr/lib/clang/18/lib/linux/clang_rt.crtend-$CARCH.o "$subpkgdir"/usr/lib/crtend.o
+}
+
+libgcc_dev32() {
+	pkgdesc="LLVM libgcc compatibility library (development files 32-bit)"
+	mkdir -p "$subpkgdir"/usr/lib32/
+	ln -sf /usr/lib32/libgcc_s.so.1 "$subpkgdir"/usr/lib32/libgcc_s.so
+
+	amove usr/lib32/libgcc_eh.a
+	ln -s /usr/lib32/llvm18/lib32/clang/18/lib/linux/libclang_rt.builtins-i386.a "$subpkgdir"/usr/lib32/libgcc.a
+	ln -s /usr/lib32/clang/18/lib32/linux/clang_rt.crtbegin-i386.o "$subpkgdir"/usr/lib32/crtbeginT.o
+	ln -s /usr/lib32/clang/18/lib32/linux/clang_rt.crtbegin-i386.o "$subpkgdir"/usr/lib32/crtbeginS.o
+	ln -s /usr/lib32/clang/18/lib32/linux/clang_rt.crtbegin-i386.o "$subpkgdir"/usr/lib32/crtbegin.o
+	ln -s /usr/lib32/clang/18/lib32/linux/clang_rt.crtend-i386.o "$subpkgdir"/usr/lib32/crtendT.o
+	ln -s /usr/lib32/clang/18/lib32/linux/clang_rt.crtend-i386.o "$subpkgdir"/usr/lib32/crtendS.o
+	ln -s /usr/lib32/clang/18/lib32/linux/clang_rt.crtend-i386.o "$subpkgdir"/usr/lib32/crtend.o
 }
 
 libcxx_static() {
@@ -131,11 +241,23 @@ libcxx_static() {
 	amove usr/lib/libc++*.a
 }
 
+libcxx_static32() {
+	pkgdesc="LLVM libc++ library (static libs 32-bit)"
+
+	amove usr/lib32/libc++*.a
+}
+
 libcxx_dev() {
 	pkgdesc="LLVM libc++ library (development files)"
 
 	amove usr/lib/libc++*.so
 	amove usr/include/c++
+}
+
+libcxx_dev32() {
+	pkgdesc="LLVM libc++ library (development files 32-bit)"
+
+	amove usr/lib32/libc++*.so
 }
 
 sha512sums="
