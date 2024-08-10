@@ -11,7 +11,10 @@ makedepends="$depends_dev xmlto"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 source="https://prdownloads.sourceforge.net/openjade/$_realname-$pkgver.tar.gz
 	opensp-1.5-install.patch
-	removed-failing-tests.patch"
+	removed-failing-tests.patch
+	opensp-1.5.2-c11-using.patch
+	opensp-1.5.2-configure-clang16.patch
+"
 builddir="$srcdir"/$_realname-$pkgver
 
 prepare() {
@@ -20,6 +23,7 @@ prepare() {
 }
 
 build() {
+	CXXFLAGS="$CXXFLAGS -std=c++11" \
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
@@ -53,4 +57,6 @@ sha512sums="
 a7dcc246ba7f58969ecd6d107c7b82dede811e65f375b7aa3e683621f2c6ff3e7dccefdd79098fcadad6cca8bb94c2933c63f4701be2c002f9a56f1bbe6b047e  OpenSP-1.5.2.tar.gz
 6d4cddb3c98313643ef7ab57ce154dd8a188b7ea8edc608a62ff25e4f995ab4167be94e40c2a62ae568e22e1ada4bd9bf0c9687e4dfa43dafde4d87e8b73fdf8  opensp-1.5-install.patch
 4d32af7936193281b621b40a7d8248e61ffb100960a4d07a03b52f47102e8fa47f823d01b059860408cce469404a0cd6f63d4201b976730565a8196872b8d4d3  removed-failing-tests.patch
+dea5fe17ea2662150b201ab6011bb01ba0f0c07689d267ec4086a914cefef3e91967f8db4be0258bac87d3cd73a9b05eb1f879415860552d9853e66e98e16e11  opensp-1.5.2-c11-using.patch
+191d5c61eeb73b4040be06b7de197f25a0599286dcd6077e942bc2cc1d4400e70e8af69a08563713036c1225e41adf6ee2f4dba3d264ffcf3ca6a35b7c37e087  opensp-1.5.2-configure-clang16.patch
 "
