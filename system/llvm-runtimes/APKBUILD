@@ -225,7 +225,7 @@ libgcc_dev32() {
 	mkdir -p "$subpkgdir"/usr/lib32/
 	ln -sf /usr/lib32/libgcc_s.so.1 "$subpkgdir"/usr/lib32/libgcc_s.so
 
-	amove usr/lib32/libgcc_eh.a
+	ln -sf /usr/lib32/libgcc_eh.a "$subpkgdir"/usr/lib32/libgcc_eh.a
 	ln -s /usr/lib32/llvm18/lib32/clang/18/lib/linux/libclang_rt.builtins-i386.a "$subpkgdir"/usr/lib32/libgcc.a
 	ln -s /usr/lib32/clang/18/lib32/linux/clang_rt.crtbegin-i386.o "$subpkgdir"/usr/lib32/crtbeginT.o
 	ln -s /usr/lib32/clang/18/lib32/linux/clang_rt.crtbegin-i386.o "$subpkgdir"/usr/lib32/crtbeginS.o
