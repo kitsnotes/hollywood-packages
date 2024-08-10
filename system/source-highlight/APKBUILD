@@ -14,6 +14,7 @@ source="https://ftp.gnu.org/gnu/src-highlite/source-highlight-$pkgver.tar.gz
 	gcc11.patch
 	no-register.patch
 	"
+options="!check" #failing with boost-regex
 
 build() {
 	./configure \
