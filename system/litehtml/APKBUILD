@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=litehtml
-pkgver=0.8
-pkgrel=1
+pkgver=0.9
+pkgrel=0
 pkgdesc="Fast and lightweight HTML/CSS rendering engine"
 url="http://www.litehtml.com"
 arch="all"
@@ -43,6 +43,6 @@ package() {
 }
 
 sha512sums="
-e2df205258c4e6f48cc0d8f900fb62c2da1b18c9ca007f1e222e51a59a632eb122eb2dc6136de6641ed96b3c6c823f7f90d098f2f40f9966b0cb831b180776a4  litehtml-0.8.tar.gz
+2a156671b770a6a20ab00184d9869af779248dd1fb898930b3b479ee88d8b7d84f51fdbd689ae4124530ab70c8697b6641cf06b220631ce4fec4622e63845ea3  litehtml-0.9.tar.gz
 dd4d42b85a90ecb76e7d95d450e99ffce120a0032fd73196fc06835105bae8f3b3b294743e29d4f177ec363e99ebf1ae7e265e39d656ce9180244d2aafe45e3c  fix-gtest-check.patch
 "
