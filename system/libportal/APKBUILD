@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libportal
 pkgver=0.7.1
-pkgrel=0
+pkgrel=2
 pkgdesc="GIO-style async APIs for most Flatpak portals"
 url="https://github.com/flatpak/libportal"
 arch="all"
@@ -13,14 +13,13 @@ makedepends="
 	gobject-introspection-dev
 	vala
 	gtk+3.0-dev
-	qt5-qtbase-dev
-	qt5-qttools-dev
-	qt5-qtx11extras-dev
+	qt6-qtbase-dev
+	qt6-qttools-dev	
 	"
 subpackages="
 	$pkgname-dev
 	$pkgname-gtk3:_gtk3
-	$pkgname-qt5:_qt5
+	$pkgname-qt6:_qt6
 	"
 source="$pkgname-$pkgver.tar.gz::https://github.com/flatpak/libportal/archive/$pkgver.tar.gz"
 options="!check" #requires xvfb, we don't support
@@ -30,7 +29,8 @@ build() {
 	abuild-meson \
 		-Dbackend-gtk3=enabled \
 		-Dbackend-gtk4=disabled \
-		-Dbackend-qt5=enabled \
+		-Dbackend-qt6=enabled \
+		-Dbackend-qt5=disabled \
 		-Ddocs=false \
 		. output
 	meson compile -C output
@@ -63,6 +63,13 @@ _qt5() {
 	depends=""
 
 	amove usr/lib/libportal-qt5*
+}
+
+_qt6() {
+        pkgdesc="$pkgdesc (Qt6 backend)"
+        depends=""
+
+        amove usr/lib/libportal-qt6*
 }
 
 sha512sums="
