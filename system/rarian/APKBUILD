@@ -21,6 +21,7 @@ prepare() {
 
 build() {
 	cd "$builddir"
+	CFLAGS="$CFLAGS -Wno-implicit-int" \
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
