@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=rpcbind
 pkgver=1.2.7
-pkgrel=0
+pkgrel=2
 pkgdesc="portmap replacement which supports RPC over various protocols"
 url="https://rpcbind.sourceforge.net/"
 arch="all"
@@ -12,6 +12,8 @@ makedepends="libtirpc-dev autoconf automake"
 subpackages="$pkgname-dbg $pkgname-doc"
 source="https://downloads.sourceforge.net/project/rpcbind/rpcbind/$pkgver/rpcbind-$pkgver.tar.bz2
 	rpcbind-sunrpc.patch
+	rpcbind.service
+	rpcbind.socket
 "
 
 # secfixes:
@@ -24,18 +26,13 @@ prepare() {
 }
 
 build() {
-	unset CC
-	unset CFLAGS
 	./configure \
-		--build=$CBUILD \
-		--host=$CHOST \
 		--prefix=/usr \
 		--bindir=/usr/sbin \
 		--sbindir=/usr/sbin \
 		--enable-warmstarts \
-		--with-statedir=/var/lib/rpcbind \
+		--with-statedir=/run/rpcbind \
 		--with-rpcuser=rpc \
-		--enable-debug \
 		--with-systemdsystemunitdir='/usr/lib/systemd/system'
 	make -j1
 }
@@ -43,8 +40,12 @@ build() {
 package() {
 	make DESTDIR="$pkgdir" install
 	install -D -m644 COPYING "$pkgdir"/usr/share/licenses/rpcbind/COPYING
+	cp -r "$srcdir"/rpcbind.service "$pkgdir"/usr/lib/systemd/system/rpcbind.service
+	cp -r "$srcdir"/rpcbind.socket "$pkgdir"/usr/lib/systemd/system/rpcbind.socket
 }
 sha512sums="
 ca1517bdab86221d13c645042cc31b25b4d2b574d63ebaa20da4f5392b611cf58811f267214293e953f504d364e5daaa5875eab7aa68a04b89e68fd5508e3926  rpcbind-1.2.7.tar.bz2
 40c8d65453f365beec7f41c97a682905705260026d5412613f9c2b53288c73bd84a3fe32b2b8fd58a978ffae2c7ecbd5f9ea16a7a2f53a58525e3dca7a14efb0  rpcbind-sunrpc.patch
+7b529cd3c416dc8158003f8d34cddba252ffe7111cf920a522c45b6b3ff06d3f212726975db6b3e1ce1b858be504e6fa989422529bcf46627800e272fd9c239e  rpcbind.service
+9568a4b65fea942824d51e7af58bdd6e132a7e705689fe3017ff41cd526a60803d8a8117580835a6e8800a0b0b905f1a64959442691421c7c390d2209641f1a9  rpcbind.socket
 "
