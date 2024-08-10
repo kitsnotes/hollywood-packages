@@ -61,6 +61,7 @@ build() {
 
 package() {
 	DESTDIR="$pkgdir" cmake --install build
+	mv "$pkgdir"/usr/lib64 "$pkgdir"/usr/lib
 }
 
 tools() {
