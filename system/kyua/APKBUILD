@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=kyua
 pkgver=0.13
-pkgrel=8
+pkgrel=0
 pkgdesc="testing framework for infrastructure software"
 url="https://github.com/freebsd/kyua"
 arch="all"
