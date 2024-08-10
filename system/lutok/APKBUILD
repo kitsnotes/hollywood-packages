@@ -1,7 +1,7 @@
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=lutok
 pkgver=0.4
-pkgrel=3
+pkgrel=4
 pkgdesc="lightweight C++ API for Lua"
 url="https://github.com/jmmv/lutok"
 arch="all"
@@ -18,14 +18,15 @@ prepare() {
 
 build() {
 	LUA_CFLAGS=$(pkg-config --cflags lua5.4) \
-		LUA_LIBS=$(pkg-config --libs lua5.4) \
-		./configure \
-			--build=$CBUILD \
-			--host=$CHOST \
-			--prefix=/usr \
-			--sysconfdir=/etc \
-			--mandir=/usr/share/man \
-			--localstatedir=/var
+	LUA_LIBS=$(pkg-config --libs lua5.4) \
+	CXXFLAGS="$CXXFLAGS -D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR" \
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--localstatedir=/var
 	make
 }
 
