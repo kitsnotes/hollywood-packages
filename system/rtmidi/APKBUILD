@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=rtmidi
 pkgver=6.0.0
-pkgrel=0
+pkgrel=1
 pkgdesc="C++ classes that provide a common API for realtime MIDI input/output"
 url="https://github.com/thestk/rtmidi"
 arch="all"
