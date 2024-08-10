@@ -1,8 +1,8 @@
 # Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=rpcbind
-pkgver=1.2.6
-pkgrel=3
+pkgver=1.2.7
+pkgrel=0
 pkgdesc="portmap replacement which supports RPC over various protocols"
 url="https://rpcbind.sourceforge.net/"
 arch="all"
@@ -45,5 +45,5 @@ package() {
 	install -D -m644 COPYING "$pkgdir"/usr/share/licenses/rpcbind/COPYING
 }
 sha512sums="
-fb89c61be4c533fe2e6057749d97079a2d1c9fac0d35d6be1a159a0edbf86092b3fc121f19fa920e75aac5ecdd3f59f5978e6401d5cad16cd438c977736206a7  rpcbind-1.2.6.tar.bz2
+ca1517bdab86221d13c645042cc31b25b4d2b574d63ebaa20da4f5392b611cf58811f267214293e953f504d364e5daaa5875eab7aa68a04b89e68fd5508e3926  rpcbind-1.2.7.tar.bz2
 "
