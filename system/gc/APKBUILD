@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=gc
 pkgver=8.2.6
-pkgrel=0
+pkgrel=1
 pkgdesc="garbage collector for C and C++"
 url="https://hboehm.info/gc/"
 arch="all"
