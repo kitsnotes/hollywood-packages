@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=cmst
-pkgver=2022.11.30
-pkgrel=1
+pkgver=2023.03.14
+pkgrel=0
 pkgdesc="connman system tray"
 url="https://github.com/andrew-bibb/cmst"
 arch="all"
@@ -10,7 +10,7 @@ depends="connman"
 makedepends="qt6-qtbase-dev qt6-qttools-dev qt6-qttranslations"
 checkdepends=""
 installs="$pkgname $pkgname-doc"
-source="https://github.com/andrew-bibb/cmst/releases/download/cmst-2022.11.30/cmst-${pkgver}.tar.xz"
+source="https://github.com/andrew-bibb/cmst/releases/download/cmst-${pkgver}/cmst-${pkgver}.tar.xz"
 builddir="$srcdir/cmst-$pkgver"
 
 build() {
@@ -23,5 +23,5 @@ package() {
 }
 
 sha512sums="
-eafc025a22301931b6cc21593fde2e19e3f8c0d90a54d8c0e081ee37996936db4af3a3667b4f04344b99803c96af99e0e231ebbf28bfd1d9bdf4a80ea9d0b17b  cmst-2022.11.30.tar.xz
+7f4a7bf7ac05b00dd8e9bb986b50e774f91b816f6d3b10751c2039cabc0e9c6a61edb2829958232e816d4307673aa1b873ee4bdac695f9451d00b97889f6f9e0  cmst-2023.03.14.tar.xz
 "
