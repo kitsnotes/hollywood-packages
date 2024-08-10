@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=openjpeg
 pkgver=2.5.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Open-source implementation of JPEG2000 image codec"
 url="https://www.openjpeg.org/"
 arch="all"
