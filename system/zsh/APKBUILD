@@ -1,6 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 #
 # secfixes:
+#   5.8.1-r0:
+#     - CVE-2021-45444
 #   5.8-r0:
 #     - CVE-2019-20044
 #   5.4.2-r1:
@@ -9,19 +11,37 @@
 #
 pkgname=zsh
 pkgver=5.9
-pkgrel=2
+pkgrel=4
 pkgdesc="Very advanced and programmable command interpreter (shell)"
 url="https://www.zsh.org/"
 arch="all"
-license="custom"
-makedepends="ncurses-dev diffutils"
-source="https://download.sourceforge.net/project/zsh/zsh/$pkgver/zsh-$pkgver.tar.xz
-	skel
+# GPL-2.0-only: license of Completion/Linux/Command/_qdbus
+license="MIT-Modern-Variant AND GPL-2.0-only"
+makedepends="
+	autoconf
+	diffutils
+	libcap-dev
+	pcre-dev
+	ncurses-dev
+	"
+install="
+	$pkgname.post-install
+	$pkgname.post-upgrade
+	$pkgname.pre-deinstall
+	"
+subpackages="
+	$pkgname-doc
+	$pkgname-calendar::noarch
+	$pkgname-pcre
+	$pkgname-vcs::noarch
+	$pkgname-zftp
+	"
+source="https://sourceforge.net/projects/zsh/files/zsh/$pkgver/zsh-$pkgver.tar.xz
+	implicit.patch
 	zprofile
-	zshrc"
-
-subpackages="$pkgname-doc $pkgname-calendar::noarch $pkgname-vcs::noarch"
-builddir="$srcdir/$pkgname-$pkgver"
+	zshenv
+	zshrc
+	"
 
 _libdir="usr/lib/zsh/$pkgver"
 _sharedir="usr/share/zsh/$pkgver"
@@ -40,17 +60,38 @@ _comps="android-tools::Unix/_adb
 	postgresql:postgresql-client:Unix/_postgresql
 	rsync::Unix/_rsync
 	subversion::Unix/_subversion
-	tmux::Unix/_tmux"
+	tmux::Unix/_tmux
+	zfs::Unix/_zfs*
+	"
 for _i in $_comps; do
 	subpackages="$subpackages ${_i%%:*}-zsh-completion:_completion:noarch"
 done
 
 prepare() {
 	default_prepare
+	update_config_sub
 
 	# Remove completions for other systems.
 	cd "$builddir/Completion"
 	rm -Rf AIX BSD Cygwin Darwin Debian Mandriva Redhat Solaris openSUSE
+
+	# Remove completions for programs that are not available on Alpine
+	# (just to decrease size of the package).
+	cd "$builddir/Completion/Unix/Command"
+	rm -f _aap _apm _baz _bittorrent _bpython _ccal _cdcd _chkconfig _clay \
+		_cowsay _cplay _cssh _darcs _devtodo _dict _dsh _elfdump _elm \
+		_enscript _finger _flasher _fsh _gnupod _guilt _initctl _lzop \
+		_mencal _module _monotone _moosic _mysqldiff _nkf \
+		_pack _pax _perforce _pine _pkgadd _pkginfo _pkgrm _prcs \
+		_quilt _raggle _rcs _rlogin _rubber _sablotron _sisu _socket \
+		_stgit _surfraw _tardy _telnet _tin _tla _topgit _totd _twidge \
+		_unace _unison _units _uzbl _vcsh _vux _wiggle _xmms2
+	cd "$builddir/Completion/Linux/Command"
+	rm -f _acpitool _mondo _tpb _tpconfig _uml _vserver
+	cd "$builddir/Completion/X/Command"
+	rm -f _acroread _dcop _gnome-gv _gqview _gv _kfmclient _matlab \
+		_nautilus _netscape _okular _qiv _vnc _xfig _xloadimage \
+		_xournal _xv _xwit
 
 	# remove the failing test suites
 	cd "$builddir/Test"
@@ -62,27 +103,25 @@ prepare() {
 }
 
 build() {
-	cd "$builddir"
 	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
 		--prefix=/usr \
 		--bindir=/bin \
-		--mandir=/usr/share/man \
-		--infodir=/usr/share/info \
-		--sysconfdir=/etc \
 		--enable-etcdir=/etc/zsh \
 		--enable-pcre \
-		--enable-unicode9 \
+		--enable-cap \
 		--enable-multibyte \
 		--enable-function-subdirs \
-		--enable-zprofile=/etc/zsh/zprofile \
 		--enable-zsh-secure-free \
-		--with-tcsetpgrp
+		--sysconfdir=/etc \
+		--with-tcsetpgrp \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info
 	make
 }
 
 check() {
-	cd "$builddir"
-
 	# See: https://www.zsh.org/mla/workers/2021/msg00805.html
 	unset LC_ALL
 	unset LC_COLLATE
@@ -94,33 +133,53 @@ check() {
 }
 
 package() {
-	cd "$builddir"
-
 	make DESTDIR="$pkgdir" install
-	install -Dm644 "$srcdir"/zprofile "$pkgdir"/etc/zsh/zprofile
-	install -Dm644 "$srcdir"/zshrc "$pkgdir"/etc/zsh/zshrc
-	install -Dm755 "$srcdir"/skel "$pkgdir"/etc/skel/.zshrc
 
 	install -Dm644 LICENCE "$pkgdir"/usr/share/licenses/$pkgname/LICENCE
+
+	install -d "$pkgdir"/usr/share/zsh/plugins
+	install -d "$pkgdir"/etc/zsh/zshrc.d
+
+	cd "$srcdir"
+	install -Dm644 -t "$pkgdir"/etc/zsh/ \
+		zprofile \
+		zshenv \
+		zshrc
 }
 
 doc() {
 	default_doc
-	_submv $_sharedir/help
+	amove $_sharedir/help
 }
 
 calendar() {
 	pkgdesc="Calendar Function System for ZSH"
-	depends="$pkgname"
+	depends="$pkgname=$pkgver-r$pkgrel"
 
-	_submv $_sharedir/functions/Calendar
+	amove $_sharedir/functions/Calendar
+}
+
+pcre() {
+	pkgdesc="PCRE module for ZSH"
+	depends="$pkgname=$pkgver-r$pkgrel"
+	install_if="$pkgname=$pkgver-r$pkgrel pcre"
+
+	amove $_libdir/zsh/pcre.so
 }
 
 vcs() {
 	pkgdesc="Version Control Information module for ZSH (vcs_info)"
-	depends="$pkgname"
+	depends="$pkgname=$pkgver-r$pkgrel"
 
-	_submv $_sharedir/functions/VCS_Info
+	amove $_sharedir/functions/VCS_Info
+}
+
+zftp() {
+	pkgdesc="Zftp Function System for ZSH"
+	depends="$pkgname=$pkgver-r$pkgrel"
+
+	amove $_libdir/zsh/zftp.so
+	amove $_sharedir/functions/Zftp
 }
 
 _completion() {
@@ -138,19 +197,14 @@ _completion() {
 	test -n "$files" || { echo "$name not found in \$_comps" >&2; return 1; }
 
 	local f; for f in $files; do
-		_submv $_sharedir/functions/Completion/$f
+		amove $_sharedir/functions/Completion/$f
 	done
-}
-
-_submv() {
-	local path="$1"
-	mkdir -p "$subpkgdir"/${path%/*}
-	mv "$pkgdir"/$path "$subpkgdir"/${path%/*}/
 }
 
 sha512sums="
 d9138b7f379ad942a5f46819d2dd52d31f3a1129f2a0d1b53d4c5cd43c318b60396da6d37c57c477b8e958fb750209aca0ae93f8c9dd42ac958de006a0ff067e  zsh-5.9.tar.xz
-d820fcf65bb3c52f23e968110b5df1188fc0b64079312f64d22ffe35de3b4f3055d4d629b3b0f97a1bfaddf62dbc80676af31c3a1a79645632082abfc854cf97  skel
-477dfca9b8e647f75b8bad72a830861274b9c06b2a0d1cc0b838cafb602aef2ffa79056783810917ec30eb86793d937ffad2729019669f042eead3e96352276a  zprofile
-cf878c1bf3dce4f592930f29b26368d0d201f1185e5479028004eab413710a8a0129db32de52b5b5fe79882acf6928247e51823a67046af029e7f7d6d7654c9b  zshrc
+0fd193a92c24dfd3b97f6294469cad8c799c91c27bb1f298bb64dcd10982543e80ab9e63517915ff648096e85105044c9d2d4368977266f7e3f6b34e69277768  implicit.patch
+66a6bdf8d915c818a2c31c35c90c2a19f91d15e2d8547d050e980ef63080f27033ef1f59da5befb30dbf46050ce907690a680e48db11711d40930420f7ec1c2b  zprofile
+e1c40649c940b91fb6dbcf9e7878e3c96d3729c8eee7b97cfe007d14d19add500863cef588ea4818ab83921fef9f9b4384c2003b26e9d753a8d59e9aca837d43  zshenv
+a7f4f5267cf0a9d1e0c480e89ede0811435803e4822b522dfc0326a9015a44af5e3163160b5595dc055acfca28f56811521c728e020389c7a5e4e0e4b3811d38  zshrc
 "
