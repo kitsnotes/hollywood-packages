@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=util-linux
 pkgver=2.40.1
-pkgrel=0
+pkgrel=2
 pkgdesc="Random collection of Linux utilities"
 url="https://git.kernel.org/cgit/utils/util-linux/util-linux.git"
 arch="all"
@@ -133,7 +133,7 @@ build() {
 		--disable-tls \
 		--without-udev \
 		--disable-chfn-chsh \
-		--enable-fs-paths-default=/usr/bin:/usr/local/bin \
+		--enable-fs-paths-default=/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin \
 		--with-vendordir=/usr/lib \
 		$_bootstrap_config
 	make
