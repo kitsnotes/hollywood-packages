@@ -10,6 +10,7 @@ subpackages="$pkgname-static $pkgname-dev $pkgname-doc"
 source="https://github.com/jmmv/atf/releases/download/atf-$pkgver/atf-$pkgver.tar.gz"
 
 build() {
+	CXXFLAGS="$CXXFLAGS -D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR" \
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
