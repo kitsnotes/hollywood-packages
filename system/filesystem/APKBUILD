@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=filesystem
 pkgver=1.0.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Hollywood base dir structure and init scripts"
 url="https://originull.org"
 arch="all"
