@@ -203,7 +203,7 @@ build() {
 	local _idmap_modules=idmap_ad,idmap_rid,idmap_ldap,idmap_hash,idmap_tdb2
 	local _pdb_modules=pdb_tdbsam,pdb_ldapsam,pdb_smbpasswd,pdb_wbc_sam,pdb_samba4
 	local _auth_modules=auth_unix,auth_wbc,auth_server,auth_script,auth_samba4
-	local _vfs_modules=vfs_dfs_samba4
+	local _vfs_modules=
 
 	# pclose, ..
 	export CFLAGS="$CFLAGS -O2 -D_BSD_SOURCE -flto=auto"
@@ -299,7 +299,6 @@ _common_server_libs() {
 		usr/lib/libdcerpc-server-core.so.* \
 		usr/lib/libnetapi.so.* \
 		usr/lib/$pkgname/libRPC-SERVER-LOOP-private-samba.so \
-		usr/lib/$pkgname/libdfs-server-ad-private-samba.so \
 		usr/lib/$pkgname/libprinting-migrate-private-samba.so \
 		usr/lib/$pkgname/libsmbd-base-private-samba.so \
 		usr/lib/$pkgname/libsmbldaphelper-private-samba.so \
