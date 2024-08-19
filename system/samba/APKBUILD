@@ -46,7 +46,6 @@ depends="
 	"
 
 _dc_deps="py3-dnspython py3-markdown tdb"
-# note that heimdal is required (over mit krb5) for AD DC functionality
 makedepends="
 	acl-dev
 	attr-dev
@@ -62,6 +61,7 @@ makedepends="
 	icu-dev
 	iniparser-dev
 	jansson-dev
+	krb5-dev
 	ldb-dev
 	libarchive-dev
 	libcap-dev
