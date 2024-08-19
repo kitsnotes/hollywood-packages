@@ -219,7 +219,6 @@ build() {
 		--with-piddir=/run/$pkgname \
 		--with-logfilebase=/var/log/$pkgname \
 		--with-pam \
-		--with-system-mitkrb5 \
 		--with-ads \
 		--without-ad-dc \
 		--with-shared-modules=$_idmap_modules,$_pdb_modules,$_auth_modules,$_vfs_modules \
