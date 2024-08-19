@@ -25,6 +25,7 @@ esac
 
 build() {
 	CFLAGS="$CFLAGS -flto=auto" \
+	LDFLAGS="$LDFLAGS -Wl,--undefined-version" \
 	./configure \
 		--prefix=/usr \
 		--disable-rpath \
