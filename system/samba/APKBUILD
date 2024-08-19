@@ -207,6 +207,7 @@ build() {
 
 	# pclose, ..
 	export CFLAGS="$CFLAGS -O2 -D_BSD_SOURCE -flto=auto"
+	export LDFLAGS="$LDFLAGS -Wl,--undefined-version"
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc/$pkgname \
