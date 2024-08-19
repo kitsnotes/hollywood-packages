@@ -254,6 +254,30 @@ package() {
 	# Install pidl
 	cd "$builddir"/pidl
 	make DESTDIR="$pkgdir" install_vendor
+
+	# remove old DC libs
+	rm -f \
+                "$pkgdir"/$pkgname/usr/lib/libdcerpc-samr.so.* \
+                "$pkgdir"/$pkgname/usr/lib/libdcerpc-server.so.* \
+                "$pkgdir"/$pkgname/usr/lib/libsamba-policy.* \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/bind9 \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libHDB-SAMBA4-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libLIBWBCLIENT-OLD-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libauth-unix-token-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libauth4-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libdb-glue-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libdnsserver-common-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libgss-preauth-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libhdb-private-samba.so* \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libkdc-private-samba.so* \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libpac-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libposix-eadb-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libprocess-model-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libscavenge-dns-records-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libservice-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/libshares-private-samba.so \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/process_model \
+                "$pkgdir"/$pkgname/usr/lib/$pkgname/service
 }
 
 _common() {
