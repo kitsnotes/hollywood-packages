@@ -26,9 +26,6 @@ subpackages="
 	$pkgname-libnss-winbind:_libnss_winbind
 	pam-winbind:_pam_winbind
 
-	$pkgname-dc
-	$pkgname-dc-libs:_dc_libs
-
 	$pkgname-server
 	$pkgname-server-libs:_server_libs
 	$pkgname-pidl::noarch
@@ -319,7 +316,6 @@ _client_libs() {
 	amove \
 		usr/lib/$pkgname/libcli-ldap-private-samba.so \
 		usr/lib/$pkgname/libcmdline-contexts-private-samba.so \
-		usr/lib/$pkgname/libdsdb-garbage-collect-tombstones-private-samba.so \
 		usr/lib/$pkgname/libdsdb-module-private-samba.so \
 		usr/lib/$pkgname/libgpo-private-samba.so \
 		usr/lib/$pkgname/libhttp-private-samba.so \
@@ -447,54 +443,6 @@ _pam_winbind() {
 	rmdir "$pkgdir"/usr/lib/security || true
 }
 
-dc() {
-	pkgdesc="Samba AD Domain Controller"
-	depends="
-		$pkgname-libs=$pkgver-r$pkgrel
-		$pkgname-common=$pkgver-r$pkgrel
-		$pkgname-server=$pkgver-r$pkgrel
-		$pkgname-winbind=$pkgver-r$pkgrel
-		py3-$pkgname=$pkgver-r$pkgrel
-		$_dc_deps
-		"
-	amove \
-		usr/bin/samba-tool \
-		usr/sbin/samba* \
-		usr/share/$pkgname \
-		usr/lib/$pkgname/auth/samba4.so \
-		usr/lib/$pkgname/gensec \
-		usr/lib/$pkgname/ldb \
-		usr/lib/$pkgname/libsmbpasswdparser-private-samba.so \
-		usr/lib/$pkgname/vfs/posix_eadb.so
-}
-
-_dc_libs() {
-	pkgdesc="Samba AD Domain Controller libraries"
-	depends="$pkgname-libs=$pkgver-r$pkgrel"
-	amove \
-		usr/lib/libdcerpc-samr.so.* \
-		usr/lib/libdcerpc-server.so.* \
-		usr/lib/libsamba-policy.* \
-		usr/lib/$pkgname/bind9 \
-		usr/lib/$pkgname/libHDB-SAMBA4-private-samba.so \
-		usr/lib/$pkgname/libLIBWBCLIENT-OLD-private-samba.so \
-		usr/lib/$pkgname/libauth-unix-token-private-samba.so \
-		usr/lib/$pkgname/libauth4-private-samba.so \
-		usr/lib/$pkgname/libdb-glue-private-samba.so \
-		usr/lib/$pkgname/libdnsserver-common-private-samba.so \
-		usr/lib/$pkgname/libgss-preauth-private-samba.so \
-		usr/lib/$pkgname/libhdb-private-samba.so* \
-		usr/lib/$pkgname/libkdc-private-samba.so* \
-		usr/lib/$pkgname/libpac-private-samba.so \
-		usr/lib/$pkgname/libposix-eadb-private-samba.so \
-		usr/lib/$pkgname/libprocess-model-private-samba.so \
-		usr/lib/$pkgname/libscavenge-dns-records-private-samba.so \
-		usr/lib/$pkgname/libservice-private-samba.so \
-		usr/lib/$pkgname/libshares-private-samba.so \
-		usr/lib/$pkgname/process_model \
-		usr/lib/$pkgname/service
-}
-
 server() {
 	pkgdesc="Samba server"
 	depends="
@@ -522,8 +470,7 @@ pidl() {
 	pkgdesc="Perl IDL compiler"
 	depends="perl"
 	amove \
-		usr/bin/pidl \
-		usr/share/perl*
+		usr/bin/pidl
 	rm -r "$pkgdir"/usr/lib/perl*
 }
 
