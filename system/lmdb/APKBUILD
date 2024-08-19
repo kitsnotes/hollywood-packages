@@ -1,0 +1,37 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=lmdb
+pkgver=0.9.33
+pkgrel=0
+pkgdesc="Lightning Memory-Mapped Database"
+url="https://symas.com/lmdb/"
+arch="all"
+license="OLDAP-2.8"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-tools"
+source="https://git.openldap.org/openldap/openldap/-/archive/LMDB_$pkgver/openldap-LMDB_$pkgver.tar.gz
+	lmdb.pc
+	"
+builddir="$srcdir/openldap-LMDB_$pkgver/libraries/liblmdb"
+
+build() {
+	make CC="${CC:-cc}" LDFLAGS="$LDFLAGS" CFLAGS="$CFLAGS -O2 -fPIC"
+}
+
+check() {
+	LD_LIBRARY_PATH="$PWD" make test
+}
+
+package() {
+	make DESTDIR="$pkgdir" prefix=/usr install
+
+	install -Dm0644 "$srcdir"/*.pc -t "$pkgdir"/usr/lib/pkgconfig
+}
+
+tools() {
+	mkdir -p "$subpkgdir"/usr
+	mv "$pkgdir"/usr/bin "$subpkgdir"/usr
+}
+
+sha512sums="
+57404b35adb5136fcdf60552c2dd2626b9753868f2707d3279725e08145cee3be0d311189b2c6ef6879f25cf09962e6b423c70c8a2e09ef1b368948e873d92b5  openldap-LMDB_0.9.33.tar.gz
+0cc194beedd8c1adc7cc1390eb131c800142c14120e47fc744d84f8225efecfa8d4854f4ed26021166b4b7cb021ffc4f068e0009958b1ce6247941fce9658233  lmdb.pc
+"
