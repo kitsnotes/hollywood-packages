@@ -12,6 +12,11 @@ source="https://git.openldap.org/openldap/openldap/-/archive/LMDB_$pkgver/openld
 	"
 builddir="$srcdir/openldap-LMDB_$pkgver/libraries/liblmdb"
 
+prepare() {
+        default_prepare
+        sed -i "s|@@VERSION@@|$pkgver|" -i "$srcdir"/*.pc
+}
+
 build() {
 	make CC="${CC:-cc}" LDFLAGS="$LDFLAGS" CFLAGS="$CFLAGS -O2 -fPIC"
 }
