@@ -1,18 +1,13 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=cppunit
 pkgver=1.15.1
-pkgrel=4
+pkgrel=0
 pkgdesc="C++ unit testing framework"
 url="https://www.freedesktop.org/wiki/Software/cppunit/"
 arch="all"
 license="LGPL-2.1-or-later"
 subpackages="$pkgname-dev $pkgname-doc"
 source="https://dev-www.libreoffice.org/src/cppunit-$pkgver.tar.gz"
-
-prepare() {
- 	default_prepare
-	update_config_sub
-}
 
 build() {
 	LIBS="-ldl" ./configure \
