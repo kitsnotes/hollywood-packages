@@ -13,6 +13,7 @@ subpackages="$pkgname-dev py3-$pkgname:_py3
 source="https://samba.org/ftp/tdb/tdb-$pkgver.tar.gz"
 
 build() {
+	LDFLAGS="$LDFLAGS -Wl,--undefined-version" \
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
