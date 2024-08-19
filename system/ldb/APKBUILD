@@ -1,0 +1,59 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=ldb
+pkgver=2.9.1
+pkgrel=0
+pkgdesc="schema-less, ldap like, API and database"
+url="https://ldb.samba.org/"
+arch="all"
+license="LGPL-3.0-or-later"
+makedepends="libtirpc-dev tevent-dev py3-tevent tdb-dev py3-tdb talloc-dev
+	python3-dev popt-dev cmocka-dev docbook-xsl lmdb-dev"
+subpackages="$pkgname-dev py3-$pkgname:_py3 $pkgname-tools $pkgname-doc"
+source="https://www.samba.org/ftp/pub/ldb/ldb-$pkgver.tar.gz
+	"
+
+# secfixes:
+#   1.3.5-r0:
+#     - CVE-2018-1140
+
+_waf=buildtools/bin/waf
+
+case "$CARCH" in
+	ppc64le) options="$options !check" ;;
+	x86|armhf|armv7) options="$options !check" ;;
+esac
+
+build() {
+	CFLAGS="$CFLAGS -flto=auto" \
+	./configure \
+		--prefix=/usr \
+		--disable-rpath \
+		--disable-rpath-install \
+		--builtin-libraries=replace \
+		--bundled-libraries=NONE \
+		--with-modulesdir=/usr/lib/ldb/modules
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make install DESTDIR="$pkgdir"
+}
+
+_py3() {
+	pkgdesc="Python 3 binding for the ldb library"
+	amove usr/lib/python3* \
+		usr/lib/libpyldb-util.cpython*
+}
+
+tools() {
+	pkgdesc="Tools to manage LDB files"
+	amove usr/bin usr/lib/ldb/libldb-cmdline.*
+}
+
+sha512sums="
+a7384d5b88b1b2edc1ac40f38f74b8b2eb403610d158c579a862007801586a4ad1ba11019737ecad8a83e8f2d1ae7ae16ec7e92c58f60feb2d6fed84c4212265  ldb-2.9.1.tar.gz
+"

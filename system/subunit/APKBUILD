@@ -1,0 +1,51 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=subunit
+pkgver=1.4.2
+pkgrel=0
+pkgdesc="A streaming protocol for test results"
+options="!check" # Dependencies for checking stuff are in testing/
+url="https://launchpad.net/subunit"
+arch="all"
+license="Apache-2.0 AND BSD-3-Clause"
+depends="python3 py3-extras py3-testtools"
+makedepends="
+	check-dev
+	cppunit-dev
+	perl-dev
+	py3-setuptools
+	python3-dev
+	"
+subpackages="$pkgname-pyc $pkgname-dev $pkgname-libs"
+source="https://launchpad.net/subunit/trunk/$pkgver/+download/subunit-$pkgver.tar.gz"
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--localstatedir=/var \
+		--disable-dependency-tracking \
+		--disable-static \
+		--with-pic
+	make
+	python3 setup.py build
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	python3 setup.py install --skip-build --root="$pkgdir"
+	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
+	sed -i '1s|/usr/bin/env python$|/usr/bin/python3|' "$pkgdir"/usr/bin/*
+	rm -r "$pkgdir"/usr/lib/python3*/site-packages/subunit/tests/
+}
+
+sha512sums="
+3acf96055ec0c49c4ac17c43a398c4e5173c9904652f54edd7597130e69224475670308b405d336e824dad667f51ec856cfca3a5e681fae756a67a0a400efabe  subunit-1.4.2.tar.gz
+"
