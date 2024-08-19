@@ -10,7 +10,6 @@ options="!check" # fixme: missing dependencies for '--enable-selftest'
 subpackages="
 	$pkgname-dev
 	$pkgname-doc
-	$pkgname-server-openrc
 	libwbclient
 	$pkgname-util-libs:_util_libs
 
@@ -51,14 +50,15 @@ _dc_deps="py3-dnspython py3-markdown tdb"
 makedepends="
 	acl-dev
 	attr-dev
-	bind-dev
 	bison
 	cups-dev
 	dbus-dev
 	docbook-xsl
 	e2fsprogs-dev
 	flex
+	gettext-dev
 	gnutls-dev
+	gpgme-dev
 	icu-dev
 	iniparser-dev
 	jansson-dev
@@ -68,7 +68,6 @@ makedepends="
 	libtirpc-dev
 	liburing-dev
 	linux-pam-dev
-	musl-nscd-dev
 	ncurses-dev
 	openldap-dev
 	perl
@@ -219,13 +218,15 @@ build() {
 		--with-piddir=/run/$pkgname \
 		--with-logfilebase=/var/log/$pkgname \
 		--with-pam \
+		--with-system-mitkrb5 \
 		--with-ads \
+		--without-ad-dc \
 		--with-shared-modules=$_idmap_modules,$_pdb_modules,$_auth_modules,$_vfs_modules \
 		--enable-cups \
-		--without-gettext \
 		--bundled-libraries=!talloc,!pytalloc,!pytalloc-util,!tdb,!pytdb,!ldb,!pyldb,!pyldb-util,!tevent,!pytevent,!popt \
 		--disable-rpath-install \
-		--without-gpgme \
+		--with-systemd \
+		--systemd-install-services \
 		--disable-fault-handling
 	make
 
