@@ -493,7 +493,6 @@ _test() {
 		usr/bin/masktest \
 		usr/bin/ndrdump \
 		usr/bin/smbtorture \
-		usr/lib/$pkgname/libdlz-bind9-for-torture-private-samba.so \
 		usr/lib/$pkgname/libtorture-private-samba.so
 }
 
