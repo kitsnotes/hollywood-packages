@@ -317,7 +317,6 @@ _client_libs() {
 	pkgdesc="Samba libraries used by clients"
 	depends="$pkgname-libs=$pkgver-r$pkgrel"
 	amove \
-		usr/lib/$pkgname/libauthn-policy-util-private-samba.so \
 		usr/lib/$pkgname/libcli-ldap-private-samba.so \
 		usr/lib/$pkgname/libcmdline-contexts-private-samba.so \
 		usr/lib/$pkgname/libdsdb-garbage-collect-tombstones-private-samba.so \
