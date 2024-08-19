@@ -31,7 +31,7 @@ build() {
 	make
 
 	# talloc's Waf setup doesn't build static libraries, so we do it manually
-	ar qf libtalloc.a bin/default/talloc.c*.o
+	ar q libtalloc.a bin/default/talloc.c*.o
 }
 
 check() {
