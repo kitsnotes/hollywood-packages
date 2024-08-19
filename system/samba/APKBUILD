@@ -317,7 +317,6 @@ _client_libs() {
 	pkgdesc="Samba libraries used by clients"
 	depends="$pkgname-libs=$pkgver-r$pkgrel"
 	amove \
-		usr/lib/$pkgname/libad-claims-private-samba.so \
 		usr/lib/$pkgname/libauthn-policy-util-private-samba.so \
 		usr/lib/$pkgname/libcli-ldap-private-samba.so \
 		usr/lib/$pkgname/libcmdline-contexts-private-samba.so \
@@ -583,7 +582,6 @@ libs() {
 		usr/lib/$pkgname/libCHARSET3-private-samba.so \
 		usr/lib/$pkgname/libMESSAGING-SEND-private-samba.so \
 		usr/lib/$pkgname/libMESSAGING-private-samba.so \
-		usr/lib/$pkgname/libaddns-private-samba.so \
 		usr/lib/$pkgname/libads-private-samba.so \
 		usr/lib/$pkgname/libasn1util-private-samba.so \
 		usr/lib/$pkgname/libauthkrb5-private-samba.so \
