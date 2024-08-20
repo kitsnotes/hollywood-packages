@@ -1,0 +1,71 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=aspell
+pkgver=0.60.8.1
+pkgrel=0
+pkgdesc="A spell checker designed to eventually replace Ispell"
+url="http://aspell.net/"
+arch="all"
+license="LGPL-2.1-or-later"
+subpackages="$pkgname-compat::noarch $pkgname-utils $pkgname-dev $pkgname-doc
+	$pkgname-lang $pkgname-libs"
+depends_dev="$pkgname-utils"
+makedepends="ncurses-dev perl gettext-dev"
+source="https://ftp.gnu.org/gnu/aspell/aspell-$pkgver.tar.gz"
+
+# secfixes:
+#   0.60.8-r1:
+#     - CVE-2019-25051
+#   0.60.8-r0:
+#     - CVE-2019-17544
+
+prepare() {
+	default_prepare
+	update_config_sub
+}
+
+build() {
+	LDFLAGS="$LDFLAGS -lintl" \
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--enable-dict-dir=/usr/share/$pkgname \
+		--enable-pkgdatadir=/usr/share/$pkgname \
+		--enable-compile-in-filters
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+compat() {
+	pkgdesc="aspell compatibility scripts for ispell and unix spell"
+	depends="$pkgname"
+	install -d "$subpkgdir"/usr/bin
+	cd "$pkgdir"/usr/share/$pkgname
+	mv spell ispell "$subpkgdir"/usr/bin/
+}
+
+utils() {
+	pkgdesc="aspell misc utils"
+	depends="$pkgname perl"
+	install -d "$subpkgdir"/usr/bin
+	cd "$pkgdir"/usr/bin
+	mv pre* aspell-import run-with-aspell word-list-compress "$subpkgdir"/usr/bin/
+}
+
+libs() {
+	default_libs
+	mv "$pkgdir"/usr/share "$subpkgdir"/usr
+	rm -fr "$pkgdir"/usr/lib
+}
+
+sha512sums="
+80fa9d7f5f4b8bf66388825ae28403713a2e3eda81fc31f2f452c3e2fe8349cd0fa8f0e4d0d3f8cffe215817229af25aa7be2dba358cb9cdc97e9d2834ba5ca7  aspell-0.60.8.1.tar.gz
+"
