@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=samba
 pkgver=4.20.2
-pkgrel=0
+pkgrel=1
 pkgdesc="Tools to access a server's filespace and printers via SMB"
 url="https://www.samba.org/"
 arch="all"
@@ -221,7 +221,6 @@ build() {
 		--with-shared-modules=$_idmap_modules,$_pdb_modules,$_auth_modules \
 		--enable-cups \
 		--bundled-libraries=!talloc,!pytalloc,!pytalloc-util,!tdb,!pytdb,!ldb,!pyldb,!pyldb-util,!tevent,!pytevent,!popt \
-		--disable-rpath-install \
 		--with-systemd \
 		--systemd-install-services \
 		--disable-fault-handling
