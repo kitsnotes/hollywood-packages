@@ -1,6 +1,7 @@
 #!/bin/sh
 
-addgroup -S named 2>/dev/null
-adduser -S -D -H -h /etc/bind -s /sbin/nologin -G named -g named named 2>/dev/null
+addgroup --system named 2>/dev/null
+adduser --system --disabled-password --no-create-home --home /dev/null --shell \
+	 /sbin/nologin --ingroup named named 2>/dev/null
 
 exit 0
