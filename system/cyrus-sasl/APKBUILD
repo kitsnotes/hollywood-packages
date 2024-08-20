@@ -24,7 +24,7 @@ subpackages="
 makedepends="
 	gdbm-dev
 	openssl-dev>3
-	heimdal-dev
+	krb5-dev
 	py3-sphinx
 	sqlite-dev
 
