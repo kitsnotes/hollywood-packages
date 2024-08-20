@@ -19,6 +19,7 @@ depends="
 	bind
 	curl
 	cyrus-sasl-gssapiv2
+	samba-winbind
 	"
 makedepends="
 	autoconf
