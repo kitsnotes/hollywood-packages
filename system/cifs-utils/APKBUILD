@@ -1,0 +1,57 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=cifs-utils
+pkgver=7.0
+pkgrel=0
+pkgdesc="CIFS filesystem user-space tools"
+url="https://wiki.samba.org/index.php/LinuxCIFS_utils"
+arch="all"
+license="GPL-3.0-or-later"
+makedepends="libcap-dev keyutils-dev krb5-dev talloc-dev
+	autoconf automake samba-dev py3-docutils"
+subpackages="$pkgname-doc $pkgname-dev"
+source="https://ftp.samba.org/pub/linux-cifs/cifs-utils/cifs-utils-$pkgver.tar.bz2
+	cifs.upcall.request-key.conf
+	"
+options="suid"
+
+# secfixes:
+#   6.15-r0:
+#     - CVE-2022-27239
+#     - CVE-2022-29869
+#   6.13-r0:
+#     - CVE-2021-20208
+#   0:
+#     - CVE-2020-14342 # requires --with-systemd
+
+prepare() {
+	default_prepare
+	update_config_sub
+
+	autoreconf -i
+}
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr
+	make AM_CFLAGS=""
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	rm -r "$pkgdir"/usr/bin
+	# set mount.cifs uid, to enable non-root mounting from fstab
+	chmod +s $pkgdir/sbin/mount.cifs
+	mkdir -p "$pkgdir"/etc/request-key.d
+	install -Dm644 "$srcdir"/cifs.upcall.request-key.conf "$pkgdir"/etc/request-key.d/
+}
+
+sha512sums="
+4c57741af0c4567a78f352c73caca998881666a5ed36536275cfa775efd66ff1a44ebe539a8ed96c409c5b08a1378266964ce667a27e9fc7f2d43999c63dd0eb  cifs-utils-7.0.tar.bz2
+4b5f32e6b80858858713ffa918bf592e39deeebe03e2d05cff965e13fde8ca8c20a7b5283bce89c0a0cb0d9447044f71807698274ed9d5fd8c71f450fdc29512  cifs.upcall.request-key.conf
+"

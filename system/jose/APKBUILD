@@ -1,0 +1,28 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=jose
+pkgver=13
+pkgrel=0
+pkgdesc="C-language implementation of Javascript Object Signing and Encryption"
+url="https://github.com/latchset/jose"
+license="Apache-2.0"
+arch="all"
+makedepends="meson zlib-dev jansson-dev openssl-dev>3 asciidoc"
+subpackages="$pkgname-doc lib$pkgname:libs $pkgname-dev"
+source="https://github.com/latchset/jose/releases/download/v$pkgver/jose-$pkgver.tar.xz"
+
+build() {
+	abuild-meson . build
+	meson compile -C build
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C build
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C build
+}
+
+sha512sums="
+c9de298d2f46a3ebb97fe505732effffaa44c18e47986defbc71199d059bfb3484b014e61c9a2916a5718f7a9d8da1d095b36bee9710e5c9878f64cb53cb6b8d  jose-13.tar.xz
+"
