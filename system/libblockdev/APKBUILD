@@ -33,6 +33,7 @@ source="https://github.com/storaged-project/libblockdev/releases/download/$pkgve
 
 build() {
 	CFLAGS="$CFLAGS -flto=auto" \
+	LDFLAGS="-Wl,--allow-shlib-undefined" \
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
