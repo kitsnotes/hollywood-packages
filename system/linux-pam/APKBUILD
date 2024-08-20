@@ -10,7 +10,7 @@ license="BSD-3-Clause"
 depends_dev="gettext-dev"
 makedepends="$depends_dev bison flex-dev autoconf automake libtool linux-headers"
 options="suid !check"
-subpackages="$pkgname-dev $pkgname-doc $pkgname-manual::noarch"
+subpackages="$pkgname-dev $pkgname-doc"
 source="
 	https://github.com/linux-pam/linux-pam/releases/download/v$pkgver/Linux-PAM-$pkgver.tar.xz
 	https://github.com/linux-pam/linux-pam/releases/download/v$pkgver/Linux-PAM-$pkgver-docs.tar.xz
@@ -49,7 +49,6 @@ build() {
 		--infodir=/usr/share/info \
 		--localstatedir=/var \
 		--sbindir=/usr/sbin \
-		--disable-nls \
 		--disable-db
 	make
 }
@@ -72,12 +71,6 @@ package() {
 	chgrp shadow "$pkgdir"/usr/sbin/unix_chkpwd \
 		&& chmod g+s "$pkgdir"/usr/sbin/unix_chkpwd
 
-}
-
-manual() {
-        pkgdesc="$pkgdesc (manual)"
-
-        amove usr/share/doc/Linux-PAM
 }
 
 sha512sums="
