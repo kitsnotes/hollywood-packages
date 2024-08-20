@@ -262,7 +262,7 @@ package() {
                 "$pkgdir"/usr/lib/libsamba-policy.* \
                 "$pkgdir"/usr/lib/$pkgname/bind9 \
 		"$pkgdir"/usr/bin/samba-tool \
-		"pkgdir"/usr/bin/samba-gpupdate \
+		"$pkgdir"/usr/sbin/samba-gpupdate \
 		"$pkgdir"/usr/share/samba/mdssvc/elasticsearch_mappings.json \
                 "$pkgdir"/usr/lib/$pkgname/libHDB-SAMBA4-private-samba.so \
                 "$pkgdir"/usr/lib/$pkgname/libLIBWBCLIENT-OLD-private-samba.so \
