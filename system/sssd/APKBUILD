@@ -15,6 +15,7 @@ license="GPL-3.0-or-later"
 #	"
 
 depends="
+	autofs
 	bind
 	curl
 	cyrus-sasl-gssapiv2
@@ -50,6 +51,7 @@ makedepends="
 	popt-dev
 	py3-setuptools
 	python3-dev
+	samba-dev
 	talloc-dev
 	tdb-dev
 	tevent-dev
@@ -71,13 +73,11 @@ build() {
 		--disable-cifs-idmap-plugin \
 		--disable-rpath \
 		--disable-static \
-		--without-autofs \
 		--without-manpages \
 		--without-nfsv4-idmapd-plugin \
 		--without-python2-bindings \
 		--without-selinux \
-		--without-semanage \
-		--without-ssh
+		--without-semanage
 	make
 }
 
