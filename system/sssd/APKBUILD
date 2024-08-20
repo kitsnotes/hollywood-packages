@@ -57,7 +57,7 @@ makedepends="
 	tdb-dev
 	tevent-dev
 	"
-subpackages="$pkgname-dev py3-$pkgname-pyc py3-$pkgname:py3 $pkgname-openrc"
+subpackages="$pkgname-dev py3-$pkgname-pyc py3-$pkgname:py3"
 source="https://github.com/SSSD/sssd/releases/download/$pkgver/sssd-$pkgver.tar.gz
 	"
 
