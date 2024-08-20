@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=fontconfig
 pkgver=2.15.0
-pkgrel=0
+pkgrel=1
 pkgdesc="Library for configuring and customizing font access"
 url="https://www.freedesktop.org/wiki/Software/fontconfig"
 arch="all"
@@ -10,11 +10,6 @@ makedepends="freetype-dev expat-dev python3-dev gperf util-linux-dev docbook2x"
 triggers="$pkgname.trigger=/usr/share/fonts/*"
 _subpackages="$pkgname-static $pkgname-dev $pkgname-doc"
 
-if [ "$CARCH" = "x86_64" ]; then
-        subpackages="$_subpackages lib32-$pkgname:lib32"
-else
-        subpackages="$_subpackages"
-fi
 source="https://www.freedesktop.org/software/fontconfig/release/fontconfig-$pkgver.tar.gz"
 options="!check" # test suite failing
 # For generation of man pages
@@ -25,8 +20,8 @@ build() {
 	# regenerate hash functions
 	rm -f src/fcobjshash.h
 
-	mkdir build64
-	cd build64
+	mkdir build
+	cd build
 	../configure \
 		--build=$CBUILD \
 		--host=$CHOST \
@@ -38,24 +33,6 @@ build() {
 		--disable-nls
 	rm -f src/fcobjhash.h
 	make
-
-        if [ "$CARCH" = "x86_64" ]; then
-                export CC='gcc -m32'
-                export PKG_CONFIG=i686-pc-linux-gnu-pkg-config
-
-                mkdir "$builddir"/build32
-                cd "$builddir"/build32
-	        ../configure \
-	                --prefix=/usr \
-	                --sysconfdir=/etc \
-			--libdir=/usr/lib32 \
-	                --localstatedir=/var \
-	                --enable-static \
-	                --enable-docs \
-	                --disable-nls
-	        rm -f src/fcobjhash.h
-	        make
-	fi
 }
 
 check() {
