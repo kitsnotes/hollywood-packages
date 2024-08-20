@@ -218,7 +218,7 @@ build() {
 		--with-pam \
 		--with-ads \
 		--without-ad-dc \
-		--with-shared-modules=$_idmap_modules,$_pdb_modules,$_auth_modules,$_vfs_modules \
+		--with-shared-modules=$_idmap_modules,$_pdb_modules,$_auth_modules \
 		--enable-cups \
 		--bundled-libraries=!talloc,!pytalloc,!pytalloc-util,!tdb,!pytdb,!ldb,!pyldb,!pyldb-util,!tevent,!pytevent,!popt \
 		--disable-rpath-install \
@@ -261,6 +261,8 @@ package() {
                 "$pkgdir"/usr/lib/libdcerpc-server.so.* \
                 "$pkgdir"/usr/lib/libsamba-policy.* \
                 "$pkgdir"/usr/lib/$pkgname/bind9 \
+		"$pkgdir"/usr/bin/samba-tool \
+		"pkgdir"/usr/bin/samba-gpupdate \
 		"$pkgdir"/usr/share/samba/mdssvc/elasticsearch_mappings.json \
                 "$pkgdir"/usr/lib/$pkgname/libHDB-SAMBA4-private-samba.so \
                 "$pkgdir"/usr/lib/$pkgname/libLIBWBCLIENT-OLD-private-samba.so \
@@ -411,7 +413,8 @@ winbind() {
 	amove \
 		usr/sbin/winbindd \
 		usr/lib/$pkgname/idmap \
-		usr/lib/$pkgname/nss_info
+		usr/lib/$pkgname/nss_info \
+		usr/lib/systemd/system/winbind.service
 	install -d -g winbind -m 750 \
 		"$subpkgdir"/var/cache/$pkgname/winbindd_privileged
 }
@@ -492,7 +495,11 @@ server() {
 		usr/lib/$pkgname/rpcd_* \
 		usr/lib/$pkgname/samba-bgqd \
 		usr/lib/$pkgname/samba-dcerpcd \
-		usr/lib/$pkgname/vfs
+		usr/lib/$pkgname/vfs \
+		usr/lib/systemd/system/smb.service \
+		usr/lib/systemd/system/nmb.service \
+		usr/lib/systemd/system/samba-bgqd.service \
+		usr/lib/systemd/system/samba.service
 }
 
 pidl() {
