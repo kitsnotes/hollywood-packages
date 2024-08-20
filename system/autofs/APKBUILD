@@ -1,0 +1,59 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=autofs
+pkgver=5.1.8
+pkgrel=0
+pkgdesc="A kernel-based automounter for Linux"
+url="https://www.kernel.org/pub/linux/daemons/autofs/"
+arch="all"
+license="GPL-2.0-or-later"
+makedepends="
+	automake
+	bison
+	coreutils
+	flex
+	libnfs-dev
+	libtirpc-dev
+	linux-headers
+	rpcgen
+	"
+subpackages="$pkgname-dbg $pkgname-doc $pkgname-openrc"
+options="!check" # no test suite provided
+source="
+	https://www.kernel.org/pub/linux/daemons/$pkgname/v5/$pkgname-$pkgver.tar.xz
+	"
+
+prepare() {
+	default_prepare
+	sed -i 's,nfs/nfs.h,linux/nfs.h,g' */*.[ch]
+	sed -i 's,__S_IEXEC,S_IXUSR,g' */*.[ch]
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc/autofs \
+		--with-mapdir=/etc/autofs \
+		--with-confdir=/etc/conf.d \
+		--without-hesiod \
+		--with-libtirpc \
+		--enable-ignore-busy
+	make STRIP=:
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	mkdir -p "$pkgdir"/etc/autofs/
+	install -m644 samples/auto.master \
+		samples/auto.misc \
+		samples/auto.net \
+		samples/auto.smb \
+		"$pkgdir"/etc/autofs/
+
+	rm -f "$pkgdir"/usr/share/man/man5/autofs.5
+}
+
+sha512sums="
+6ee6283c0977c82848a654dc24745ee687f6916de441c3688fa91f67ca7295e632ee3808cc2358984a4b9f19841e6e1a91ab48aad6341ac8e63827fe8c32d223  autofs-5.1.8.tar.xz
+"
+
