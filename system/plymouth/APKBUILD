@@ -23,7 +23,6 @@ subpackages="
 	$pkgname-drm:_render
 	"
 source="https://www.freedesktop.org/software/plymouth/releases/plymouth-$pkgver.tar.xz
-	plymouth-rpmatch.patch
 	"
 options="!check" # No tests
 
@@ -55,5 +54,4 @@ _render() {
 
 sha512sums="
 6c66ae81498afea75a9cc1c19ec82b26210a3bd463f14b8ea7c1cd1e327069ef32f752f4ee5236070825ee42599cf05f14271000523bdbae656a200d2e60d341  plymouth-24.004.60.tar.xz
-ec1c32ddf7ee418ef1b5d173040db464193d9bca3fd85d5c3a8d2ee13ba1218947f7c9f39c403d3ccced70be28b2c7328e82dc8f967e9bdeea1651dee4be2dc7  plymouth-rpmatch.patch
 "
