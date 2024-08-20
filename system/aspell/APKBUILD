@@ -18,13 +18,7 @@ source="https://ftp.gnu.org/gnu/aspell/aspell-$pkgver.tar.gz"
 #   0.60.8-r0:
 #     - CVE-2019-17544
 
-prepare() {
-	default_prepare
-	update_config_sub
-}
-
 build() {
-	LDFLAGS="$LDFLAGS -lintl" \
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
