@@ -42,7 +42,6 @@ subpackages="
 	$pkgname-doc
 	$pkgname-dev
 	$pkgname-libs
-	$pkgname-openrc
 	$pkgname-${_root_keys_upstream}:root_keys:noarch
 	$pkgname-dnssec-tools:_dnssec_tools
 	$pkgname-plugins
