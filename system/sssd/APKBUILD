@@ -62,6 +62,7 @@ source="https://github.com/SSSD/sssd/releases/download/$pkgver/sssd-$pkgver.tar.
 	"
 
 build() {
+	LDFLAGS="-Wl,--undefined-version" \
 	./configure \
 		--prefix=/usr \
 		--sbindir=/usr/sbin \
