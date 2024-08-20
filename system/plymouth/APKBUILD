@@ -30,6 +30,7 @@ options="!check" # No tests
 build() {
 	abuild-meson \
 		-Dsystemd-integration=true \
+		-Dgtk=false \
 		. output
 	meson compile -C output
 }
