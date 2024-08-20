@@ -3,15 +3,18 @@ pkgname=lcms2
 pkgver=2.16
 pkgrel=0
 pkgdesc="Color Management Engine"
-url="http://www.littlecms.com"
+url="https://www.littlecms.com"
 arch="all"
-license="MIT GPL-3.0-only"
-depends_dev="libjpeg-turbo-dev tiff-dev zlib-dev"
-makedepends="$depends_dev"
-subpackages="$pkgname-dev $pkgname-doc $pkgname-utils"
-source="https://github.com/mm2/Little-CMS/releases/download/lcms$pkgver/lcms2-$pkgver.tar.gz
+license="MIT"
+depends_dev="
+	$pkgname-plugins=$pkgver-r$pkgrel
+	libjpeg-turbo-dev
+	tiff-dev
+	zlib-dev
 	"
-builddir="$srcdir/Little-CMS-$pkgver"
+makedepends="$depends_dev meson"
+subpackages="$pkgname-static $pkgname-dev $pkgname-doc $pkgname-utils $pkgname-plugins"
+source="https://github.com/mm2/Little-CMS/releases/download/lcms$pkgver/lcms2-$pkgver.tar.gz"
 
 # secfixes:
 #   2.9-r1:
@@ -20,33 +23,38 @@ builddir="$srcdir/Little-CMS-$pkgver"
 #     - CVE-2016-10165
 
 build() {
-	./configure \
-		--build=$CBUILD \
-		--host=$CHOST \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		--mandir=/usr/share/man \
-		--infodir=/usr/share/info \
-		--localstatedir=/var \
-		--with-jpeg \
-		--with-tiff \
-		--with-zlib \
-		--with-threads
-	make
+	abuild-meson \
+		--default-library=both \
+		-Dfastfloat=true \
+		-Dthreaded=true \
+		-Dutils=true \
+		-Djpeg=enabled \
+		-Dtiff=enabled \
+		. output
+	meson compile -C output
 }
 
 check() {
-	make check
+	meson test -t4 --no-rebuild -C output
 }
 
 package() {
-	make DESTDIR="$pkgdir" install
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 }
 
 utils() {
 	pkgdesc="Utility applications for lcms2"
-	mkdir -p "$subpkgdir"/usr/
-	mv "$pkgdir"/usr/bin "$subpkgdir"/usr/
+
+	amove usr/bin
 }
 
-sha512sums="638dd6ad6787456c8145510d18b2d0727bd0a446a13ac2934aabc9531d1156eca2a2c0fd780a453823fbd35a1895f9d8de5dc4b3cab505459dd3f0535b4e837d  lcms2-2.16.tar.gz"
+plugins() {
+	pkgdesc="$pkgdesc (threaded + fast_float plugins)"
+	license="GPL-3.0-or-later"
+
+	amove usr/lib/liblcms2_*.so
+}
+
+sha512sums="
+638dd6ad6787456c8145510d18b2d0727bd0a446a13ac2934aabc9531d1156eca2a2c0fd780a453823fbd35a1895f9d8de5dc4b3cab505459dd3f0535b4e837d  lcms2-2.16.tar.gz
+"

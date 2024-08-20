@@ -1,57 +1,58 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=plymouth
 pkgver=24.004.60
-pkgrel=0
+pkgrel=1
 pkgdesc="graphical bootsplash on linux"
-url="http://www.freedesktop.org/wiki/Software/Plymouth"
+url="https://www.freedesktop.org/wiki/Software/Plymouth"
 arch="all"
 license="GPL-2.0-or-later"
 depends_dev="
 	systemd-dev
-	libdrm-dev
-	libpng-dev
 	pango-dev
 	"
 makedepends="$depends_dev
-	autoconf
-	automake
-	docbook-xsl
-	libtool
+	libevdev-dev
+	meson
+	xkeyboard-config-dev
 	"
-subpackages="$pkgname-dev $pkgname-doc $pkgname-themes::noarch"
+subpackages="
+	$pkgname-dev
+	$pkgname-doc
+	$pkgname-lang
+	$pkgname-themes::noarch
+	$pkgname-drm:_render
+	"
 source="https://www.freedesktop.org/software/plymouth/releases/plymouth-$pkgver.tar.xz
-	plymouthd.defaults
+	plymouth-rpmatch.patch
 	"
+options="!check" # No tests
 
 build() {
-	./configure \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		--mandir=/usr/share/man \
-		--infodir=/usr/share/info \
-		--localstatedir=/var \
-		--disable-gtk \
-		--enable-drm \
-		--with-system-root-install \
-		--enable-systemd-integration
-	make
+	abuild-meson \
+		-Dsystemd-integration=true \
+		. output
+	meson compile -C output
 }
 
 package() {
-	make DESTDIR="$pkgdir" install
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 
 	rm -f "$pkgdir"/usr/lib/plymouth/*.la
-	rm "$pkgdir"/usr/share/plymouth/plymouthd.defaults
-	install -Dm644 "$srcdir"/plymouthd.defaults "$pkgdir"/usr/share/plymouth/plymouthd.defaults
 }
 
 themes() {
 	mkdir -p "$subpkgdir"/usr/share/plymouth/
-	
 	mv "$pkgdir"/usr/share/plymouth/themes/ "$subpkgdir"/usr/share/plymouth/
+}
+
+_render() {
+	local _name=${subpkgname#"$pkgname"-}
+	mkdir -p "$subpkgdir"/usr/lib/plymouth/renderers
+	mv "$pkgdir"/usr/lib/plymouth/renderers/$_name.so \
+		"$subpkgdir"/usr/lib/plymouth/renderers
 }
 
 sha512sums="
 6c66ae81498afea75a9cc1c19ec82b26210a3bd463f14b8ea7c1cd1e327069ef32f752f4ee5236070825ee42599cf05f14271000523bdbae656a200d2e60d341  plymouth-24.004.60.tar.xz
-ae500060533fef14a7a0d4295867435cbb528887682c7261c3c86736cfb944c084b9456e7ce750599080fdc9e0b8da51aeb4616e02e966020270a78334afab4e  plymouthd.defaults
+ec1c32ddf7ee418ef1b5d173040db464193d9bca3fd85d5c3a8d2ee13ba1218947f7c9f39c403d3ccced70be28b2c7328e82dc8f967e9bdeea1651dee4be2dc7  plymouth-rpmatch.patch
 "

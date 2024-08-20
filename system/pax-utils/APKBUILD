@@ -7,26 +7,31 @@ url="https://wiki.gentoo.org/wiki/Hardened/PaX_Utilities"
 arch="all"
 license="GPL-2.0-only"
 depends="scanelf"
+makedepends_build="meson"
 makedepends_host="linux-headers libcap-dev"
-makedepends="$makedepends_host"
 checkdepends="bash python3 py3-elftools"
+subpackages="$pkgname-doc scanelf:_scanelf lddtreepax:_lddtreepax:noarch"
 [ -n "$BOOTSTRAP" ] && options="$options !check" # prevent python dependency
 source="https://dev.gentoo.org/~sam/distfiles/app-misc/pax-utils/pax-utils-$pkgver.tar.xz"
-subpackages="$pkgname-doc scanelf:_scanelf lddtreepax:_lddtreepax:noarch"
 
 build() {
-	./configure --prefix=/usr --libdir=/usr/lib
-	make USE_CAP=yes
+	if [ -z "$BOOTSTRAP" ]; then
+		local lto="-Db_lto=true"
+	fi
+	abuild-meson \
+		$lto \
+		-Dlddtree_implementation=sh \
+		-Duse_seccomp=false \
+		. output
+	meson compile -C output
 }
 
 check() {
-	# Use py3
-	sed -i '1 s:^.*$:#!/usr/bin/python3:' lddtree.py
-	make check
+	meson test --print-errorlogs --no-rebuild -C output
 }
 
 package() {
-	make DESTDIR="$pkgdir/" install
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 
 	# Don't conflict with main/lddtree
 	mv "$pkgdir"/usr/bin/lddtree "$pkgdir"/usr/bin/lddtreepax
@@ -36,16 +41,15 @@ _scanelf() {
 	depends=""
 	pkgdesc="Scan ELF binaries for stuff"
 	replaces="pax-utils"
-	mkdir -p "$subpkgdir"/usr/bin
-	mv "$pkgdir"/usr/bin/scanelf "$subpkgdir"/usr/bin/
+
+	amove usr/bin/scanelf
 }
 
 _lddtreepax() {
 	depends="python3 py3-elftools"
 	pkgdesc="Read and package ELF dependency trees"
 
-	mkdir -p "$subpkgdir"/usr/bin
-	mv "$pkgdir"/usr/bin/lddtreepax "$subpkgdir"/usr/bin
+	amove usr/bin/lddtreepax
 }
 
 sha512sums="

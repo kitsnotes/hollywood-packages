@@ -1,17 +1,23 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=usbutils
 pkgver=017
-pkgrel=0
+pkgrel=1
 pkgdesc="USB Device Utilities"
-url="http://linux-usb.sourceforge.net/"
+url="https://linux-usb.sourceforge.net/"
 arch="all"
 license="GPL-2.0-or-later"
-subpackages="$pkgname-doc"
-depends="hwids-usb"
+subpackages="$pkgname-doc $pkgname-dev"
+depends="hwdata-usb"
 makedepends="libusb-dev systemd-dev autoconf automake bash libtool linux-headers"
 source="$pkgname-$pkgver.tar.gz::https://github.com/gregkh/usbutils/archive/refs/tags/v$pkgver.tar.gz
 	hwdata.patch
 	"
+
+prepare() {
+	default_prepare
+	./autogen.sh
+}
+
 build() {
 	./configure \
 		--build=$CBUILD \
