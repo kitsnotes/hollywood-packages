@@ -7,11 +7,20 @@ url="https://www.freedesktop.org/wiki/Software/xdg-utils/"
 arch="noarch"
 options="!check"  # No test suite.
 license="MIT"
-depends="file xset xprop"
-makedepends="libxml2-utils libxslt xmlto lynx"
-subpackages="$pkgname-doc"
-source="https://gitlab.freedesktop.org/xdg/xdg-utils/-/archive/v${pkgver/_/-}/xdg-utils-v${pkgver/_/-}.tar.gz
+depends="
+	file
+	xprop
+	xset
 	"
+makedepends="
+	libxml2-utils
+	libxslt
+	lynx
+	xmlto
+	"
+subpackages="$pkgname-doc"
+source="https://gitlab.freedesktop.org/xdg/xdg-utils/-/archive/v${pkgver/_/-}/xdg-utils-v${pkgver/_/-}.tar.gz"
+builddir="$srcdir/$pkgname-v${pkgver/_/-}"
 
 build() {
 	./configure \
@@ -28,5 +37,6 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="9b031d9c65247d0bbe0ce11fba10f88e68fa11e8d0fe5d1b09876edd21f59896a4d3be9a23f10afb7436446580b4d38fba99c622767eecec3951be4f5e4aad3e  xdg-utils-v1.2.1.tar.gz
+sha512sums="
+9b031d9c65247d0bbe0ce11fba10f88e68fa11e8d0fe5d1b09876edd21f59896a4d3be9a23f10afb7436446580b4d38fba99c622767eecec3951be4f5e4aad3e  xdg-utils-v1.2.1.tar.gz
 "

@@ -5,34 +5,30 @@ pkgrel=0
 pkgdesc="Text based documentation"
 url="https://asciidoc.org/"
 arch="noarch"
-license="GPL-2.0-or-later and GPL-1.0-or-later"
-depends="python3 libxml2-utils docbook-xsl source-highlight"
-makedepends="autoconf automake"
-subpackages="$pkgname-doc"
-# There is a upstream-created tarball but it has depth=1 which unpacks
-# everything into $srcdir instead of $srcdir/$pkgname-$pkgver
+license="GPL-2.0-or-later AND MIT"
+depends="python3 libxml2-utils docbook-xsl"
+makedepends="py3-gpep517 py3-setuptools py3-wheel"
+checkdepends="py3-pytest py3-pytest-mock"
+subpackages="$pkgname-pyc $pkgname-doc"
 source="https://github.com/asciidoc-py/asciidoc-py/releases/download/$pkgver/asciidoc-$pkgver.tar.gz"
-builddir="$srcdir/asciidoc-py-$pkgver"
+options="!check" # py3-pytest-mock
 
 replaces="$pkgname-vim"
 
 build() {
-	./configure \
-		--build=$CBUILD \
-		--host=$CHOST \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		--mandir=/usr/share/man \
-		--infodir=/usr/share/info
-	make
+	gpep517 build-wheel --wheel-dir .dist --output-fd 3 3>&1 >&2
 }
 
 check() {
-	make test
+	python3 -m venv --clear --without-pip --system-site-packages .testenv
+	.testenv/bin/python3 -m installer .dist/*.whl
+	.testenv/bin/python3 -m pytest
 }
 
 package() {
-	make DESTDIR="$pkgdir" install
+	python3 -m installer -d "$pkgdir" .dist/*.whl
+	install -Dm644 doc/*.1 -t "$pkgdir"/usr/share/man/man1/
+	install -Dm644 asciidoc/api.py -t "$pkgdir"/usr/lib/python3*/site-packages/asciidoc/
 }
 
 sha512sums="
