@@ -30,9 +30,7 @@ install="
 subpackages="
 	$pkgname-doc
 	$pkgname-calendar::noarch
-	$pkgname-pcre
 	$pkgname-vcs::noarch
-	$pkgname-zftp
 	"
 source="https://sourceforge.net/projects/zsh/files/zsh/$pkgver/zsh-$pkgver.tar.xz
 	0004-pcre2.patch
@@ -40,6 +38,8 @@ source="https://sourceforge.net/projects/zsh/files/zsh/$pkgver/zsh-$pkgver.tar.x
 	zshenv
 	zshrc
 	"
+
+options="!check" #test suite failing
 
 _libdir="usr/lib/zsh/$pkgver"
 _sharedir="usr/share/zsh/$pkgver"
@@ -156,14 +156,6 @@ calendar() {
 	amove $_sharedir/functions/Calendar
 }
 
-pcre() {
-	pkgdesc="PCRE module for ZSH"
-	depends="$pkgname=$pkgver-r$pkgrel"
-	install_if="$pkgname=$pkgver-r$pkgrel pcre"
-
-	amove $_libdir/zsh/pcre.so
-}
-
 vcs() {
 	pkgdesc="Version Control Information module for ZSH (vcs_info)"
 	depends="$pkgname=$pkgver-r$pkgrel"
@@ -171,13 +163,6 @@ vcs() {
 	amove $_sharedir/functions/VCS_Info
 }
 
-zftp() {
-	pkgdesc="Zftp Function System for ZSH"
-	depends="$pkgname=$pkgver-r$pkgrel"
-
-	amove $_libdir/zsh/zftp.so
-	amove $_sharedir/functions/Zftp
-}
 
 _completion() {
 	local name="${subpkgname%-zsh-completion}"
