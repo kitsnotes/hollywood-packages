@@ -130,7 +130,7 @@ build() {
 	 output
 
 	# Print config
-	meson configure output
+	#meson configure output
 
 	# parallel build workaround
 	ninja -C output src/compiler/nir/nir_intrinsics.h
