@@ -24,8 +24,6 @@ _config=${config:-config-asahi.${CARCH}}
 subpackages="$pkgname-dev:_dev:$CBUILD_ARCH"
 source="linux-asahi-$_asahiver.tar.gz::https://github.com/AsahiLinux/linux/archive/refs/tags/asahi-$_asahiver.tar.gz
 	config-asahi.aarch64
-
-	sensors.patch
 	"
 
 builddir="$srcdir/linux-asahi-$_asahiver"
@@ -210,5 +208,5 @@ _dev() {
 
 sha512sums="
 d416f1b169fc82c0562b7cdf6f6b7a3db53211a31f2f5f16b77d7e17728ff15ad3e778d5cd06039d9d7d77ab21ae4bc0e2cea07576c37bba0d7ee8ee765af027  linux-asahi-6.10.5-1.tar.gz
-af7a14a0e77b7d9a38a4a48902480460e3382e6507d72a176f7b1a8d5c2132b7fca1af54c276598d228ebd9b5a2bf2d12aac946fa4385857b8594406121676fe  config-asahi.aarch64
+f9a145cdc9d196107835c72003f38da174a75b63645b76c4583c83f88b39f35b5b813447914d08185835b3412e2cd7e113a6d0d916e29065d1547e82dd57a022  config-asahi.aarch64
 "
