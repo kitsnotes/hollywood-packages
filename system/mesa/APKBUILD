@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=mesa
-pkgver=24.1.2
-pkgrel=1
+pkgver=24.2.0
+pkgrel=0
 pkgdesc="Mesa DRI OpenGL library"
 url="https://www.mesa3d.org"
 arch="all"
@@ -62,10 +62,6 @@ source="
 replaces="mesa-dricore"
 options="!check" # we skip tests intentionally
 provides="opengl"
-if [ "$CARCH" = x86 ]; then
-	# Bug upstream that needs to be fixed
-	options="$options textrels"
-fi
 _dri_driverdir=/usr/lib/dri
 _gallium_drivers="r300,r600,radeonsi,nouveau,swrast,virgl,zink"
 _vulkan_drivers="amd,swrast"
@@ -110,24 +106,24 @@ build() {
 		-Dvulkan-layers=$_vulkan_layers \
 		-Dplatforms=x11,wayland \
 		-Ddri-drivers-path=$_dri_driverdir \
-		-D egl=enabled \
-		-D gallium-extra-hud=true \
-		-D gallium-nine=true \
-		-D gallium-omx=bellagio \
-		-D gallium-va=enabled \
-		-D gallium-vdpau=enabled \
-		-D gallium-xa=enabled \
-		-D gbm=enabled \
-		-D gles1=disabled \
-		-D gles2=enabled \
-		-D glvnd=true \
-		-D glx=dri \
-		-D libunwind=disabled \
-		-D llvm=enabled \
-		-D lmsensors=disabled \
-		-D osmesa=true \
-		-D shared-glapi=enabled \
-		-D microsoft-clc=disabled \
+		-Degl=enabled \
+		-Dgallium-extra-hud=true \
+		-Dgallium-nine=true \
+		-Dgallium-omx=bellagio \
+		-Dgallium-va=enabled \
+		-Dgallium-vdpau=enabled \
+		-Dgallium-xa=enabled \
+		-Dgbm=enabled \
+		-Dgles1=disabled \
+		-Dgles2=enabled \
+		-Dglvnd=true \
+		-Dglx=dri \
+		-Dlibunwind=disabled \
+		-Dllvm=enabled \
+		-Dlmsensors=disabled \
+		-Dosmesa=true \
+		-Dshared-glapi=enabled \
+		-Dmicrosoft-clc=disabled \
 		-Drust_std=2021 \
 		-Dvideo-codecs=h264dec,h264enc,h265dec,h265enc \
 	 output
@@ -146,5 +142,5 @@ package() {
 }
 
 sha512sums="
-ea28540552f9f28200c22423afcf9d9bb961557eae0dc11416c5ef60788c3e7f6d2b841c6bdbe2827d1339ea9d854623c1a0e08d4f1fd79d304fcdd52f790637  mesa-24.1.2.tar.xz
+a585c788801b5a341d356e44d958b148e6e14f6b3d7224e99a92faa2f004bf0cfc90103c5fdc651afb22f805c6f9dc594f9f3f5ecebcea36f6305b3a6ccb9294  mesa-24.2.0.tar.xz
 "
