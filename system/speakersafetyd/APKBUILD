@@ -1,0 +1,30 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=speakersafetyd
+pkgver=1.0.0
+pkgrel=0
+pkgdesc="Speaker Safety Daemon"
+url="https://github.com/AsahiLinux/speakersafetyd"
+arch="aarch64"
+license="MIT"
+depends="alsa-ucm-conf-asahi"
+makedepends="alsa-lib-dev cargo cargo-auditable"
+source="$pkgname-$pkgver.tar.gz::https://github.com/AsahiLinux/speakersafetyd/archive/refs/tags/$pkgver.tar.gz
+	"
+
+prepare() {
+	default_prepare
+	cargo update -p speakersafetyd
+	cargo fetch --target="$CTARGET" --locked
+}
+
+build() {
+	cargo auditable build --frozen --release
+}
+
+package() {
+	make DESTDIR=$pkgdir install
+}
+
+sha512sums="
+275f46c64ff2ab4b19185598bc737ee953a48bec4d0a2e1bfd44cc4a532700b88fecd1e4553a89929cd5b6177e419b15da7e85f3667e8c787a5ec3e6879f2f65  speakersafetyd-1.0.0.tar.gz
+"

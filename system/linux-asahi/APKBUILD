@@ -1,19 +1,24 @@
 # Maintainer: Originull Software <packages@originull.org>
 _flavor=asahi
 pkgname=linux-${_flavor}
-pkgver=6.5_p12
-
+pkgver=6.10.5_p1
 _rel=${pkgver#*_p}
 kver=${pkgver%_p*}
 kver=${kver//_/-}
 _asahiver=$kver-$_rel
 pkgdesc="Apple Silicon Asahi development Linux kernel"
-pkgrel=1
+pkgrel=0
 url="https://www.kernel.org"
-depends="initramfs-generator"
+depends="initramfs-generator speakersafetyd"
 _depends_dev="perl gmp-dev elfutils-dev flex bison"
 makedepends="$_depends_dev sed bc linux-headers installkernel
-	linux-firmware-any openssl-dev diffutils findutils"
+	linux-firmware-any openssl-dev rust diffutils findutils
+        clang-libclang
+        rust
+        rustfmt
+        rust-bindgen
+        rust-src
+"
 options="!strip !check"
 _config=${config:-config-asahi.${CARCH}}
 subpackages="$pkgname-dev:_dev:$CBUILD_ARCH"
@@ -204,7 +209,6 @@ _dev() {
 }
 
 sha512sums="
-6cb2b8bac15f48a4e1bd094b55fc5cbf96a7135bab65520dcc86286dc635437c500427067eee4a6948ee435b3f0499490bb6268d4a4f1f16703a6c3982a4ec44  linux-asahi-6.5-12.tar.gz
+d416f1b169fc82c0562b7cdf6f6b7a3db53211a31f2f5f16b77d7e17728ff15ad3e778d5cd06039d9d7d77ab21ae4bc0e2cea07576c37bba0d7ee8ee765af027  linux-asahi-6.10.5-1.tar.gz
 af7a14a0e77b7d9a38a4a48902480460e3382e6507d72a176f7b1a8d5c2132b7fca1af54c276598d228ebd9b5a2bf2d12aac946fa4385857b8594406121676fe  config-asahi.aarch64
-49dfcbc7e3d6d01fde548bfa4174e011fbb36ece94853d856e028f768da3ab156f77c01e0642e6d91f5f024f0c97d5de5847bb064e2a033f3237dfc66768049e  sensors.patch
 "
