@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=systemd
 pkgver=254
-pkgrel=5
+pkgrel=6
 pkgdesc="system init manager"
 url="https://systemd.io/"
 arch="all"
@@ -12,8 +12,6 @@ makedepends="meson clang cryptsetup-libs dbus dbus-libs dbus-dev cryptsetup-dev 
 checkdepends=""
 triggers="systemd.trigger=/usr/lib/systemd/*"
 install="$pkgname.post-install $pkgname.post-upgrade"
-replaces="openrc elogind eudev eudev-libs"
-provides="openrc elogind eudev eudev-libs"
 subpackages="$pkgname-dbg $pkgname-doc $pkgname-lang $pkgname-dev
         $pkgname-bash-completion
         $pkgname-zsh-completion
@@ -74,7 +72,6 @@ build() {
 }
 
 dev() {
-	provides="eudev-dev elogind-dev"
 	default_dev
 }
 
