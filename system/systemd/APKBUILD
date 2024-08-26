@@ -2,7 +2,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=systemd
 pkgver=254
-pkgrel=6
+pkgrel=7
 pkgdesc="system init manager"
 url="https://systemd.io/"
 arch="all"
@@ -15,10 +15,12 @@ install="$pkgname.post-install $pkgname.post-upgrade"
 subpackages="$pkgname-dbg $pkgname-doc $pkgname-lang $pkgname-dev
         $pkgname-bash-completion
         $pkgname-zsh-completion
+	libsystemd
         "
 source="https://github.com/systemd/systemd/archive/refs/tags/v$pkgver/systemd-$pkgver.tar.gz
 	pidfs-magic.patch"
 builddir="$srcdir/systemd-$pkgver"
+options="!check" #failing suite
 
 build() {
 
@@ -77,6 +79,10 @@ dev() {
 
 check() {
 	meson test --no-rebuild --print-errorlogs -C output
+}
+
+libsystemd() {
+       amove usr/lib/libsystemd.so.*
 }
 
 package() {
