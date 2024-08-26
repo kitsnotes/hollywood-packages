@@ -42,6 +42,7 @@ makedepends="
 	meson
 	libclc-dev
 	py3-mako
+	py3-yaml
 	python3
 	vulkan-headers
 	py3-cparser
