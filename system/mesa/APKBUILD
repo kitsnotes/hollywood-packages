@@ -73,7 +73,7 @@ x86*)
 	_gallium_drivers="$_gallium_drivers,svga,i915,iris,crocus"
 	;;
 aarch64)
-	_gallium_drivers="$_gallium_drivers,vc4,v3d,freedreno,kmsro,lima,panfrost,etnaviv,tegra,asahi"
+	_gallium_drivers="$_gallium_drivers,vc4,v3d,freedreno,lima,panfrost,etnaviv,tegra,asahi"
 	;;
 esac
 
