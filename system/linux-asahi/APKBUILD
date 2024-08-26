@@ -114,96 +114,59 @@ package() {
 }
 
 _dev() {
-	local _flavor=$(echo $subpkgname | sed -E 's/(^linux-|-dev$)//g')
-	local O="$srcdir/build-$_flavor"
-	local _abi_release="$(make -C "$O" -s kernelrelease)"
-	# copy the only the parts that we really need for build 3rd party
-	# kernel modules and install those as /usr/src/linux-headers,
-	# simlar to what ubuntu does
-	#
-	# this way you dont need to install the 300-400 kernel sources to
-	# build a tiny kernel module
-	#
-	pkgdesc="Headers and script for third party modules for $_flavor kernel"
-	depends="$_depends_dev"
-	local dir="$subpkgdir"/usr/src/linux-headers-${_abi_release}
-	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+        local _flavor=$(echo $subpkgname | sed -E 's/(^linux-|-dev$)//g')
+        local _abi_release=${pkgver}-${pkgrel}-$_flavor
+        # copy the only the parts that we really need for build 3rd party
+        # kernel modules and install those as /usr/src/linux-headers,
+        # simlar to what ubuntu does
+        #
+        # this way you dont need to install the 300-400 kernel sources to
+        # build a tiny kernel module
+        #
+        pkgdesc="Headers and script for third party modules for $_flavor kernel"
+        depends="$_depends_dev"
+        local dir="$subpkgdir"/usr/src/linux-headers-${_abi_release}
+        export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
 
-	# kernel sources
-	cd "$builddir"
+        # first we import config, run prepare to set up for building
+        # external modules, and create the scripts
+        mkdir -p "$dir"
+        local _builddir="$srcdir"/build-$_flavor
+        cp -a "$_builddir"/.config "$_builddir"/localversion-originull \
+                "$dir"/
 
-	msg "Installing build files"
-	install -Dt "$dir" -m644  Makefile localversion* \
-		"$O/.config" "$O/Module.symvers" "$O/System.map" \
-		"$O/vmlinux"
-	install -Dt "$dir"/kernel -m644 kernel/Makefile
-	cp -t "$dir" -a scripts "$O/scripts"
+        make -j1 -C "$srcdir"/linux-asahi-$_asahiver \
+                O="$dir" \
+                ARCH="arm64" \
+                LLVM=1 \
+                prepare modules_prepare scripts
 
-	msg "Installing headers..."
-	cp -t "$dir" -a include "$O/include"
+        # remove the stuff that points to real sources. we want 3rd party
+        # modules to believe this is the soruces
+        rm "$dir"/Makefile "$dir"/source
 
-	install -Dt "$dir/arch/$_carch" -m644 $builddir/arch/$_carch/Makefile
-	install -Dt "$dir/arch/$_carch/kernel" -m644 "$O"/arch/$_carch/kernel/asm-offsets.s
-	cp -t "$dir/arch/$_carch" -a arch/$_carch/include $O/arch/$_carch/include
+        # copy the needed stuff from real sources
+        #
+        # this is taken from ubuntu kernel build script
+        # http://kernel.ubuntu.com/git/ubuntu/ubuntu-zesty.git/tree/debian/rules.d/3-binary-indep.mk
+        cd "$srcdir"/linux-asahi-$_asahiver
+        find .  -path './include/*' -prune \
+                -o -path './scripts/*' -prune -o -type f \
+                \( -name 'Makefile*' -o -name 'Kconfig*' -o -name 'Kbuild*' -o \
+                   -name '*.sh' -o -name '*.pl' -o -name '*.lds' -o -name 'Platform' \) \
+                -print | cpio -pdm "$dir"
 
-	install -Dt "$dir/drivers/md" -m644 drivers/md/*.h
-	install -Dt "$dir/net/mac80211" -m644 net/mac80211/*.h
+        cp -a scripts include "$dir"
 
-	# https://bugs.archlinux.org/task/13146
-	install -Dt "$dir/drivers/media/i2c" -m644 drivers/media/i2c/msp3400-driver.h
+        find $(find arch -name include -type d -print) -type f \
+                | cpio -pdm "$dir"
 
-	# https://bugs.archlinux.org/task/20402
-	install -Dt "$dir/drivers/media/usb/dvb-usb" -m644 drivers/media/usb/dvb-usb/*.h
-	install -Dt "$dir/drivers/media/dvb-frontends" -m644 drivers/media/dvb-frontends/*.h
-	install -Dt "$dir/drivers/media/tuners" -m644 drivers/media/tuners/*.h
+        install -Dm644 "$srcdir"/build-$_flavor/Module.symvers \
+                "$dir"/Module.symvers
 
-	# https://bugs.archlinux.org/task/71392
-	install -Dt "$dir/drivers/iio/common/hid-sensors" -m644 drivers/iio/common/hid-sensors/*.h
-
-	msg "Installing KConfig files..."
-	find . -name 'Kconfig*' -exec install -Dm644 {} "$dir/{}" \;
-
-	msg "Removing unneeded architectures..."
-	local arch
-	for arch in "$dir"/arch/*/; do
-		case $(basename "$arch") in
-			$_carch) continue ;;
-		esac
-		echo " - Removing $(basename "$arch")"
-		rm -r "$arch"
-	done
-
-	msg "Removing documentation"
-	rm -r "$dir"/Documentation
-
-	msg "Removing broken symlinks..."
-	find -L "$dir" -type l -printf 'Removing %P\n' -delete
-
-	msg "Removing loose objects..."
-	find "$dir" -type f -name '*.o' -printf 'Removing %P\n' -delete
-
-	msg "Stripping build tools..."
-	local file
-	find "$dir" -type f -perm -u+x ! -name vmlinux -print0 | while read -rd '' file; do
-		case "$(file -bi "$file")" in
-			application/x-sharedlib\;*)			# Libraries (.so)
-				strip -v $STRIP_SHARED "$file" ;;
-			application/x-archive\;*)				# Libraries (.a)
-				strip -v $STRIP_STATIC "$file" ;;
-			application/x-executable\;*)		 # Binaries
-				strip -v $STRIP_BINARIES "$file" ;;
-			application/x-pie-executable\;*) # Relocatable binaries
-				strip -v $STRIP_SHARED "$file" ;;
-		esac
-	done
-
-	msg "Stripping vmlinux..."
-	strip -v $STRIP_STATIC "$dir/vmlinux"
-
-	msg "Adding symlink..."
-	mkdir -p "$subpkgdir"/lib/modules/${_abi_release}
-	ln -sf /usr/src/linux-headers-${_abi_release} \
-		"$subpkgdir"/lib/modules/${_abi_release}/build
+        mkdir -p "$subpkgdir"/lib/modules/${_abi_release}
+        ln -sf /usr/src/linux-headers-${_abi_release} \
+                "$subpkgdir"/lib/modules/${_abi_release}/build
 }
 
 sha512sums="
