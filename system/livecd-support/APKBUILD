@@ -1,8 +1,7 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=livecd-support
-pkgver=1.0
-pkgrel=10
+pkgver=1.0.67
+pkgrel=0
 pkgdesc="Support files for booting Hollywood live media"
 url="https://www.originull.org/"
 arch="noarch"
@@ -26,7 +25,7 @@ package() {
 	#ln -s /usr/share/applications/org.originull.about.desktop $pkgdir/etc/skel/Desktop/About\ Hollywood.desktop
 	#ln -s /usr/share/applications/org.originull.terminull.desktop $pkgdir/etc/skel/Desktop/Terminull.desktop
 	install -D -m644 "$srcdir"/sddm.conf "$pkgdir"/etc/sddm.conf.d/autologin.conf
-	install -D -m644 "$srcdir"/doas.conf "$pkgdir"/etc/doas.d/livecd.conf
+	install -D -m644 "$srcdir"/doas.conf "$pkgdir"/etc/sudoers.d/livecd.conf
 	#install -D -m644 "$srcdir"/hollywood.conf "$pkgdir"/etc/xdg/originull/hollywood.conf
 
 	install -D -m4755 "$srcdir"/setup-hollywood "$pkgdir"/usr/sbin/setup-hollywood
@@ -43,12 +42,13 @@ Categories=System;
 DESKTOP
 
     ln -s /usr/share/applications/installer.desktop "$pkgdir"/etc/skel/Desktop/installer.desktop
+    ln -sf /home/hollywood/ "$pkgdir"/Desktop/home
 }
 
 
 sha512sums="
 2fdec0f543efa987b83dcb0edcb0f4e254000777bb8130ab4414e17d8c8faf46d03ab5961b621383ef5c315bc8c0473569134b09a4a61f1c130801eebd468752  sddm.conf
-a1519d6b5165e2878b124bab75c8ca522698600e99b2b6538cbd363857fe209940bd7dae467b931b991448ac634f7bb032959c8240d530f7cf27e8b88627f212  doas.conf
-472516ee32d38e9307f916f7eea03a225ccd7fd2658a04b55fc9495374021898314cf95a912966fe84d13e887ef6dd300177e859099b98e18d30863ad6a19855  hollywood.conf
-bd4603d8cb41baeb8786032ebd3e816d46e5384dd144358305dd1163b22fb9184df825092a447d7c2a5b6881d5f5600faaef79e5794404933ee170d170eb9494  setup-hollywood
+cab5223d3e47f653a2dd59cb6e2a288e3d33cacbf3490f2cd91c0ddb567d945bec43d0f13090378b2a86e4158136c6679478d44fd468f57b337cd37faf314281  doas.conf
+780740bb9c263c83234491b9b66f6d408eca1d2b6b9d6408f9200d2b7ac35bbd03c42bc268362c1106c035dccbe5930a12890cad1423c30fcfe4c2056741375f  hollywood.conf
+8c6ff382df9c022b08f170ba4da51a796e989e52faf84e1c1837f4321c6256328d93cd2eea37a8f6d7ebfeccf47c6fe98fe40a30c9ff8bb2b01c7b85ac436005  setup-hollywood
 "
