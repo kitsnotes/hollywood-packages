@@ -6,14 +6,16 @@ if [ "${pkgver%_*}" != "$pkgver" ]; then
 else
 	_realver=$pkgver
 fi
-pkgrel=0
+pkgrel=1
 pkgdesc="Give certain users the ability to run some commands as root"
 url="https://www.sudo.ws/sudo/"
 arch="all"
 license="custom ISC"
-makedepends="zlib-dev"
+makedepends="zlib-dev openldap-dev sssd-dev"
 subpackages="$pkgname-doc-extra::noarch $pkgname-doc $pkgname-dev"
-source="https://www.sudo.ws/dist/sudo-$_realver.tar.gz"
+source="https://www.sudo.ws/dist/sudo-$_realver.tar.gz
+	sudo.pam
+	sudo.conf"
 options="suid"
 builddir="$srcdir/sudo-$_realver"
 
@@ -39,19 +41,21 @@ replaces="sudo-ldap"
 build() {
 	CFLAGS="$CFLAGS -flto=auto" \
 	./configure \
-		--build=$CBUILD \
-		--host=$CHOST \
-		--prefix=/usr \
-		--libexecdir=/usr/lib \
-		--mandir=/usr/share/man \
-		--disable-nls \
-		--enable-pie \
-		--with-env-editor \
-		--with-mdoc \
-		--without-pam \
-		--without-skey \
-		--with-sendmail=/usr/sbin/sendmail \
-		--with-passprompt="[sudo] password for %p: "
+	    --prefix=/usr \
+	    --sbindir=/usr/bin \
+	    --libexecdir=/usr/lib \
+	    --with-rundir=/run/sudo \
+	    --with-vardir=/var/db/sudo \
+	    --with-logfac=auth \
+	    --enable-tmpfiles.d \
+	    --with-pam \
+	    --with-sssd \
+	    --with-ldap \
+	    --with-ldap-conf-file=/etc/openldap/ldap.conf \
+	    --with-env-editor \
+	    --with-passprompt="[sudo] password for %p: " \
+	    --with-secure-path-value=/usr/local/sbin:/usr/local/bin:/usr/bin
+
 
 	make
 }
@@ -69,6 +73,12 @@ package() {
 
 	# Exactly the same as /etc/sudoers
 	rm "$pkgdir"/etc/sudoers.dist
+	rm "$pkgdir"/etc/sudoers
+	# install custom sudoers
+	cp "$srcdir"/sudo.conf "$pkgdir"/etc/sudoers
+	# install pam.d file
+	mkdir "$pkgdir"/etc/pam.d/
+	cp "$srcdir"/sudo.pam "$pkgdir"/etc/pam.d/sudo	
 }
 
 extra() {
@@ -79,4 +89,6 @@ extra() {
 
 sha512sums="
 ebac69719de2fe7bd587924701bdd24149bf376a68b17ec02f69b2b96d4bb6fa5eb8260a073ec5ea046d3ac69bb5b1c0b9d61709fe6a56f1f66e40817a70b15a  sudo-1.9.15p5.tar.gz
+2a6ac5e3cb1fef91b6efcd95ef59b197489578fca5d6cec20000584069411604b768e91bda0d9fe825bc4f4abfb4220ed1ddcc5bf54953137c117f20211fca7f  sudo.pam
+e694717639f7d21ea45143cfb48ef5cc2c41098e8985bafea4ee775131e0cd3129931b7167f53ff316818cfc7a61af71d635cc184284d8e6c40d6320cefb6fd8  sudo.conf
 "
