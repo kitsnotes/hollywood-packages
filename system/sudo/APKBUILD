@@ -11,7 +11,7 @@ pkgdesc="Give certain users the ability to run some commands as root"
 url="https://www.sudo.ws/sudo/"
 arch="all"
 license="custom ISC"
-makedepends="zlib-dev openldap-dev sssd-dev"
+makedepends="zlib-dev openldap-dev sssd-dev linux-pam-dev"
 subpackages="$pkgname-doc-extra::noarch $pkgname-doc $pkgname-dev"
 source="https://www.sudo.ws/dist/sudo-$_realver.tar.gz
 	sudo.pam
