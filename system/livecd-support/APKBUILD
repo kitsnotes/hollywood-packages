@@ -42,7 +42,6 @@ Categories=System;
 DESKTOP
 
     ln -s /usr/share/applications/installer.desktop "$pkgdir"/etc/skel/Desktop/installer.desktop
-    ln -sf /home/hollywood/ "$pkgdir"/Desktop/home
 }
 
 
