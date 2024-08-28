@@ -1,0 +1,39 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=adcli
+pkgver=0.9.2
+pkgrel=0
+pkgdesc="Active Directory account management tool"
+url="https://gitlab.freedesktop.org/realmd/adcli"
+arch="all"
+license="GPL3"
+depends=""
+makedepends="krb5-dev docbook-xml docbook-xsl openldap-dev xmlto"
+checkdepends=""
+install=""
+subpackages="$pkgname-doc"
+source="https://gitlab.freedesktop.org/realmd/adcli/-/archive/0.9.2/adcli-0.9.2.tar.gz"
+builddir="$srcdir/$pkgname-$pkgver"
+
+prepare() {
+	autoreconf -fi
+}
+
+build() {
+	./configure \
+	  --prefix=/usr           \
+	  --sbindir=/usr/bin      \
+	  --sysconfdir=/etc
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+67cf44aee79fa163411a934fbca5016fbdbf80bc8af49009220a9eac2e02d5e64a701cf30d1119b90e5bb8d969729c9b918a7fd9240dbb9dddccc51cc3a311ac  adcli-0.9.2.tar.gz
+"
