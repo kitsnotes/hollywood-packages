@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=command-not-found
 pkgver=0.3
-pkgrel=2
+pkgrel=3
 pkgdesc="friendly command not found handling"
 url="https://github.com/kaniini/command-not-found"
 arch="noarch"
@@ -18,5 +18,5 @@ package() {
 
 sha512sums="
 6e171adb8d559255ab8c5d09df670f9c8403f5e231c550d4dfc1f6e29fc8beee83a3db43eb63b5fb62cb52ed83d375a7b2c10e59383668251068e088b123b1b8  command-not-found-0.3.tar.gz
-80552c5a71da74252d41bd73d344a22444a76f5d212466119de05f7d971a25d6f1c1055c1648a331515b412ba84a986682e4c68ac94331e2fef63f6815fcc420  language-changes.patch
+9f776f095bb65d6cfef32b3b9ed9355ad06f30fa13646dabc69e246591b605f7483eb5556513323b88ed990ec7faa48c20374ebc90ad5299f4857d31dc76a17a  language-changes.patch
 "

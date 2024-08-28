@@ -13,7 +13,7 @@ diff -Naur command-not-found-0.3-orig/command-not-found.sh command-not-found-0.3
  		printf " * %s: %s\n" "$atom" "$desc" >&2
  	done
 -	printf "To install packages: 'apk add <selected package>'\n" >&2
-+	printf "To install packages: 'doas apk add <selected package>'\n" >&2
++	printf "To install packages: 'sudo apk add <selected package>'\n" >&2
  else
  	printf "%s: not found\n" "$1" >&2
  fi
