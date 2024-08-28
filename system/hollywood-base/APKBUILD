@@ -2,7 +2,7 @@
 pkgname=hollywood-base
 # pkgver 3rd octet should match pkgver in system/hollywood
 pkgver=1.0.67
-pkgrel=4
+pkgrel=5
 pkgdesc="Meta package for Hollywood OS"
 url="https://originull.org"
 arch="noarch"
@@ -26,7 +26,6 @@ depends="acl
 	dash
 	diffutils
 	dmidecode
-	doas
 	dracut
 	efibootmgr
 	efivar
@@ -118,7 +117,7 @@ Welcome to Hollywood $pkgver \\r on \\m (\\l)
 
 If you are unintentionally seeing this instead of the GUI,
 you may need to login as an administrative user and run:
-doas systemctl enable sddm
+sudo systemctl enable sddm
 
 or review journalctl -xe for why the service failed to start.
 
