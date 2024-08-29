@@ -30,7 +30,7 @@ package() {
 server() {
 	pkgdesc="Simple USB host TCP server"
 	mkdir -p "$subpkgdir"/usr
-	mv "$pkgdir"/usr/sbin "$subpkgdir"/usr/
+	mv "$pkgdir"/usr/bin "$subpkgdir"/usr/
 }
 
 sha512sums="
