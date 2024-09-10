@@ -1,0 +1,57 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=c-efi
+# this is from git - there is no real version
+pkgver=0.1
+pkgrel=0
+pkgdesc="UEFI Reference Specification Protocol Constants and Definitions"
+url="https://github.com/c-util/c-efi"
+arch="all"
+license="Apache"
+makedepends="meson"
+checkdepends=""
+install=""
+source="https://depot.originull.org/upstream/c-efi.tar.gz"
+builddir="$srcdir/c-efi"
+CROSSFILE=""
+if [ $CARCH == "x86_64" ]; then
+	CROSSFILE="x86_64-unknown-uefi.mesoncross.ini"
+fi
+
+if [ $CARCH == "aarch64" ]; then
+        CROSSFILE="aarch64-unknown-uefi.mesoncross.ini"
+fi
+
+build() {
+	meson \
+		--prefix=/usr \
+                --libdir=/usr/lib \
+                --libexecdir=/usr/libexec \
+                --bindir=/usr/bin \
+                --sbindir=/usr/sbin \
+                --includedir=/usr/include \
+                --datadir=/usr/share \
+                --mandir=/usr/share/man \
+                --infodir=/usr/share/info \
+                --localedir=/usr/share/locale \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --sharedstatedir=/var/lib \
+                --buildtype=plain \
+                --auto-features=auto \
+                --wrap-mode=nodownload \
+		--cross-file ./src/$CROSSFILE \
+		. output
+	meson compile -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="
+64021635b9219f93615d54481c2e3c09633ac2ef2139b29fdaf8236d07f14ec97ff73d04c3cbb169b9f459da2b53a5c59549bec96c82861a22e9f7b7c7c0005a  c-efi.tar.gz
+"
