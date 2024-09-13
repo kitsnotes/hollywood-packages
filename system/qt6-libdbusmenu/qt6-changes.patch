@@ -1,19 +1,6 @@
-From af9fa001dac49eedc76e15613b67abfd097105f3 Mon Sep 17 00:00:00 2001
-From: Ilya Fedin <fedin-ilja2010@ya.ru>
-Date: Sun, 24 Oct 2021 04:25:58 +0400
-Subject: [PATCH] Fix build with Qt 6
-
----
- src/dbusmenuexporter.cpp   |  3 ++-
- src/dbusmenuimporter.cpp   |  1 +
- src/dbusmenushortcut_p.cpp | 27 +++++++++++++++++++++++++++
- src/dbusmenushortcut_p.h   |  4 ++++
- 4 files changed, 34 insertions(+), 1 deletion(-)
-
-diff --git a/src/dbusmenuexporter.cpp b/src/dbusmenuexporter.cpp
-index f30ce11..9bb5c10 100644
---- a/src/dbusmenuexporter.cpp
-+++ b/src/dbusmenuexporter.cpp
+diff -Naur libdbusmenu-qt-0.9.3+16.04.20160218-orig/src/dbusmenuexporter.cpp libdbusmenu-qt-0.9.3+16.04.20160218/src/dbusmenuexporter.cpp
+--- libdbusmenu-qt-0.9.3+16.04.20160218-orig/src/dbusmenuexporter.cpp	2024-09-12 17:15:47.642787276 -0700
++++ libdbusmenu-qt-0.9.3+16.04.20160218/src/dbusmenuexporter.cpp	2024-09-12 17:16:12.466471478 -0700
 @@ -29,6 +29,7 @@
  #include <QTimer>
  #include <QToolButton>
@@ -22,7 +9,7 @@ index f30ce11..9bb5c10 100644
  
  // Local
  #include "dbusmenu_config.h"
-@@ -484,7 +485,7 @@ void DBusMenuExporter::activateAction(QAction *action)
+@@ -484,7 +485,7 @@
  {
      int id = d->idForAction(action);
      DMRETURN_IF_FAIL(id >= 0);
@@ -31,10 +18,9 @@ index f30ce11..9bb5c10 100644
      d->m_dbusObject->ItemActivationRequested(id, timeStamp);
  }
  
-diff --git a/src/dbusmenuimporter.cpp b/src/dbusmenuimporter.cpp
-index ce6ef18..94abb59 100644
---- a/src/dbusmenuimporter.cpp
-+++ b/src/dbusmenuimporter.cpp
+diff -Naur libdbusmenu-qt-0.9.3+16.04.20160218-orig/src/dbusmenuimporter.cpp libdbusmenu-qt-0.9.3+16.04.20160218/src/dbusmenuimporter.cpp
+--- libdbusmenu-qt-0.9.3+16.04.20160218-orig/src/dbusmenuimporter.cpp	2024-09-12 17:15:46.906796640 -0700
++++ libdbusmenu-qt-0.9.3+16.04.20160218/src/dbusmenuimporter.cpp	2024-09-12 17:19:38.383851779 -0700
 @@ -34,6 +34,7 @@
  #include <QTimer>
  #include <QToolButton>
@@ -43,10 +29,18 @@ index ce6ef18..94abb59 100644
  
  // Local
  #include "dbusmenutypes_p.h"
-diff --git a/src/dbusmenushortcut_p.cpp b/src/dbusmenushortcut_p.cpp
-index 29d2e58..9f4fc0a 100644
---- a/src/dbusmenushortcut_p.cpp
-+++ b/src/dbusmenushortcut_p.cpp
+@@ -338,7 +339,7 @@
+ 
+     d->m_type = type;
+ 
+-    connect(&d->m_mapper, SIGNAL(mapped(int)), SLOT(sendClickedEvent(int)));
++    connect(&d->m_mapper, SIGNAL(mappedInt(int)), SLOT(sendClickedEvent(int)));
+ 
+     d->m_pendingLayoutUpdateTimer = new QTimer(this);
+     d->m_pendingLayoutUpdateTimer->setSingleShot(true);
+diff -Naur libdbusmenu-qt-0.9.3+16.04.20160218-orig/src/dbusmenushortcut_p.cpp libdbusmenu-qt-0.9.3+16.04.20160218/src/dbusmenushortcut_p.cpp
+--- libdbusmenu-qt-0.9.3+16.04.20160218-orig/src/dbusmenushortcut_p.cpp	2024-09-12 17:15:46.794798065 -0700
++++ libdbusmenu-qt-0.9.3+16.04.20160218/src/dbusmenushortcut_p.cpp	2024-09-12 17:16:12.570470155 -0700
 @@ -22,6 +22,7 @@
  
  // Qt
@@ -55,7 +49,7 @@ index 29d2e58..9f4fc0a 100644
  
  // Local
  #include "debug_p.h"
-@@ -83,3 +84,29 @@ QKeySequence DBusMenuShortcut::toKeySequence() const
+@@ -83,3 +84,29 @@
      QString string = tmp.join(QLatin1String(", "));
      return QKeySequence::fromString(string);
  }
@@ -85,10 +79,9 @@ index 29d2e58..9f4fc0a 100644
 +
 +    return argument;
 +}
-diff --git a/src/dbusmenushortcut_p.h b/src/dbusmenushortcut_p.h
-index e26dd8c..d62c272 100644
---- a/src/dbusmenushortcut_p.h
-+++ b/src/dbusmenushortcut_p.h
+diff -Naur libdbusmenu-qt-0.9.3+16.04.20160218-orig/src/dbusmenushortcut_p.h libdbusmenu-qt-0.9.3+16.04.20160218/src/dbusmenushortcut_p.h
+--- libdbusmenu-qt-0.9.3+16.04.20160218-orig/src/dbusmenushortcut_p.h	2024-09-12 17:15:47.822784987 -0700
++++ libdbusmenu-qt-0.9.3+16.04.20160218/src/dbusmenushortcut_p.h	2024-09-12 17:16:12.618469544 -0700
 @@ -30,6 +30,7 @@
  
  
@@ -97,7 +90,7 @@ index e26dd8c..d62c272 100644
  
  class DBUSMENU_EXPORT DBusMenuShortcut : public QList<QStringList>
  {
-@@ -40,4 +41,7 @@ class DBUSMENU_EXPORT DBusMenuShortcut : public QList<QStringList>
+@@ -40,4 +41,7 @@
  
  Q_DECLARE_METATYPE(DBusMenuShortcut)
  
