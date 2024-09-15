@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0.67
-pkgrel=6
+pkgrel=7
 # When bumping pkgrel, update pkgver in system/hollywood-base
 buildver=${pkgver#*.*.};
 pkgdesc="Hollywood Desktop"
@@ -176,7 +176,6 @@ desktop() {
 	rtkit
 	cups
 	geoclue
-	hollywood-qt5-libs
         sddm
         wireplumber
         pipewire
