@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtwebengine
 pkgver=6.7.2
-pkgrel=1
+pkgrel=2
 # latest commit of 118-based branch of qtwebengine-chromium
 _chromium_commit="a08edbbf641285af44119d3172584d24e39dd22c"
 pkgdesc="Provides support for web applications using the Chromium browser project"
