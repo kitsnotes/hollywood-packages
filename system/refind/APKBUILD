@@ -1,21 +1,29 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=refind
 pkgver=0.14.0.2
-pkgrel=2
+pkgrel=3
 pkgdesc="rEFInd EFI Boot Manager"
 url="https://www.rodsbooks.com/refind"
 arch="x86_64 aarch64"
 options="!check"  # No test suite.
 license="GPL-3.0-only"
 depends="efibootmgr lsblk"
-makedepends="gnu-efi-dev bash"
+makedepends="gnu-efi-dev bash gnu-toolchain binutils"
 subpackages="$pkgname-doc"
+triggers="refind.trigger=/boot"
+install="$pkgname.post-install $pkgname.post-upgrade"
 source="https://sourceforge.net/projects/refind/files/$pkgver/refind-src-$pkgver.tar.gz
 	https://depot.originull.org/upstream/refind-iconset.zip
 	01-bgrt.patch
 	02-hollywood-banner.patch
 	03-refind-native-config.patch
 	04-refind-hollywood-language.patch
+	refind.conf
+	hollywood.conf
+	managed.conf
+	custom.conf
+	install-bootloader
+	bootloader-update-kernels
 	"
 
 prepare() {
@@ -47,6 +55,13 @@ package() {
 
 	install -Dm0644 docs/man/*.8 -t "$pkgdir"/usr/share/man/man8
 	cp -r "$srcdir"/icons "$pkgdir"/usr/share/refind/
+
+	install -Dm0755 "$srcdir"/bootloader-update-kernels -t "$pkgdir"/usr/sbin/
+	install -Dm0755 "$srcdir"/install-bootloader "$pkgdir"/usr/sbin/
+	install -Dm0644 "$srcdir"/refind.conf -t "$pkgdir"/usr/share/refind/config/
+	install -Dm0644 "$srcdir"/hollywood.conf "$pkgdir"/usr/share/refind/config/
+	install -Dm0644 "$srcdir"/managed.conf "$pkgdir"/usr/share/refind/config/
+	install -Dm0644 "$srcdir"/custom.conf "$pkgdir"/usr/share/refind/config/
 }
 sha512sums="
 41c120c1afec37c508aa5c0ec09a6563c3047ef84932308c91701795b950431dfad17d25cf664039b490a302d475add98441b75f90ff71cadce41febedc68a9e  refind-src-0.14.0.2.tar.gz
@@ -55,4 +70,10 @@ cd02d8063763eb1f63f791b2172a7c424609c7b1f57d1e36b6f446a5febc612c3dd91a2f47dcdcb7
 de0190951dde082ce36d28d5b6e776026dd950efd0363ae4a6b57515b2b9b2078d4fe1124380f0b37eee0d8fc13ef008724aba879402288186e5375003af6f91  02-hollywood-banner.patch
 20e51981b2caa3f9307544202fa54898e4d6224e44504d7e4257ed4d7cee6f6b03caa1a34b8723521a86aa1b2e659605e614bdc50b7e83fae097da5ead8b6172  03-refind-native-config.patch
 de3030b239d43cdc2191a1cb34504ba64de4747912667f0543bc54a31f1694a75636adc4832647a67a99eefe1c5a94670831f78f44abf0b306ff34d31c8ee5a8  04-refind-hollywood-language.patch
+b4d7bc4ca64d4bdacd09f076fa6bc01fa4a00d7cfa8f5a6c947cd2257c2893afe52eb706142c7d48fdeeb75537cdd824681ae577a693a1ec08f5b9cb1d02dbdd  refind.conf
+e5e62f5727b06354cbd23ad378ce7f1f05f4dd876e2f413822aa3f9608553a2dcefb60c73c8e4d47c26e5f64ff6b8c0369857ead0ffe09433a92e9d71355f8ca  hollywood.conf
+56a1321e117473d15182e394407f052f334bb0a22e050d484121dc05424e4ec25238f0f3ac0c30fa3bdbe829468520ff8ef5cda7667cd2dcd2693ecb170a3835  managed.conf
+7ea25d72902151eae24140e4274e38c75eeb51663dc0ff8a417b01a763b9131388606c66f5e2ab71d41a7de778b7ba86ef08d83daf6bcf5fe69585c32ddb3796  custom.conf
+1bec4baf46356e6eccd39f643d74fb2640610988d210c5e6a8d41a16bc3349bc52354301ba810d2111332aeb81446357d4b2d326b2dd61098a9075fdf094eeca  install-bootloader
+1d46e1ff91ab39b872389b4b1a53fd27507d70d4f54fbcf559f5d73662e1830287f5a9ecb324209aebd6577555f01fcaa21424fe6c1db0f9c6e63a9b8068611f  bootloader-update-kernels
 "

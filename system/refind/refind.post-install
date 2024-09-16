@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if grep -q '^disable_apk_auto_install=1' /etc/bootloader.conf 2>/dev/null; then
+	exit 0
+fi
+
+exec /usr/sbin/install-bootloader
+
