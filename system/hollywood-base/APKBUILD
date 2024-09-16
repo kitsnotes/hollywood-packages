@@ -2,7 +2,7 @@
 pkgname=hollywood-base
 # pkgver 3rd octet should match pkgver in system/hollywood
 pkgver=1.0.67
-pkgrel=5
+pkgrel=10
 pkgdesc="Meta package for Hollywood OS"
 url="https://originull.org"
 arch="noarch"
