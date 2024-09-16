@@ -1,0 +1,144 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=mesa-lite
+pkgver=24.2.0
+pkgrel=0
+pkgdesc="Mesa DRI OpenGL library (Lightweight Version)"
+url="https://www.mesa3d.org"
+arch="all"
+license="MIT SGI-B-2.0 BSL-1.0"
+subpackages="
+	$pkgname-dbg
+	$pkgname-dev
+	"
+_llvmver=18
+depends_dev="
+	libdrm-dev
+	libxext-dev
+	libxdamage-dev
+	libxcb-dev
+	libxshmfence-dev
+	"
+makedepends="
+	$depends_dev
+	bison
+	systemd-dev
+	expat-dev
+	findutils
+	flex
+	gettext
+	elfutils-dev
+	glslang-dev
+	libtool
+	libxfixes-dev
+	libx11-dev
+	libxml2-dev
+	libxrandr-dev
+	libxvmc-dev
+	libxxf86vm-dev
+	llvm$_llvmver-dev
+	libglvnd-dev
+	meson
+	libclc-dev
+	py3-mako
+	py3-yaml
+	python3
+	vulkan-headers
+	py3-cparser
+	py3-ply
+	spirv-llvm-translator-dev
+	vulkan-loader-dev
+	wayland-dev
+	spirv-tools-dev
+	libomxil-bellagio-dev
+	wayland-protocols
+	xorgproto
+	zlib-dev
+	zstd-dev
+	"
+source="
+	https://mesa.freedesktop.org/archive/mesa-$pkgver.tar.xz
+	"
+replaces="mesa-dricore"
+options="!check" # we skip tests intentionally
+provides="opengl"
+_dri_driverdir=/usr/lib/dri
+_gallium_drivers="r300,r600,radeonsi,nouveau,swrast,virgl,zink"
+_vulkan_drivers="amd,swrast"
+_vulkan_layers="device-select,overlay"
+
+# extra gallium per arch
+case "$CARCH" in
+x86*)
+        _gallium_drivers="$_gallium_drivers,svga,i915,iris,crocus"
+        ;;
+aarch64)
+        _gallium_drivers="$_gallium_drivers,vc4,v3d,freedreno,lima,panfrost,etnaviv,tegra,asahi"
+        ;;
+esac
+
+# extra vulkan per arch
+case "$CARCH" in
+x86*)
+        _vulkan_drivers="$_vulkan_drivers,intel,intel_hasvk"
+        _vulkan_layers="$_vulkan_layers,intel-nullhw"
+        ;;
+aarch64)
+        _vulkan_drivers="$_vulkan_drivers,broadcom,freedreno,panfrost"
+        ;;
+esac
+
+builddir="$srcdir/mesa-$pkgver"
+build() {
+	# use -g1 to generate less debug info:
+	# 485 MiB -> ~80 MiB
+	export CFLAGS="$CFLAGS -O2 -g1"
+	export CXXFLAGS="$CXXFLAGS -O2 -g1"
+	export CPPFLAGS="$CPPFLAGS -O2 -g1"
+	export LDFLAGS="$LDFLAGS -Wl,--undefined-version"
+	abuild-meson \
+		-Db_ndebug=true \
+		-Db_lto=false \
+		-Db_lundef=false \
+		-Dbackend_max_links=2 \
+		-Dgallium-drivers=$_gallium_drivers \
+		-Dvulkan-drivers=$_vulkan_drivers \
+		-Dvulkan-layers=$_vulkan_layers \
+		-Dplatforms=wayland \
+		-Ddri-drivers-path=$_dri_driverdir \
+		-Degl=enabled \
+		-Dgallium-extra-hud=true \
+		-Dgallium-nine=false \
+		-Dgallium-omx=disabled \
+		-Dgallium-va=disabled \
+		-Dgallium-vdpau=disabled \
+		-Dgallium-xa=disabled \
+		-Dgbm=enabled \
+		-Dgles1=disabled \
+		-Dgles2=enabled \
+		-Dglvnd=true \
+		-Dglx=disabled \
+		-Dlibunwind=disabled \
+		-Dllvm=enabled \
+		-Dlmsensors=disabled \
+		-Dosmesa=true \
+		-Dshared-glapi=enabled \
+		-Dmicrosoft-clc=disabled \
+		-Drust_std=2021 \
+	 output
+
+	# Print config
+	#meson configure output
+
+	# parallel build workaround
+	ninja -C output src/compiler/nir/nir_intrinsics.h
+
+	meson compile ${JOBS:+-j ${JOBS}} -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+sha512sums="
+a585c788801b5a341d356e44d958b148e6e14f6b3d7224e99a92faa2f004bf0cfc90103c5fdc651afb22f805c6f9dc594f9f3f5ecebcea36f6305b3a6ccb9294  mesa-24.2.0.tar.xz
+"
