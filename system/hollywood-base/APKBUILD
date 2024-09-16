@@ -54,6 +54,7 @@ depends="acl
 	openssh
 	openssh-server
 	pciutils
+	sudo
 	plymouth
 	plymouth-themes
 	polkit
