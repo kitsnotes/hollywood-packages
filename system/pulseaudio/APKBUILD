@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=pulseaudio
 pkgver=17.0
-pkgrel=0
+pkgrel=1
 pkgdesc="featureful, general-purpose sound server"
 provider_priority=10
 url="https://www.freedesktop.org/wiki/Software/PulseAudio/"
