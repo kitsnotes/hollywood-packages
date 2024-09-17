@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=refind
 pkgver=0.14.0.2
-pkgrel=4
+pkgrel=5
 pkgdesc="rEFInd EFI Boot Manager"
 url="https://www.rodsbooks.com/refind"
 arch="x86_64 aarch64"
