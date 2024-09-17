@@ -71,17 +71,17 @@ if [ -d "$EFI_VARS_MOUNT_POINT" ]; then
     fi
 fi
 
+set +e
 # Add a hollywood entry to the EFI boot manager
 if efibootmgr | grep -q "$ENTRY_NAME"; then
     echo "Removing legacy Hollywood EFI boot variable"
-    BOOT_ENTRY=$(efibootmgr | grep "Hollywood" &>/dev/null)
+    BOOT_ENTRY=$(efibootmgr | grep "$ENTRY_NAME")
     BOOT_NUMBER=$(echo "$BOOT_ENTRY" | awk '{print $1}' | sed 's/Boot\([0-9]*\).*/\1/')
     efibootmgr -b "$BOOT_NUMBER" -B &>/dev/null
 fi
 
 echo "Creating Hollywood EFI boot entry"
-set +e
-efibootmgr -c -d $DISK -p $PARTID -L "$ENTRY_NAME" -l "$DEVICE_PATH" -o 0000 &>/dev/null
+efibootmgr -c -d $DISK -p $PARTID -L "$ENTRY_NAME" -l "$ESP_HW_PATH/boot$SUFFIX.efi" -o 0000 
 
 if [ $? -ne 0 ]; then
     echo "Unable to set BootOrder EFI Variable"
