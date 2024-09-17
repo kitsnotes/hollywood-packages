@@ -1,7 +1,8 @@
 #!/bin/sh
 
-sudo hollywood-setup
+sudo -E hollywood-setup
 if [ $? -eq 0 ]; then
-	sudo hollywood-setup-run
-	sudo hwsettings --single org.originull.hwsettings.startup
+	sudo -E hollywood-setup-run
+	sudo systemctl --no-wall reboot
+	#sudo hwsettings --single org.originull.hwsettings.startup
 fi
