@@ -60,6 +60,18 @@ if [ ! -f "$ESP_PATH/$ESP_HW_PATH/refind.conf" ]; then
         cp /usr/share/refind/config/refind.conf $ESP_PATH/$ESP_HW_PATH/refind.conf
 fi
 
+# Make sure our EFI variables are mounted, and read/write
+EFI_VARS_MOUNT_POINT="/sys/firmware/efi/efivars"
+if [ -d "$EFI_VARS_MOUNT_POINT" ]; then
+    if grep -qs "$EFI_VARS_MOUNT_POINT" /proc/mounts; then
+	mount -o remount,rw -t efivarfs efivarfs "$EFI_VARS_MOUNT_POINT"
+    else
+        echo "Mounting EFI Variables"
+        mount -o rw -t efivarfs efivarfs "$EFI_VARS_MOUNT_POINT"
+    fi
+fi
+
+# Add a hollywood entry to the EFI boot manager
 if efibootmgr | grep -q "$ENTRY_NAME"; then
     echo "Removing legacy Hollywood EFI boot variable"
     BOOT_ENTRY=$(efibootmgr | grep "Hollywood" &>/dev/null)
@@ -68,6 +80,25 @@ if efibootmgr | grep -q "$ENTRY_NAME"; then
 fi
 
 echo "Creating Hollywood EFI boot entry"
+set +e
 efibootmgr -c -d $DISK -p $PARTID -L "$ENTRY_NAME" -l "$DEVICE_PATH" -o 0000 &>/dev/null
+
+if [ $? -ne 0 ]; then
+    echo "Unable to set BootOrder EFI Variable"
+    EFICHECK="$ESP_PATH/EFI/BOOT/BOOT${SUFFIX}.EFI"
+    echo $EFICHECK
+    if [ ! -f "$EFICHECK" ]; then
+       echo "/EFI/BOOT on the ESP is unused, loading Hollywood refind there"
+       mkdir -p $ESP_PATH/EFI/BOOT || true
+       cp /usr/share/refind/config/refind.conf $ESP_PATH/EFI/BOOT/refind.conf
+       echo "Installing icons"
+       cp -r /usr/share/refind/icons $ESP_PATH/EFI/BOOT/icons
+       echo "Installing refind EFI executable"
+       cp /usr/share/refind/refind_$SUFFIX.efi $ESP_PATH/EFI/BOOT/boot$SUFFIX.efi
+    fi
+fi
+
+# Re-mount EFI variables r/o
+mount -o remount,ro -t efivarfs efivarfs "$EFI_VARS_MOUNT_POINT"
 
 bootloader-update-kernels
