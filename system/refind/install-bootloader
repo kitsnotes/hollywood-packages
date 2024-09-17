@@ -45,19 +45,19 @@ cp -r /usr/share/refind/drivers_$SUFFIX $ESP_PATH/$ESP_HW_PATH/drivers
 
 if [ ! -f "$ESP_PATH/$ESP_HW_PATH/config/custom.conf" ]; then
 	echo "Installing fresh custom.conf"
-	cp /usr/share/refind/custom.conf $ESP_PATH/$ESP_HW_PATH/config/custom.conf
+	cp /usr/share/refind/config/custom.conf $ESP_PATH/$ESP_HW_PATH/config/custom.conf
 fi
 if [ ! -f "$ESP_PATH/$ESP_HW_PATH/config/managed.conf" ]; then
         echo "Installing fresh managed.conf"
-        cp /usr/share/refind/managed.conf $ESP_PATH/$ESP_HW_PATH/config/managed.conf
+        cp /usr/share/refind/config/managed.conf $ESP_PATH/$ESP_HW_PATH/config/managed.conf
 fi
 if [ ! -f "$ESP_PATH/$ESP_HW_PATH/config/hollywood.conf" ]; then
         echo "Installing fresh hollywood.conf"
-        cp /usr/share/refind/hollywood.conf $ESP_PATH/$ESP_HW_PATH/config/hollywood.conf
+        cp /usr/share/refind/config/hollywood.conf $ESP_PATH/$ESP_HW_PATH/config/hollywood.conf
 fi
 if [ ! -f "$ESP_PATH/$ESP_HW_PATH/refind.conf" ]; then
         echo "Installing fresh refind.conf"
-        cp /usr/share/refind/refind.conf $ESP_PATH/$ESP_HW_PATH/refind.conf
+        cp /usr/share/refind/config/refind.conf $ESP_PATH/$ESP_HW_PATH/refind.conf
 fi
 
 if efibootmgr | grep -q "$ENTRY_NAME"; then
