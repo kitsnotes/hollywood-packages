@@ -355,7 +355,6 @@ setup() {
 	mv "$pkgdir"/usr/bin/hollywood-setup-run "$subpkgdir"/usr/bin/
 	mv "$pkgdir"/usr/bin/hscript-fetch "$subpkgdir"/usr/bin/
 	mv "$pkgdir"/usr/bin/hscript-printowner "$subpkgdir"/usr/bin/
-	mv "$pkgdir"/usr/bin/horizon-ppc64-detect "$subpkgdir"/usr/bin/
 	mv "$pkgdir"/usr/share/doc/horizon/image.yang "$subpkgdir"/usr/share/doc/horizon/
 
 }
