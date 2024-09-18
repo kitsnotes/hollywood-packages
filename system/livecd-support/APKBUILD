@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=livecd-support
 pkgver=1.0.67
-pkgrel=1
+pkgrel=2
 pkgdesc="Support files for booting Hollywood live media"
 url="https://www.originull.org/"
 arch="noarch"
@@ -13,19 +13,22 @@ source="sddm.conf
 	doas.conf
 	hollywood.conf
 	setup-hollywood
+	session-local.conf
 	"
 
 package() {
-	mkdir -p $pkgdir/etc/doas.d/
-	mkdir -p $pkgdir/etc/sddm.conf.d/
-	mkdir -p $pkgdir/etc/skel/Desktop/
-	mkdir -p $pkgdir/etc/xdg/originull/
-	mkdir -p $pkgdir/etc/skel/.config/originull
+	mkdir -p "$pkgdir"/etc/doas.d/
+	mkdir -p "$pkgdir"/etc/sddm.conf.d/
+	mkdir -p "$pkgdir"/etc/skel/Desktop/
+	mkdir -p "$pkgdir"/etc/xdg/originull/
+	mkdir -p "$pkgdir"/etc/skel/.config/originull
+	mkdir -p "$pkgdir"/etc/dbus-1/
 	#ln -s /usr/share/applications $pkgdir/etc/skel/Desktop/applications
 	#ln -s /usr/share/applications/org.originull.about.desktop $pkgdir/etc/skel/Desktop/About\ Hollywood.desktop
 	#ln -s /usr/share/applications/org.originull.terminull.desktop $pkgdir/etc/skel/Desktop/Terminull.desktop
 	install -D -m644 "$srcdir"/sddm.conf "$pkgdir"/etc/sddm.conf.d/autologin.conf
 	install -D -m644 "$srcdir"/doas.conf "$pkgdir"/etc/sudoers.d/livecd.conf
+	install -D -m644 "$srcdir"/session-local.conf "$pkgdir"/etc/dbus-1/session-local.conf
 	#install -D -m644 "$srcdir"/hollywood.conf "$pkgdir"/etc/xdg/originull/hollywood.conf
 
 	install -D -m4755 "$srcdir"/setup-hollywood "$pkgdir"/usr/sbin/setup-hollywood
@@ -50,4 +53,5 @@ sha512sums="
 cab5223d3e47f653a2dd59cb6e2a288e3d33cacbf3490f2cd91c0ddb567d945bec43d0f13090378b2a86e4158136c6679478d44fd468f57b337cd37faf314281  doas.conf
 780740bb9c263c83234491b9b66f6d408eca1d2b6b9d6408f9200d2b7ac35bbd03c42bc268362c1106c035dccbe5930a12890cad1423c30fcfe4c2056741375f  hollywood.conf
 83a1e1d58ed862429707688186a66854ff3786a3d43e5ee0c2cbc9aa272ff9dfcb8f75ee591df414e0c9c24d2d4ad0d476a167903172f2156f40b244834525a3  setup-hollywood
+a4304afe97b417c1753127066d059e14642c2f23b3df256b8f43cac36815b0ae7aa15d0dbde32155eb04005aab27720e721b9cc5d7912ec4a94d1456c177f6d5  session-local.conf
 "
