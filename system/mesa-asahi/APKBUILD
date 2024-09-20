@@ -34,7 +34,7 @@ depends_dev="
 makedepends="
 	$depends_dev
 	bison
-	clang$_llvmver-dev
+	clang-dev
 	expat-dev
 	findutils
 	flex
@@ -237,7 +237,7 @@ libd3dadapter9() {
 
 rusticl() {
 	pkgdesc="Mesa OpenCL driver"
-	depends="mesa-asahi=$pkgver-r$pkgrel clang$_llvmver-headers libclc~$_llvmver"
+	depends="mesa-asahi=$pkgver-r$pkgrel clang-headers libclc~$_llvmver"
 	provider_priority=0
 	provides="mesa-rusticl"
 	replaces="mesa-rusticl"
