@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtbase
 pkgver=6.7.2
-pkgrel=2
+pkgrel=3
 pkgdesc="A cross-platform application and UI framework"
 url="https://qt.io/"
 arch="all"
@@ -67,9 +67,10 @@ esac
 source="https://download.qt.io/$_rel/qt/${pkgver%.*}/${pkgver/_/-}/submodules/qtbase-everywhere-src-${pkgver/_/-}.tar.xz
 	CVE-2024-39936-qtbase-6.7.patch"
 
-[ "$CARCH" = "x86_64" ] && _opengl2="-DQT_FEATURE_eglfs_egldevice=on \\ -DQT_FEATURE_eglfs_gbm=on\\"
-
 build() {
+	export CFLAGS="$CFLAGS -g1 -flto=auto -fPIC"
+	export CXXFLAGS="$CXXFLAGS -g1 -flto=auto -fPIC"
+
 	CC=clang CXX=clang++ \
 	cmake -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
@@ -83,7 +84,7 @@ build() {
 		-DINSTALL_MKSPECSDIR=lib/qt6/mkspecs \
 		-DINSTALL_EXAMPLESDIR=share/doc/qt6/examples \
 		-DQT_QPA_DEFAULT_PLATFORM=wayland \
-		-DQT_FEATURE_journald=OFF \
+		-DQT_FEATURE_journald=ON \
 		-DQT_FEATURE_openssl_linked=ON \
 		-DQT_FEATURE_system_sqlite=ON \
 		-DQT_FEATURE_vulkan=ON \
