@@ -1,10 +1,4 @@
-# Contributor: Pedro Filipe <xpecex@outlook.com>
-# Contributor: Valery Kartel <valery.kartel@gmail.com>
-# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
-# Contributor: Łukasz Jendrysik <scadu@yandex.com>
-# Contributor: Martell Malone <martell@marinelayer.io>
-# Contributor: Craig Andrews <candrews@integralblue.com>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=wine
 pkgver=9.17
 pkgrel=0
@@ -31,23 +25,19 @@ makedepends="
 	gstreamer-dev
 	gst-plugins-base-dev
 	krb5-dev
-	libgphoto2-dev
 	libpcap-dev
 	libusb-dev
 	libxcomposite-dev
 	libxcursor-dev
 	libxi-dev
-	libxinerama-dev
 	libxkbcommon-dev
 	libxrandr-dev
 	libxrender-dev
 	mesa-dev
-	mingw-w64-gcc
 	ncurses-dev
 	opencl-dev
 	pcsc-lite-dev
 	pulseaudio-dev
-	sane-dev
 	sdl2-dev
 	udisks2-dev
 	v4l-utils-dev
@@ -70,14 +60,7 @@ prepare() {
 	sed 's|OpenCL/opencl.h|CL/opencl.h|g' -i configure*
 }
 
-case "$CARCH" in
-x86_64)
-	# also pull in 32-target, enabled with --enable-archs
-	makedepends="$makedepends i686-mingw-w64-gcc"
-	;;
-esac
-
-build() {
+\build() {
 	export CFLAGS="$CFLAGS -O2 -Wno-error=format-security"
 	export CXXFLAGS="$CXXFLAGS -O2 -Wno-error=format-security"
 	export CPPFLAGS="$CPPFLAGS -O2 -Wno-error=format-security"
@@ -86,6 +69,10 @@ build() {
 	export LDFLAGS="${LDFLAGS/,-Wl,-z,pack-relative-relocs}"
 
 	case "$CARCH" in
+        aarch64)
+                local win64="--enable-win64"
+                local archs="--enable-archs=aarch64"
+                ;;
 	x86_64)
 		local win64="--enable-win64"
 		local archs="--enable-archs=x86_64,i386"
@@ -102,9 +89,10 @@ build() {
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--with-dbus \
-		--with-mingw \
-		--with-x \
+		--with-wayland \
 		--with-vulkan \
+                --without-sane \
+                --without-xinerama \
 		$win64 \
 		$archs
 	make LDFLAGS="$LDFLAGS $no_pie" tools/winedump/winedump
@@ -130,15 +118,12 @@ package() {
 
 	case "$CARCH" in
 	x86_64)
-		x86_64-w64-mingw32-strip --strip-unneeded "$pkgdir"/usr/lib/wine/x86_64-windows/*.dll
-		i686-w64-mingw32-strip --strip-unneeded "$pkgdir"/usr/lib/wine/i386-windows/*.dll
+		llvm-strip --strip-unneeded "$pkgdir"/usr/lib/wine/x86_64-windows/*.dll
+		llvm-strip --strip-unneeded "$pkgdir"/usr/lib/wine/i386-windows/*.dll
 
 		# add compat links, since with archs these rename back to non-64
 		ln -sfv wine "$pkgdir"/usr/bin/wine64
 		ln -sfv wine-preloader "$pkgdir"/usr/bin/wine64-preloader
-		;;
-	x86)
-		i686-w64-mingw32-strip --strip-unneeded "$pkgdir"/usr/lib/wine/i386-windows/*.dll
 		;;
 	esac
 }
