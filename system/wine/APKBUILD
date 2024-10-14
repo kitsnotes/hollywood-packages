@@ -60,7 +60,7 @@ prepare() {
 	sed 's|OpenCL/opencl.h|CL/opencl.h|g' -i configure*
 }
 
-\build() {
+build() {
 	export CFLAGS="$CFLAGS -O2 -Wno-error=format-security"
 	export CXXFLAGS="$CXXFLAGS -O2 -Wno-error=format-security"
 	export CPPFLAGS="$CPPFLAGS -O2 -Wno-error=format-security"
