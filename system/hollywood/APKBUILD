@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0.67
-pkgrel=12
+pkgrel=13
 # When bumping pkgrel, update pkgver in system/hollywood-base
 buildver=${pkgver#*.*.};
 pkgdesc="Hollywood Desktop"
@@ -182,6 +182,7 @@ desktop() {
         pipewire-pulse
         pulseaudio-client
 	qt6-qtwebengine
+	qt6-qtbase-sqlite
 	smartmontools xdg-dbus-proxy xdg-desktop-portal flatpak
         qt6-qtmultimedia"
 
@@ -372,7 +373,7 @@ image() {
 }
 
 sha512sums="
-94a1d83140e4d2a8c0cbf937b8331929b80dda893c94fecb8835fab272c860dafffc2f53e2395c905213aa26359badf93c5bb294018ae4a917f54491ce5300bb  hollywood-desktop-1.0.67.tar.gz
+0aa66b78b8cfc92ce68534ba78d6b363fdf16d5b906bf3a2c9792eeb7c2212cf142724d0f3259d3fac045f54c9928a1622a3dff85cb67e2a7d11825162087d93  hollywood-desktop-1.0.67.tar.gz
 472516ee32d38e9307f916f7eea03a225ccd7fd2658a04b55fc9495374021898314cf95a912966fe84d13e887ef6dd300177e859099b98e18d30863ad6a19855  hollywood.conf
 1db0ca5dbaffb35f230811741f18e11fd03c3b516728ee99ca82b6ef846b7929b16301c804cb1f184ba5aa1c629df3e855ae5ec6cb5abdc55e5d3b38d9736be8  fontconfig.conf
 "
