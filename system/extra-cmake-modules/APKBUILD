@@ -1,16 +1,12 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=extra-cmake-modules
-pkgver=6.3.0
-pkgrel=0
+pkgver=6.6.0
+pkgrel=1
 pkgdesc="Extra CMake modules"
-url="https://projects.kde.org/projects/kdesupport/extra-cmake-modules"
+url="https://invent.kde.org/frameworks/extra-cmake-modules"
 arch="noarch"
 license="BSD-3-Clause"
-depends="
-	cmake
-	qt5-qttools-dev
-	qt6-qttools-dev
-	"
+depends="cmake"
 makedepends="
 	py3-sphinx
 	samurai
@@ -20,8 +16,9 @@ checkdepends="
 	qt6-qtbase-dev
 	qt6-qtdeclarative-dev
 	"
-source="https://download.kde.org/stable/frameworks/${pkgver%.*}/extra-cmake-modules-$pkgver.tar.xz"
 subpackages="$pkgname-doc"
+_repo_url="https://invent.kde.org/frameworks/extra-cmake-modules.git"
+source="https://download.kde.org/stable/frameworks/${pkgver%.*}/extra-cmake-modules-$pkgver.tar.xz"
 
 build() {
 	cmake -B build -G Ninja \
@@ -33,15 +30,14 @@ build() {
 }
 
 check() {
-	cd build
-	# Broken tests
-	CTEST_OUTPUT_ON_FAILURE=TRUE ctest -E "(KDEFetchTranslations|KDEInstallDirsTest.relative_or_absolute_usr|KDEInstallDirsTest.relative_or_absolute_qt)"
+	# KDEFetchTranslations expects KDE's git setup
+	ctest --test-dir build --output-on-failure -E "KDEFetchTranslations"
 }
 
 package() {
-	DESTDIR="$pkgdir" cmake --build build --target install
+	DESTDIR="$pkgdir" cmake --install build
 }
 
 sha512sums="
-53a44ca9087825cefd0cb1c5e7bfa77c3668dd6d42fb09e4ef9f533314a40ae47e0e2d4e9949deb755754901815bb3f49fdc75afde2f6d90e691a3d1652d8898  extra-cmake-modules-6.3.0.tar.xz
+2b1a8cf668323386adb33304ca0a78ca7926dbfb51cdc399872d5270e3a79befbb43d0718d0cc862201b6236c9c7005d551ce8704d3972c0ed9485fe0ac19317  extra-cmake-modules-6.6.0.tar.xz
 "
