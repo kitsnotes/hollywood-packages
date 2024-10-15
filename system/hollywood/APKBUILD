@@ -280,7 +280,6 @@ baselibs() {
 	mv "$pkgdir"/usr/lib/libhwlogind* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/libhwudev* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/libshell-* "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/qt6/plugins/platforms/libhollywood.so "$subpkgdir"/usr/lib/qt6/plugins/platforms/
 	mv "$pkgdir"/usr/lib/qt6/plugins/platforms/libhweglfs.so "$subpkgdir"/usr/lib/qt6/plugins/platforms/
 	mv "$pkgdir"/usr/lib/qt6/plugins/styles/libhollywood.so "$subpkgdir"/usr/lib/qt6/plugins/styles/
 	# TODO: fix me, to shut up apkbuild
