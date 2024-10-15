@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtremoteobjects
-pkgver=6.7.2
+pkgver=6.8.0
 pkgrel=0
 pkgdesc="Inter-process communication (IPC) module developed for Qt"
 url="https://qt.io/"
@@ -48,5 +48,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-1b6030776c285f33a90379b235043125e06120521ff3dd8e3277c94243638c9294831e3e9866a2c04de3828b9246dd4756d762404ba8c0d987e747a4a767d4b0  qtremoteobjects-everywhere-src-6.7.2.tar.xz
+5c7899a49daa6ce751394b829d3cf7d12e3cfa74f8fdde6ae9aa74d6346b273901e44700fca5873a957e49b9546ebc964a93fbb8152206723c873ce8139348c6  qtremoteobjects-everywhere-src-6.8.0.tar.xz
 "

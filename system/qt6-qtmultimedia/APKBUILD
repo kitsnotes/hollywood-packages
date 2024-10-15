@@ -1,7 +1,6 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtmultimedia
-pkgver=6.7.2
+pkgver=6.8.0
 pkgrel=0
 pkgdesc="Classes for audio, video, radio and camera functionality"
 url="https://qt.io/"
@@ -61,5 +60,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-bfcd04a5ba142e2a3bee3b67a261ffb4f651ac4e043e3dcafc0175bd25409de375041aa6fdda4f6899b00e4bad6c06ae9fd0d6a1e7db0b874f1bcf0a578d3c70  qtmultimedia-everywhere-src-6.7.2.tar.xz
+1374db720141d09ca3081b5a7dd6d0f1b4457ab87096b4bfac0b9ab97de1dadf36ded5cf04ae01824fd9e16cfe7f45f45f2ebebc464696a348284462a731388e  qtmultimedia-everywhere-src-6.8.0.tar.xz
 "

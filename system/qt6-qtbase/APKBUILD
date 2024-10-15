@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtbase
-pkgver=6.7.2
-pkgrel=3
+pkgver=6.8.0
+pkgrel=0
 pkgdesc="A cross-platform application and UI framework"
 url="https://qt.io/"
 arch="all"
@@ -64,8 +64,7 @@ case $pkgver in
 	*) _rel=official_releases;;
 esac
 
-source="https://download.qt.io/$_rel/qt/${pkgver%.*}/${pkgver/_/-}/submodules/qtbase-everywhere-src-${pkgver/_/-}.tar.xz
-	CVE-2024-39936-qtbase-6.7.patch"
+source="https://download.qt.io/$_rel/qt/${pkgver%.*}/${pkgver/_/-}/submodules/qtbase-everywhere-src-${pkgver/_/-}.tar.xz"
 
 build() {
 	export CFLAGS="$CFLAGS -g1 -flto=auto -fPIC"
@@ -155,6 +154,5 @@ gui() {
 }
 
 sha512sums="
-eb4b2f1fb02ab0ed5508d32449e140778278ff1a619cfcae14920b276b5c46e01a566d73fb8f84cf2cfc81e19cb11e53ab500df6b27d12ab875aa8c07bd15d6b  qtbase-everywhere-src-6.7.2.tar.xz
-9561dae897ba45e4b7ca1d8be0dfbceadf22356d961b6407167d023aa03b6cdf49f64679af3a6195b274502648a2eade0f77d54205f58af08a63a2ddf942342d  CVE-2024-39936-qtbase-6.7.patch
+7bd9452d4cb85fad88e7d609de93e7c3d55ddd2ac47005c20aaaf057bf339d944b5211d1897d21f9896fe433b7c6954eaffd0e80e725b2f3335a047fe06b0cd9  qtbase-everywhere-src-6.8.0.tar.xz
 "
