@@ -2,8 +2,8 @@
 pkgname=qt6-qtwebengine
 pkgver=6.8.0
 pkgrel=0
-# latest commit of 118-based branch of qtwebengine-chromium
-_chromium_commit="a08edbbf641285af44119d3172584d24e39dd22c"
+# latest commit of 126-based branch of qtwebengine-chromium
+_chromium_commit="7127bfd68d1ab64b298b186f82abe7beda957f62"
 pkgdesc="Provides support for web applications using the Chromium browser project"
 url="https://qt.io/"
 arch="all"
@@ -180,6 +180,6 @@ package() {
 
 sha512sums="
 322f7b3b850dafa062af6ed9cfb343e16ab060b454b3eff5acc55065801f945f0d929efef96da1596bae3dffa54c64c121a737639c8baccd224b03a1b4c525f7  qt6-qtwebengine-6.8.0.tar.gz
-f87a9692f02d22cef86e4ea97c8083eb7163d7f2db2246eb894d9bae3769fc1985b52cee04cc390f879205bf982c58dd5f8564a73b3715a84397cb28f137e2af  qtwebengine-chromium-a08edbbf641285af44119d3172584d24e39dd22c.tar.gz
+71ddcedea1c10d2f38da3cd41ba9df6dc27ccd54602766e228f6b65000976886dd01b30d85af4838ca6fa7a426b3ff368c8883984fc365dc6bc560794d863631  qtwebengine-chromium-7127bfd68d1ab64b298b186f82abe7beda957f62.tar.gz
 f724152310dd841febfdc4aacf6395096f7cfcbd75395ef4069773fe2d49aaaf90886d89df9b7c44772439731e41e90bc8fdf5a9da9b1abec1fcd67815fe4b8c  gn-no-static-libcpp.patch
 "
