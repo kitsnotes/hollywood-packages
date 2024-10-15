@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood-sdk
-pkgver=1.0.67
-pkgrel=2
+pkgver=1.0.68
+pkgrel=0
 url="https://originull.org/hollywood/"
 pkgdesc="Qt6 based Hollywood Software Development Kit"
 depends="abuild
