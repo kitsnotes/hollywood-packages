@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=hollywood
 pkgver=1.0.67
-pkgrel=15
+pkgrel=16
 # When bumping pkgrel, update pkgver in system/hollywood-base
 buildver=${pkgver#*.*.};
 pkgdesc="Hollywood Desktop"
@@ -369,7 +369,7 @@ image() {
 }
 
 sha512sums="
-7582403c09da498409ce57c559448f9bbfeee5332f185a64113b3dbd06729f4e8371aff4a9a2f0167569782da8c69a36b8276ee456d4bfebc99edbde35ee21f3  hollywood-desktop-1.0.67.tar.gz
+1266e42e3ae8b3914f3ac0fcb8bcb0da1e8def72f3829ed791da6c305002698970c6b209fa34564087fee5a8ab2c6c01722fcc81ae85479a9c3bb24c2426ecf6  hollywood-desktop-1.0.67.tar.gz
 472516ee32d38e9307f916f7eea03a225ccd7fd2658a04b55fc9495374021898314cf95a912966fe84d13e887ef6dd300177e859099b98e18d30863ad6a19855  hollywood.conf
 1db0ca5dbaffb35f230811741f18e11fd03c3b516728ee99ca82b6ef846b7929b16301c804cb1f184ba5aa1c629df3e855ae5ec6cb5abdc55e5d3b38d9736be8  fontconfig.conf
 "
