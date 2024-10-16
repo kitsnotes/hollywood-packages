@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=libapk-qt
 pkgver=0.4.4
-pkgrel=1
+pkgrel=2
 pkgdesc="Alpine Package Keeper (apk) Qt bindings"
 url="https://gitlab.com/postmarketOS/libapk-qt"
 arch="all"

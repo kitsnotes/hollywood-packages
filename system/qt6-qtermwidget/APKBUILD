@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtermwidget
 pkgver=1.0.9
-pkgrel=5
+pkgrel=6
 pkgdesc="Terminal Widget for Qt6"
 url="https://github.com/kitsnotes/qtermwidget-qt6"
 arch="all"

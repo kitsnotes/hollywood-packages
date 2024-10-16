@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtaccountsservice
 pkgver=1.3.0
-pkgrel=2
+pkgrel=3
 pkgdesc="QtAccountsService is a Qt-style wrapper around freedesktop.org AccountsService DBus service."
 url="https://github.com/lirios/qtaccountsservice/"
 arch="all"

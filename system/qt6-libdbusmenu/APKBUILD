@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-libdbusmenu
 pkgver=0.9.3.16.04.20160218
-pkgrel=3
+pkgrel=4
 pkgdesc="library to export QMenu over DBusMenu protocol"
 url="https://launchpad.net/libdbusmenu-qt"
 arch="all"
