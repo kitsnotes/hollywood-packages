@@ -54,9 +54,6 @@ then
         3008-applesmc-make-applesmc_remove-void.patch
         3009-applesmc-battery-charge-limiter.patch
         4001-Input-bcm5974-Add-support-for-the-T2-Macs.patch
-	5001-simplify-smbios-api.patch
-	5002-enable-smbios-api-for-x86.patch
-	5003-enable-apple-os-set.patch
 	7001-drm-i915-fbdev-Discard-BIOS-framebuffers-exceeding-h.patch
 	7002-acpi-video-force-native-for-some-T2-macbooks.patch
 "
@@ -355,10 +352,7 @@ eec84ebff410a6103e30c204e94e42cb5ed123a8061cb0d465a2b24672cad46d2e93367614b34232
 81c1e77c6b5cccf8d64f407b2fd4b4a489409bd7a0e19777d6fb4bbd9395a052df199236ddd73c6b358c2b0d4292a83867ee3d090d96f365ffef60c1bbc2232a  3008-applesmc-make-applesmc_remove-void.patch
 81d2024c8827693660a28377db616339858202b33c4398e6f6857bb038d0993422edda65f55d8a3db91c09d2d55bd22f48ed1c312d44d69bfbe0fa73899b2843  3009-applesmc-battery-charge-limiter.patch
 179a77854ad890c29b3881846357fca186580ba7540d888ffeb8cebbb350a9cf3e590273af450d94b49042afdbf3ebe8c7f61e7b9bb882525dacdf10e66f5d70  4001-Input-bcm5974-Add-support-for-the-T2-Macs.patch
-2ce13b5a93d783225eb901b7973031f8b813518cf1a948666be00600c472374f70a9734300106c09923020c6f745961d3327fa4b8884903fc6f26ea813441e24  5001-simplify-smbios-api.patch
-93d20c639be67ab869cbe7470b61f483abb4ece4b7d2adabfdf1a5d90d881d0c10ec92af8bcf14356c99cbaa781aeb0cc39418b52865cff3f5eee5f04d5541ab  5002-enable-smbios-api-for-x86.patch
-5023e9393556e8679f131ee2fd780c8d6df26dee9abab238555c85161d5b34a7582cefc86b008960ad429daa84f412eb4bc2c5cf9261059d57bc8b9604276bd4  5003-enable-apple-os-set.patch
-08f6c1d34ddf39c9fba8df7e47f945f7e63f2fc48762920a730dcacd65311c1c22ad9adb33fa7b3de173999b7d147404f1d4b053b3833e6da9e10319ea06af21  7001-drm-i915-fbdev-Discard-BIOS-framebuffers-exceeding-h.patch
+3bbe2f402436f424f4a32fd2798b562363f2d9bdef75b70676dfb8e28c345a947f776892d4509dfb62d23c26eb973bff98b324f0a5bffaf8ea8002d3b6dc6d46  7001-drm-i915-fbdev-Discard-BIOS-framebuffers-exceeding-h.patch
 bb0506a38a42e1b40a8da193241e06d75a0d67f5fc5c7f7cc67b6c3d92db2ec25a6c0c356fc783070a76081b14b544560fcc20d41cc3690ed056fbeecce76bb0  7002-acpi-video-force-native-for-some-T2-macbooks.patch
 "
 else
