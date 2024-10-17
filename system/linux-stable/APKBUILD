@@ -37,7 +37,6 @@ then
 	1010-HID-multitouch-allow-specifying-if-a-device-is-direc.patch
 	1011-HID-multitouch-add-device-ID-for-Apple-Touch-Bars.patch
 	1012-lib-vsprintf-Add-support-for-generic-FOURCCs-by-exte.patch
-	1013-USB-core-add-shutdown-callback-to-usb_driver.patch
 	1014-drm-format-helper-add-helper-for-BGR888-to-XRGB8888-.patch
 	1015-drm-tiny-add-driver-for-Apple-Touch-Bars-in-x86-Macs.patch
 	1016-Documentation-leds-standardise-keyboard-backlight-le.patch
@@ -335,7 +334,6 @@ c8f518ce1b573fe57b47251ea1731ba3f713d011e4d94a99881f06fa9666475f73f0383fb9d6258a
 6ae81d611cd0ac8019d01486a6b4529d5a49ff87b4efa24e509925b8c49b1f2a472324d56ffc488a231e7b7b1c12ebf040b66cd51335772f2fa06e5ad9ab3055  1010-HID-multitouch-allow-specifying-if-a-device-is-direc.patch
 0506cde04ce4910660af33d410c72dced7ee078527f09ce7248522021ff3677aedd0da7a481446da4b4536260b4625bcc2588c1178e92961ce8bc4f14a4efa73  1011-HID-multitouch-add-device-ID-for-Apple-Touch-Bars.patch
 d4a1165ddaa1d2b5e3548d9341324d8f1139947b77687025631fc7a7824dd59b3f65775547b027173d562fedc2963398495e73ff5b8d6317c412e8300a267b6b  1012-lib-vsprintf-Add-support-for-generic-FOURCCs-by-exte.patch
-7a24e317d5fab92f8142d3a38c831cfac2fa81bd0a78b7496f663c9409e412058f2123222f7a28ed2b54166129ce8cca76c36580111c0104a34dd913e972a7a3  1013-USB-core-add-shutdown-callback-to-usb_driver.patch
 dfb98f05e82cc1541b57b38d9b72ed37171ec5b11e0c4e75e03b6ab3bea2e491cd3703649781121448cdcb6537df9a9f2c26f3e04bad5023853724523e6a703a  1014-drm-format-helper-add-helper-for-BGR888-to-XRGB8888-.patch
 22645b1baf5b2ae13d632c0bdc494d0905fe914e258391285f743f013400ffe6de2d5d855c6f2cb818972896770db2fcde559681435023dabf5eb127a3541c10  1015-drm-tiny-add-driver-for-Apple-Touch-Bars-in-x86-Macs.patch
 a10134559efe4fa1a81de135f333982d81b30672dddcceb7b4633a2a294fa333a35ccddc8029ca2759ad7d4671c57c7caa68921e02d53af376be60c61e905318  1016-Documentation-leds-standardise-keyboard-backlight-le.patch
