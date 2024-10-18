@@ -275,10 +275,6 @@ baselibs() {
 	mv "$pkgdir"/usr/lib/libcommdlg-* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/libcmctl* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/pkgconfig/commdlg-1.0.pc "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/pkgconfig/hwlogind-1.0.pc "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/pkgconfig/hwudev-1.0.pc "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libhwlogind* "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libhwudev* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/libshell-* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/qt6/plugins/platforms/libhweglfs.so "$subpkgdir"/usr/lib/qt6/plugins/platforms/
 	mv "$pkgdir"/usr/lib/qt6/plugins/styles/libhollywood.so "$subpkgdir"/usr/lib/qt6/plugins/styles/
@@ -288,11 +284,6 @@ baselibs() {
 	mv "$pkgdir"/usr/lib/qt6/plugins/wayland-shell-integration/libhw-layer-shell.so "$subpkgdir"/usr/lib/qt6/plugins/wayland-shell-integration/
 	mv "$pkgdir"/usr/lib/qt6/plugins/platformthemes/libhollywood.so "$subpkgdir"/usr/lib/qt6/plugins/platformthemes/
 	mv "$pkgdir"/usr/lib/qt6/plugins/hwdeviceintegrations/libeglfs-kms-integration.so "$subpkgdir"/usr/lib/qt6/plugins/hwdeviceintegrations/
-	mv "$pkgdir"/usr/lib/libHWEglfsXkbSupport* "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libHWInputSupport* "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libHollywoodEglfsPlatformSupport* "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libHWEdidSupport* "$subpkgdir"/usr/lib/
-	mv "$pkgdir"/usr/lib/libHWKmsSupport* "$subpkgdir"/usr/lib/
 	mv "$pkgdir"/usr/lib/libHWEglFSDeviceIntegration* "$subpkgdir"/usr/lib/
 	# install .desktop files
 	#mv "$pkgdir"/usr/share/applications/org.originull.compositor.desktop "$subpkgdir"/usr/share/applications/
