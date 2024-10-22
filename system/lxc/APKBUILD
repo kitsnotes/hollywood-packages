@@ -15,6 +15,7 @@ makedepends="
 	libseccomp-dev
 	linux-headers
 	linux-pam-dev
+	systemd-dev
 	meson
 	"
 subpackages="
