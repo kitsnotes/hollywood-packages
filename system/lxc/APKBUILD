@@ -55,7 +55,7 @@ build() {
 		-Ddistrosysconfdir=/etc/default \
 		-Dpam-cgroup=true \
 		-Dtests=true \
-		-Dinit-script=sytemd \
+		-Dinit-script=systemd \
 		. output
 
 	meson compile -C output
