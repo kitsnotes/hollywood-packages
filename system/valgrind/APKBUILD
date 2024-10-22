@@ -1,0 +1,64 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=valgrind
+pkgver=3.23.0
+pkgrel=0
+pkgdesc="Tool to help find memory-management problems in programs"
+url="https://valgrind.org/"
+arch="all"
+license="GPL-2.0-or-later"
+makedepends="sed perl linux-headers"
+# from README_PACKAGERS:
+#   Don't strip the debug info off lib/valgrind/$platform/vgpreload*.so
+#   in the installation tree.  Either Valgrind won't work at all, or it
+#   will still work if you do, but will generate less helpful error
+#   messages.
+options="!strip"
+subpackages="$pkgname-scripts $pkgname-dev $pkgname-doc"
+source="https://sourceware.org/pub/valgrind/valgrind-$pkgver.tar.bz2
+	"
+
+build() {
+	export CFLAGS="${CFLAGS/-fno-plt} -fno-stack-protector -no-pie -U_FORTIFY_SOURCE"
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--localstatedir=/var \
+		--without-mpicc
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	# we have options=!strip above so we strip the /usr/bin/* manually
+	if [ -z "$DEBUG" ]; then
+		scanelf -Ry "$pkgdir" \
+			| awk '$1=="ET_DYN"{printf("%s%c",$2,0)}' \
+			| xargs -0 strip
+	fi
+}
+
+scripts() {
+	pkgdesc="$pkgdesc (perl+python cachegrind/callgrind script tools)"
+	depends="$pkgname=$pkgver-r$pkgrel python3 perl"
+
+	amove \
+		usr/bin/ms_print \
+		usr/bin/cg_merge \
+		usr/bin/cg_annotate \
+		usr/bin/cg_diff \
+		usr/bin/callgrind_control \
+		usr/bin/callgrind_annotate
+}
+
+sha512sums="
+27d038faaaf6154cace2df18c3573291393548ba0738dbb6aba58eab6324c5beaa95fc5f3c0271663ca071baf829b15d806f7e81074f7cf087bef20ea0ed3117  valgrind-3.23.0.tar.bz2
+"
