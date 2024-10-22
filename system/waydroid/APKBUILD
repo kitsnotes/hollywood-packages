@@ -25,18 +25,31 @@ source="https://github.com/waydroid/waydroid/archive/$pkgver/waydroid-$pkgver.ta
 options="!check" # No tests
 
 package() {
-	make PREFIX="$pkgdir/usr" install
+        make DESTDIR="$pkgdir" USE_SYSTEMD=1 USE_NFTABLES=1 install
 
-	install -Dm644 -t "$pkgdir"/etc "$srcdir"/gbinder.conf
-	install -Dm644 -t "$pkgdir"/etc/xdg/autostart "$srcdir"/waydroid-session.desktop
+        # Generate __pycache__ packaging time instead of runtime
+        python -m compileall "$pkgdir"/usr/lib/waydroid/tools
 
+        install -Dm644 -t "$pkgdir"/etc/xdg/autostart "$srcdir"/waydroid-session.desktop
+
+        install -Dm755 "$srcdir"/waydroid-container.initd "$pkgdir"/etc/init.d/waydroid-container
+        install -Dm644 "$srcdir"/waydroid-container.confd "$pkgdir"/etc/conf.d/waydroid-container
 }
 
 nftables() {
-	pkgdesc="$pkgdesc (nftables rules)"
-	install_if="$pkgname=$pkgver-r$pkgrel nftables"
+        pkgdesc="$pkgdesc (nftables rules)"
+        install_if="$pkgname=$pkgver-r$pkgrel nftables"
+        depends=""
 
-	install -Dm644 -t "$subpkgdir"/etc/nftables.d "$srcdir"/51_waydroid.nft
+        install -Dm644 -t "$subpkgdir"/etc/nftables.d "$srcdir"/51_waydroid.nft
+}
+
+pyc() {
+        default_pyc
+
+        cd "$pkgdir"
+        local IFS=$'\n'
+        amove $(find usr/lib/waydroid -type d -name __pycache__)
 }
 
 sha512sums="
