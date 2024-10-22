@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=waydroid
-pkgver=1.3.1
+pkgver=1.4.3
 pkgrel=0
 pkgdesc="A container-based approach to boot a full Android system on a regular Linux system"
 url="https://github.com/waydroid/waydroid"
@@ -40,7 +40,7 @@ nftables() {
 }
 
 sha512sums="
-5458ff12b350336592588d6c8fb201b323da666b4fcd94ba184fec4a63c7511a50162c793c964928fc468fd63170f8b76fea21e9891744bec96ff7a690b65cf2  waydroid-1.3.1.tar.gz
+e94edeca7097cb1572296d0b6e308483b1bd21e1bd50d9e6d2bd54d4ba75ffeb8bd4e1d1f8143fbcf49dddd30155da2e3c5a58240a85b159dae4e71985e547aa  waydroid-1.4.3.tar.gz
 5619d1196144cb9eb02ae3cff44b910ff7f040657b262ddd25060e7c5e6834937b6593b7e9cacd43e1c19e47990d61b6a88fc8f668113815fe95da6a7445c3f4  gbinder.conf
 27cec579cfda197ff70d6328043755fc3d1719347bf4987edb86a07341bc4f02b99b65a6ef1fcde58b48a925176e6d770ed7cef304edff6a860bf4d408a62e06  51_waydroid.nft
 56dc332d66c3eb3af08887eb2f4b8235419ff87a4e4632108cdde39cf274bc88b9e95c650a7d407d05a72f1ce2edf5d465a06b7e526113d9c9ae3817a6ed1f78  waydroid-session.desktop
