@@ -51,7 +51,7 @@ _tmpldir="usr/share/lxc/templates"
 
 build() {
 	abuild-meson \
-		-Db_lto=$lto \
+		-Db_lto=true \
 		-Ddistrosysconfdir=/etc/default \
 		-Dpam-cgroup=true \
 		-Dtests=true \
