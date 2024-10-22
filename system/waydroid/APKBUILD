@@ -31,9 +31,6 @@ package() {
         python -m compileall "$pkgdir"/usr/lib/waydroid/tools
 
         install -Dm644 -t "$pkgdir"/etc/xdg/autostart "$srcdir"/waydroid-session.desktop
-
-        install -Dm755 "$srcdir"/waydroid-container.initd "$pkgdir"/etc/init.d/waydroid-container
-        install -Dm644 "$srcdir"/waydroid-container.confd "$pkgdir"/etc/conf.d/waydroid-container
 }
 
 nftables() {
