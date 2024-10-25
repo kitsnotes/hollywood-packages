@@ -1,0 +1,109 @@
+diff --git a/src/compositor/compositor_api/qwaylandcompositor.cpp b/src/compositor/compositor_api/qwaylandcompositor.cpp
+index d8572e3c..87036071 100644
+--- a/src/compositor/compositor_api/qwaylandcompositor.cpp
++++ b/src/compositor/compositor_api/qwaylandcompositor.cpp
+@@ -173,7 +173,7 @@ void QWaylandCompositorPrivate::init()
+         if (socket_name.isEmpty())
+             socket_name = qgetenv("WAYLAND_DISPLAY");
+     }
+-    wl_compositor::init(display, 4);
++    wl_compositor::init(display, 5);
+     wl_subcompositor::init(display, 1);
+ 
+ #if QT_CONFIG(wayland_datadevice)
+diff --git a/src/compositor/compositor_api/qwaylandoutput.cpp b/src/compositor/compositor_api/qwaylandoutput.cpp
+index 9c0a6874..b5cc3200 100644
+--- a/src/compositor/compositor_api/qwaylandoutput.cpp
++++ b/src/compositor/compositor_api/qwaylandoutput.cpp
+@@ -90,6 +90,11 @@ void QWaylandOutputPrivate::output_bind_resource(Resource *resource)
+     }
+ }
+ 
++void QWaylandOutputPrivate::output_release(Resource *resource)
++{
++    wl_resource_destroy(resource->handle);
++}
++
+ void QWaylandOutputPrivate::_q_handleMaybeWindowPixelSizeChanged()
+ {
+     if (!window)
+@@ -316,7 +321,7 @@ void QWaylandOutput::initialize()
+         QObjectPrivate::connect(d->window, &QObject::destroyed, d, &QWaylandOutputPrivate::_q_handleWindowDestroyed);
+     }
+ 
+-    d->init(d->compositor->display(), 2);
++    d->init(d->compositor->display(), 3);
+ 
+     d->initialized = true;
+ }
+diff --git a/src/compositor/compositor_api/qwaylandoutput_p.h b/src/compositor/compositor_api/qwaylandoutput_p.h
+index f62def16..ef84643e 100644
+--- a/src/compositor/compositor_api/qwaylandoutput_p.h
++++ b/src/compositor/compositor_api/qwaylandoutput_p.h
+@@ -82,7 +82,7 @@ public:
+ 
+ protected:
+     void output_bind_resource(Resource *resource) override;
+-
++    void output_release(Resource *resource) override;
+ private:
+     void _q_handleMaybeWindowPixelSizeChanged();
+     void _q_handleWindowDestroyed();
+diff --git a/src/compositor/compositor_api/qwaylandsurface.cpp b/src/compositor/compositor_api/qwaylandsurface.cpp
+index b1a40c0f..ebc19517 100644
+--- a/src/compositor/compositor_api/qwaylandsurface.cpp
++++ b/src/compositor/compositor_api/qwaylandsurface.cpp
+@@ -162,9 +162,19 @@ void QWaylandSurfacePrivate::surface_destroy(Resource *resource)
+     wl_resource_destroy(resource->handle);
+ }
+ 
+-void QWaylandSurfacePrivate::surface_attach(Resource *, struct wl_resource *buffer, int x, int y)
++void QWaylandSurfacePrivate::surface_attach(Resource *resource, struct wl_resource *buffer, int x, int y)
+ {
+     pending.buffer = QWaylandBufferRef(getBuffer(buffer));
++    /* Version 5+ x/y must not be <0 or this is a protocol violation */
++    /* to achieve equivalent semantics, use wl_surface.offset */
++    if (resource->version() >= 5) {
++        if(x < 0 || y < 0) {
++            wl_resource_post_error(resource->handle, 3,
++                                   "wl_surface.attach@%d: can not have negative x/y\n",
++                                   wl_resource_get_id(resource->handle));
++            return;
++        }
++    }
+     pending.offset = QPoint(x, y);
+     pending.newlyAttached = true;
+ }
+@@ -331,6 +341,11 @@ void QWaylandSurfacePrivate::surface_set_buffer_scale(QtWaylandServer::wl_surfac
+     pending.bufferScale = scale;
+ }
+ 
++void QWaylandSurfacePrivate::surface_offset(Resource *, int32_t x, int32_t y)
++{
++    pending.offset = QPoint(x,y);
++}
++
+ QtWayland::ClientBuffer *QWaylandSurfacePrivate::getBuffer(struct ::wl_resource *buffer)
+ {
+     QtWayland::BufferManager *bufMan = QWaylandCompositorPrivate::get(compositor)->bufferManager();
+diff --git a/src/compositor/compositor_api/qwaylandsurface_p.h b/src/compositor/compositor_api/qwaylandsurface_p.h
+index b4df7498..254d8588 100644
+--- a/src/compositor/compositor_api/qwaylandsurface_p.h
++++ b/src/compositor/compositor_api/qwaylandsurface_p.h
+@@ -101,7 +101,7 @@ protected:
+     void surface_commit(Resource *resource) override;
+     void surface_set_buffer_transform(Resource *resource, int32_t transform) override;
+     void surface_set_buffer_scale(Resource *resource, int32_t bufferScale) override;
+-
++    void surface_offset(Resource *resource, int32_t x, int32_t y) override;
+     QtWayland::ClientBuffer *getBuffer(struct ::wl_resource *buffer);
+ 
+ public: //member variables
+@@ -114,6 +114,7 @@ public: //member variables
+     QWaylandSurfaceRole *role = nullptr;
+     QWaylandViewporterPrivate::Viewport *viewport = nullptr;
+ 
++
+     struct {
+         QWaylandBufferRef buffer;
+         QRegion surfaceDamage;

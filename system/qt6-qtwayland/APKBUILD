@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=qt6-qtwayland
 pkgver=6.8.0
-pkgrel=0
+pkgrel=1
 pkgdesc="Provides APIs for Wayland"
 url="https://qt.io/"
 arch="all"
@@ -25,7 +25,8 @@ case $pkgver in
 	*) _rel=official_releases;;
 esac
 
-source="https://download.qt.io/$_rel/qt/${pkgver%.*}/${pkgver/_/-}/submodules/qtwayland-everywhere-src-${pkgver/_/-}.tar.xz"
+source="https://download.qt.io/$_rel/qt/${pkgver%.*}/${pkgver/_/-}/submodules/qtwayland-everywhere-src-${pkgver/_/-}.tar.xz
+	qt6-wayland-update.patch"
 build() {
 	cmake -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
@@ -39,4 +40,5 @@ package() {
 
 sha512sums="
 6b2258928481813db7037bdbc817f57e14fc7ae66d2a791e03a4f1ebc1eea6ed36782206b3edcbf17e8fa0eb9f45f4d2583865b2b764e8ac303abac40764070c  qtwayland-everywhere-src-6.8.0.tar.xz
+faa5ca82de50c681d198cfefa8c7793f6d02a99df88fdd498761841317d15319531896301201d2d13ebc66815d8c972b4fe23f4514acda3f3eacc9c7584a0f2c  qt6-wayland-update.patch
 "
