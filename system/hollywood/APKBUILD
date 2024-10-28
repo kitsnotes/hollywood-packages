@@ -293,6 +293,7 @@ baselibs() {
 	# install /usr/libexec
 	mv "$pkgdir"/usr/libexec/hollywood/elevator "$subpkgdir"/usr/libexec/hollywood/
 	mv "$pkgdir"/usr/libexec/hollywood/compositor "$subpkgdir"/usr/libexec/hollywood/
+	mv "$pkgdir"/usr/libexec/hollywood/wlproxy "$subpkgdir"/usr/libexec/hollywood/
 
 	# install /etc
 	install -D -m644 "$srcdir"/hollywood.conf \
