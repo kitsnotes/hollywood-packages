@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=shaderc
 pkgver=2024.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Collection of tools, libraries, and tests for Vulkan shader compilation"
 options="!check" # Requires test setup from third party
 url="https://github.com/google/shaderc"
