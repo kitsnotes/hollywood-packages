@@ -3,7 +3,7 @@
 pkgname=perl-xml-rss
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=XML-RSS
-pkgver=1.62
+pkgver=1.64
 pkgrel=0
 pkgdesc="creates and updates RSS files"
 url="https://metacpan.org/release/XML-RSS/"
@@ -30,4 +30,4 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="fc075e7b7ccd168c3a915170adcf63cc84cb0e465f9c88b52800c747f8363719b60e1606ce77bc910915d9b0fd1838ae4e93f1699389e08a51836f87b03bbfd5  XML-RSS-1.62.tar.gz"
+sha512sums="66648fef534e3cc8b07802013f96453a848a9f086fe5eb429067a1abc7720979b60e05534bd4a232fdb37b2d38745e5bf07f0a90e9296f574f9a9ed5d3009c97  XML-RSS-1.64.tar.gz"

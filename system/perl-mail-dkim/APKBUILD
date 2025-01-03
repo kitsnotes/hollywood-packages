@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-mail-dkim
 _pkgname=Mail-DKIM
-pkgver=1.20200907
-pkgrel=1
+pkgver=1.20240923
+pkgrel=0
 pkgdesc="Signs/verifies Internet mail with DKIM/DomainKey signatures"
 url="https://metacpan.org/pod/Mail::DKIM"
 arch="noarch"
@@ -35,4 +35,4 @@ check() {
 	make test
 }
 
-sha512sums="1bfdd97ca49abfd3ae6f13bc8ede8706531801e078351ac41a3a6172b9e65249d247e38a95c53eb60781b5f38b971a5acf9c8b98948e9c4d7a427a525ee231cb  Mail-DKIM-1.20200907.tar.gz"
+sha512sums="e2602e1c8987438a84acefcb648800a7da06a8ed5b92a4b63a97f5f0af99c1f0dd32106433464c22ddabcab1165b7d8ec33758fe232816dfc694eac7b7ab6642  Mail-DKIM-1.20240923.tar.gz"

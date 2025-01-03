@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-test-without-module
 _pkgreal="Test-Without-Module"
-pkgver=0.20
-pkgrel=2
+pkgver=0.23
+pkgrel=0
 pkgdesc="Test::Without::Module perl module"
 url="https://metacpan.org/pod/Test::Without::Module"
 arch="noarch"
@@ -27,4 +27,4 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="e92353cee46e712ddc6515c5872a61a84eb4186f9ce736bbf0fcca2979bfa7143588c05e683d31fc22cbaaa792ce8364768310f9de621e881cc207b80cf14d87  Test-Without-Module-0.20.tar.gz"
+sha512sums="fae39cbaa4c6b990eea1aeca23464b90840579252929be72d5523642f30b7f644051f106eb4ed9f4cc96ddd584b734853b3aff0c98074ca5d81a4173dbf6d54a  Test-Without-Module-0.23.tar.gz"

@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-ipc-run3
-pkgver=0.048
-pkgrel=2
+pkgver=0.049
+pkgrel=0
 pkgdesc="IPC::Run3 perl module"
 url="https://metacpan.org/pod/IPC::Run3"
 arch="noarch"
@@ -21,4 +21,4 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="50432850d8dccd2e59aa6684d34f3e3242fd7df3eb4d9a5eb02dae389aa46b5fd68cc54114a157c3fe99956e68e74d575ab3db5009b7bf7d5c325f1f109b1262  IPC-Run3-0.048.tar.gz"
+sha512sums="19dbf902666ccb56bfdb02c0c4e9ef585d773e1b8b53d4627367a3c0344d08a6358a733786b8de97e615b6916b716c4e66e73ae263986a2cacf50ab155539c55  IPC-Run3-0.049.tar.gz"

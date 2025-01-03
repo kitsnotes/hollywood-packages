@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-dbd-pg
 _pkgreal=DBD-Pg
-pkgver=3.15.0
-pkgrel=1
+pkgver=3.18.0
+pkgrel=0
 pkgdesc="DBI PostgreSQL interface"
 url="https://metacpan.org/release/DBD-Pg"
 arch="all"
@@ -36,5 +36,5 @@ check() {
 }
 
 sha512sums="
-67912da5cda42d198cdffa3f5c93267ed9da681c837fd8a9b8c6a13873a461b1123ce0a8e1f4f4398264f57ead35950b4945018e6cead14c903a809a298aecb9  DBD-Pg-3.15.0.tar.gz
+0a81d1993f22a923776ab57f1437dbee2b5c42de091e274355dbcc9bb07e3db0c22126d0037de8de43fafeab9c947db1e3692087127027a0b13eed538fc2e1ee  DBD-Pg-3.18.0.tar.gz
 "

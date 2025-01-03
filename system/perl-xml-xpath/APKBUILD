@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-xml-xpath
 _pkgreal=XML-XPath
-pkgver=1.44
-pkgrel=2
+pkgver=1.48
+pkgrel=0
 pkgdesc="Parse and evaluate XPath statements."
 url="https://metacpan.org/release/XML-XPath/"
 arch="noarch"
@@ -27,4 +27,4 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="9314523baa55b48b8e684fbf9cc53006ef39829e2bcbd61a432508a96946c50384dff7eba47bd9f54aadc67c12fae6c1219104b017063d23ec3ee350a67eb12e  XML-XPath-1.44.tar.gz"
+sha512sums="c7347dd6e052e0145577ee624da5cef2ee8088ea434351ea2461e0bb3746c114fe571af1bc971333e046feb7dab808c6c84ab385310acbc9e8a9a89025969e48  XML-XPath-1.48.tar.gz"

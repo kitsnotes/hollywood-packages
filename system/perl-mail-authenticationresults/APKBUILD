@@ -3,7 +3,7 @@
 pkgname=perl-mail-authenticationresults
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=Mail-AuthenticationResults
-pkgver=2.20210112
+pkgver=2.20231031
 pkgrel=0
 pkgdesc="Object Oriented Authentication-Results Headers"
 url="https://metacpan.org/release/Mail-AuthenticationResults/"
@@ -32,4 +32,4 @@ package() {
 }
 
 
-sha512sums="2168e8761947008670840ac1b534e2c374399120197d907b8d5c654bcb00baa5f7075caffa00a06eac5628a7583d96aeb9f077a1103266ad774aaff05f8f0130  Mail-AuthenticationResults-2.20210112.tar.gz"
+sha512sums="fc1a1f9099e1d3c3a2185bb2ba9f53be6799779b71dc1e7524e117b78e3868e9d264668bde188e787868a303d62262e9ded2fa9e1657d1987e9cbe488d06ed8e  Mail-AuthenticationResults-2.20231031.tar.gz"

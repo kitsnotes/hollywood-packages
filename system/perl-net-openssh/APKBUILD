@@ -2,7 +2,7 @@
 pkgname=perl-net-openssh
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=Net-OpenSSH
-pkgver=0.80
+pkgver=0.84
 pkgrel=0
 pkgdesc="Perl SSH client package implemented on top of OpenSSH"
 options="!check" # make test is interactive
@@ -25,4 +25,4 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="3b68b73b0d5ee5db2096e0ac3ec3c3f12b92ee1865217a81eff0378f416ffdaac252d4ae4de601da7cd4a771bbab6a4768be4cafa0eaa2ff93b31a3cf824875d  Net-OpenSSH-0.80.tar.gz"
+sha512sums="eae50ddc609654432c77080dbfd1dbfd76a7651a1a4e85c0a0f01547b329761a6676faabec931a3b4ff5c74bfa4f529cf649249ad57e73305e67b33da891a555  Net-OpenSSH-0.84.tar.gz"

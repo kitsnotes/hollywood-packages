@@ -2,7 +2,7 @@
 pkgname=perl-mime-types
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=MIME-Types
-pkgver=2.21
+pkgver=2.26
 pkgrel=0
 pkgdesc="Definition of MIME types"
 url="https://metacpan.org/release/MIME-Types/"
@@ -30,5 +30,5 @@ package() {
 }
 
 sha512sums="
-223aacf8f8ea3c8dd3059791bb86d3203684fb632d972639d88d9e176a5fee428c5fd637cbeee65b52f008ad70a92cef3f82f524926fc5fa55ea24ca0448f4ad  MIME-Types-2.21.tar.gz
+cde3a8c6cbde16143732cf2ac4d648eff167917970357daf0162370cbba375b2aa546af472a73b2a4b26086919ddcc49bd9da999251946a40aee8abb60af2d75  MIME-Types-2.26.tar.gz
 "

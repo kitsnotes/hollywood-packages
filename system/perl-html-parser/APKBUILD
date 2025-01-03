@@ -3,8 +3,8 @@
 pkgname=perl-html-parser
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=HTML-Parser
-pkgver=3.76
-pkgrel=1
+pkgver=3.83
+pkgrel=0
 pkgdesc="HTML parser class"
 url="https://metacpan.org/release/HTML-Parser/"
 arch="all"
@@ -31,4 +31,4 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="50f9dc01997afdef33b58b48bfabd596b09cc11086773dcb4707086b7d7f54d2234d508e11a0b17e5d62849bf6acbc16aa8cd53080329ad3dacdbbe877c2c88b  HTML-Parser-3.76.tar.gz"
+sha512sums="1d90da3794adf6d226f4d4780dc2b79d0461f3f8d564a56a26f6a2a2cbc2f9175396af9735893181d3b2b21b02136b2995c399b7a520ea5f4ee498b2074291b5  HTML-Parser-3.83.tar.gz"

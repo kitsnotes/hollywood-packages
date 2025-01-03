@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-http-message
 _pkgreal=HTTP-Message
-pkgver=6.35
+pkgver=7.00
 pkgrel=0
 pkgdesc="HTTP style message"
 url="https://metacpan.org/release/HTTP-Message"
@@ -33,5 +33,5 @@ package() {
 
 
 sha512sums="
-9b4571062c8d268581219115cd73e2fa9a6b2bcfeb474f8419d80326846c5aaedc0f6a9982a20dfb604a30e295a20bbc0192992cbfedc3f8aa0e59dfbfe653c2  HTTP-Message-6.35.tar.gz
+e3d62ddcc7be2641e4c9b294bec6c7f9558351c890a1d283d506eedbef29fb9d7cccf9631a0cbc4b690da2f52b14e9813f85076dae9eaec5cda1781946922546  HTTP-Message-7.00.tar.gz
 "

@@ -2,7 +2,7 @@
 pkgname=perl-encode
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=Encode
-pkgver=3.16
+pkgver=3.21
 pkgrel=0
 pkgdesc="character encodings in Perl"
 url="https://metacpan.org/release/Encode/"
@@ -66,5 +66,5 @@ doc() {
 }
 
 sha512sums="
-2a34ccdf244a4b3a6781766ef572e487fb9f9986625bb56bb242c8cc8b78fb1be24f16105faf0bae128839092d5c7ed1ac8f069dd3824b0e685550e317e74845  Encode-3.16.tar.gz
+413b22ff4175bc32b1081c9bb2db0b290379bf318de5ef94e86165fa68a197a68c64da538915e50a1d0c5f7db0de058e9c7248a024bca1301bc7b1d5b41f2467  Encode-3.21.tar.gz
 "

@@ -2,7 +2,7 @@
 pkgname=perl-type-tiny
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=Type-Tiny
-pkgver=1.012004
+pkgver=2.006000
 pkgrel=0
 pkgdesc="tiny, yet Moo(se)-compatible type constraint"
 url="https://metacpan.org/release/Type-Tiny/"
@@ -31,5 +31,5 @@ package() {
 }
 
 sha512sums="
-26b861f1e9caad5717f14eb0a6c71010f0306b614292fdc5ee95041ebdd2035ac6cfd4a6a186943479de630f3ff143914671111f5cec86bc4c08842cec30d2af  Type-Tiny-1.012004.tar.gz
+24c3fea4834eb093b2aceff82e951bed73adf821d77c0f5445085021b8dc661cc3264198d265817349e582fc0e640303534a1d23ae1fcf669135ed7ab3ee937d  Type-Tiny-2.006000.tar.gz
 "

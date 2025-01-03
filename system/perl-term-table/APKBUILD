@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-term-table
 _pkgreal=Term-Table
-pkgver=0.015
-pkgrel=1
+pkgver=0.024
+pkgrel=0
 pkgdesc="Format a header and rows into a table"
 url="https://metacpan.org/release/Term-Table"
 arch="noarch"
@@ -35,4 +35,4 @@ check() {
 	make test
 }
 
-sha512sums="2f5cbc28d0d0f76a6269892055871c103a65d9fd9836d3a0b7c7320cf1439d27cba596453f1d94bd324bd4d4dffdd0eb672801aa23f9a8609310a28eca15dd87  Term-Table-0.015.tar.gz"
+sha512sums="42035d7bf472049b997f69a06a26dc545d6a7d6a849f73e777b807cd74a85969000f7191436400e5689c3f63365163b745a37986f7f04967e129851ff0865588  Term-Table-0.024.tar.gz"

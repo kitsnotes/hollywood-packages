@@ -3,8 +3,8 @@
 pkgname=perl-datetime
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=DateTime
-pkgver=1.54
-pkgrel=1
+pkgver=1.65
+pkgrel=0
 pkgdesc="A date and time object for Perl"
 url="https://metacpan.org/release/DateTime/"
 arch="all"
@@ -35,4 +35,4 @@ package() {
 }
 
 
-sha512sums="b974bf2191d6d9ac5e674edf05da8bca1b506c953dc6280d16358f09c55601bf47c0158de5ee46f79ee8e56e8e358e0168a70480cf7a24270475914e5278b843  DateTime-1.54.tar.gz"
+sha512sums="53b8bb5085420104d9cd2b6df076d353684ec6f347caf17f858c9c09e052aa19421bf980d130dbbe0094b791ff071ee99d8222509717008e5a3cd354639f7720  DateTime-1.65.tar.gz"

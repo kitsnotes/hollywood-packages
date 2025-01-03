@@ -3,8 +3,8 @@
 pkgname=perl-net-async-http
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=Net-Async-HTTP
-pkgver=0.48
-pkgrel=1
+pkgver=0.50
+pkgrel=0
 pkgdesc="use HTTP with C<IO::Async>"
 url="https://metacpan.org/release/Net-Async-HTTP/"
 arch="noarch"
@@ -32,4 +32,4 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="40592c345574edb1274b797356f0077aaddbbb2d7d6ae7c13903b2d9184e4605e911dd0f0c55ecfee68a06e403840f6f5672972d71aa3dce823fdf56caf281dc  Net-Async-HTTP-0.48.tar.gz"
+sha512sums="437efb40d3d5ae54b656981c0550580795e10ae8e7568a9168c0c040c8e11f543031a58efbf9a8921e6f6d8eff64f199465aa898a98f5587a8ce1f454c6a62b4  Net-Async-HTTP-0.50.tar.gz"

@@ -3,7 +3,7 @@
 pkgname=perl-test-manifest
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=Test-Manifest
-pkgver=2.022
+pkgver=2.024
 pkgrel=0
 pkgdesc="interact with a t/test_manifest file"
 url="https://metacpan.org/release/Test-Manifest/"
@@ -30,4 +30,4 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="e72f5c7c23bac5453afddb81c9175a3b07b9a8f935c37d0fe5ed7e0f6861742c2e9596396b9cb84d62bf2229bc9956bad26c47d7eaab6777ec7628927e294209  Test-Manifest-2.022.tar.gz"
+sha512sums="e68b6e262296689b882e1c920b9592cd83f285bba11bbae93c5519c2f19504ecd58de8d6593c39a0b99f4c93fbde3a3236735bb6fa526918ffcf49cc8ccfad5e  Test-Manifest-2.024.tar.gz"

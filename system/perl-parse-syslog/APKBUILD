@@ -3,8 +3,8 @@
 pkgname=perl-parse-syslog
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=Parse-Syslog
-pkgver=1.10
-pkgrel=6
+pkgver=1.11
+pkgrel=0
 pkgdesc="Perl module for Parse-Syslog"
 url="https://metacpan.org/release/Parse-Syslog/"
 arch="noarch"
@@ -31,5 +31,5 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="85d4f36aeb4873a51738cc909793a8b4a2029a0b6504105e4cae61bb3248cba5dbec18300f8333ff44a4877561d945ced04a8b49d05b2e65a4d1c54df1f961eb  Parse-Syslog-1.10.tar.gz
+sha512sums="583b8c1bb7db358d8dadb68f5e5341e72a4243e5c93177eb14767b349600d306c37ca7f652cff5aa5d02aa0795f3ce29469b95528824a3602a4047a15e0d1a28  Parse-Syslog-1.11.tar.gz
 30a8a88d5c2b1fc041f2c006c65451db77b59b82c48521c0ff0fe470ca35b833a45f0cc3ac22139e709b3b31db8e035d14ace29a6642059f13da67526317867e  remove-locale-tests.patch"

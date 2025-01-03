@@ -3,7 +3,7 @@
 pkgname=perl-uri
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=URI
-pkgver=5.10
+pkgver=5.28
 pkgrel=0
 pkgdesc="Uniform Resource Identifiers (absolute and relative)"
 url="https://metacpan.org/release/URI/"
@@ -36,5 +36,5 @@ package() {
 
 
 sha512sums="
-6ce53b258c2f1115e58ca858beec0c055452993b83abf3ebf23784e00fcbe636f3b7a460a2016923f9fab0e0bbd112475048eb9671d6d1e1c3b4db33a503efb5  URI-5.10.tar.gz
+ffa2a560641cbb81f720d1b572371a237826627974735684e130ad42c5184cd143c4cd337d600346258892165f3b658cc94711d189a870f990ff8148c72968e5  URI-5.28.tar.gz
 "

@@ -3,8 +3,8 @@
 pkgname=perl-b-cow
 #_pkgreal is used by apkbuild-cpan to find modules at MetaCpan
 _pkgreal=B-COW
-pkgver=0.004
-pkgrel=1
+pkgver=0.007
+pkgrel=0
 pkgdesc="B::COW additional B helpers to check COW status"
 url="https://metacpan.org/release/B-COW/"
 arch="all"
@@ -31,4 +31,4 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="97beaac8056e4aaeafb535a8e69f103632eb3746fa815313f84612414081155ab640299c18b4cb7b9ff0f61263cc1b9ce25de3313bbefce318163902a4503292  B-COW-0.004.tar.gz"
+sha512sums="889e5a57f679735f4f064bc59a7e4c1bec994cb123c83742a165e2ba62a17619e36659b3f0125b6dd6a15616da7100a9d04b66de293a8bf700847d294fe0a2c2  B-COW-0.007.tar.gz"

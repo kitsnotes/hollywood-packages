@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-text-csv
 _pkgname=Text-CSV
-pkgver=2.01
+pkgver=2.04
 pkgrel=0
 pkgdesc="Manipulate comma-separated value strings"
 url="https://metacpan.org/release/Text-CSV"
@@ -29,5 +29,5 @@ package() {
 }
 
 sha512sums="
-45c215686437e111fcd8d6c0adc9c6e0bac9df37fcd47e7bd9fcf4872859e59a296caae3573b77955cdaf42284b4c88fcc6774bd6ac11d701ae54f6a3741991a  Text-CSV-2.01.tar.gz
+72673380a955ee888a78aca4188326c1adbdc9508a25752d76eb6f50064181763336b4983bffb944c88110ceb48dde356c092f8189369001513799f220d5021d  Text-CSV-2.04.tar.gz
 "

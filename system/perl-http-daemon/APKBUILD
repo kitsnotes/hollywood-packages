@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-http-daemon
-pkgver=6.12
-pkgrel=1
+pkgver=6.16
+pkgrel=0
 pkgdesc="HTTP::Daemon perl module"
 url="https://metacpan.org/release/HTTP-Daemon"
 arch="noarch"
@@ -28,4 +28,4 @@ package() {
 	find "$pkgdir" \( -name perllocal.pod -o -name .packlist \) -delete
 }
 
-sha512sums="83a8b868162dfa1be66d4267e99af1111d28122c793e89d905243c175617c22ceb66f88b6ea54c29e7b131c26668776ab24cf671c4cc6c1c8810505e0f072596  HTTP-Daemon-6.12.tar.gz"
+sha512sums="09e3c5c98c6f22bcb494eae9a28990d52a98c3b1be1b0ca001fc364b3891f7f43f0468aa7274070c64ca11c6b6313591e064084c0b2f5bc6b8bd71708f390d64  HTTP-Daemon-6.16.tar.gz"
