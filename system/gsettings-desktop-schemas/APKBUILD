@@ -8,7 +8,8 @@ arch="noarch"
 license="LGPL-2.0-or-later"
 makedepends="glib-dev gobject-introspection-dev meson"
 subpackages="$pkgname-dev $pkgname-lang"
-source="https://download.gnome.org/sources/gsettings-desktop-schemas/${pkgver%.*}/gsettings-desktop-schemas-$pkgver.tar.xz"
+source="https://download.gnome.org/sources/gsettings-desktop-schemas/${pkgver%.*}/gsettings-desktop-schemas-$pkgver.tar.xz
+	hollywood-defaults.patch"
 
 build() {
 	abuild-meson . output
@@ -25,4 +26,5 @@ package() {
 
 sha512sums="
 8c4575958f6dd351e4a1a60d61f9080933979942b2fcef5c1211ab508b99a91325c857a9ac8d92e372968fad4736d55aa7b746f185aae9ecd1f691ced9ff53a0  gsettings-desktop-schemas-47.1.tar.xz
+4c060f520ca564e9e132fe18eba9dbe69ef04be2f4d9928b65b5b05ab02a661a1675c78db3cc0e7baa8130102296c38ab5e48f2ac6c65009b1b88bd4572be3c3  hollywood-defaults.patch
 "
