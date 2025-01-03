@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=wayland-protocols
-pkgver=1.36
+pkgver=1.39
 pkgrel=0
 pkgdesc="Protocols and protocol extensions complementing the Wayland core protocol"
 url="https://wayland.freedesktop.org"
@@ -25,5 +25,5 @@ package() {
 }
 
 sha512sums="
-5448b9aedc953ce6be0f378da900c195c8743cb6001f615823b5fc9cab3e3ee54271132055743278e10decef7f8e9dcdeef31593a2a12062575fb90eb0084be0  wayland-protocols-1.36.tar.xz
+480a195ec0846400d93160e3d0a7ba12948ed841835ee4661f54b0101ae0027affd9c0f660a73244786fecd70e4f609830489a6b95e00d750cf2379734aacbe0  wayland-protocols-1.39.tar.xz
 "
