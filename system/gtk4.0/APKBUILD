@@ -16,7 +16,6 @@ depends_dev="
 	libepoxy-dev
 	libxext-dev
 	libxi-dev
-	libxinerama-dev
 	libxkbcommon-dev
 	vulkan-headers
 	wayland-dev
@@ -34,7 +33,6 @@ makedepends="
 	gnutls-dev
 	gobject-introspection-dev
 	graphene-dev
-	gst-plugins-bad-dev
 	gstreamer-dev
 	iso-codes-dev
 	libice-dev
@@ -63,9 +61,9 @@ build() {
 	abuild-meson \
 		-Ddocumentation=true \
 		-Dintrospection=enabled \
-		-Dx11_backend=false \
-                -Dwayland_backend=true \
-                -Dbroadway_backend=false \
+		-Dx11-backend=false \
+                -Dwayland-backend=true \
+                -Dbroadway-backend=false \
 		-Dman-pages=true \
 		-Dbuild-tests=false \
 		-Dbuild-testsuite=false \

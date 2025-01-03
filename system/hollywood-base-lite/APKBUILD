@@ -1,0 +1,119 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=hollywood-base-lite
+# pkgver 3rd octet should match pkgver in system/hollywood
+pkgver=1.0.68
+pkgrel=0
+pkgdesc="Meta package for Hollywood OS"
+url="https://originull.org"
+arch="noarch"
+license="MIT"
+depends="acl
+	agetty
+	apk-tools
+	attr
+	bash
+	btrfs-progs
+	bzip2
+	ca-certificates
+	command-not-found
+	connman
+	coreutils
+	curl
+	dbus-broker
+	dash
+	diffutils
+	dmidecode
+	dracut
+	efibootmgr
+	efivar
+	file
+	filesystem
+	findutils
+	gawk
+	grep
+	gzip
+	hollywood-keys
+	hostname
+	iproute2
+	iputils
+	kbd
+	kbd-bkeymaps
+	kmod
+	less
+	libarchive-tools
+	lsblk
+	lvm2
+	ncurses
+	openssh
+	pciutils
+	plymouth
+	plymouth-themes
+	polkit
+	procps
+	psmisc
+	rsync
+	run-parts
+	rtkit
+	screen
+	sed
+	sgdisk
+	shadow
+	shadow-login
+	sysklogd
+	systemd
+	tmux
+	tzdata
+	usbutils
+	util-linux
+	vim
+	wpa_supplicant
+	xz
+	zip
+	zlib
+	zsh
+	zstd
+"
+
+makedepends=""
+install=""
+subpackages=""
+replaces="filesystem"
+provides="hollywood-base-common"
+source=""
+
+if [ $CARCH == "x86_64" ]; then
+	depends="$depends intel-ucode amd-ucode"
+fi
+build() {
+	return 0
+}
+
+package() {
+	mkdir -p "$pkgdir"/etc
+	# create /etc/hollywood-release
+	echo $pkgver > "$pkgdir"/etc/hollywood-release
+	local _ver="$(echo "$pkgver" | grep -E -o '^[0-9]+\.[0-9]+')"
+	local _rel="v$_ver"
+	case "$pkgver" in
+	*_alpha*|*_beta*|*_pre*)
+		_ver="$pkgver (edge)"
+		_rel="edge"
+		;;
+	esac
+
+	# create /etc/issue
+	cat >"$pkgdir"/etc/issue<<EOF
+Welcome to Hollywood Recovery $pkgver \\r on \\m (\\l)
+
+EOF
+
+	# create os-release
+	cat >"$pkgdir"/etc/os-release<<EOF
+NAME="Hollywood Recovery"
+ID=HollywoodRecovery
+VERSION_ID=$pkgver
+PRETTY_NAME="Hollywood Recovery"
+HOME_URL="https://originull.org/"
+BUG_REPORT_URL="https://originull.org/hollywood/bugs"
+EOF
+}

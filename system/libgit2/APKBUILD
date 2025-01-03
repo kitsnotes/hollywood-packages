@@ -1,0 +1,100 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=libgit2
+pkgver=1.8.2
+pkgrel=0
+pkgdesc="linkable library for Git"
+url="https://libgit2.org/"
+arch="all"
+license="GPL-2.0-only WITH GCC-exception-2.0"
+depends_dev="curl-dev libssh2-dev http-parser-dev"
+makedepends_host="$depends_dev zlib-dev openssl-dev>3 pcre2-dev"
+makedepends_build="python3 cmake samurai"
+subpackages="$pkgname-dbg $pkgname-static $pkgname-dev $pkgname-tools $pkgname-tests::noarch"
+options="net"
+source="$pkgname-$pkgver.tar.gz::https://github.com/libgit2/libgit2/archive/v$pkgver.tar.gz
+	"
+
+# secfixes:
+#   1.7.2-r0:
+#     - CVE-2024-24577
+#     - CVE-2024-24575
+#   1.4.4-r0:
+#     - CVE-2022-29187
+#     - CVE-2022-24765
+#   0.28.4-r0:
+#     - CVE-2019-1348
+#     - CVE-2019-1349
+#     - CVE-2019-1350
+#     - CVE-2019-1351
+#     - CVE-2019-1352
+#     - CVE-2019-1353
+#     - CVE-2019-1354
+#     - CVE-2019-1387
+#   0.27.4-r0:
+#     - CVE-2018-15501
+#   0.27.3-r0:
+#     - CVE-2018-10887
+#     - CVE-2018-10888
+#   0.25.1-r0:
+#     - CVE-2016-10128
+#     - CVE-2016-10129
+#     - CVE-2016-10130
+#   0.24.3-r0:
+#     - CVE-2016-8568
+#     - CVE-2016-8569
+
+build() {
+	CFLAGS="$CFLAGS -flto=auto" \
+	cmake -B build-shared -G Ninja \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DUSE_HTTP_PARSER=system \
+		-DUSE_HTTPS=OpenSSL \
+		-DREGEX_BACKEND=pcre2 \
+		-DUSE_BUNDLED_ZLIB=OFF \
+		-DUSE_SSH=ON
+	cmake --build build-shared
+
+	cmake -B build-static -G Ninja \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DUSE_HTTP_PARSER=system \
+		-DUSE_HTTPS=OpenSSL \
+		-DREGEX_BACKEND=pcre2 \
+		-DUSE_BUNDLED_ZLIB=OFF \
+		-DBUILD_TESTS=OFF \
+		-DBUILD_SHARED_LIBS=OFF
+	cmake --build build-static
+}
+
+check() {
+	cd "$builddir"/build-shared
+	# Test 'offline' fails on s390x, aarch64 and ppc64le
+	ctest -E 'offline|online' --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build-static
+	DESTDIR="$pkgdir" cmake --install build-shared
+
+	mkdir -p "$pkgdir"/usr/src/$pkgname/
+	cp -a tests "$pkgdir"/usr/src/$pkgname/tests
+}
+
+tools() {
+	pkgdesc="$pkgdesc (tools)"
+
+	amove usr/bin
+}
+
+tests() {
+	pkgdesc="$pkgdesc (tests)"
+
+	amove usr/src/$pkgname
+}
+
+sha512sums="
+568daa01b254acd07624143c1fd949b131f174a0595e4c6031b1eee38afd59ec3917ffc5ade3310d2a17f22bf5062bc6d03603cb952b25cdefd6c1cec9b8033c  libgit2-1.8.2.tar.gz
+"
