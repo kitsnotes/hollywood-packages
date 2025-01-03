@@ -1,0 +1,51 @@
+diff -Naur gsettings-desktop-schemas-47.1-orig/schemas/org.gnome.desktop.interface.gschema.xml.in gsettings-desktop-schemas-47.1/schemas/org.gnome.desktop.interface.gschema.xml.in
+--- gsettings-desktop-schemas-47.1-orig/schemas/org.gnome.desktop.interface.gschema.xml.in	2025-01-03 01:33:55.025412956 +0000
++++ gsettings-desktop-schemas-47.1/schemas/org.gnome.desktop.interface.gschema.xml.in	2025-01-03 01:40:57.306196538 +0000
+@@ -54,7 +54,7 @@
+       </description>
+     </key>
+     <key name="toolbar-icons-size" enum="org.gnome.desktop.GDesktopToolbarIconSize">
+-      <default>'large'</default>
++      <default>'small'</default>
+       <summary>Toolbar Icon Size</summary>
+       <description>
+         Size of icons in toolbars, either “small” or “large”.
+@@ -84,7 +84,7 @@
+       </description>
+     </key>
+     <key name="icon-theme" type="s">
+-      <default>'Adwaita'</default>
++      <default>'Breeze'</default>
+       <summary>Icon Theme</summary>
+       <description>
+         Icon theme to use for the panel, nautilus etc.
+@@ -105,7 +105,7 @@
+       </description>
+     </key>
+     <key name="font-name" type="s">
+-      <default>'Cantarell 11'</default>
++      <default>'Open Sans 10'</default>
+       <summary>Default font</summary>
+       <description>
+         Name of the default font used by gtk+.
+@@ -163,7 +163,7 @@
+       </description>
+     </key>
+     <key name="monospace-font-name" type="s">
+-      <default>'Source Code Pro 10'</default>
++      <default>'Hack 10'</default>
+       <summary>Monospace font</summary>
+       <description>
+         Name of a monospaced (fixed-width) font for use in locations like
+diff -Naur gsettings-desktop-schemas-47.1-orig/schemas/org.gnome.desktop.wm.preferences.gschema.xml.in gsettings-desktop-schemas-47.1/schemas/org.gnome.desktop.wm.preferences.gschema.xml.in
+--- gsettings-desktop-schemas-47.1-orig/schemas/org.gnome.desktop.wm.preferences.gschema.xml.in	2025-01-03 01:33:55.025412956 +0000
++++ gsettings-desktop-schemas-47.1/schemas/org.gnome.desktop.wm.preferences.gschema.xml.in	2025-01-03 01:40:25.236494025 +0000
+@@ -25,7 +25,7 @@
+        </description>
+     </key>
+     <key name="button-layout" type="s">
+-      <default>'appmenu:close'</default>
++      <default>'appmenu:minimize,maximize,close'</default>
+       <summary>Arrangement of buttons on the titlebar</summary>
+       <description>
+         Arrangement of buttons on the titlebar. The value should be a string,
