@@ -11,7 +11,7 @@ depends="
 	perl perl-sub-quote perl-devel-stacktrace perl-role-tiny perl-mro-compat perl-try-tiny
 	perl-test-fatal perl-eval-closure perl-module-runtime
 	"
-checkdepends="perl-test-needs"
+checkdepends="perl-test-needs perl-clone"
 subpackages="$pkgname-doc"
 source="https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/Specio-$pkgver.tar.gz"
 builddir="$srcdir"/$_pkgreal-$pkgver
