@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=pango
 pkgver=1.54.0
-pkgrel=0
+pkgrel=1
 pkgdesc="library for layout and rendering of text"
 url="https://www.pango.org/"
 arch="all"
@@ -26,6 +26,10 @@ build() {
 	abuild-meson \
 		-Dintrospection=enabled \
 		-Dgtk_doc=false \
+                -Dfontconfig=enabled \
+                -Dgtk_doc=false \
+                -Dxft=enabled \
+                -Dfreetype=enabled \
 		build
 	meson compile ${JOBS:+-j ${JOBS}} -C build
 }

@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-gobject3
 pkgver=3.42.1
-pkgrel=1
+pkgrel=3
 pkgdesc="Python bindings for the GObject library"
 url="https://wiki.gnome.org/Projects/PyGObject/"
 arch="all"

@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=librsvg
-pkgver=2.58.2
+pkgver=2.59.2
 pkgrel=0
 pkgdesc="SAX-based renderer for SVG files into a GdkPixbuf"
 url="https://wiki.gnome.org/Projects/LibRsvg"
@@ -11,6 +11,8 @@ makedepends="
 	bzip2-dev
 	cairo-dev
 	cargo
+	cargo-c
+	dav1d-dev
 	font-dejavu
 	gi-docgen
 	glib-dev
@@ -35,7 +37,7 @@ subpackages="
 # infrastructure, rehost repos, etc..)
 source="https://download.gnome.org/sources/librsvg/${pkgver%.*}/librsvg-$pkgver.tar.xz"
 # tests are very dependent on versions of pango/cairo/freetype
-options="!check"
+options="!check net"
 
 # secfixes:
 #   2.50.4-r0:
@@ -45,33 +47,24 @@ options="!check"
 
 export RUSTFLAGS="$RUSTFLAGS -C debuginfo=1"
 
-prepare() {
-	default_prepare
-
-	# XXX: Hack to prevent rebuild on install.
-	sed -Ei \
-		-e 's/^(install-binSCRIPTS:) \$\(bin_SCRIPTS\)/\1/' \
-		-e 's/^(install-am:) all-am/\1/' \
-		Makefile.in
-}
-
 build() {
-	./configure \
-		--build=$CBUILD \
-		--host=$CHOST \
-		--prefix=/usr \
-		--libexecdir=/usr/lib/$pkgname \
-		--disable-static \
-		--enable-vala
-	make
+        abuild-meson \
+                -Dintrospection=enabled \
+                -Dpixbuf=enabled \
+                -Dpixbuf-loader=enabled \
+                -Dvala=enabled \
+                -Dtests="$(want_check && echo true || echo false)" \
+                -Davif=enabled \
+                output
+        meson compile -C output
 }
 
 check() {
-	make check
+	meson test --no-rebuild --print-errorlogs -C output
 }
 
 package() {
-	make DESTDIR="$pkgdir" install
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
 }
 
 _convert() {
@@ -89,5 +82,5 @@ _convert_doc() {
 }
 
 sha512sums="
-4aaa04b6a488895344232487cee7945c4feedf29f756252e05656d9362c7d799dfa8157b57f1299646eec438c3d712f01ab873e9f9b4efe540a817802c70c668  librsvg-2.58.2.tar.xz
+5ad40136414e502693439861fd256de5853e7bb42df4141ef862bb6b5b87ae833c3d819da950395686f92248b85a817cb1564618f31c4384ee17704c7115c50b  librsvg-2.59.2.tar.xz
 "

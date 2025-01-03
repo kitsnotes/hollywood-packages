@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=freetype
-pkgver=2.13.2
+pkgver=2.13.3
 pkgrel=0
 pkgdesc="TrueType font rendering library"
 url="https://www.freetype.org/"
@@ -23,6 +23,11 @@ source="https://download.savannah.gnu.org/releases/freetype/freetype-$pkgver.tar
 #     - CVE-2017-8287
 
 build() {
+        abuild-meson \
+                -Dfreetype2:default_library=both \
+                -Dlibrsvg=disabled \
+                "$srcdir"/ft2demos-$pkgver output
+        meson compile -C output
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
@@ -50,6 +55,6 @@ package() {
 }
 
 sha512sums="
-a5917edaa45cb9f75786f8a4f9d12fdf07529247e09dfdb6c0cf7feb08f7588bb24f7b5b11425fb47f8fd62fcb426e731c944658f6d5a59ce4458ad5b0a50194  freetype-2.13.2.tar.xz
+600828d7756c8cfa974448ef34ee0db573fb8cfdb2dc1e0358b63c44a03bfd7e3d4384424b9cc5e4749034f60231a550c4b7fcb46694fcacea218787ce305504  freetype-2.13.3.tar.xz
 55fb06dbc7cc950129a99d9fd5480397b3e0720f32ab65fb3893768ed40e2de27be2cfd52ec6da490f79c79b4ddfecd0b7efcd32da4a95f2666a6b67a3cd9a31  subpixel.patch
 "
