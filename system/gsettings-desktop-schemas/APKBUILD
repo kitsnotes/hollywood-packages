@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=gsettings-desktop-schemas
-pkgver=46.0
+pkgver=47.1
 pkgrel=0
 pkgdesc="A collection of GSettings schemas"
 url="https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas"
@@ -24,5 +24,5 @@ package() {
 }
 
 sha512sums="
-04d43ce3885741afdda2d971ef61332474a114e2b7f82d28e5fb7c831992f95359e3edb1bf60f39d29b5ad509a77d65b76d482c9659cbdd1f7bb1e07c86da912  gsettings-desktop-schemas-46.0.tar.xz
+8c4575958f6dd351e4a1a60d61f9080933979942b2fcef5c1211ab508b99a91325c857a9ac8d92e372968fad4736d55aa7b746f185aae9ecd1f691ced9ff53a0  gsettings-desktop-schemas-47.1.tar.xz
 "
