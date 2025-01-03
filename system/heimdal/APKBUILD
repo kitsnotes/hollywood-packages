@@ -1,5 +1,4 @@
 # Maintainer: Originull Software <packages@originull.org>
-# Contributor: Originull Software <packages@originull.org>
 pkgname=heimdal
 pkgver=7.8.0
 _ver=${pkgver/_rc/rc}

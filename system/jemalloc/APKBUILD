@@ -1,4 +1,4 @@
-# Contributor: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=jemalloc
 pkgver=5.3.0
 pkgrel=2

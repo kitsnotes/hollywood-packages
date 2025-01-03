@@ -1,4 +1,3 @@
-# Contributor: NVIDIA Corporation <drivers@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=nvidia-driver-510-mainline
 pkgver=510.68.02

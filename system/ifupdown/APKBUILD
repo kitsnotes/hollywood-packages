@@ -1,5 +1,4 @@
-# Contributor: Orignull <packages@originull.org>
-# Maintainer: Originull <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=ifupdown
 pkgver=1
 pkgrel=0

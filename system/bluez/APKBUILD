@@ -1,4 +1,3 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=bluez
 # Make sure to also update the obexd-enhanced package if updating bluez

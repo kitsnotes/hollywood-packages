@@ -1,5 +1,4 @@
 # Maintainer: Originull Software <packages@originull.org>
-system/usb-modeswitch/APKBUILD# Maintainer: Leonardo Arena <rnalrd@alpinelinux.org>
 pkgname=usb-modeswitch
 pkgver=2.6.1
 pkgrel=0

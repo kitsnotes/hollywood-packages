@@ -1,4 +1,3 @@
-# Contributor: Originull Software <packages@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=egl-wayland
 pkgver=1.1.11

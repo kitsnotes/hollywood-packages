@@ -1,4 +1,4 @@
-#Maintainer: Originull Software <packages@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=python3
 # the python3-tkinter's pkgver needs to be synchronized with this.
 pkgver=3.11.6

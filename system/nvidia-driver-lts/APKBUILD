@@ -1,4 +1,3 @@
-# Contributor: NVIDIA Corporation <drivers@originull.org>
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=nvidia-driver-lts
 pkgver=515.65.01
