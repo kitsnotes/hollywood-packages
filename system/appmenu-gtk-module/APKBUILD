@@ -1,0 +1,43 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=appmenu-gtk-module
+pkgver=0.6.94
+pkgrel=0
+pkgdesc="GTK3 DBusMenu module"
+url="https://github.com/rilian-la-te/vala-panel-appmenu"
+arch="all"
+license="LGPL-3.0-or-later"
+depends="gtk+3.0"
+makedepends="cmake samurai gtk+3.0-dev harfbuzz-dev glib-dev"
+subpackages="$pkgname-dev"
+source="https://github.com/rilian-la-te/vala-panel-appmenu/releases/download/${pkgver}/appmenu-gtk-module.tar.xz
+	no-x11-support.patch"
+builddir="$srcdir/$pkgname"
+
+build() {
+	if [ "$CBUILD" != "$CHOST" ]; then
+		local crossopts="-DCMAKE_SYSTEM_NAME=Linux -DCMAKE_HOST_SYSTEM_NAME=Linux"
+	fi
+	CFLAGS="$CFLAGS -I /usr/include/harfbuzz/ -I /usr/include/gtk-3.0/" \
+	cmake -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DBUILD_SHARED_LIBS=ON \
+		-DCMAKE_BUILD_TYPE=None \
+		$crossopts
+	cmake --build build
+}
+
+check() {
+	CFLAGS="$CFLAGS -I /usr/include/harfbuzz/ -I /usr/include/gtk-3.0/" \
+		ctest --test-dir build --output-on-failure
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+9831f27689dbfcc3b518b82346e6ec0a2abb439f182118683efdfbf28a30afc2f7303a66034b222d3b06a2a68b8de0ff56c302cb2c7e95ab32d44dbe1589a6ba  appmenu-gtk-module.tar.xz
+c498c8c7f2586fe00fa66eb655d5a1ae9015979c8ecbf9bcd719fe3df8d77f4224789a2daceaf95e22af03d190083866c1c4ad5cc5fa4fde1bcffe1ff52fc2e6  no-x11-support.patch
+"

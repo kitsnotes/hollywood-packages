@@ -1,0 +1,33 @@
+diff -Naur appmenu-gtk-module/src/platform.h appmenu-gtk-module-patched/src/platform.h
+--- appmenu-gtk-module/src/platform.h	2018-01-14 22:28:41.000000000 +0000
++++ appmenu-gtk-module-patched/src/platform.h	2024-12-30 04:35:35.983107536 +0000
+@@ -25,7 +25,6 @@
+ #ifndef PLATFORM_H
+ #define PLATFORM_H
+ 
+-#include <gdk/gdkx.h>
+ #include <gtk/gtk.h>
+ 
+ #if GTK_MAJOR_VERSION >= 3
+diff -Naur appmenu-gtk-module/src/support.c appmenu-gtk-module-patched/src/support.c
+--- appmenu-gtk-module/src/support.c	2018-02-01 23:06:06.000000000 +0000
++++ appmenu-gtk-module-patched/src/support.c	2024-12-30 04:35:35.983107536 +0000
+@@ -23,7 +23,6 @@
+  */
+ 
+ #include <gdk/gdk.h>
+-#include <gdk/gdkx.h>
+ #include <gtk/gtk.h>
+ #if GTK_MAJOR_VERSION >= 3
+ #ifdef GDK_WINDOWING_WAYLAND
+@@ -53,9 +52,7 @@
+ 	bool is_platform_supported = false;
+ 	bool is_program_supported  = false;
+ #if GTK_MAJOR_VERSION >= 3
+-	if (GDK_IS_X11_DISPLAY(gdk_display_get_default()))
+-		is_platform_supported = true;
+-	else if (GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default()))
++	if (GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default()))
+ 		is_platform_supported = true;
+ 	else
+ 		is_platform_supported = false;
