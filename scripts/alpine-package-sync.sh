@@ -133,19 +133,6 @@ sed -i'' -e "s/${HW_SUM}/${AL_SUM}/g" $HOLLYWOOD_APKBUILD
 # update main package name
 sed -i'' -e "s/$HW_NAME/$AL_NAME/g" $HOLLYWOOD_APKBUILD
 
-# check for bad maintainer
-set +e
-MAINTAINER=`grep "# Maintainer" $HOLLYWOOD_APKBUILD | grep -v "Originull Software"`
-if ! [ -z "$MAINTAINER" ]
-then
-    sed -i'' -e '/^# Maintainer/d' $HOLLYWOOD_APKBUILD
-    sed -i'' -e '/^# Contributor/d' $HOLLYWOOD_APKBUILD
-    sed -i'' -e '1s/^/# Maintainer: Originull Software <packages@originull.org>\n/' $HOLLYWOOD_APKBUILD
-
-    echo "Updating Maintainers"
-fi
-set -e
-
 # show a diff
 CURPWD="$pwd"
 cd $HOLLYWOOD_DIR/$OP_PACKAGE/
