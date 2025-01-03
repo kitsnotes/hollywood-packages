@@ -1,0 +1,126 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=wasi-libcxx
+# match llvm version
+pkgver=18.1.8
+_llvmver="${pkgver%%.*}"
+_wasi_sdk_ver=wasi-sdk-24
+pkgrel=0
+pkgdesc="WASI LLVM C++ standard library"
+url="https://libcxx.llvm.org/"
+arch="all"
+license="Apache-2.0 WITH LLVM-exception"
+makedepends="
+	clang
+	cmake
+	glibc-dev
+	libxml2-dev
+	llvm$_llvmver-dev
+	llvm$_llvmver-static
+	python3-dev
+	samurai
+	wasi-libc
+	zlib-dev
+	"
+source="
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/llvm-project-$pkgver.src.tar.xz
+	WASI.cmake
+	wasi-sdk.cmake
+	"
+builddir="$srcdir"/llvm-project-$pkgver.src
+# TODO: check, needs to somehow pass wasi sysroot include to lit..
+options="!check"
+
+prepare() {
+	default_prepare
+
+	cp "$srcdir"/wasi-sdk.cmake "$builddir"
+	mkdir -p "$srcdir/llvm-project-$pkgver.src/cmake/Platform"
+	cp "$srcdir"/WASI.cmake "$srcdir/llvm-project-$pkgver.src/cmake/Platform"
+}
+
+_configure() {
+	local target="$1"
+	local destdir="$2"
+	local want_threads="OFF"
+	local extra_cflags=""
+
+	case "$target" in
+	*-threads)
+		want_threads="ON"
+		extra_cflags="-pthread"
+		;;
+	esac
+
+	cmake -B "$destdir" -G Ninja -S runtimes -Wno-dev \
+		-DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
+		-DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=ON \
+		-DCMAKE_BUILD_TYPE=MinSizeRel \
+		-DCMAKE_MODULE_PATH="$builddir"/cmake \
+		-DCMAKE_TOOLCHAIN_FILE="$builddir"/wasi-sdk.cmake \
+		-DCMAKE_C_COMPILER_WORKS=ON \
+		-DCMAKE_CXX_COMPILER_WORKS=ON \
+		-DCMAKE_C_FLAGS="$CFLAGS $extra_cflags --target=$target" \
+		-DCMAKE_CXX_FLAGS="$CXXFLAGS $extra_cflags --target=$target" \
+		-DCMAKE_ASM_COMPILER_TARGET="$target" \
+		-DCMAKE_CXX_COMPILER_TARGET="$target" \
+		-DCMAKE_C_COMPILER_TARGET="$target" \
+		-DLLVM_DEFAULT_TARGET_TRIPLE="$target" \
+		-DCMAKE_STAGING_PREFIX=/usr/share/wasi-sysroot \
+		-DCXX_SUPPORTS_CXX11=ON \
+		-DLIBCXX_ABI_VERSION=2 \
+		-DLIBCXX_BUILD_EXTERNAL_THREAD_LIBRARY=OFF \
+		-DLIBCXX_CXX_ABI=libcxxabi \
+		-DLIBCXX_CXX_ABI_INCLUDE_PATHS=libcxxabi/include \
+		-DLIBCXX_ENABLE_EXCEPTIONS=OFF \
+		-DLIBCXX_ENABLE_EXPERIMENTAL_LIBRARY=OFF \
+		-DLIBCXX_ENABLE_FILESYSTEM=OFF \
+		-DLIBCXX_ENABLE_SHARED=OFF \
+		-DLIBCXX_ENABLE_THREADS=$want_threads \
+		-DLIBCXX_HAS_EXTERNAL_THREAD_API=OFF \
+		-DLIBCXX_HAS_PTHREAD_API=$want_threads \
+		-DLIBCXX_HAS_WIN32_THREAD_API=OFF \
+		-DLIBCXX_INCLUDE_TESTS="$(want_check && echo ON || echo OFF)" \
+		-DLIBCXXABI_BUILD_EXTERNAL_THREAD_LIBRARY=OFF \
+		-DLIBCXXABI_ENABLE_EXCEPTIONS=OFF \
+		-DLIBCXXABI_ENABLE_PIC=OFF \
+		-DLIBCXXABI_ENABLE_SHARED=OFF \
+		-DLIBCXXABI_ENABLE_THREADS=$want_threads \
+		-DLIBCXXABI_HAS_EXTERNAL_THREAD_API=OFF \
+		-DLIBCXXABI_HAS_PTHREAD_API=$want_threads \
+		-DLIBCXXABI_HAS_WIN32_THREAD_API=OFF \
+		-DLIBCXXABI_INCLUDE_TESTS="$(want_check && echo ON || echo OFF)" \
+		-DLIBCXXABI_LIBCXX_INCLUDES="$builddir"/build-libcxx/include/c++/v1 \
+		-DLIBCXXABI_LIBCXX_PATH=libcxx \
+		-DLIBCXXABI_SILENT_TERMINATE:BOOL=ON \
+		-DLIBCXXABI_USE_LLVM_UNWINDER=OFF \
+		-DUNIX=ON \
+		-DWASI_SDK_PREFIX=/usr \
+		-DLIBCXX_INSTALL_INCLUDE_DIR=include/$target/c++/v1 \
+		-DLIBCXX_INSTALL_INCLUDE_TARGET_DIR=include/$target/c++/v1 \
+		-DLIBCXXABI_INSTALL_INCLUDE_DIR=include/$target/c++/v1
+		# last 3 lines copied from Chimera; the config headers record the overall
+		# configuration which will differ if threads are enabled
+}
+
+build() {
+	export CFLAGS="$CFLAGS -fno-exceptions --sysroot=/usr/share/wasi-sysroot"
+	export CXXFLAGS="$CXXFLAGS -fno-exceptions --sysroot=/usr/share/wasi-sysroot"
+
+	_configure wasm32-wasi build
+	cmake --build build
+
+	_configure wasm32-wasi-threads build-threads
+	cmake --build build-threads
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+	DESTDIR="$pkgdir" cmake --install build-threads
+	mkdir -p "$pkgdir"/usr/share/wasi-sysroot/include/c++/v1
+}
+
+sha512sums="
+25eeee9984c8b4d0fbc240df90f33cbb000d3b0414baff5c8982beafcc5e59e7ef18f6f85d95b3a5f60cb3d4cd4f877c80487b5768bc21bc833f107698ad93db  llvm-project-18.1.8.src.tar.xz
+e14b58b7b8c1b8487ea1da5667c6392fb393ff45e2df40e6d5dee193ddc1b624ea4b6ae4cc7847cd9e2b01adf3e8128dc524dd000eb233dd64976e666a1daea2  WASI.cmake
+09cbe03e916a9023e5697cad9b280dbb4a7bd0245b46590c18a6822f0db86b96f7b9fb2e7c09187add248029eafb2722f14aa150a227ab5c74b6ac9823996463  wasi-sdk.cmake
+"

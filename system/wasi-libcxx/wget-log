@@ -1,0 +1,11 @@
+--2024-12-30 07:49:00--  https://gitlab.archlinux.org/archlinux/packaging/packages/wasi-libcplusplus/-/raw/main/WASI.cmake?ref_type=heads
+Resolving gitlab.archlinux.org (gitlab.archlinux.org)... 213.133.111.15, 2a01:4f8:222:174c::1
+Connecting to gitlab.archlinux.org (gitlab.archlinux.org)|213.133.111.15|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 12 [text/plain]
+Saving to: 'WASI.cmake?ref_type=heads'
+
+WASI.cmake?ref_type=heads         0%[                                                      ]       0  --.-KB/s               WASI.cmake?ref_type=heads       100%[=====================================================>]      12  --.-KB/s    in 0s      
+
+2024-12-30 07:49:01 (10.2 MB/s) - 'WASI.cmake?ref_type=heads' saved [12/12]
+

@@ -1,0 +1,21 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=wasi-sdk
+pkgver=24
+pkgrel=0
+_llvmver=18
+pkgdesc="WASI-enabled WebAssembly C/C++ toolchain"
+url="https://github.com/WebAssembly/wasi-sdk"
+arch="noarch"
+depends="wasi-libc wasi-libcxx wasi-compiler-rt"
+options="!check" # no testsuite
+license="Apache-2.0"
+
+package() {
+	mkdir -p "$pkgdir"/etc/clang$_llvmver
+	cat > "$pkgdir"/etc/clang$_llvmver/wasm32-unknown-wasi.cfg <<-EOF
+	--sysroot /usr/share/wasi-sysroot
+	EOF
+
+	ln -svf wasm32-unknown-wasi.cfg \
+		"$pkgdir"/etc/clang$_llvmver/wasm32-unknown-wasi-threads.cfg
+}
