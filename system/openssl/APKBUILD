@@ -1,3 +1,4 @@
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=openssl
 pkgver=3.3.1
 _abiver=${pkgver%.*.*}
