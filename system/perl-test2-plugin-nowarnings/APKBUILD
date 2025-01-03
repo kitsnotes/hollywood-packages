@@ -1,4 +1,4 @@
-# Maintainer: Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-test2-plugin-nowarnings
 _pkgreal="Test2-Plugin-NoWarnings"
 pkgver=0.09

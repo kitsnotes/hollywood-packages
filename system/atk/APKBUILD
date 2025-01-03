@@ -1,5 +1,4 @@
-# Contributor: Natanael Copa <ncopa@alpinelinux.org>
-# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=atk
 pkgver=2.36.0
 pkgrel=0

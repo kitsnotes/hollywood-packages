@@ -1,5 +1,4 @@
-# Contributor: TBK <alpine@jjtc.eu>
-# Maintainer: TBK <alpine@jjtc.eu>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-parse-yapp
 _pkgreal=Parse-Yapp
 pkgver=1.21

@@ -1,5 +1,4 @@
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
-# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=ttf-tlwg
 pkgver=0.7.2
 pkgrel=0

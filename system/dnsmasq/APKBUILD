@@ -1,5 +1,4 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=dnsmasq
 pkgver=2.87
 pkgrel=2

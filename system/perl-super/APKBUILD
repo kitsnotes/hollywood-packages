@@ -1,4 +1,4 @@
-# Maintainer:  Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-super
 _pkgname=SUPER
 pkgver=1.20190531

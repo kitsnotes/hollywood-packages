@@ -1,6 +1,4 @@
-# Contributor: Valery Kartel <valery.kartel@gmail.com>
-# Contributor: Michael Mason <ms13sp@gmail.com>
-# Maintainer: Michael Mason <ms13sp@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=lzo
 pkgver=2.10
 pkgrel=2

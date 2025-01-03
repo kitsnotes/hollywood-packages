@@ -1,5 +1,4 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-xml-namespacesupport
 pkgver=1.12
 pkgrel=3

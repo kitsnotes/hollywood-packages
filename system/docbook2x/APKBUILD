@@ -1,5 +1,4 @@
-# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
-# Maintainer: Sören Tempel <soeren+alpine@soeren-tempel.net>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=docbook2x
 pkgver=0.8.8
 pkgrel=6

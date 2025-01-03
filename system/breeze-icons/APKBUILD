@@ -1,5 +1,4 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=breeze-icons
 pkgver=5.95.0
 pkgrel=0

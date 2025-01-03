@@ -1,5 +1,4 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qtconnectivity
 pkgver=5.15.5_git20220617
 pkgrel=0

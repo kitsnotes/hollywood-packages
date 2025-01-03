@@ -1,5 +1,4 @@
-# Contributor: A. Wilcox <awilfox@adelielinux.org>
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 
 pkgname=dejagnu
 pkgver=1.6.3

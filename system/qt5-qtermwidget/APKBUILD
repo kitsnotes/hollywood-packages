@@ -1,5 +1,4 @@
-# Contributor: The Cat <cat@originull.org>
-# Maintainer: The Cat <cat@originull.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qtermwidget
 pkgver=1.0.9
 pkgrel=1

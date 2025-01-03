@@ -1,5 +1,4 @@
-# Contributor:
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=fftw
 pkgver=3.3.10
 _pkgver=${pkgver//p/-pl}

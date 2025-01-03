@@ -1,4 +1,4 @@
-# Maintainer: Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-test-requiresinternet
 _pkgreal=Test-RequiresInternet
 pkgver=0.05

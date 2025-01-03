@@ -1,5 +1,4 @@
-# Contributor: Carlo Landmeter
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libvdpau
 pkgver=1.5
 pkgrel=0

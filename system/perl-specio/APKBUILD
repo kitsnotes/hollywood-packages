@@ -1,4 +1,4 @@
-# Maintainer: Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-specio
 _pkgreal=Specio
 pkgver=0.47

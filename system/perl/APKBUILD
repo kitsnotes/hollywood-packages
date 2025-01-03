@@ -1,6 +1,4 @@
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
-# Contributor: Leonardo Arena <rnalrd@alpinelinux.org>
-# Contributor: Valery Kartel <valery.kartel@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl
 pkgver=5.36.0
 pkgrel=0

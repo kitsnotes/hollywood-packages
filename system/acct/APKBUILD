@@ -1,5 +1,4 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=acct
 pkgver=6.6.4
 pkgrel=0

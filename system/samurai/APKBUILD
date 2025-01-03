@@ -1,5 +1,4 @@
-# Contributor: Drew DeVault <sir@cmpwn.com>
-# Maintainer: Drew DeVault <sir@cmpwn.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=samurai
 pkgver=1.2
 pkgrel=1

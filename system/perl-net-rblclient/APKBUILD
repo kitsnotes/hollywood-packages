@@ -1,5 +1,4 @@
-# Contributor: Michael Mason <ms13sp@gmail.com>
-# Maintainer:  Michael Mason <ms13sp@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-net-rblclient
 _realname=Net-RBLClient
 pkgver=0.5

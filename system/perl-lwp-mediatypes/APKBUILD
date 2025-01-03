@@ -1,5 +1,4 @@
-# Contributor: Leonardo Arena <rnalrd@alpinelinux.org>
-# Maintainer:  Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-lwp-mediatypes
 _pkgname=LWP-MediaTypes
 pkgver=6.04

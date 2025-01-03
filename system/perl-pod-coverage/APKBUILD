@@ -1,5 +1,4 @@
-# Contributor: Mika Havela <mika.havela@gmail.com>
-# Maintainer: Mika Havela <mika.havela@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-pod-coverage
 _realname=Pod-Coverage
 pkgver=0.23

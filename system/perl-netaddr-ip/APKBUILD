@@ -1,4 +1,4 @@
-# Maintainer:  Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-netaddr-ip
 _realname=NetAddr-IP
 pkgver=4.079

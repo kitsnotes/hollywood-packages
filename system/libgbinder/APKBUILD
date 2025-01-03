@@ -1,5 +1,4 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libgbinder
 pkgver=1.1.25
 pkgrel=0

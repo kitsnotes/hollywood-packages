@@ -1,5 +1,4 @@
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
-# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=dmraid
 pkgver=1.0.0_rc16
 _distver=3

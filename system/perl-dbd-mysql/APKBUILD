@@ -1,6 +1,4 @@
-# Contributor: Łukasz Jendrysik <scadu@yandex.com>
-# Contributor: Jeff Bilyk <jbilyk at gmail>
-# Maintainer: Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-dbd-mysql
 _pkgname=DBD-mysql
 pkgver=4.050

@@ -1,5 +1,4 @@
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
-# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=graphene
 pkgver=1.10.6
 pkgrel=1

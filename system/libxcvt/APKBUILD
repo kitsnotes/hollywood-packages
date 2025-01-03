@@ -1,5 +1,4 @@
-# Contributor: Milan P. Stanić <mps@arvanta.net>
-# Maintainer: Milan P. Stanić <mps@arvanta.net>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libxcvt
 pkgver=0.1.1
 pkgrel=3

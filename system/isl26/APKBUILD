@@ -1,5 +1,4 @@
-# Contributor: Timo Teräs <timo.teras@iki.fi>
-# Maintainer: Timo Teräs <timo.teras@iki.fi>
+# Maintainer: Originull Software <packages@originull.org>
 
 # this package needs special care since it is a part of the toolchain.
 # we need to be able to have the old version installed in parallel with

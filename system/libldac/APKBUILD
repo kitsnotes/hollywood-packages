@@ -1,5 +1,4 @@
-# Contributor: Michał Polański <michal@polanski.me>
-# Maintainer: Michał Polański <michal@polanski.me>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libldac
 pkgver=2.0.2.3
 pkgrel=0

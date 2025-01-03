@@ -1,5 +1,4 @@
-# Contributor: Sasha Gerrand <alpine-pkgs@sgerrand.com>
-# Maintainer: Olliver Schinagl <oliver@schinagl.nl>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=lzop
 pkgver=1.04
 pkgrel=0

@@ -1,5 +1,4 @@
-# Contributor: Leonardo Arena <rnalrd@alpinelinux.org>
-# Maintainer:  Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-net-server
 _realname=Net-Server
 pkgver=2.010

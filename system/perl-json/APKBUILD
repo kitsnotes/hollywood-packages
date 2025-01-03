@@ -1,4 +1,4 @@
-# Maintainer: Síle Ekaterin Liszka <sheila@vulpine.house>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-json
 _pkgreal=JSON
 pkgver=4.04

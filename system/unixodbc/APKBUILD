@@ -1,5 +1,4 @@
-# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
-# Maintainer: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=unixodbc
 pkgver=2.3.9
 pkgrel=1

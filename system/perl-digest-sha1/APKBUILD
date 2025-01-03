@@ -1,5 +1,4 @@
-# Contributor: Leonardo Arena <rnalrd@alpinelinux.org>
-# Maintainer:  Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-digest-sha1
 _realname=Digest-SHA1
 pkgver=2.13

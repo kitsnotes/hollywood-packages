@@ -1,5 +1,4 @@
-# Maintainer: Rasmus Thomsen <oss@cogitri.dev>
-# Contributor: Rasmus Thomsen <oss@cogitri.dev>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=ttf-cantarell
 pkgver=0.303.1
 pkgrel=0

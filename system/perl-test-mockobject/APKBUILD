@@ -1,5 +1,4 @@
-# Contributor:  Jeff Bilyk <jbilyk@gmail.com>
-# Maintainer:  Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-test-mockobject
 _pkgname=Test-MockObject
 pkgver=1.20200122

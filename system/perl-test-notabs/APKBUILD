@@ -1,5 +1,4 @@
-# Contributor: Roberto Oliveira <robertoguimaraes8@gmail.com>
-# Maintainer: Roberto Oliveira <robertoguimaraes8@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-test-notabs
 _pkgreal=Test-NoTabs
 pkgver=2.02

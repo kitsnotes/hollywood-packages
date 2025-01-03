@@ -1,5 +1,4 @@
-# Contributor: Robert Sacks <robert@sacks.email>
-# Maintainer: Robert Sacks <robert@sacks.email>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=wl-clipboard
 pkgver=2.1.0
 pkgrel=0

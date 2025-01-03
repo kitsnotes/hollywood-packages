@@ -1,5 +1,4 @@
-# Contributor: Ivan Tham <pickfire@riseup.net>
-# Maintainer: Ivan Tham <pickfire@riseup.net>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=ttf-hack
 pkgver=3.003
 pkgrel=1

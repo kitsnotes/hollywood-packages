@@ -1,4 +1,4 @@
-# Maintainer: Jeff Bilyk <jbilyk@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-crypt-des
 _pkgreal=Crypt-DES
 pkgver=2.07

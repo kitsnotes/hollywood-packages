@@ -1,5 +1,4 @@
-# Contributor:
-# Maintainer:
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=libomxil-bellagio
 pkgver=0.9.3
 pkgrel=0

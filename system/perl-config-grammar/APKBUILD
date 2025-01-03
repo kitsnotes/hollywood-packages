@@ -1,4 +1,4 @@
-# Maintainer: Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-config-grammar
 _pkgreal=Config-Grammar
 pkgver=1.13

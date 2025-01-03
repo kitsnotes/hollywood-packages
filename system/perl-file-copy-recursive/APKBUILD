@@ -1,5 +1,4 @@
-# Contributor: Stuart Cardall <developer@it-offshore.co.uk>
-# Maintainer: Stuart Cardall <developer@it-offshore.co.uk>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-file-copy-recursive
 pkgver=0.45
 _realname=File-Copy-Recursive-$pkgver

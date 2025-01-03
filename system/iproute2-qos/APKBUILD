@@ -1,5 +1,4 @@
-# Contributor: <iilluzion@gmail.com>
-# Maintainer: Iilluzion <iilluzion@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=iproute2-qos
 pkgver=0.5
 pkgrel=1

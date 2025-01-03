@@ -1,6 +1,4 @@
-# Contributor: Leo <thinkabit.ukim@gmail.com>
-# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
-# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=mandoc
 pkgver=1.14.6
 pkgrel=5

@@ -1,5 +1,4 @@
-# Contributor: Jakub Jirutka <jakub@jirutka.cz>
-# Maintainer: Jakub Jirutka <jakub@jirutka.cz>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-protocol-websocket
 _pkgreal=Protocol-WebSocket
 pkgver=0.26

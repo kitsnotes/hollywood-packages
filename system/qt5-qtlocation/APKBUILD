@@ -1,5 +1,4 @@
-# Contributor: Francesco Colista <fcolista@alpinelinux.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qtlocation
 pkgver=5.15.5_git20220618
 pkgrel=0

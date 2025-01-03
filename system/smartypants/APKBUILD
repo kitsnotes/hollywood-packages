@@ -1,5 +1,4 @@
-# Contributor: Patrycja Rosa <alpine@ptrcnull.me>
-# Maintainer: Patrycja Rosa <alpine@ptrcnull.me>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=smartypants
 pkgver=2.0.1
 pkgrel=1

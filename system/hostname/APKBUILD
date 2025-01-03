@@ -1,5 +1,4 @@
-# Contributor: The Cat <the.cat@kitsnotes.com>
-# Maintainer: The Cat <the.cat@kitsnotes.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=hostname
 pkgver=3.18
 pkgrel=0

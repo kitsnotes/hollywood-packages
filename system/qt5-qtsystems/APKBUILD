@@ -1,5 +1,4 @@
-# Contributor: Bart Ribbers <bribbers@disroot.org>
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=qt5-qtsystems
 pkgver=0_git20190103
 pkgrel=1

@@ -1,5 +1,4 @@
-# Contributor: Michael Mason <ms13sp@gmail.com>
-# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=wireless-tools
 pkgver=30_pre9
 pkgrel=1

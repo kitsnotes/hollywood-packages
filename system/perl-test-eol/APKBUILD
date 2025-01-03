@@ -1,5 +1,4 @@
-# Contributor: Roberto Oliveira <robertoguimaraes8@gmail.com>
-# Maintainer: Roberto Oliveira <robertoguimaraes8@gmail.com>
+# Maintainer: Originull Software <packages@originull.org>
 pkgname=perl-test-eol
 _pkgreal=Test-EOL
 pkgver=2.02
