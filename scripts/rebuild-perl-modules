@@ -1,0 +1,19 @@
+#!/bin/bash
+
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+FILENAME="$SCRIPT_DIR/pkgorder/perl-order.txt"
+
+if [ ! -f "$FILENAME" ]; then
+    echo "Error: File '$FILENAME' not found!"
+    exit 1
+fi
+
+APORT_DIR=$(dirname "$(realpath "$0")")/../system/
+
+STASHCWD=`pwd`
+while IFS= read -r line; do
+    cd "$APORT_DIR/$line"
+    abuild -rf
+    sudo apk update
+done < "$FILENAME"
+cd $STASHCWD
