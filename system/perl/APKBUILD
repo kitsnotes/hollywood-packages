@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=perl
-pkgver=5.36.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc="Larry Wall's Practical Extraction and Report Language"
 url="https://www.perl.org/"
@@ -10,7 +10,7 @@ options="!fhs"
 depends_dev="perl-utils"
 makedepends="bzip2-dev zlib-dev libxcrypt-dev"
 subpackages="$pkgname-doc $pkgname-dev $pkgname-utils::noarch miniperl"
-source="https://www.cpan.org/src/5.0/perl-$pkgver.tar.gz
+source="https://www.cpan.org/src/5.0/perl-$pkgver.tar.xz
 	"
 # Tests too slow, and some failures on mips64.
 [ "$CARCH" = "mips64" ] && options="$options !check"
@@ -182,5 +182,5 @@ utils() {
 }
 
 sha512sums="
-76f2dbc764443c66bc3bfcc214a7c851f155de75b0f94a2923e10caa6ec9b8fd5aaafcfa65964cd3584eb7a6e4fea766abb5e0e840c5ae4237587ee047cd82dd  perl-5.36.0.tar.gz
+a2fb1a24c6367b4043f4e929b2d74fc3bad1415e53b791ed1f219f1701064ae21b2bd3164ba95fcf24eaf458bd54433024ccae43725c0bb82a1ec6a98dc7052d  perl-5.40.0.tar.xz
 "
