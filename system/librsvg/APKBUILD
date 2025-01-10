@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=librsvg
 pkgver=2.59.2
-pkgrel=0
+pkgrel=1
 pkgdesc="SAX-based renderer for SVG files into a GdkPixbuf"
 url="https://wiki.gnome.org/Projects/LibRsvg"
 arch="all"
@@ -14,7 +14,6 @@ makedepends="
 	cargo-c
 	dav1d-dev
 	font-dejavu
-	gi-docgen
 	glib-dev
 	gobject-introspection-dev
 	gtk+3.0-dev

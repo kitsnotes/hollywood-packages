@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=clang
 pkgver=18.1.8
-pkgrel=3
+pkgrel=4
 _sover=18.1
 _llvmver=${pkgver%%.*}
 pkgdesc="C language family front-end for LLVM"

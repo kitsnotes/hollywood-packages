@@ -1,16 +1,19 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-babel
-_pkgname=Babel
-pkgver=2.9.1
-pkgrel=3
+_pkgname=babel
+pkgver=2.16.0
+pkgrel=0
 pkgdesc="Python3 i18n tool"
-url="http://babel.pocoo.org/"
+url="https://babel.pocoo.org/"
 arch="noarch"
 license="BSD-3-Clause"
-depends="python3 py3-tz"
-makedepends="py3-setuptools"
+depends="py3-tz py3-setuptools"
+makedepends="py3-gpep517 py3-wheel"
+checkdepends="py3-pytest py3-pytest-freezegun"
+subpackages="$pkgname-pyc"
 source="https://files.pythonhosted.org/packages/source/${_pkgname:0:1}/$_pkgname/$_pkgname-$pkgver.tar.gz"
 builddir="$srcdir/$_pkgname-$pkgver"
+options="!check" # freezegun not in main
 
 replaces="py-babel" # Backwards compatibility
 provides="py-babel=$pkgver-r$pkgrel" # Backwards compatibility
@@ -20,13 +23,22 @@ provides="py-babel=$pkgver-r$pkgrel" # Backwards compatibility
 #     - CVE-2021-42771
 
 build() {
-	python3 setup.py build
+	gpep517 build-wheel \
+		--wheel-dir .dist \
+		--output-fd 3 3>&1 >&2
+}
+
+check() {
+	python3 -m venv --clear --without-pip --system-site-packages .testenv
+	.testenv/bin/python3 -m installer .dist/*.whl
+	.testenv/bin/python3 -m pytest
 }
 
 package() {
-	python3 setup.py install --prefix=/usr --root="$pkgdir"
+	python3 -m installer -d "$pkgdir" \
+		.dist/*.whl
 }
 
 sha512sums="
-89a2ce18301b522907bb66ec5453cbcd4c6b2d494d6928c9c62dc07bd8b6983982db571a85e251a1ea413b6f76fbd515f65c67c9bccf5441c62d351a57f2f4d0  Babel-2.9.1.tar.gz
+c80b52cd38eb2fb34b1d19ef3b6c50c16b129a4137d42eba900e3f77e81a5ad03ca319aa37dbdfd3bb7cbe31adbfa6007413962c348912dc9dca09d55fa4438b  babel-2.16.0.tar.gz
 "

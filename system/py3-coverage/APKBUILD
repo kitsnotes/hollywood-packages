@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-coverage
-pkgver=5.5
-pkgrel=2
+pkgver=7.5.1
+pkgrel=0
 pkgdesc="Code coverage measurement for Python"
 options="!check" # Requires unpackaged 'flaky'
 url="https://pypi.python.org/pypi/coverage"
@@ -26,5 +26,5 @@ package() {
 	python3 setup.py install --prefix=/usr --root="$pkgdir"
 }
 sha512sums="
-fb78b4920a2f18afb9545a6f13910f491708443965881954fff6ee8553ab3d6bd898f7a95df1091435e8d5627ac850b880a6233e716a6acb934ecc195ec2ee52  coverage-5.5.tar.gz
+db9fe405c52e30e2aa673caf0cc8a02b5f62fd53b969003d231b52cf9463afc22924d5c29859447d6139be9c6642036f3cbc690ae4055d250a73c9dcd1f805a2  coverage-7.5.1.tar.gz
 "

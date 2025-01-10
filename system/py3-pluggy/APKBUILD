@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-pluggy
 _pkgname=pluggy
-pkgver=0.13.1
-pkgrel=6
+pkgver=1.5.0
+pkgrel=0
 pkgdesc="Plugin management and hook calling for Python"
 # Needs py3-pytest for checkdepends, which require py3-pluggy
 # in depends, so disable here to break a circular dependency
@@ -10,33 +10,34 @@ options="!check"
 url="https://pluggy.readthedocs.io/en/latest/"
 arch="noarch"
 license="MIT"
-depends="python3"
-makedepends="py3-setuptools"
-checkdepends="py3-pytest"
-source="https://files.pythonhosted.org/packages/source/${_pkgname:0:1}/$_pkgname/$_pkgname-$pkgver.tar.gz
+makedepends="
+	py3-gpep517
+	py3-setuptools
+	py3-wheel
 	"
+checkdepends="py3-pytest"
+subpackages="$pkgname-pyc"
+source="https://files.pythonhosted.org/packages/source/${_pkgname:0:1}/$_pkgname/$_pkgname-$pkgver.tar.gz"
 builddir="$srcdir/$_pkgname-$pkgver"
 
-prepare() {
-	default_prepare
-
-	sed -e '/"setuptools-scm"/d' \
-		-e "s|use_scm_version.*|version='$pkgver',|g" \
-		-i setup.py
-}
-
 build() {
-	python3 setup.py build
+	SETUPTOOLS_SCM_PRETEND_VERSION="$pkgver" \
+	gpep517 build-wheel \
+		--wheel-dir .dist \
+		--output-fd 3 3>&1 >&2
 }
 
 check() {
-	rm tox.ini
-	python3 -m pytest
+	python3 -m venv --clear --without-pip --system-site-packages .testenv
+	.testenv/bin/python3 -m installer .dist/*.whl
+	.testenv/bin/python3 -m pytest
 }
 
 package() {
-	python3 setup.py install --prefix=/usr --root="$pkgdir"
+	python3 -m installer -d "$pkgdir" \
+		.dist/*.whl
 }
 
-
-sha512sums="eb747ff341cedacbd90eb20e22ad3d1ddf5588056f14d069f56331f4141a15b7eccaee23ea196d2f4906964ddb77a79b156bbf3ef8c8083e9952c55d13d55f3e  pluggy-0.13.1.tar.gz"
+sha512sums="
+032d41e1f2bed56eff22463c4645516e9415ee253e0a3fe5ba83a8de5e21700baae1f6384c979d2c6f622e4216a2b745eec489bc04f52a576d423e771365cc7a  pluggy-1.5.0.tar.gz
+"

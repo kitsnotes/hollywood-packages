@@ -1,16 +1,18 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-packaging
 _pkgname=packaging
-pkgver=21.3
+pkgver=24.2
 pkgrel=1
 pkgdesc="Core utilities for Python3 packages"
 options="!check" # Requires py3-pytest which requires py3-setuptools
-url="https://pypi.python.org/pypi/packaging"
+url="https://pypi.org/project/packaging"
 arch="noarch"
 license="Apache-2.0 AND BSD-2-Clause"
-depends="python3 py3-parsing py3-six"
+depends="python3 py3-parsing"
+makedepends="py3-flit-core py3-gpep517"
 # disable check to break circular dep with py3-setuptools
 checkdepends="py3-pytest py3-pretend"
+subpackages="$pkgname-pyc"
 source="https://files.pythonhosted.org/packages/source/p/packaging/packaging-$pkgver.tar.gz"
 builddir="$srcdir/$_pkgname-$pkgver"
 
@@ -20,24 +22,25 @@ provides="py-packaging=$pkgver-r$pkgrel" # Backwards compatibility
 [ "$CARCH" = s390x ] && options="$options !check" # fails a lot
 
 build() {
-	python3 setup.py build
+	gpep517 build-wheel \
+		--wheel-dir .dist \
+		--output-fd 3 3>&1 >&2
 }
 
 package() {
-	python3 setup.py install --prefix=/usr --root="$pkgdir"
+	python3 -m installer -d "$pkgdir" \
+		.dist/*.whl
 }
 
 check() {
-	PYTHONPATH="$PWD/build/lib" python3 -m pytest \
-		--ignore=tests/test_manylinux.py \
-		--ignore=tests/test_markers.py \
-		--ignore=tests/test_specifiers.py \
+	python3 -m venv --clear --without-pip --system-site-packages .testenv
+	.testenv/bin/python3 -m installer .dist/*.whl
+	.testenv/bin/python3 -m pytest \
 		--ignore=tests/test_tags.py \
-		--ignore=tests/test_version.py
-	# tests that require https://pypi.org/project/pretend/ are disabled
-	# above because py3-pretend hasn't been packaged for Alpine Linux
+		--deselect \
+		tests/test_manylinux.py::test_is_manylinux_compatible_old
 }
 
 sha512sums="
-2e3aa276a4229ac7dc0654d586799473ced9761a83aa4159660d37ae1a2a8f30e987248dd0e260e2834106b589f259a57ce9936eef0dcc3c430a99ac6b663e05  packaging-21.3.tar.gz
+4d79d9c49c59255e9eb12cb1452ff9ee413a6a6f34a23c487d3d5712ddabe067f8c6dafe0c8111517682634deac2fd5db1346e3c0cc9f432eba94491aa459553  packaging-24.2.tar.gz
 "

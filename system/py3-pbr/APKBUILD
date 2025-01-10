@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-pbr
 _pkgname=pbr
-pkgver=5.8.0
-pkgrel=2
+pkgver=5.11.1
+pkgrel=0
 pkgdesc="Python3 Build Reasonableness"
 url="https://pypi.python.org/pypi/pbr"
 arch="noarch"
@@ -28,5 +28,5 @@ package() {
 }
 
 sha512sums="
-61a8eb63bb76ce8515c4203d60df7c973e02ea61b603d155b611724efb2b15c42416bf8a0285451d3378056d390bbf63d991cec32cc4114ae5cc30ebae0a5a69  pbr-5.8.0.tar.gz
+466dc5ce2622c43451186698f00d405141878449ffe9f7771b0057e8356bf12b426a9bfefff7e5843f1b3f963af3ffc9c4a42fa91a9407b79617abea046ff438  pbr-5.11.1.tar.gz
 "

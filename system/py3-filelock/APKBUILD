@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-filelock
 _pkgname=filelock
-pkgver=3.0.12
-pkgrel=5
+pkgver=3.16.1
+pkgrel=0
 pkgdesc="A platform independent file lock for Python3"
 url="https://github.com/benediktschmitt/py-filelock"
 arch="noarch"
@@ -28,4 +28,4 @@ package() {
 	python3 setup.py install --prefix=/usr --root="$pkgdir"
 }
 
-sha512sums="09b8b16c12a60044a259a5d644bc8066660871104a7f4cd431431173d475b9f15744adfb8d86ec8cda69f2a1b52bd14cb8a066d70fa5e49c449bc5ee702ec2a0  filelock-3.0.12.tar.gz"
+sha512sums="d935a01de58d219968795fa97a3ed9330285786fced2fde4474b3426cfc3da97c5b7a44a21c1f41185c1ce6a2a71514d259e990dce255be6b53e644449d575eb  filelock-3.16.1.tar.gz"

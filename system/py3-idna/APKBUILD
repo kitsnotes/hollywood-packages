@@ -1,28 +1,48 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-idna
 _pkgname=idna
-pkgver=3.3
-pkgrel=2
+pkgver=3.10
+pkgrel=0
 pkgdesc="IDNA 2008 and UTS #46 for Python3"
 url="https://github.com/kjd/idna"
 arch="noarch"
 license="BSD-3-Clause"
 depends="python3"
-makedepends="py3-setuptools"
-source="idna-$pkgver.tar.gz::https://github.com/kjd/idna/archive/v$pkgver.tar.gz"
+makedepends="
+	py3-gpep517
+	py3-flit-core
+	py3-installer
+	py3-wheel
+	"
+checkdepends="py3-pytest"
+subpackages="$pkgname-pyc"
+source="$_pkgname-$pkgver.tar.gz::https://github.com/kjd/idna/archive/v$pkgver.tar.gz"
 builddir="$srcdir/$_pkgname-$pkgver"
 
 replaces="py-idna" # Backwards compatibility
 provides="py-idna=$pkgver-r$pkgrel" # Backwards compatibility
 
+# secfixes:
+#   3.7-r0:
+#     - CVE-2024-3651
+
 build() {
-	python3 setup.py build
+	gpep517 build-wheel \
+		--wheel-dir .dist \
+		--output-fd 3 3>&1 >&2
+}
+
+check() {
+	python3 -m venv --clear --without-pip --system-site-packages .testenv
+	.testenv/bin/python3 -m installer .dist/*.whl
+	.testenv/bin/python3 -m pytest
 }
 
 package() {
-	python3 setup.py install --prefix=/usr --root="$pkgdir"
+	python3 -m installer -d "$pkgdir" \
+		.dist/$_pkgname-$pkgver-py3-none-any.whl
 }
 
 sha512sums="
-7f6b688eaee199c8644e3bd48b95ca4a2a75d431a1d7ff56f12c3b516715a12e2038b06d4a3d821ea1f3c8d20cbe21c8001967db543996da86f716daff729fc8  idna-3.3.tar.gz
+c3ab2d49ab0b3b96d390a6ca1634d2ea3813655df767868ca72f3d4cb0bf4c6e72830579fe0b43a49dba060cd28a66b041715ff0fd63bb27ed1b6bfa66030625  idna-3.10.tar.gz
 "

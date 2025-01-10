@@ -1,0 +1,55 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=gobject-introspection
+pkgver=1.82.0
+pkgrel=4
+pkgdesc="Introspection system for GObject-based libraries"
+url="https://gi.readthedocs.io"
+arch="all"
+license="LGPL-2.0-or-later AND GPL-2.0-or-later AND MIT"
+depends_dev="
+	cairo-dev
+	libtool
+	py3-setuptools
+	python3
+	"
+makedepends="$depends_dev
+	bison
+	flex
+	glib-dev
+	libffi-dev
+	meson
+	python3-dev
+	"
+subpackages="$pkgname-doc $pkgname-dev"
+replaces="libgirepository"
+checkdepends="sed"
+source="https://download.gnome.org/sources/gobject-introspection/${pkgver%.*}/gobject-introspection-$pkgver.tar.xz
+	scanner-Parse-_Alignas-and-discard-it.patch
+	"
+
+build() {
+	abuild-meson \
+		-Db_lto=true \
+		-Dcairo=enabled \
+		. output
+	meson compile -C output
+}
+
+check() {
+	meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+dev() {
+	amove usr/bin usr/share usr/lib/gobject-introspection
+	default_dev
+	replaces="gobject-introspection"
+}
+
+sha512sums="
+e139fadb4174c72b648914f3774d89fc0e5eaee45bba0c13edf05de883664dad8276dbc34006217bb09871ed4bad23adab51ff232a17b9eb131329b2926cafb7  gobject-introspection-1.82.0.tar.xz
+40f3c05ca6ae85fb7fe6b62f09e21df88e40f366725fd95149d25d297775ffb9d167dcde94c8469664e4d97276bdade94ebc128da409466182ba65c426d580f3  scanner-Parse-_Alignas-and-discard-it.patch
+"

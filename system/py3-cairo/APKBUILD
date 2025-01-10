@@ -1,32 +1,37 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-cairo
-pkgver=1.20.1
-pkgrel=3
+pkgver=1.27.0
+pkgrel=0
 pkgdesc="Python3 bindings for the cairo graphics library"
 url="http://cairographics.org/pycairo/"
 arch="all"
 license="LGPL-2.0-or-later"
-makedepends="python3-dev cairo-dev"
-subpackages="$pkgname-dev"
-source="https://github.com/pygobject/pycairo/releases/download/v$pkgver/pycairo-$pkgver.tar.gz
-	"
+makedepends="python3-dev cairo-dev meson"
+checkdepends="py3-pytest"
+subpackages="$pkgname-pyc $pkgname-dev"
+source="https://github.com/pygobject/pycairo/releases/download/v$pkgver/pycairo-$pkgver.tar.gz"
 builddir="$srcdir"/pycairo-$pkgver
 
 replaces="py-cairo" # Backwards compatibility
 provides="py-cairo=$pkgver-r$pkgrel" # Backwards compatibility
 
 build() {
-	python3 setup.py build
+	abuild-meson \
+		-Db_lto=true \
+		-Dtests="$(want_check && echo true || echo false)" \
+		. output
+	meson compile -C output
 }
 
 check() {
-	python3 setup.py check
+	meson test --print-errorlogs --no-rebuild -C output
 }
 
 package() {
-	python3 setup.py install --prefix=/usr --root="$pkgdir"
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+	python3 -m compileall "$pkgdir"/usr/lib
 }
 
 sha512sums="
-bb2340170c1d39d50dd8ceeb1b6ceadd96ddbd27d78a8a5b7dadf7dc427558d766f65d62e1ceeae19ab200e7ffb5ad122b5e51daa8ef9bff08fcd97a44005697  pycairo-1.20.1.tar.gz
+1b077917b1d99262da1c1d2ff85ae841dd0ff715925a5a20032162aa876576d966fc6b30c154343cc45f104cce243887de9b5f14af1e15775cb71b6c11e553a6  pycairo-1.27.0.tar.gz
 "

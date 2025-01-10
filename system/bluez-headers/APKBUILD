@@ -1,0 +1,35 @@
+# Maintainer: Originull Software <packages@originull.org>
+pkgname=bluez-headers
+pkgver=5.79
+pkgrel=0
+pkgdesc="Bluez development headers"
+url="https://www.bluez.org/"
+arch="noarch"
+license="GPL-2.0-or-later"
+depends="!bluez-dev"
+source="https://www.kernel.org/pub/linux/bluetooth/bluez-$pkgver.tar.xz"
+builddir="$srcdir/bluez-$pkgver"
+options="!check" # just headers
+
+package() {
+	local headers="
+		bluetooth
+		bnep
+		cmtp
+		hci
+		hci_lib
+		hidp
+		l2cap
+		rfcomm
+		sco
+		sdp
+		sdp_lib
+		"
+	for header in $headers; do
+		install -Dm644 ./lib/$header.h -t "$pkgdir"/usr/include/bluetooth
+	done
+}
+
+sha512sums="
+74d47b1eb9b9904798f5c8093674743a14a509d22c33003cf253a1ab0c11a564e6a10a808e087e3fb7f3589d3cba1868ec9bf2923703cdc36a293c95af1d0d76  bluez-5.79.tar.xz
+"

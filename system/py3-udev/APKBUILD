@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-udev
-pkgver=0.22
-pkgrel=3
+pkgver=0.24.1
+pkgrel=0
 pkgdesc="Python bindings to libudev"
 options="!check" # tries to use pytest_namespace
 url="http://pyudev.readthedocs.org"
@@ -28,4 +28,4 @@ package() {
 	python3 setup.py install --prefix=/usr --root="$pkgdir"
 }
 
-sha512sums="b509f4442e1c11eea9755fbae867b0aee97221db60d78ed2b8da40c39fb11015982b2e9b423680ed44b3f9db2c84b3a0a57a1e8aad4fb939061e33646638d9e3  py-udev-0.22.tar.gz"
+sha512sums="68d64113a465588411e494a010e1b19f68ed0f8fabff154d6f3066a22ff38fcd52ee73b9a00be15f5e51ea38152cd97f2ff3fda406981431a6d5a6fa0484e874  py-udev-0.24.1.tar.gz"

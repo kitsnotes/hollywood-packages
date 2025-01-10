@@ -2,7 +2,7 @@
 pkgname=py3-pygments
 _pkgname=Pygments
 pkgver=2.16.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Syntax highlighting package written in Python"
 url="https://pygments.org/"
 arch="noarch"

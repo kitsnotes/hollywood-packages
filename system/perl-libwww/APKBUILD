@@ -13,7 +13,7 @@ depends="
 	perl-lwp-mediatypes perl-encode-locale perl-try-tiny
 	"
 makedepends="perl-test-fatal perl-test-requiresinternet"
-checkdepends="perl-test-needs perl-test-leaktrace"
+checkdepends="perl-test-needs perl-test-leaktrace perl-clone perl-http-cookiejar"
 subpackages="$pkgname-doc"
 source="https://cpan.metacpan.org/authors/id/O/OA/OALDERS/libwww-perl-$pkgver.tar.gz"
 builddir="$srcdir/$_realname-$pkgver"

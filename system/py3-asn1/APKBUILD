@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-asn1
-pkgver=0.5.0
+pkgver=0.6.1
 pkgrel=0
 pkgdesc="Python3 ASN1 library"
 url="http://snmplabs.com/pyasn1/"
@@ -27,5 +27,5 @@ package() {
 }
 
 sha512sums="
-763690184ce891555564d76902042791865815e59e1325100fca692140110e5e182ef3da84ffdf96b1876edeb2757bbb09c06d26e752a8110760dafbf9e3ca00  pyasn1-0.5.0.tar.gz
+a85036aeafc899b72a0dbd6adfe43d6b4d6ac8e79e2c8a043534ff9298c3a1942aeac42241fcc8a57bf89a9be845fecb01d3814bf812260ec7f370fa2f56e774  pyasn1-0.6.1.tar.gz
 "

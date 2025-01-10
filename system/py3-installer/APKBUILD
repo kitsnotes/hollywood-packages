@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-installer
 pkgver=0.7.0
-pkgrel=0
+pkgrel=1
 pkgdesc="low-level library for installing from a Python wheel distribution"
 url="https://github.com/pypa/installer"
 arch="noarch"

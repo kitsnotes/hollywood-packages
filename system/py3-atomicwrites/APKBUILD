@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-atomicwrites
 _pkgname=python-atomicwrites
-pkgver=1.4.0
-pkgrel=5
+pkgver=1.4.1
+pkgrel=0
 pkgdesc="Powerful Python3 library for atomic file writes"
 url="https://github.com/untitaker/python-atomicwrites"
 arch="noarch"
@@ -24,4 +24,4 @@ package() {
 	python3 setup.py install --prefix=/usr --root="$pkgdir"
 }
 
-sha512sums="49b0eaa1058ebe1501756e6186264973537f5dea1c1d653f0dc7b2aa03635459f935a16a5a8fec4abfb55d29078df9d09f47bd2e7766a5aaf3063fe1261f63a1  python-atomicwrites-1.4.0.tar.gz"
+sha512sums="5090f6d971a2af6dcbf73c2331438358d77c7a47edf4962f5202fbe13a75813541a2de0a28b241b798bed48fe3353e2f5cf1bb641ca3fba8600d8da9063b025c  python-atomicwrites-1.4.1.tar.gz"

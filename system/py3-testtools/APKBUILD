@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-testtools
 _pkgname=testtools
-pkgver=2.6.0
-pkgrel=1
+pkgver=2.7.2
+pkgrel=0
 pkgdesc="Extensions to the Python standard library unit testing framework"
 url="https://pypi.org/project/testtools"
 arch="noarch"
@@ -23,5 +23,5 @@ package() {
 }
 
 sha512sums="
-309893693b2ae63ff75395bf543bd42caa9aee3b1208ce5921d893b3635012f6aa8ed5e797b4d130d83e1b530778e87b91e57b901e8351f86d44f3289d54d04b  testtools-2.6.0.tar.gz
+5815519d2b72d6b1e9f453c02793c70eb7d3b6580a211fb3708cd6121aed3c6100ceb1e35321f481a63b1f999ede030e43f1ae91d3621faf461c1908db767551  testtools-2.7.2.tar.gz
 "

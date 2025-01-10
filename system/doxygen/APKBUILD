@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=doxygen
 pkgver=1.11.0
-pkgrel=2
+pkgrel=3
 pkgdesc="A documentation system for C++, C, Java, IDL and PHP"
 url="https://www.doxygen.nl/"
 arch="all"

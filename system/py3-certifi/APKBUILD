@@ -1,35 +1,36 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-certifi
-pkgver=2020.12.5
-pkgrel=4
+pkgver=2024.12.14
+pkgrel=0
 pkgdesc="Python3 package for providing Mozilla's CA Bundle"
-url="https://pypi.python.org/pypi/certifi"
+url="https://pypi.org/project/certifi"
 arch="noarch"
 license="MPL-2.0"
-depends="python3 ca-certificates-bundle"
-makedepends="py3-setuptools"
+depends="ca-certificates-bundle"
+makedepends="py3-gpep517 py3-setuptools py3-wheel"
+subpackages="$pkgname-pyc"
 source="https://files.pythonhosted.org/packages/source/c/certifi/certifi-$pkgver.tar.gz
-	use-alpine-system-certs.patch
 	"
 builddir="$srcdir/certifi-$pkgver"
+options="!check" # no tests
 
 replaces="py-certifi" # Backwards compatibility
 provides="py-certifi=$pkgver-r$pkgrel" # Backwards compatibility
 
 build() {
-	python3 setup.py build
-}
-
-check() {
-	python3 setup.py check
+	gpep517 build-wheel \
+		--wheel-dir .dist \
+		--output-fd 3 3>&1 >&2
 }
 
 package() {
-	python3 setup.py install --prefix=/usr --root="$pkgdir"
+	python3 -m installer -d "$pkgdir" \
+		.dist/*.whl
 
 	# Remove bundled certificates, we use system certificates
 	rm -f "$pkgdir"/usr/lib/python3*/site-packages/certifi/cacert.pem
 }
 
-sha512sums="3425d98f19025e70d885458629071c8531271d93d1461fadea6afbaafc763881a42b3c05be391a938d84a0d1ab729c3ac5df4f3328e8ef63a7b56ead1445bddd  certifi-2020.12.5.tar.gz
-10c8859f31cf259ee29a2ba8b08130f76aa93a64c41fa1abc0202a599fa1084321b4bbbd8599a219d7c20159e5b1fd318c259d6f7e8ddc37a7ad57b9bb684abb  use-alpine-system-certs.patch"
+sha512sums="
+0936612fa973423f66d3a6f4aca195fa6311b82662c3d96d14b9430c44a854ace9deb4e68c076e6184a28953d76281f64b2fc2b73794325a8b770f32de1ac89a  certifi-2024.12.14.tar.gz
+"

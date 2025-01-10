@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-virtualenv
 pkgver=20.4.7
-pkgrel=2
+pkgrel=3
 pkgdesc="Virtual Python3 Environment builder"
 options="!check" # Requires unpackaged 'flaky'
 url="https://virtualenv.pypa.io/en/latest/"

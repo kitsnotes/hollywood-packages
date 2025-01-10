@@ -1,6 +1,6 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-pytest
-pkgver=7.4.1
+pkgver=8.3.4
 pkgrel=0
 pkgdesc="Python3 testing library"
 url="https://docs.pytest.org/en/latest/"
@@ -11,7 +11,6 @@ depends="
 	py3-packaging
 	py3-pluggy
 	py3-py
-	python3
 	"
 makedepends="py3-gpep517 py3-setuptools py3-wheel"
 checkdepends="bash py3-hypothesis py3-virtualenv py3-xmlschema"
@@ -24,13 +23,8 @@ options="!check" # causes bootstrapping issues because of checkdepends
 replaces="pytest" # Backwards compatibility
 provides="pytest=$pkgver-r$pkgrel" # Backwards compatibility
 
-prepare() {
-	default_prepare
-
-	sed -e "/^\[metadata\]/a version = $pkgver" -i setup.cfg
-}
-
 build() {
+	SETUPTOOLS_SCM_PRETEND_VERSION="$pkgver" \
 	gpep517 build-wheel \
 		--wheel-dir .dist \
 		--output-fd 3 3>&1 >&2
@@ -55,5 +49,5 @@ package() {
 }
 
 sha512sums="
-b87e4d41026004b24aa05a39cdce33864e6ca9286894b4f94ab09ee88335bd8d82a8813328f84a0ad9d3db5e3a646d022bc4c7a94eeb281ac13c87d34d23e1da  pytest-7.4.1.tar.gz
+e11034864dc6dcc2d0297658b9e01e5717c7d878aa64d5020474ffc784287046ffa60e5c1ddb814f2a870401ec997c574933144cc0d925360e1e595312179b15  pytest-8.3.4.tar.gz
 "

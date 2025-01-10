@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-elftools
 _pkgname=py${pkgname##py3-}
-pkgver=0.27
-pkgrel=4
+pkgver=0.30
+pkgrel=0
 pkgdesc="Parsing ELF and DWARF in Python"
 url="https://github.com/eliben/pyelftools"
 arch="noarch"
@@ -29,4 +29,4 @@ package() {
 		"$pkgdir"/usr/share/doc/$pkgname/doc
 }
 
-sha512sums="bb0a00e5500016e3d4f64be0a728e190f84b11a805f78d668b5a74716a30400e6794946f198ef4a3f3b8f64a63deb1b5a96180b09e56b7357b988b28e25fad0a  py3-elftools-0.27.tar.gz"
+sha512sums="5bd4c797f90307e351d541b8de8f76124c66e497b68b811f7012e1271c902beb6ab530a424b338777d12277d44f9b5f89f049e05d9fc2ec36a90b6fa16f1c1a4  py3-elftools-0.30.tar.gz"

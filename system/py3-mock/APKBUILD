@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-mock
 _pkgname=mock
-pkgver=4.0.3
-pkgrel=3
+pkgver=5.1.0
+pkgrel=0
 pkgdesc="Python3 Mocking and Patching Library for Testing"
 url="https://github.com/testing-cabal/mock"
 arch="noarch"
@@ -29,4 +29,4 @@ check() {
 	python3 -m pytest -k "not test_bool_not_called"
 }
 
-sha512sums="aa4275344a40fd3eea75c1c305f82dd6a561d2a4584b7acd0a85f3a9b34d0cfd1722770d74ae26c04d871d844a3189186d7f087017ddf850d6c378cc98676ea5  mock-4.0.3.tar.gz"
+sha512sums="26b7350fddf2eca82b6dfaafc58cacbd4031fd787b1afc463ee13eff778846941120fd89755e4783bfad389f01cfbdd64f2feab5a12ac2bd4ca6407c0f2e973c  mock-5.1.0.tar.gz"

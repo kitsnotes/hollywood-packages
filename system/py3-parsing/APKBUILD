@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-parsing
 _pkgname=pyparsing
-pkgver=2.4.7
-pkgrel=4
+pkgver=3.2.0
+pkgrel=0
 pkgdesc="An object-oriented approach to text processing"
 url="https://github.com/pyparsing/pyparsing"
 arch="noarch"
@@ -32,4 +32,4 @@ package() {
 	python3 -m compileall -f -q "$pkgdir/$_site_pkgs"/*.py
 }
 
-sha512sums="0b9f8f18907f65cb3af1b48ed57989e183f28d71646f2b2f820e772476f596ca15ee1a689f3042f18458206457f4683d10daa6e73dfd3ae82d5e4405882f9dd2  pyparsing-2.4.7.tar.gz"
+sha512sums="0a3096f07c41d3ff954c9aba8bd259a1c8af7ecb391add863e5743262b34778d32f05a617736295dcadbda80d94ca9af2e395a2077f616ac4d1557459a0b7cff  pyparsing-3.2.0.tar.gz"

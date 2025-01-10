@@ -2,7 +2,7 @@
 pkgname=lldb
 # Note: Update together with llvm.
 pkgver=18.1.8
-pkgrel=1
+pkgrel=2
 _llvmver=${pkgver%%.*}
 pkgdesc="Next generation, high-performance debugger"
 arch="all"
@@ -10,6 +10,7 @@ url="https://llvm.org/"
 license="Apache-2.0"
 depends_dev="$pkgname=$pkgver-r$pkgrel"
 makedepends="
+	clang-extra-tools
 	clang-dev
 	clang-static
 	cmake
@@ -23,6 +24,9 @@ makedepends="
 	llvm$_llvmver-gtest
 	llvm$_llvmver-static
 	ncurses-dev
+	py3-babel
+	py3-snowballstemmer
+	py3-jinja2
 	py3-sphinx
 	python3-dev
 	samurai
@@ -63,11 +67,11 @@ build() {
 		-DCMAKE_SKIP_RPATH=ON \
 		-DLLDB_BUILT_STANDALONE=ON \
 		-DLLDB_INCLUDE_TESTS="$(want_check && echo ON || echo OFF)" \
-		-DLLVM_ENABLE_SPHINX=ON \
+		-DLLVM_ENABLE_SPHINX=OFF \
 		-DLLVM_LINK_LLVM_DYLIB=ON \
 		-DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
-	cmake --build build --target all docs-lldb-man
+	#cmake --build build --target all docs-lldb-man
 }
 
 check() {
@@ -80,7 +84,7 @@ package() {
 	depends="glibc-dbg"
 
 	DESTDIR="$pkgdir" cmake --install build
-	install -Dm644 build/docs/man/lldb.1 -t "$pkgdir"/usr/share/man/man1
+	#install -Dm644 build/docs/man/lldb.1 -t "$pkgdir"/usr/share/man/man1
 	python3 -m compileall -fq "$pkgdir"/usr/lib/python3*
 }
 
@@ -88,7 +92,7 @@ dev() {
 	default_dev
 
 	# move back main symlink, because py3-lldb links to it
-	mv "$subpkgdir"/usr/lib/liblldb.so "$pkgdir"/usr/lib/
+	#mv "$subpkgdir"/usr/lib/liblldb.so "$pkgdir"/usr/lib/
 }
 
 py3() {

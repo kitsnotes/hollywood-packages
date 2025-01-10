@@ -1,8 +1,8 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-wcwidth
 _pkgname=wcwidth
-pkgver=0.2.5
-pkgrel=3
+pkgver=0.2.13
+pkgrel=0
 pkgdesc="Measures number of Terminal column cells of wide-character codes"
 url="https://pypi.python.org/pypi/wcwidth"
 arch="noarch"
@@ -27,4 +27,4 @@ package() {
 	python3 setup.py install --prefix=/usr --root="$pkgdir"
 }
 
-sha512sums="567604186fc6810cc794828f656aebda380a85d9a0dadde7743fadcd43cf29b022016055ee2a5c077399ac7c07f48d6d4ee4fa91a44e6efed96b7a8659280a97  wcwidth-0.2.5.tar.gz"
+sha512sums="1eadda149936cf2eefe5d09c411774dc87c8a358f2dd92d74f427d7b47f07c05557e849c46122d44788c2bd7c97eb85fc5f902d9a158d68ab9e352c5185ba2d5  wcwidth-0.2.13.tar.gz"

@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-distlib
 pkgver=0.3.4
-pkgrel=2
+pkgrel=3
 pkgdesc="Distribution utilities"
 options="!check" # 1 test in tests/test_locator.py fails
 url="https://bitbucket.org/pypa/distlib"

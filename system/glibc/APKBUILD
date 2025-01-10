@@ -1,25 +1,19 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=glibc
 pkgver=2.39
-pkgrel=0
+pkgrel=1
 pkgdesc="The GNU C Library (libc implementation)"
 url="https://www.gnu.org/software/libc"
 arch="all"
 license="LGPL2"
 options="lib64"
 depends="tzdata"
-makedepends="bison gnu-toolchain gcc"
-_subpackages="
+makedepends="bison"
+subpackages="
 	$pkgname-dbg
 	$pkgname-dev
 	$pkgname-lang
 	"
-
-if [ "$CARCH" = "x86_64" ]; then
-	subpackages="$_subpackages lib32-$pkgname:lib32"
-else
-	subpackages="$_subpackages"
-fi
 
 source="http://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz
 	glibc-2.35-fhs-1.patch
@@ -66,28 +60,6 @@ build() {
 	elf/ld.so --library-path "$PWD" locale/localedef -c -f "$builddir/localedata/charmaps/UTF-8" \
 		 -i "$builddir/localedata/locales/C" ../C.UTF-8/
 
-if [ "$CARCH" = "x86_64" ]; then
-	# Build lib32-glibc
-	cd "$builddir/lib32-glibc-build"
-	echo "slibdir=/usr/lib32" >> configparms
-        echo "rtlddir=/usr/lib32" >> configparms
-        echo "sbindir=/usr/sbin" >> configparms
-        echo "rootsbindir=/usr/sbin" >> configparms
-
-	export CC="gcc -m32 -mstackrealign"
-	export CXX="g++ -m32 -mstackrealign"
-
-	../configure \
-        --host=i686-pc-linux-gnu \
-	--libdir=/usr/lib32 \
-	--libexecdir=/usr/lib32 \
-	$_configureflags
-        make
-
-        #pre-generate C.UTF-8 (32 bit)
-        elf/ld.so --library-path "$PWD" locale/localedef -c -f "$builddir/localedata/charmaps/UTF-8" \
-                 -i "$builddir/localedata/locales/C" ../C.UTF-8/
-fi
 }
 
 check() {
@@ -120,25 +92,6 @@ package() {
 	install -dm755 "$pkgdir/usr/lib/locale"
 	cp -r "$builddir/C.UTF-8" -t "$pkgdir/usr/lib/locale"
 	sed -i '/#C\.UTF-8 /d' "$pkgdir/etc/locale.gen"
-
-}
-
-lib32() {
-	pkgdesc="GNU C Library (32-bit)"
-	cd "$builddir/lib32-glibc-build"
-
-        make DESTDIR="$subpkgdir" install
-	rm -rf "${subpkgdir}"/{etc,sbin,usr/{bin,sbin,share},var}
-	find "${subpkgdir}"/usr/include -type f -not -name '*-32.h' -delete
-
-	install -d "${subpkgdir}"/usr/lib
-	ln -s ../lib32/ld-linux.so.2 "${subpkgdir}"/usr/lib/
-
-	# Add lib32 paths to the default library search path
-	install -Dm644 "${srcdir}"/lib32-glibc.conf "${subpkgdir}"/etc/ld.so.conf.d/lib32-glibc.conf
-
-	# Symlink /usr/lib32/locale to /usr/lib/locale
-	ln -s ../lib/locale "${subpkgdir}"/usr/lib32/locale
 
 }
 
