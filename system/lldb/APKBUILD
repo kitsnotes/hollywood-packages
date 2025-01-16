@@ -16,6 +16,7 @@ makedepends="
 	cmake
 	doxygen
 	gtest-dev
+	libatomic-chimera-dev
 	libedit-dev
 	libffi-dev
 	libxml2-dev
@@ -67,11 +68,11 @@ build() {
 		-DCMAKE_SKIP_RPATH=ON \
 		-DLLDB_BUILT_STANDALONE=ON \
 		-DLLDB_INCLUDE_TESTS="$(want_check && echo ON || echo OFF)" \
-		-DLLVM_ENABLE_SPHINX=OFF \
+		-DLLVM_ENABLE_SPHINX=ON \
 		-DLLVM_LINK_LLVM_DYLIB=ON \
 		-DCMAKE_POSITION_INDEPENDENT_CODE=ON
 
-	#cmake --build build --target all docs-lldb-man
+	cmake --build build --target all docs-lldb-man
 }
 
 check() {
