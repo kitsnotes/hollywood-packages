@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-certifi
 pkgver=2024.12.14
-pkgrel=0
+pkgrel=1
 pkgdesc="Python3 package for providing Mozilla's CA Bundle"
 url="https://pypi.org/project/certifi"
 arch="noarch"
@@ -10,6 +10,7 @@ depends="ca-certificates-bundle"
 makedepends="py3-gpep517 py3-setuptools py3-wheel"
 subpackages="$pkgname-pyc"
 source="https://files.pythonhosted.org/packages/source/c/certifi/certifi-$pkgver.tar.gz
+	use-hollywood-system-certs.patch
 	"
 builddir="$srcdir/certifi-$pkgver"
 options="!check" # no tests
@@ -33,4 +34,5 @@ package() {
 
 sha512sums="
 0936612fa973423f66d3a6f4aca195fa6311b82662c3d96d14b9430c44a854ace9deb4e68c076e6184a28953d76281f64b2fc2b73794325a8b770f32de1ac89a  certifi-2024.12.14.tar.gz
+dcdd813cd9855593666f7ea0be1e557ec34c1cfbc10d904a24a8075ffcc1fdfec2ff74d39d9a3f54ee488b072b9a29d9518232f6c14b6a045117a6720233dca9  use-hollywood-system-certs.patch
 "
