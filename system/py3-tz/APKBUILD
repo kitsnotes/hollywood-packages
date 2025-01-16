@@ -1,7 +1,7 @@
 # Maintainer: Originull Software <packages@originull.org>
 pkgname=py3-tz
-pkgver=2021.1
-pkgrel=3
+pkgver=2024.2
+pkgrel=0
 pkgdesc="Python3 definitions of world timezone"
 url="http://pytz.sourceforge.net/"
 arch="noarch"
@@ -27,4 +27,4 @@ package() {
 	python3 setup.py install --prefix=/usr --root="$pkgdir"
 }
 
-sha512sums="507e24e3c5c2c619d9f3c7f4c33d44d262e33656b07701d0db78f5d67b263ad845dccc4ff50e48c580b0f295cf97ed146af7b9259890a50bb6da4c82b70c439b  pytz-2021.1.tar.gz"
+sha512sums="140a34f51044188420ac3bfbaa5ece91ea0fe4faf7a247c01312265b63b4aa8d2b389219234e173eca0343d0463aef9d6472ee803915ead989594896567c593e  pytz-2024.2.tar.gz"
